@@ -22,12 +22,11 @@ namespace CQFollowerAutoclaimer
 
         public static string[] rewardNames = new string[] {"20 Disasters(not rewarded in game)", "50 Disasters(not rewarded in game)", "200 Disasters(not rewarded in game)",
             "1H Energy Boost(not rewarded in game)", "4H Energy Boost(not rewarded in game)", "12H Energy Boost(not rewarded in game)",
-            "Common Followers", "Rare Followers", "Legendary Followers",
-            "20 UM", "50 UM", "200 UM"};
+            "Common Followers", "Rare Followers", "Legendary Followers", "20 UM", "50 UM", "200 UM"};
 
         public static string[] names = {
-            "neil", "defile", "putrid", "taint", "pokerface", "luxurious", "dicemaster", "kryton",
-            "hidoka", "liucheng", "kumu-san", "masterlee", "hawking", "abavah" ,
+            "aneptunius", "alordkirk", "athert", "ashygu", "dybbuk", "edana", "jade", "mahatma", "neil", "defile", "putrid", "taint",
+            "pokerface", "luxurious", "dicemaster", "kryton", "hidoka", "liucheng", "kumu-san", "masterlee", "hawking", "abavah",
             "flynn", "leaf", "sparks", "leprechaun", "bavah", "boor", "bylar", "adagda", "hattori", "hirate", "takeda", "hosokawa", "moak", "arigr", "dorth",
             "rua", "arshen", "aatzar", "apontus",  "bubbles",  "dagda",  "ganah", "toth",  "sexysanta", "santaclaus", "reindeer", "christmaself", "lordofchaos", "ageror",
             "ageum", "atr0n1x", "aauri", "arei", "aathos", "aalpha", "rigr", "hallinskidi", "hama", "alvitr", "koldis", "sigrun", "neptunius", "lordkirk", "thert", "shygu",
@@ -49,8 +48,8 @@ namespace CQFollowerAutoclaimer
             "Ladyodelith", "Shygu", "Thert", "Lordkirk", "Neptunius", "Sigrun", "Koldis", "Alvitr", "Hama", "Hallinskidi", "Rigr", "Aalpha", "Aathos", "Arei", "Aauri",
             "Atr0n1x", "Ageum", "Ageror", "Lordofchaos", "Christmaself", "Reindeer", "Santaclaus", "Sexysanta", "Toth", "Ganah", "Dagda", "Bubbles", "Apontus", "Aatzar",
             "Arshen", "Rua", "Dorth", "Arigr", "Moak", "Hosokawa", "Takeda", "Hirate", "Hattori", "Adagda", "Bylar", "Boor", "Bavah", "Leprechaun", "Sparks", "Leaf", "Flynn",
-            "Abavah", "Hawking", "MasterLee", "Kumu-San", "LiuCheng", "Hidoka", "Kryton",
-            "Dicemaster", "Luxurious", "Pokerface", "Taint", "Putrid", "Defile", "Neil"
+            "Abavah", "Hawking", "MasterLee", "Kumu-San", "LiuCheng", "Hidoka", "Kryton", "Dicemaster", "Luxurious", "Pokerface", "Taint", "Putrid", "Defile", "Neil",
+            "Mahatma", "Jade", "Edana", "Dybbuk", "Ashygu", "Athert", "Alordkirk", "Aneptunius",
         };
 
         public static prices[] heroPrices = new prices[] {
@@ -65,27 +64,28 @@ namespace CQFollowerAutoclaimer
             prices.ASCEND, prices.ASCEND, prices.LEG, prices.LEG, prices.LEG, prices.ASCEND, prices.NONLEVELABLE,  prices.LEG, prices.LEG, prices.LEG, prices.LEG,
             prices.ASCEND, prices.COMMON, prices.RARE, prices.LEG, prices.LEG, prices.NONLEVELABLE, prices.NONLEVELABLE, prices.NONLEVELABLE,
             prices.ASCEND, prices.LEG, prices.ASCEND, prices.LEG, prices.LEG, prices.LEG, prices.NONLEVELABLE,
-            prices.COMMON, prices.RARE, prices.LEG,prices.COMMON, prices.RARE, prices.LEG, //defile
-            prices.LEG //neil
-
+            prices.COMMON, prices.RARE, prices.LEG, prices.COMMON, prices.RARE, prices.LEG, prices.LEG, //neil
+            prices.LEG, prices.LEG, prices.LEG, prices.LEG, prices.ASCEND, prices.ASCEND, prices.ASCEND, prices.ASCEND, //Quest Heroes 21-28
+            
         };
 
         public static string[] pranaHeroes = new string[] {
-            "Ladyoftwilight", "Tiny", "Nebra", "Hunter", "Shaman", "Alpha", "Nimue", "Athos", "Jet", "Geron", "Rei", "Ailen", "Faefyr", "Auri",  "James",
+            "Ladyoftwilight", "Tiny", "Nebra", "Hunter", "Shaman", "Alpha", "Nimue", "Athos", "Jet", "Geron", "Rei", "Ailen", "Faefyr", "Auri", "James",
             "Kairy", "Taurus", "Tronix", "Aquortis", "Aeris", "Geum", "Rudean", "Aural", "Geror", "Veildur", "Brynhildr", "Groth", "Ourea", "Erebus", "Pontus",
             "Oymos", "Xarth", "Atzar", "Zeth", "Koth", "Gurth", "Sigrun", "Koldis", "Alvitr", "Hama", "Hallinskidi", "Rigr", "Sexysanta", "Toth", "Ganah", "Dagda",
             "Arshen", "Rua", "Dorth", "Bylar", "Boor", "Bavah", "Hawking", "Kumu-San", "LiuCheng", "Hidoka", "Spyke", "Aoyuki", "Gaiabyte",
-            "Dicemaster", "Luxurious", "Pokerface", "Taint", "Putrid", "Defile",
+            "Dicemaster", "Luxurious", "Pokerface", "Taint", "Putrid", "Defile", "Mahatma", "Jade", "Edana", "Dybbuk",
         };
 
         public static string[] cosmicCoinHeroes = new string[] {
             "Valor", "Rokka", "Pyromancer", "Bewat", "Nicte", "Forestdruid", "Ignitor", "Undine", "Chroma", "Petry", "Zaytus", "Ladyodelith",
-            "Shygu", "Thert", "Lordkirk", "Neptunius", "Werewolf", "Jackoknight", "Dullahan", "Leprechaun",  "Hosokawa", "Takeda", "Hirate", "Hattori",
-            "Neil"
+            "Shygu", "Thert", "Lordkirk", "Neptunius", "Werewolf", "Jackoknight", "Dullahan", "Leprechaun", "Hosokawa", "Takeda", "Hirate", "Hattori",
+            "Neil", "Mahatma", "Jade", "Edana", "Dybbuk", "Ashygu", "Athert", "Alordkirk", "Aneptunius",
         };
 
         public static string[] ascensionHeroes = new string[] {
-             "Aalpha", "Aathos", "Arei", "Aauri", "Atr0n1x", "Ageum", "Ageror", "Bubbles", "Apontus", "Aatzar", "Arigr", "Adagda", "Abavah","MasterLee", "Convert to Prana"
+            "Aalpha", "Aathos", "Arei", "Aauri", "Atr0n1x", "Ageum", "Ageror", "Bubbles", "Apontus", "Aatzar", "Arigr", "Adagda", "Abavah", "MasterLee",
+            "Ashygu", "Athert", "Alordkirk", "Aneptunius", "Convert to Prana"
         };
 
         public static Dictionary<int, string> ERROR = new Dictionary<int, string>()
