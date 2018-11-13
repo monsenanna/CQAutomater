@@ -1,6 +1,8 @@
 # CQAutomater
 
 CQAutomater is a tool that runs in the background and automatically claims your miracles as soon as they are ready. It can also open the daily free chest, start battles with random person when your hourly battle is ready, automatically send a predefined lineup to beat DQ or run the calc to solve it and finally fight World Bosses.
+# v 3.2.1
+Added Doyenne
 
 # v 1.0.0
 Added new heroes, fixed autochest crashing the app when unknown hero was rewarded. In Auction House you can check the box that will make the app bid as soon as your max price is reached.

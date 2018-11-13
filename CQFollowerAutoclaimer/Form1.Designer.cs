@@ -122,6 +122,29 @@
             this.LOCHARequirementCount = new System.Windows.Forms.NumericUpDown();
             this.label34 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
+            this.label113 = new System.Windows.Forms.Label();
+            this.label114 = new System.Windows.Forms.Label();
+            this.label115 = new System.Windows.Forms.Label();
+            this.label116 = new System.Windows.Forms.Label();
+            this.label117 = new System.Windows.Forms.Label();
+            this.label118 = new System.Windows.Forms.Label();
+            this.label119 = new System.Windows.Forms.Label();
+            this.label120 = new System.Windows.Forms.Label();
+            this.label121 = new System.Windows.Forms.Label();
+            this.DoyHAAttacksCount = new System.Windows.Forms.NumericUpDown();
+            this.DoyHAReqCount = new System.Windows.Forms.NumericUpDown();
+            this.SuperDoyHAAttacksCount = new System.Windows.Forms.NumericUpDown();
+            this.SuperDoyHAReqCount = new System.Windows.Forms.NumericUpDown();
+            this.DoyNHAttacksCount = new System.Windows.Forms.NumericUpDown();
+            this.DoyNHReqCount = new System.Windows.Forms.NumericUpDown();
+            this.SuperDoyNHAttacksCount = new System.Windows.Forms.NumericUpDown();
+            this.SuperDoyNHReqCount = new System.Windows.Forms.NumericUpDown();
+            this.DOYHA6 = new System.Windows.Forms.ComboBox();
+            this.DOYHA5 = new System.Windows.Forms.ComboBox();
+            this.DOYHA4 = new System.Windows.Forms.ComboBox();
+            this.DOYHA3 = new System.Windows.Forms.ComboBox();
+            this.DOYHA2 = new System.Windows.Forms.ComboBox();
+            this.DOYHA1 = new System.Windows.Forms.ComboBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.savePvPSettingsButton = new System.Windows.Forms.Button();
             this.label54 = new System.Windows.Forms.Label();
@@ -332,6 +355,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.LOCNHRequirementCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LOCHAAttacksCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LOCHARequirementCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DoyHAAttacksCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DoyHAReqCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SuperDoyHAAttacksCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SuperDoyHAReqCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DoyNHAttacksCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DoyNHReqCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SuperDoyNHAttacksCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SuperDoyNHReqCount)).BeginInit();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.playersBelowCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.playersAboveCount)).BeginInit();
@@ -395,7 +426,7 @@
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(37, 13);
             this.label22.TabIndex = 32;
-            this.label22.Text = "v1.0.0";
+            this.label22.Text = "v3.2.1";
             // 
             // DQIndicator
             // 
@@ -516,6 +547,29 @@
             this.tabPage5.Controls.Add(this.LOCHARequirementCount);
             this.tabPage5.Controls.Add(this.label34);
             this.tabPage5.Controls.Add(this.label25);
+            this.tabPage5.Controls.Add(this.label113);
+            this.tabPage5.Controls.Add(this.label114);
+            this.tabPage5.Controls.Add(this.label115);
+            this.tabPage5.Controls.Add(this.label116);
+            this.tabPage5.Controls.Add(this.label117);
+            this.tabPage5.Controls.Add(this.label118);
+            this.tabPage5.Controls.Add(this.label119);
+            this.tabPage5.Controls.Add(this.label120);
+            this.tabPage5.Controls.Add(this.label121);
+            this.tabPage5.Controls.Add(this.DoyHAAttacksCount);
+            this.tabPage5.Controls.Add(this.DoyHAReqCount);
+            this.tabPage5.Controls.Add(this.SuperDoyHAAttacksCount);
+            this.tabPage5.Controls.Add(this.SuperDoyHAReqCount);
+            this.tabPage5.Controls.Add(this.DoyNHAttacksCount);
+            this.tabPage5.Controls.Add(this.DoyNHReqCount);
+            this.tabPage5.Controls.Add(this.SuperDoyNHAttacksCount);
+            this.tabPage5.Controls.Add(this.SuperDoyNHReqCount);
+            this.tabPage5.Controls.Add(this.DOYHA6);
+            this.tabPage5.Controls.Add(this.DOYHA5);
+            this.tabPage5.Controls.Add(this.DOYHA4);
+            this.tabPage5.Controls.Add(this.DOYHA3);
+            this.tabPage5.Controls.Add(this.DOYHA2);
+            this.tabPage5.Controls.Add(this.DOYHA1);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Size = new System.Drawing.Size(442, 438);
@@ -536,7 +590,7 @@
             // label103
             // 
             this.label103.AutoSize = true;
-            this.label103.Location = new System.Drawing.Point(340, 487);
+            this.label103.Location = new System.Drawing.Point(340, 593);
             this.label103.Name = "label103";
             this.label103.Size = new System.Drawing.Size(71, 13);
             this.label103.TabIndex = 127;
@@ -545,7 +599,7 @@
             // label104
             // 
             this.label104.AutoSize = true;
-            this.label104.Location = new System.Drawing.Point(5, 487);
+            this.label104.Location = new System.Drawing.Point(5, 593);
             this.label104.Name = "label104";
             this.label104.Size = new System.Drawing.Size(74, 13);
             this.label104.TabIndex = 126;
@@ -555,7 +609,7 @@
             // 
             this.label105.AutoSize = true;
             this.label105.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label105.Location = new System.Drawing.Point(152, 485);
+            this.label105.Location = new System.Drawing.Point(152, 590);
             this.label105.Name = "label105";
             this.label105.Size = new System.Drawing.Size(102, 13);
             this.label105.TabIndex = 125;
@@ -567,7 +621,7 @@
             this.KrytonHA6.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.KrytonHA6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.KrytonHA6.FormattingEnabled = true;
-            this.KrytonHA6.Location = new System.Drawing.Point(4, 504);
+            this.KrytonHA6.Location = new System.Drawing.Point(4, 610);
             this.KrytonHA6.Name = "KrytonHA6";
             this.KrytonHA6.Size = new System.Drawing.Size(66, 21);
             this.KrytonHA6.TabIndex = 124;
@@ -578,7 +632,7 @@
             this.KrytonHA5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.KrytonHA5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.KrytonHA5.FormattingEnabled = true;
-            this.KrytonHA5.Location = new System.Drawing.Point(73, 504);
+            this.KrytonHA5.Location = new System.Drawing.Point(73, 610);
             this.KrytonHA5.Name = "KrytonHA5";
             this.KrytonHA5.Size = new System.Drawing.Size(66, 21);
             this.KrytonHA5.TabIndex = 123;
@@ -589,7 +643,7 @@
             this.KrytonHA4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.KrytonHA4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.KrytonHA4.FormattingEnabled = true;
-            this.KrytonHA4.Location = new System.Drawing.Point(142, 504);
+            this.KrytonHA4.Location = new System.Drawing.Point(142, 610);
             this.KrytonHA4.Name = "KrytonHA4";
             this.KrytonHA4.Size = new System.Drawing.Size(66, 21);
             this.KrytonHA4.TabIndex = 122;
@@ -600,7 +654,7 @@
             this.KrytonHA3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.KrytonHA3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.KrytonHA3.FormattingEnabled = true;
-            this.KrytonHA3.Location = new System.Drawing.Point(211, 504);
+            this.KrytonHA3.Location = new System.Drawing.Point(211, 610);
             this.KrytonHA3.Name = "KrytonHA3";
             this.KrytonHA3.Size = new System.Drawing.Size(66, 21);
             this.KrytonHA3.TabIndex = 121;
@@ -611,7 +665,7 @@
             this.KrytonHA2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.KrytonHA2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.KrytonHA2.FormattingEnabled = true;
-            this.KrytonHA2.Location = new System.Drawing.Point(280, 504);
+            this.KrytonHA2.Location = new System.Drawing.Point(280, 610);
             this.KrytonHA2.Name = "KrytonHA2";
             this.KrytonHA2.Size = new System.Drawing.Size(66, 21);
             this.KrytonHA2.TabIndex = 120;
@@ -622,7 +676,7 @@
             this.KrytonHA1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.KrytonHA1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.KrytonHA1.FormattingEnabled = true;
-            this.KrytonHA1.Location = new System.Drawing.Point(348, 504);
+            this.KrytonHA1.Location = new System.Drawing.Point(348, 610);
             this.KrytonHA1.Name = "KrytonHA1";
             this.KrytonHA1.Size = new System.Drawing.Size(66, 21);
             this.KrytonHA1.TabIndex = 119;
@@ -630,7 +684,7 @@
             // label96
             // 
             this.label96.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label96.Location = new System.Drawing.Point(4, 381);
+            this.label96.Location = new System.Drawing.Point(4, 378);
             this.label96.Name = "label96";
             this.label96.Size = new System.Drawing.Size(405, 1);
             this.label96.TabIndex = 118;
@@ -638,7 +692,7 @@
             // label98
             // 
             this.label98.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label98.Location = new System.Drawing.Point(4, 331);
+            this.label98.Location = new System.Drawing.Point(4, 329);
             this.label98.Name = "label98";
             this.label98.Size = new System.Drawing.Size(405, 1);
             this.label98.TabIndex = 117;
@@ -646,7 +700,7 @@
             // label99
             // 
             this.label99.AutoSize = true;
-            this.label99.Location = new System.Drawing.Point(220, 360);
+            this.label99.Location = new System.Drawing.Point(223, 359);
             this.label99.Name = "label99";
             this.label99.Size = new System.Drawing.Size(73, 13);
             this.label99.TabIndex = 116;
@@ -655,7 +709,7 @@
             // label100
             // 
             this.label100.AutoSize = true;
-            this.label100.Location = new System.Drawing.Point(220, 310);
+            this.label100.Location = new System.Drawing.Point(223, 310);
             this.label100.Name = "label100";
             this.label100.Size = new System.Drawing.Size(73, 13);
             this.label100.TabIndex = 115;
@@ -663,7 +717,7 @@
             // 
             // SuperKrytonNHAttacksCount
             // 
-            this.SuperKrytonNHAttacksCount.Location = new System.Drawing.Point(373, 358);
+            this.SuperKrytonNHAttacksCount.Location = new System.Drawing.Point(373, 356);
             this.SuperKrytonNHAttacksCount.Maximum = new decimal(new int[] {
             2,
             0,
@@ -675,7 +729,7 @@
             // 
             // SuperKrytonNHReqCount
             // 
-            this.SuperKrytonNHReqCount.Location = new System.Drawing.Point(299, 358);
+            this.SuperKrytonNHReqCount.Location = new System.Drawing.Point(299, 356);
             this.SuperKrytonNHReqCount.Maximum = new decimal(new int[] {
             8,
             0,
@@ -697,7 +751,7 @@
             // 
             // SuperKrytonHAAttacksCount
             // 
-            this.SuperKrytonHAAttacksCount.Location = new System.Drawing.Point(373, 308);
+            this.SuperKrytonHAAttacksCount.Location = new System.Drawing.Point(373, 307);
             this.SuperKrytonHAAttacksCount.Maximum = new decimal(new int[] {
             2,
             0,
@@ -709,7 +763,7 @@
             // 
             // SuperKrytonHAReqCount
             // 
-            this.SuperKrytonHAReqCount.Location = new System.Drawing.Point(299, 308);
+            this.SuperKrytonHAReqCount.Location = new System.Drawing.Point(299, 307);
             this.SuperKrytonHAReqCount.Maximum = new decimal(new int[] {
             8,
             0,
@@ -731,7 +785,7 @@
             // 
             // KrytonNHAttacksCount
             // 
-            this.KrytonNHAttacksCount.Location = new System.Drawing.Point(373, 335);
+            this.KrytonNHAttacksCount.Location = new System.Drawing.Point(373, 333);
             this.KrytonNHAttacksCount.Maximum = new decimal(new int[] {
             8,
             0,
@@ -743,7 +797,7 @@
             // 
             // KrytonNHReqCount
             // 
-            this.KrytonNHReqCount.Location = new System.Drawing.Point(299, 335);
+            this.KrytonNHReqCount.Location = new System.Drawing.Point(299, 333);
             this.KrytonNHReqCount.Maximum = new decimal(new int[] {
             8,
             0,
@@ -767,7 +821,7 @@
             // 
             this.label101.AutoSize = true;
             this.label101.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label101.Location = new System.Drawing.Point(4, 335);
+            this.label101.Location = new System.Drawing.Point(3, 333);
             this.label101.Name = "label101";
             this.label101.Size = new System.Drawing.Size(81, 16);
             this.label101.TabIndex = 108;
@@ -775,7 +829,7 @@
             // 
             // KrytonHAAttacksCount
             // 
-            this.KrytonHAAttacksCount.Location = new System.Drawing.Point(373, 285);
+            this.KrytonHAAttacksCount.Location = new System.Drawing.Point(373, 284);
             this.KrytonHAAttacksCount.Maximum = new decimal(new int[] {
             8,
             0,
@@ -787,7 +841,7 @@
             // 
             // KrytonHAReqCount
             // 
-            this.KrytonHAReqCount.Location = new System.Drawing.Point(299, 285);
+            this.KrytonHAReqCount.Location = new System.Drawing.Point(299, 284);
             this.KrytonHAReqCount.Maximum = new decimal(new int[] {
             8,
             0,
@@ -811,7 +865,7 @@
             // 
             this.label102.AutoSize = true;
             this.label102.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label102.Location = new System.Drawing.Point(2, 285);
+            this.label102.Location = new System.Drawing.Point(3, 284);
             this.label102.Name = "label102";
             this.label102.Size = new System.Drawing.Size(80, 16);
             this.label102.TabIndex = 105;
@@ -858,7 +912,7 @@
             // label55
             // 
             this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(1, 532);
+            this.label55.Location = new System.Drawing.Point(1, 690);
             this.label55.Name = "label55";
             this.label55.Size = new System.Drawing.Size(388, 13);
             this.label55.TabIndex = 100;
@@ -867,7 +921,7 @@
             // label53
             // 
             this.label53.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label53.Location = new System.Drawing.Point(5, 282);
+            this.label53.Location = new System.Drawing.Point(5, 280);
             this.label53.Name = "label53";
             this.label53.Size = new System.Drawing.Size(405, 1);
             this.label53.TabIndex = 99;
@@ -883,7 +937,7 @@
             // label50
             // 
             this.label50.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label50.Location = new System.Drawing.Point(5, 232);
+            this.label50.Location = new System.Drawing.Point(5, 231);
             this.label50.Name = "label50";
             this.label50.Size = new System.Drawing.Size(405, 1);
             this.label50.TabIndex = 97;
@@ -907,7 +961,7 @@
             // label48
             // 
             this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(340, 439);
+            this.label48.Location = new System.Drawing.Point(340, 543);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(71, 13);
             this.label48.TabIndex = 80;
@@ -916,7 +970,7 @@
             // label47
             // 
             this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(5, 439);
+            this.label47.Location = new System.Drawing.Point(5, 543);
             this.label47.Name = "label47";
             this.label47.Size = new System.Drawing.Size(74, 13);
             this.label47.TabIndex = 79;
@@ -926,7 +980,7 @@
             // 
             this.label44.AutoSize = true;
             this.label44.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label44.Location = new System.Drawing.Point(99, 436);
+            this.label44.Location = new System.Drawing.Point(99, 540);
             this.label44.Name = "label44";
             this.label44.Size = new System.Drawing.Size(192, 13);
             this.label44.TabIndex = 78;
@@ -936,7 +990,7 @@
             // 
             this.label43.AutoSize = true;
             this.label43.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label43.Location = new System.Drawing.Point(123, 386);
+            this.label43.Location = new System.Drawing.Point(123, 490);
             this.label43.Name = "label43";
             this.label43.Size = new System.Drawing.Size(145, 13);
             this.label43.TabIndex = 77;
@@ -963,7 +1017,7 @@
             // label40
             // 
             this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(221, 261);
+            this.label40.Location = new System.Drawing.Point(223, 261);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(73, 13);
             this.label40.TabIndex = 74;
@@ -972,7 +1026,7 @@
             // label37
             // 
             this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(221, 211);
+            this.label37.Location = new System.Drawing.Point(223, 212);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(73, 13);
             this.label37.TabIndex = 73;
@@ -981,7 +1035,7 @@
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(220, 162);
+            this.label36.Location = new System.Drawing.Point(223, 163);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(73, 13);
             this.label36.TabIndex = 72;
@@ -990,7 +1044,7 @@
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(220, 113);
+            this.label35.Location = new System.Drawing.Point(223, 114);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(73, 13);
             this.label35.TabIndex = 71;
@@ -998,7 +1052,7 @@
             // 
             // superMOAKNHAtkCount
             // 
-            this.superMOAKNHAtkCount.Location = new System.Drawing.Point(374, 259);
+            this.superMOAKNHAtkCount.Location = new System.Drawing.Point(374, 258);
             this.superMOAKNHAtkCount.Maximum = new decimal(new int[] {
             2,
             0,
@@ -1010,7 +1064,7 @@
             // 
             // superMOAKNHReqCount
             // 
-            this.superMOAKNHReqCount.Location = new System.Drawing.Point(300, 259);
+            this.superMOAKNHReqCount.Location = new System.Drawing.Point(300, 258);
             this.superMOAKNHReqCount.Maximum = new decimal(new int[] {
             8,
             0,
@@ -1152,7 +1206,7 @@
             // 
             // WBLogButton
             // 
-            this.WBLogButton.Location = new System.Drawing.Point(301, 550);
+            this.WBLogButton.Location = new System.Drawing.Point(301, 710);
             this.WBLogButton.Name = "WBLogButton";
             this.WBLogButton.Size = new System.Drawing.Size(113, 28);
             this.WBLogButton.TabIndex = 49;
@@ -1162,7 +1216,7 @@
             // 
             // saveWBDataButton
             // 
-            this.saveWBDataButton.Location = new System.Drawing.Point(124, 550);
+            this.saveWBDataButton.Location = new System.Drawing.Point(124, 710);
             this.saveWBDataButton.Name = "saveWBDataButton";
             this.saveWBDataButton.Size = new System.Drawing.Size(170, 28);
             this.saveWBDataButton.TabIndex = 48;
@@ -1183,7 +1237,7 @@
             // 
             // MOAKNHAttacksCount
             // 
-            this.MOAKNHAttacksCount.Location = new System.Drawing.Point(374, 236);
+            this.MOAKNHAttacksCount.Location = new System.Drawing.Point(374, 235);
             this.MOAKNHAttacksCount.Maximum = new decimal(new int[] {
             8,
             0,
@@ -1195,7 +1249,7 @@
             // 
             // MOAKNHRequirementCount
             // 
-            this.MOAKNHRequirementCount.Location = new System.Drawing.Point(300, 236);
+            this.MOAKNHRequirementCount.Location = new System.Drawing.Point(300, 235);
             this.MOAKNHRequirementCount.Maximum = new decimal(new int[] {
             8,
             0,
@@ -1219,7 +1273,7 @@
             // 
             this.label56.AutoSize = true;
             this.label56.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label56.Location = new System.Drawing.Point(5, 236);
+            this.label56.Location = new System.Drawing.Point(3, 235);
             this.label56.Name = "label56";
             this.label56.Size = new System.Drawing.Size(192, 16);
             this.label56.TabIndex = 40;
@@ -1231,7 +1285,7 @@
             this.MOAKHA6.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.MOAKHA6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MOAKHA6.FormattingEnabled = true;
-            this.MOAKHA6.Location = new System.Drawing.Point(5, 456);
+            this.MOAKHA6.Location = new System.Drawing.Point(5, 560);
             this.MOAKHA6.Name = "MOAKHA6";
             this.MOAKHA6.Size = new System.Drawing.Size(66, 21);
             this.MOAKHA6.TabIndex = 39;
@@ -1242,7 +1296,7 @@
             this.MOAKHA5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.MOAKHA5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MOAKHA5.FormattingEnabled = true;
-            this.MOAKHA5.Location = new System.Drawing.Point(73, 456);
+            this.MOAKHA5.Location = new System.Drawing.Point(73, 560);
             this.MOAKHA5.Name = "MOAKHA5";
             this.MOAKHA5.Size = new System.Drawing.Size(66, 21);
             this.MOAKHA5.TabIndex = 38;
@@ -1253,7 +1307,7 @@
             this.MOAKHA4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.MOAKHA4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MOAKHA4.FormattingEnabled = true;
-            this.MOAKHA4.Location = new System.Drawing.Point(142, 456);
+            this.MOAKHA4.Location = new System.Drawing.Point(142, 560);
             this.MOAKHA4.Name = "MOAKHA4";
             this.MOAKHA4.Size = new System.Drawing.Size(66, 21);
             this.MOAKHA4.TabIndex = 37;
@@ -1264,7 +1318,7 @@
             this.MOAKHA3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.MOAKHA3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MOAKHA3.FormattingEnabled = true;
-            this.MOAKHA3.Location = new System.Drawing.Point(211, 456);
+            this.MOAKHA3.Location = new System.Drawing.Point(211, 560);
             this.MOAKHA3.Name = "MOAKHA3";
             this.MOAKHA3.Size = new System.Drawing.Size(66, 21);
             this.MOAKHA3.TabIndex = 36;
@@ -1275,7 +1329,7 @@
             this.MOAKHA2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.MOAKHA2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MOAKHA2.FormattingEnabled = true;
-            this.MOAKHA2.Location = new System.Drawing.Point(280, 456);
+            this.MOAKHA2.Location = new System.Drawing.Point(280, 560);
             this.MOAKHA2.Name = "MOAKHA2";
             this.MOAKHA2.Size = new System.Drawing.Size(66, 21);
             this.MOAKHA2.TabIndex = 35;
@@ -1286,7 +1340,7 @@
             this.MOAKHA1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.MOAKHA1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MOAKHA1.FormattingEnabled = true;
-            this.MOAKHA1.Location = new System.Drawing.Point(348, 456);
+            this.MOAKHA1.Location = new System.Drawing.Point(348, 560);
             this.MOAKHA1.Name = "MOAKHA1";
             this.MOAKHA1.Size = new System.Drawing.Size(66, 21);
             this.MOAKHA1.TabIndex = 34;
@@ -1341,7 +1395,7 @@
             this.LOCHA6.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.LOCHA6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LOCHA6.FormattingEnabled = true;
-            this.LOCHA6.Location = new System.Drawing.Point(4, 406);
+            this.LOCHA6.Location = new System.Drawing.Point(4, 510);
             this.LOCHA6.Name = "LOCHA6";
             this.LOCHA6.Size = new System.Drawing.Size(66, 21);
             this.LOCHA6.TabIndex = 24;
@@ -1352,7 +1406,7 @@
             this.LOCHA5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.LOCHA5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LOCHA5.FormattingEnabled = true;
-            this.LOCHA5.Location = new System.Drawing.Point(73, 406);
+            this.LOCHA5.Location = new System.Drawing.Point(73, 510);
             this.LOCHA5.Name = "LOCHA5";
             this.LOCHA5.Size = new System.Drawing.Size(66, 21);
             this.LOCHA5.TabIndex = 23;
@@ -1363,7 +1417,7 @@
             this.LOCHA4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.LOCHA4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LOCHA4.FormattingEnabled = true;
-            this.LOCHA4.Location = new System.Drawing.Point(142, 406);
+            this.LOCHA4.Location = new System.Drawing.Point(142, 510);
             this.LOCHA4.Name = "LOCHA4";
             this.LOCHA4.Size = new System.Drawing.Size(66, 21);
             this.LOCHA4.TabIndex = 22;
@@ -1374,7 +1428,7 @@
             this.LOCHA3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.LOCHA3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LOCHA3.FormattingEnabled = true;
-            this.LOCHA3.Location = new System.Drawing.Point(211, 406);
+            this.LOCHA3.Location = new System.Drawing.Point(211, 510);
             this.LOCHA3.Name = "LOCHA3";
             this.LOCHA3.Size = new System.Drawing.Size(66, 21);
             this.LOCHA3.TabIndex = 21;
@@ -1385,7 +1439,7 @@
             this.LOCHA2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.LOCHA2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LOCHA2.FormattingEnabled = true;
-            this.LOCHA2.Location = new System.Drawing.Point(280, 406);
+            this.LOCHA2.Location = new System.Drawing.Point(280, 510);
             this.LOCHA2.Name = "LOCHA2";
             this.LOCHA2.Size = new System.Drawing.Size(66, 21);
             this.LOCHA2.TabIndex = 20;
@@ -1396,7 +1450,7 @@
             this.LOCHA1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.LOCHA1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LOCHA1.FormattingEnabled = true;
-            this.LOCHA1.Location = new System.Drawing.Point(348, 406);
+            this.LOCHA1.Location = new System.Drawing.Point(348, 510);
             this.LOCHA1.Name = "LOCHA1";
             this.LOCHA1.Size = new System.Drawing.Size(66, 21);
             this.LOCHA1.TabIndex = 19;
@@ -1438,7 +1492,7 @@
             // label39
             // 
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(340, 390);
+            this.label39.Location = new System.Drawing.Point(340, 493);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(71, 13);
             this.label39.TabIndex = 9;
@@ -1447,7 +1501,7 @@
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(5, 390);
+            this.label38.Location = new System.Drawing.Point(5, 493);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(74, 13);
             this.label38.TabIndex = 8;
@@ -1506,6 +1560,290 @@
             this.label25.Size = new System.Drawing.Size(222, 16);
             this.label25.TabIndex = 0;
             this.label25.Text = "Lord of Chaos, Heroes Allowed";
+            // 
+            // label113
+            // 
+            this.label113.AutoSize = true;
+            this.label113.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label113.Location = new System.Drawing.Point(3, 382);
+            this.label113.Name = "label113";
+            this.label113.Size = new System.Drawing.Size(99, 16);
+            this.label113.TabIndex = 0;
+            this.label113.Text = "Doyenne, HA";
+            // 
+            // label114
+            // 
+            this.label114.AutoSize = true;
+            this.label114.Location = new System.Drawing.Point(223, 408);
+            this.label114.Name = "label114";
+            this.label114.Size = new System.Drawing.Size(73, 13);
+            this.label114.TabIndex = 0;
+            this.label114.Text = "Super variant:";
+            // 
+            // label115
+            // 
+            this.label115.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label115.Location = new System.Drawing.Point(4, 427);
+            this.label115.Name = "label115";
+            this.label115.Size = new System.Drawing.Size(405, 1);
+            this.label115.TabIndex = 0;
+            // 
+            // label116
+            // 
+            this.label116.AutoSize = true;
+            this.label116.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label116.Location = new System.Drawing.Point(3, 431);
+            this.label116.Name = "label116";
+            this.label116.Size = new System.Drawing.Size(100, 16);
+            this.label116.TabIndex = 0;
+            this.label116.Text = "Doyenne, NH";
+            // 
+            // label117
+            // 
+            this.label117.AutoSize = true;
+            this.label117.Location = new System.Drawing.Point(223, 457);
+            this.label117.Name = "label117";
+            this.label117.Size = new System.Drawing.Size(73, 13);
+            this.label117.TabIndex = 0;
+            this.label117.Text = "Super variant:";
+            // 
+            // label118
+            // 
+            this.label118.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label118.Location = new System.Drawing.Point(4, 476);
+            this.label118.Name = "label118";
+            this.label118.Size = new System.Drawing.Size(405, 1);
+            this.label118.TabIndex = 0;
+            // 
+            // label119
+            // 
+            this.label119.AutoSize = true;
+            this.label119.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label119.Location = new System.Drawing.Point(152, 640);
+            this.label119.Name = "label119";
+            this.label119.Size = new System.Drawing.Size(116, 13);
+            this.label119.TabIndex = 0;
+            this.label119.Text = "Doyenne HA lineup";
+            // 
+            // label120
+            // 
+            this.label120.AutoSize = true;
+            this.label120.Location = new System.Drawing.Point(340, 643);
+            this.label120.Name = "label120";
+            this.label120.Size = new System.Drawing.Size(71, 13);
+            this.label120.TabIndex = 0;
+            this.label120.Text = "Attacks first->";
+            // 
+            // label121
+            // 
+            this.label121.AutoSize = true;
+            this.label121.Location = new System.Drawing.Point(5, 643);
+            this.label121.Name = "label121";
+            this.label121.Size = new System.Drawing.Size(74, 13);
+            this.label121.TabIndex = 0;
+            this.label121.Text = "<- Attacks last";
+            // 
+            // DoyHAAttacksCount
+            // 
+            this.DoyHAAttacksCount.Location = new System.Drawing.Point(373, 382);
+            this.DoyHAAttacksCount.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.DoyHAAttacksCount.Name = "DoyHAAttacksCount";
+            this.DoyHAAttacksCount.Size = new System.Drawing.Size(35, 20);
+            this.DoyHAAttacksCount.TabIndex = 213;
+            // 
+            // DoyHAReqCount
+            // 
+            this.DoyHAReqCount.Location = new System.Drawing.Point(299, 382);
+            this.DoyHAReqCount.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.DoyHAReqCount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.DoyHAReqCount.Name = "DoyHAReqCount";
+            this.DoyHAReqCount.Size = new System.Drawing.Size(40, 20);
+            this.DoyHAReqCount.TabIndex = 212;
+            this.DoyHAReqCount.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // SuperDoyHAAttacksCount
+            // 
+            this.SuperDoyHAAttacksCount.Location = new System.Drawing.Point(373, 405);
+            this.SuperDoyHAAttacksCount.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.SuperDoyHAAttacksCount.Name = "SuperDoyHAAttacksCount";
+            this.SuperDoyHAAttacksCount.Size = new System.Drawing.Size(35, 20);
+            this.SuperDoyHAAttacksCount.TabIndex = 0;
+            // 
+            // SuperDoyHAReqCount
+            // 
+            this.SuperDoyHAReqCount.Location = new System.Drawing.Point(299, 405);
+            this.SuperDoyHAReqCount.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.SuperDoyHAReqCount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.SuperDoyHAReqCount.Name = "SuperDoyHAReqCount";
+            this.SuperDoyHAReqCount.Size = new System.Drawing.Size(40, 20);
+            this.SuperDoyHAReqCount.TabIndex = 0;
+            this.SuperDoyHAReqCount.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // DoyNHAttacksCount
+            // 
+            this.DoyNHAttacksCount.Location = new System.Drawing.Point(373, 431);
+            this.DoyNHAttacksCount.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.DoyNHAttacksCount.Name = "DoyNHAttacksCount";
+            this.DoyNHAttacksCount.Size = new System.Drawing.Size(35, 20);
+            this.DoyNHAttacksCount.TabIndex = 0;
+            // 
+            // DoyNHReqCount
+            // 
+            this.DoyNHReqCount.Location = new System.Drawing.Point(299, 431);
+            this.DoyNHReqCount.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.DoyNHReqCount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.DoyNHReqCount.Name = "DoyNHReqCount";
+            this.DoyNHReqCount.Size = new System.Drawing.Size(40, 20);
+            this.DoyNHReqCount.TabIndex = 0;
+            this.DoyNHReqCount.Value = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
+            // 
+            // SuperDoyNHAttacksCount
+            // 
+            this.SuperDoyNHAttacksCount.Location = new System.Drawing.Point(373, 454);
+            this.SuperDoyNHAttacksCount.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.SuperDoyNHAttacksCount.Name = "SuperDoyNHAttacksCount";
+            this.SuperDoyNHAttacksCount.Size = new System.Drawing.Size(35, 20);
+            this.SuperDoyNHAttacksCount.TabIndex = 0;
+            // 
+            // SuperDoyNHReqCount
+            // 
+            this.SuperDoyNHReqCount.Location = new System.Drawing.Point(299, 454);
+            this.SuperDoyNHReqCount.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.SuperDoyNHReqCount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.SuperDoyNHReqCount.Name = "SuperDoyNHReqCount";
+            this.SuperDoyNHReqCount.Size = new System.Drawing.Size(40, 20);
+            this.SuperDoyNHReqCount.TabIndex = 0;
+            this.SuperDoyNHReqCount.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // DOYHA6
+            // 
+            this.DOYHA6.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.DOYHA6.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.DOYHA6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DOYHA6.FormattingEnabled = true;
+            this.DOYHA6.Location = new System.Drawing.Point(5, 660);
+            this.DOYHA6.Name = "DOYHA6";
+            this.DOYHA6.Size = new System.Drawing.Size(66, 21);
+            this.DOYHA6.TabIndex = 39;
+            // 
+            // DOYHA5
+            // 
+            this.DOYHA5.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.DOYHA5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.DOYHA5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DOYHA5.FormattingEnabled = true;
+            this.DOYHA5.Location = new System.Drawing.Point(73, 660);
+            this.DOYHA5.Name = "DOYHA5";
+            this.DOYHA5.Size = new System.Drawing.Size(66, 21);
+            this.DOYHA5.TabIndex = 38;
+            // 
+            // DOYHA4
+            // 
+            this.DOYHA4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.DOYHA4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.DOYHA4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DOYHA4.FormattingEnabled = true;
+            this.DOYHA4.Location = new System.Drawing.Point(142, 660);
+            this.DOYHA4.Name = "DOYHA4";
+            this.DOYHA4.Size = new System.Drawing.Size(66, 21);
+            this.DOYHA4.TabIndex = 37;
+            // 
+            // DOYHA3
+            // 
+            this.DOYHA3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.DOYHA3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.DOYHA3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DOYHA3.FormattingEnabled = true;
+            this.DOYHA3.Location = new System.Drawing.Point(211, 660);
+            this.DOYHA3.Name = "DOYHA3";
+            this.DOYHA3.Size = new System.Drawing.Size(66, 21);
+            this.DOYHA3.TabIndex = 36;
+            // 
+            // DOYHA2
+            // 
+            this.DOYHA2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.DOYHA2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.DOYHA2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DOYHA2.FormattingEnabled = true;
+            this.DOYHA2.Location = new System.Drawing.Point(280, 660);
+            this.DOYHA2.Name = "DOYHA2";
+            this.DOYHA2.Size = new System.Drawing.Size(66, 21);
+            this.DOYHA2.TabIndex = 35;
+            // 
+            // DOYHA1
+            // 
+            this.DOYHA1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.DOYHA1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.DOYHA1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DOYHA1.FormattingEnabled = true;
+            this.DOYHA1.Location = new System.Drawing.Point(348, 660);
+            this.DOYHA1.Name = "DOYHA1";
+            this.DOYHA1.Size = new System.Drawing.Size(66, 21);
+            this.DOYHA1.TabIndex = 34;
             // 
             // tabPage4
             // 
@@ -3568,6 +3906,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.LOCNHRequirementCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LOCHAAttacksCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LOCHARequirementCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DoyHAAttacksCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DoyHAReqCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SuperDoyHAAttacksCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SuperDoyHAReqCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DoyNHAttacksCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DoyNHReqCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SuperDoyNHAttacksCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SuperDoyNHReqCount)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.playersBelowCount)).EndInit();
@@ -3684,6 +4030,15 @@
         private System.Windows.Forms.Button WBLogButton;
         private System.Windows.Forms.Button macroCreatorGithubButton;
         private System.Windows.Forms.Button automaterGithubButton;
+        private System.Windows.Forms.Label label113;
+        private System.Windows.Forms.Label label114;
+        private System.Windows.Forms.Label label115;
+        private System.Windows.Forms.Label label116;
+        private System.Windows.Forms.Label label117;
+        private System.Windows.Forms.Label label118;
+        private System.Windows.Forms.Label label119;
+        private System.Windows.Forms.Label label120;
+        private System.Windows.Forms.Label label121;
         private System.Windows.Forms.Label label45;
         private System.Windows.Forms.Label label48;
         private System.Windows.Forms.Label label47;
@@ -3884,6 +4239,20 @@
         internal System.Windows.Forms.Label currentDungLevelLabel;
         private System.Windows.Forms.Label label75;
         internal System.Windows.Forms.CheckBox instaBidCBox;
+        internal System.Windows.Forms.ComboBox DOYHA6;
+        internal System.Windows.Forms.ComboBox DOYHA5;
+        internal System.Windows.Forms.ComboBox DOYHA4;
+        internal System.Windows.Forms.ComboBox DOYHA3;
+        internal System.Windows.Forms.ComboBox DOYHA2;
+        internal System.Windows.Forms.ComboBox DOYHA1;
+        internal System.Windows.Forms.NumericUpDown SuperDoyNHAttacksCount;
+        internal System.Windows.Forms.NumericUpDown SuperDoyNHReqCount;
+        internal System.Windows.Forms.NumericUpDown SuperDoyHAAttacksCount;
+        internal System.Windows.Forms.NumericUpDown SuperDoyHAReqCount;
+        internal System.Windows.Forms.NumericUpDown DoyNHAttacksCount;
+        internal System.Windows.Forms.NumericUpDown DoyNHReqCount;
+        internal System.Windows.Forms.NumericUpDown DoyHAAttacksCount;
+        internal System.Windows.Forms.NumericUpDown DoyHAReqCount;
     }
 }
 

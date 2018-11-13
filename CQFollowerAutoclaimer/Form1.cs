@@ -74,7 +74,9 @@ namespace CQFollowerAutoclaimer
                 MOAKHARequirementCount, MOAKHAAttacksCount, superMOAKHAReqCount, superMOAKHAAtkCount,
                 MOAKNHRequirementCount, MOAKNHAttacksCount, superMOAKNHReqCount, superMOAKNHAtkCount,
                 KrytonHAReqCount, KrytonHAAttacksCount, SuperKrytonHAReqCount, SuperKrytonHAAttacksCount,
-                KrytonNHReqCount, KrytonNHAttacksCount, SuperKrytonNHReqCount, SuperKrytonNHAttacksCount
+                KrytonNHReqCount, KrytonNHAttacksCount, SuperKrytonNHReqCount, SuperKrytonNHAttacksCount,
+                DoyHAReqCount, DoyHAAttacksCount, SuperDoyHAReqCount, SuperDoyHAAttacksCount,
+                DoyNHReqCount, DoyNHAttacksCount, SuperDoyNHReqCount, SuperDoyHAAttacksCount
             };
             auctionCountdowns = new List<Label> { ahCountdown1, ahCountdown2, ahCountdown3 };
             toolTip1.SetToolTip(safeModeWB, "Asks for confirmation before attacking. Won't ask again for the same boss");
@@ -83,7 +85,8 @@ namespace CQFollowerAutoclaimer
                     new List<ComboBox> {LOCHA1, LOCHA2, LOCHA3, LOCHA4, LOCHA5, LOCHA6},
                     new List<ComboBox> {MOAKHA1, MOAKHA2, MOAKHA3, MOAKHA4, MOAKHA5, MOAKHA6},
                     new List<ComboBox> {DQLineup1, DQLineup2, DQLineup3, DQLineup4, DQLineup5, DQLineup6},
-                    new List<ComboBox> {KrytonHA1, KrytonHA2, KrytonHA3, KrytonHA4, KrytonHA5, KrytonHA6}
+                    new List<ComboBox> {KrytonHA1, KrytonHA2, KrytonHA3, KrytonHA4, KrytonHA5, KrytonHA6},
+                    new List<ComboBox> {DOYHA1, DOYHA2, DOYHA3, DOYHA4, DOYHA5, DOYHA6}
                 };
             auctionComboBoxes = new List<ComboBox> {
                 auctionHero1Combo, auctionHero2Combo, auctionHero3Combo,
@@ -670,6 +673,19 @@ namespace CQFollowerAutoclaimer
                     }
                     lineup = temp.ToArray();
                     break;
+                case 7:
+                    var l4 = PeblLineups.DoyNHLineups.Last(x => x.Item1 < followers);
+                    Array.Copy(l4.Item3, lineup, l4.Item3.Length);
+                    break;
+                case 8:
+                    foreach (ComboBox cb in WBlineups[4])
+                    {
+                        string s = "";
+                        cb.SynchronizedInvoke(() => s = cb.Text);
+                        temp.Add(Array.IndexOf(Constants.names, s) - Constants.heroesInGame);
+                    }
+                    lineup = temp.ToArray();
+                    break;
                 default:
                     lineup = new int[1];
                     break;
@@ -716,6 +732,7 @@ namespace CQFollowerAutoclaimer
             var LOC = WBlineups[0].Select(x => x.Text);
             var MOAK = WBlineups[1].Select(x => x.Text);
             var Kryton = WBlineups[3].Select(x => x.Text);
+            var Doy = WBlineups[4].Select(x => x.Text);
             appSettings = AppSettings.loadSettings();
             appSettings.safeModeWBEnabled = safeModeWB.Checked;
             appSettings.autoWBEnabled = autoWBCheckbox.Checked;
@@ -723,6 +740,7 @@ namespace CQFollowerAutoclaimer
             appSettings.LoCLineup = LOC.ToList();
             appSettings.MOAKLineup = MOAK.ToList();
             appSettings.KrytonLineup = Kryton.ToList();
+            appSettings.DoyLineup = Doy.ToList();
             appSettings.waitAutoLevel = waitAutoLevelBox.Checked;
             appSettings.saveSettings();
         }
