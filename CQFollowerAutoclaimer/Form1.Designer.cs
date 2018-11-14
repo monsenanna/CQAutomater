@@ -1189,7 +1189,7 @@
             // WBCountdownLabel
             // 
             this.WBCountdownLabel.AutoSize = true;
-            this.WBCountdownLabel.Location = new System.Drawing.Point(299, 10);
+            this.WBCountdownLabel.Location = new System.Drawing.Point(349, 10);
             this.WBCountdownLabel.Name = "WBCountdownLabel";
             this.WBCountdownLabel.Size = new System.Drawing.Size(18, 13);
             this.WBCountdownLabel.TabIndex = 51;
@@ -1198,7 +1198,7 @@
             // label45
             // 
             this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(227, 10);
+            this.label45.Location = new System.Drawing.Point(281, 10);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(67, 13);
             this.label45.TabIndex = 50;

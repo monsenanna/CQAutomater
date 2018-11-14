@@ -317,14 +317,22 @@ namespace CQFollowerAutoclaimer
                 {
                     case ("LORD OF CHAOS"):
                         return "LoC";
+                    case ("SUPER LORD OF CHAOS"):
+                        return "Super LoC";
                     case ("MOTHER OF ALL KODAMAS"):
                         return "MOAK";
+                    case ("SUPER MOTHER OF ALL KODOMAS"):
+                        return "Super MOAK";
                     case ("KRYTON"):
                         return "KRYTON";
+                    case ("SUPER KRYTON"):
+                        return "Super Kryton";
                     case ("DOYENNE"):
                         return "Doy";
+                    case ("SUPER DOYENNE"):
+                        return "Super Doy";
                     default:
-                        return "Unknowm";
+                        return "Unknown";
                 }
             }
         }
