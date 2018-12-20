@@ -904,7 +904,7 @@ namespace CQFollowerAutoclaimer
             Tuple.Create(2425173000u, 32199, new int[] {113,117,117,113,117,105}),
             Tuple.Create(2449384000u, 32235, new int[] {113,117,117,113,113,113}),
             Tuple.Create(2486973000u, 32823, new int[] {113,117,117,113,117,109}),
-            Tuple.Create(2582661000u, 33156, new int[] {113,117,117,113,117,113}),
+            Tuple.Create(2582661000u, 33156, new int[] {113,117,117,113,117,113})
 
         };
         public static List<Tuple<uint, int, int[]>> LOCNHLineups = new List<Tuple<uint, int, int[]>>
@@ -1278,7 +1278,7 @@ namespace CQFollowerAutoclaimer
 			Tuple.Create(2488413000u, 19026, new int[] {119,119,119,107,115,115}),
 			Tuple.Create(2550092000u, 19080, new int[] {119,119,119,115,111,115}),
 			Tuple.Create(2695180000u, 19182, new int[] {119,119,119,119,111,115}),
-			Tuple.Create(2804918000u, 19914, new int[] {119,119,119,119,115,115}),
+			Tuple.Create(2804918000u, 19914, new int[] {119,119,119,119,115,115})
 
 
         };
@@ -1749,7 +1749,7 @@ namespace CQFollowerAutoclaimer
 			Tuple.Create(2771626000u, 28863, new int[] {106,118,118,118,118,118}),
 			Tuple.Create(2834450000u, 29187, new int[] {110,118,118,118,118,118}),
 			Tuple.Create(2928319000u, 29931, new int[] {114,118,118,118,118,118}),
-			Tuple.Create(3084240000u, 31050, new int[] {118,118,118,118,118,118}),
+			Tuple.Create(3084240000u, 31050, new int[] {118,118,118,118,118,118})
 
 
         };
@@ -2280,7 +2280,7 @@ namespace CQFollowerAutoclaimer
 			Tuple.Create(2755072000u, 30984, new int[] {112,112,116,116,116,116}),
 			Tuple.Create(2789111000u, 31032, new int[] {108,116,116,116,116,116}),
 			Tuple.Create(2891495000u, 31800, new int[] {112,116,116,116,116,116}),
-			Tuple.Create(3027918000u, 32616, new int[] {116,116,116,116,116,116}),
+			Tuple.Create(3027918000u, 32616, new int[] {116,116,116,116,116,116})
 
 
         };
