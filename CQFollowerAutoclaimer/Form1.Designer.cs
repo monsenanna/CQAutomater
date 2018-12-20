@@ -424,9 +424,9 @@
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(415, 9);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(37, 13);
+            this.label22.Size = new System.Drawing.Size(28, 13);
             this.label22.TabIndex = 32;
-            this.label22.Text = "v3.2.1";
+            this.label22.Text = "v4.0";
             // 
             // DQIndicator
             // 
