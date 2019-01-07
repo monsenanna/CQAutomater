@@ -85,7 +85,7 @@ namespace CQFollowerAutoclaimer
             "Oymos", "Xarth", "Atzar", "Zeth", "Koth", "Gurth", "Sigrun", "Koldis", "Alvitr", "Hama", "Hallinskidi", "Rigr", "Sexysanta", "Toth", "Ganah", "Dagda",
             "Arshen", "Rua", "Dorth", "Bylar", "Boor", "Bavah", "Hawking", "Kumu-San", "LiuCheng", "Hidoka", "Spyke", "Aoyuki", "Gaiabyte",
             "Dicemaster", "Luxurious", "Pokerface", "Taint", "Putrid", "Defile", "Mahatma", "Jade", "Edana", "Dybbuk", "Billy", "Sanqueen", "Cliodhna",
-            "Buccanerbeatrice","Corsaircharles","Maraudermagnus","Frosty", "Raze", "Ruin", "Seethe",
+            "Buccaneerbeatrice","Corsaircharles","Maraudermagnus","Frosty", "Raze", "Ruin", "Seethe",
         };
 
         public static string[] cosmicCoinHeroes = new string[] {
