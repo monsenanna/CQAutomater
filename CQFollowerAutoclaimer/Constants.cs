@@ -25,6 +25,7 @@ namespace CQFollowerAutoclaimer
             "Common Followers", "Rare Followers", "Legendary Followers", "20 UM", "50 UM", "200 UM"};
 
         public static string[] names = {
+            "kedari", "5-12-6", "fir", "frosty", "maraudermagnus", "corsaircharles", "buccanerbeatrice", "raiderrose",
             "adefile", "guy", "cliodhna", "sanqueen", "billy", "doyenne", "ahattori", "ahirate", "atakeda", "ahosokawa",
             "aneptunius", "alordkirk", "athert", "ashygu", "dybbuk", "edana", "jade", "mahatma", "neil", "defile", "putrid", "taint",
             "pokerface", "luxurious", "dicemaster", "kryton", "hidoka", "liucheng", "kumu-san", "masterlee", "hawking", "abavah",
@@ -51,7 +52,7 @@ namespace CQFollowerAutoclaimer
             "Arshen", "Rua", "Dorth", "Arigr", "Moak", "Hosokawa", "Takeda", "Hirate", "Hattori", "Adagda", "Bylar", "Boor", "Bavah", "Leprechaun", "Sparks", "Leaf", "Flynn",
             "Abavah", "Hawking", "MasterLee", "Kumu-San", "LiuCheng", "Hidoka", "Kryton", "Dicemaster", "Luxurious", "Pokerface", "Taint", "Putrid", "Defile", "Neil",
             "Mahatma", "Jade", "Edana", "Dybbuk", "Ashygu", "Athert", "Alordkirk", "Aneptunius", "Ahosokawa", "Atakeda", "Ahirate", "Ahattori", "Doyenne",
-            "Billy", "Sanqueen", "Cliodhna", "Guy", "Adefile",
+            "Billy", "Sanqueen", "Cliodhna", "Guy", "Adefile", "Raiderrose","Buccanerbeatrice","Corsaircharles","Maraudermagnus","Frosty","Fir","5-12-6","Kedari",
         };
 
         public static prices[] heroPrices = new prices[] {
@@ -70,6 +71,8 @@ namespace CQFollowerAutoclaimer
             prices.LEG, prices.LEG, prices.LEG, prices.LEG, prices.ASCEND, prices.ASCEND, prices.ASCEND, prices.ASCEND, //Quest Heroes 21-28
             prices.ASCEND, prices.ASCEND, prices.ASCEND, prices.ASCEND, prices.NONLEVELABLE,//Quest Heroes 29-32 + Doy
             prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, prices.ASCEND, //billy-adefile
+            prices.ASCEND, prices.LEG, prices.LEG, prices.LEG, prices.RARE, prices.NONLEVELABLE, prices.NONLEVELABLE, prices.NONLEVELABLE, //rose-kedari
+
         };
 
         public static string[] pranaHeroes = new string[] {
@@ -78,6 +81,7 @@ namespace CQFollowerAutoclaimer
             "Oymos", "Xarth", "Atzar", "Zeth", "Koth", "Gurth", "Sigrun", "Koldis", "Alvitr", "Hama", "Hallinskidi", "Rigr", "Sexysanta", "Toth", "Ganah", "Dagda",
             "Arshen", "Rua", "Dorth", "Bylar", "Boor", "Bavah", "Hawking", "Kumu-San", "LiuCheng", "Hidoka", "Spyke", "Aoyuki", "Gaiabyte",
             "Dicemaster", "Luxurious", "Pokerface", "Taint", "Putrid", "Defile", "Mahatma", "Jade", "Edana", "Dybbuk", "Billy", "Sanqueen", "Cliodhna",
+            "Buccanerbeatrice","Corsaircharles","Maraudermagnus","Frosty",
         };
 
         public static string[] cosmicCoinHeroes = new string[] {
@@ -89,7 +93,7 @@ namespace CQFollowerAutoclaimer
 
         public static string[] ascensionHeroes = new string[] {
             "Aalpha", "Aathos", "Arei", "Aauri", "Atr0n1x", "Ageum", "Ageror", "Bubbles", "Apontus", "Aatzar", "Arigr", "Adagda", "Abavah", "MasterLee",
-            "Ashygu", "Athert", "Alordkirk", "Aneptunius", "Ahosokawa", "Atakeda", "Ahirate", "Ahattori", "Guy", "Adefile", "Convert to Prana"
+            "Ashygu", "Athert", "Alordkirk", "Aneptunius", "Ahosokawa", "Atakeda", "Ahirate", "Ahattori", "Guy", "Adefile", "Raiderrose", "Convert to Prana"
         };
 
         public static Dictionary<int, string> ERROR = new Dictionary<int, string>()

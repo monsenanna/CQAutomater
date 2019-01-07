@@ -76,7 +76,7 @@ namespace CQFollowerAutoclaimer
                 KrytonHAReqCount, KrytonHAAttacksCount, SuperKrytonHAReqCount, SuperKrytonHAAttacksCount,
                 KrytonNHReqCount, KrytonNHAttacksCount, SuperKrytonNHReqCount, SuperKrytonNHAttacksCount,
                 DoyHAReqCount, DoyHAAttacksCount, SuperDoyHAReqCount, SuperDoyHAAttacksCount,
-                DoyNHReqCount, DoyNHAttacksCount, SuperDoyNHReqCount, SuperDoyHAAttacksCount
+                DoyNHReqCount, DoyNHAttacksCount, SuperDoyNHReqCount, SuperDoyNHAttacksCount
             };
             auctionCountdowns = new List<Label> { ahCountdown1, ahCountdown2, ahCountdown3 };
             toolTip1.SetToolTip(safeModeWB, "Asks for confirmation before attacking. Won't ask again for the same boss");

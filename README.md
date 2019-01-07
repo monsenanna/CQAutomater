@@ -1,6 +1,9 @@
 # CQAutomater
 
 CQAutomater is a tool that runs in the background and automatically claims your miracles as soon as they are ready. It can also open the daily free chest, start battles with random person when your hourly battle is ready, automatically send a predefined lineup to beat DQ or run the calc to solve it and finally fight World Bosses.
+# v 4.0.1.1
+Added S6 and Christmas 2018 event heroes, fixed an issue with Doyenne lineups not saving.
+
 # v 3.2.1
 Added Doyenne
 
