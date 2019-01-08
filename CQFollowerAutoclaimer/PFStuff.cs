@@ -676,13 +676,13 @@ namespace CQFollowerAutoclaimer
             }
         }
 
-        public async Task<bool> sendLevelSuper(int heroID)
+        public async Task<bool> sendLevelSuper(int heroID, string mode)
         {
             var request = new ExecuteCloudScriptRequest()
             {
                 RevisionSelection = CloudScriptRevisionOption.Live,
                 FunctionName = "levelSuper",
-                FunctionParameter = new { id = heroID }
+                FunctionParameter = new { id = heroID, mode = mode }
             };
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
             if (statusTask.Error != null)
@@ -700,7 +700,8 @@ namespace CQFollowerAutoclaimer
                 using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now);
-                    sw.WriteLine("\tLeveled up hero: " + (Constants.heroNames.Length > heroID + 2 ? Constants.heroNames[heroID + 2] : ("Unknown, ID: " + heroID)));
+                    sw.WriteLine("\tLeveled up hero: " + (Constants.heroNames.Length > heroID + 2 ? Constants.heroNames[heroID + 2] : ("Unknown, ID: " + heroID))
+                        + "with:" + mode);
                 }
                 return true;
             }

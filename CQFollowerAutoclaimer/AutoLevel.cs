@@ -88,7 +88,7 @@ namespace CQFollowerAutoclaimer
                                 {
                                     while (toSpend > heroLevel && heroLevel < main.spheresLevelCount.Value)
                                     {
-                                        main.taskQueue.Enqueue(() => main.pf.sendLevelSuper(heroIndex), "levelAscend");
+                                        main.taskQueue.Enqueue(() => main.pf.sendLevelSuper(heroIndex, "AS"), "levelAscend");
                                         toSpend -= heroLevel;
                                         heroLevel++;
                                     }
@@ -102,29 +102,48 @@ namespace CQFollowerAutoclaimer
                 if (toSpend > 0 && !string.IsNullOrEmpty(onWhat))
                 {
                     int heroIndex = Array.IndexOf(Constants.heroNames, onWhat) - 2;
-                    if (heroIndex != -1)
+                    if (heroIndex != -1 && Constants.heroPrices[heroIndex + 2] == Constants.prices.ASCEND)
                     {
                         int heroLevel = PFStuff.heroLevels[heroIndex];
-                        int pricePerLevel = (int)Constants.heroPrices[heroIndex + 2];
                         if (heroLevel == 0 || heroLevel == 99)
                         {
                             MessageBox.Show("Hero " + onWhat + " not owned or already maxed. Please choose different hero");
                         }
                         else
                         {
-                            while (toSpend >= pricePerLevel && heroLevel < main.coinsLevelCount.Value)
+                            if (heroLevel > 0)
                             {
-                                if (toSpend >= (pricePerLevel * 10) && heroLevel + 10 <= main.coinsLevelCount.Value)
+                                while (toSpend > heroLevel && heroLevel < main.coinsLevelCount.Value)
                                 {
-                                    main.taskQueue.Enqueue(() => main.pf.sendLevelUp10(heroIndex, "CC") , "levelCC");
-                                    toSpend -= 10 * pricePerLevel;
-                                    heroLevel += 10;
+                                    main.taskQueue.Enqueue(() => main.pf.sendLevelSuper(heroIndex, "CC"), "levelCC");
+                                    toSpend -= heroLevel;
+                                    heroLevel++;
+                                }
+                            }
+                            else if (heroIndex != -1)
+                            {
+                                int pricePerLevel = (int)Constants.heroPrices[heroIndex + 2];
+                                if (heroLevel == 0 || heroLevel == 99)
+                                {
+                                    MessageBox.Show("Hero " + onWhat + " not owned or already maxed. Please choose different hero");
                                 }
                                 else
                                 {
-                                    main.taskQueue.Enqueue(() => main.pf.sendLevelUp(heroIndex, "CC"), "levelCC");
-                                    toSpend -= pricePerLevel;
-                                    heroLevel++;
+                                    while (toSpend >= pricePerLevel && heroLevel < main.coinsLevelCount.Value)
+                                    {
+                                        if (toSpend >= (pricePerLevel * 10) && heroLevel + 10 <= main.coinsLevelCount.Value)
+                                        {
+                                            main.taskQueue.Enqueue(() => main.pf.sendLevelUp10(heroIndex, "CC"), "levelCC");
+                                            toSpend -= 10 * pricePerLevel;
+                                            heroLevel += 10;
+                                        }
+                                        else
+                                        {
+                                            main.taskQueue.Enqueue(() => main.pf.sendLevelUp(heroIndex, "CC"), "levelCC");
+                                            toSpend -= pricePerLevel;
+                                            heroLevel++;
+                                        }
+                                    }
                                 }
                             }
                         }
