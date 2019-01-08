@@ -120,29 +120,33 @@ namespace CQFollowerAutoclaimer
                                     heroLevel++;
                                 }
                             }
-                            else if (heroIndex != -1)
+                        }
+                    }
+                    else
+                    {
+                        if (heroIndex != -1 && Constants.heroPrices[heroIndex + 2] != Constants.prices.ASCEND)
+                        {
+                            int heroLevel = PFStuff.heroLevels[heroIndex];
+                            int pricePerLevel = (int)Constants.heroPrices[heroIndex + 2];
+                            if (heroLevel == 0 || heroLevel == 99)
                             {
-                                int pricePerLevel = (int)Constants.heroPrices[heroIndex + 2];
-                                if (heroLevel == 0 || heroLevel == 99)
+                                MessageBox.Show("Hero " + onWhat + " not owned or already maxed. Please choose different hero");
+                            }
+                            else
+                            {
+                                while (toSpend >= pricePerLevel && heroLevel < main.coinsLevelCount.Value)
                                 {
-                                    MessageBox.Show("Hero " + onWhat + " not owned or already maxed. Please choose different hero");
-                                }
-                                else
-                                {
-                                    while (toSpend >= pricePerLevel && heroLevel < main.coinsLevelCount.Value)
+                                    if (toSpend >= (pricePerLevel * 10) && heroLevel + 10 <= main.coinsLevelCount.Value)
                                     {
-                                        if (toSpend >= (pricePerLevel * 10) && heroLevel + 10 <= main.coinsLevelCount.Value)
-                                        {
-                                            main.taskQueue.Enqueue(() => main.pf.sendLevelUp10(heroIndex, "CC"), "levelCC");
-                                            toSpend -= 10 * pricePerLevel;
-                                            heroLevel += 10;
-                                        }
-                                        else
-                                        {
-                                            main.taskQueue.Enqueue(() => main.pf.sendLevelUp(heroIndex, "CC"), "levelCC");
-                                            toSpend -= pricePerLevel;
-                                            heroLevel++;
-                                        }
+                                        main.taskQueue.Enqueue(() => main.pf.sendLevelUp10(heroIndex, "CC"), "levelCC");
+                                        toSpend -= 10 * pricePerLevel;
+                                        heroLevel += 10;
+                                    }
+                                    else
+                                    {
+                                        main.taskQueue.Enqueue(() => main.pf.sendLevelUp(heroIndex, "CC"), "levelCC");
+                                        toSpend -= pricePerLevel;
+                                        heroLevel++;
                                     }
                                 }
                             }
