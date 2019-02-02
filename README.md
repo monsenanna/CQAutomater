@@ -3,9 +3,9 @@
 CQAutomater is a tool that runs in the background and automatically claims your miracles as soon as they are ready. It can also open the daily free chest, start battles with random person when your hourly battle is ready, automatically send a predefined lineup to beat DQ or run the calc to solve it and finally fight World Bosses.
 
 # v 4.1.0.4
-Added Season 7 Heroes
-Fixed typo causing Super MOAK to show up as Unknown in AutoWB tab
-Fixed issue with automater crashing due to AutoPVP fighting an "undefined" enemy
+Added Season 7 Heroes,
+Fixed typo causing Super MOAK to show up as Unknown in AutoWB tab,
+Fixed issue with automater crashing due to AutoPVP fighting an "undefined" enemy.
 
 # v 4.0.1.1a
 Fixed issue with quest ascends not being able to be auto leveled with CC.
