@@ -321,7 +321,7 @@ namespace CQFollowerAutoclaimer
                         return "Super LoC";
                     case ("MOTHER OF ALL KODAMAS"):
                         return "MOAK";
-                    case ("SUPER MOTHER OF ALL KODOMAS"):
+                    case ("SUPER MOTHER OF ALL KODAMAS"):
                         return "Super MOAK";
                     case ("KRYTON"):
                         return "KRYTON";

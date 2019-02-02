@@ -447,8 +447,15 @@ namespace CQFollowerAutoclaimer
                         battleResult = "Win";
                         break;
                 }
-                battleResult += " vs " + json["data"]["city"]["log"][0]["enemy"].ToString() + ", ELO " + int.Parse(json["data"]["city"]["log"][0]["rankd"].ToString()).ToString("+0;-#") +
-                    ", Star Dust +" + json["data"]["city"]["log"][0]["earn"].ToString() + "\n";
+                if (json["data"]["city"]["log"][0]["enemy"] != null)
+                {
+                    battleResult += " vs " + json["data"]["city"]["log"][0]["enemy"].ToString();
+                }
+                else
+                {
+                    battleResult += " vs undefined";
+                }
+                battleResult += ", ELO " + int.Parse(json["data"]["city"]["log"][0]["rankd"].ToString()).ToString("+0;-#") + ", Star Dust +" + json["data"]["city"]["log"][0]["earn"].ToString() + "\n";
                 return true;
             }
         }
