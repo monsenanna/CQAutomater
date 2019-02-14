@@ -579,12 +579,12 @@ namespace CQFollowerAutoclaimer
 
         private void automaterGithubButton_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/Wiedmolol/CQAutomater");
+            System.Diagnostics.Process.Start("https://github.com/monsenanna/CQAutomater");
         }
 
         private void macroCreatorGithubButton_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/Wiedmolol/CQMacroCreator");
+            System.Diagnostics.Process.Start("https://github.com/Alya-N/CQMacroCreator");
         }
 
         private void saveDQSettingsButton_Click(object sender, EventArgs e)

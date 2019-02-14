@@ -426,7 +426,7 @@
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(46, 13);
             this.label22.TabIndex = 32;
-            this.label22.Text = "v4.1.0.4";
+            this.label22.Text = "v4.1.1.0";
             // 
             // DQIndicator
             // 
@@ -719,7 +719,7 @@
             // 
             this.SuperKrytonNHAttacksCount.Location = new System.Drawing.Point(373, 356);
             this.SuperKrytonNHAttacksCount.Maximum = new decimal(new int[] {
-            2,
+            7,
             0,
             0,
             0});
@@ -731,7 +731,7 @@
             // 
             this.SuperKrytonNHReqCount.Location = new System.Drawing.Point(299, 356);
             this.SuperKrytonNHReqCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -744,7 +744,7 @@
             this.SuperKrytonNHReqCount.Size = new System.Drawing.Size(40, 20);
             this.SuperKrytonNHReqCount.TabIndex = 113;
             this.SuperKrytonNHReqCount.Value = new decimal(new int[] {
-            2,
+            1,
             0,
             0,
             0});
@@ -753,7 +753,7 @@
             // 
             this.SuperKrytonHAAttacksCount.Location = new System.Drawing.Point(373, 307);
             this.SuperKrytonHAAttacksCount.Maximum = new decimal(new int[] {
-            2,
+            7,
             0,
             0,
             0});
@@ -765,7 +765,7 @@
             // 
             this.SuperKrytonHAReqCount.Location = new System.Drawing.Point(299, 307);
             this.SuperKrytonHAReqCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -778,7 +778,7 @@
             this.SuperKrytonHAReqCount.Size = new System.Drawing.Size(40, 20);
             this.SuperKrytonHAReqCount.TabIndex = 111;
             this.SuperKrytonHAReqCount.Value = new decimal(new int[] {
-            2,
+            1,
             0,
             0,
             0});
@@ -787,7 +787,7 @@
             // 
             this.KrytonNHAttacksCount.Location = new System.Drawing.Point(373, 333);
             this.KrytonNHAttacksCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -799,7 +799,7 @@
             // 
             this.KrytonNHReqCount.Location = new System.Drawing.Point(299, 333);
             this.KrytonNHReqCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -812,7 +812,7 @@
             this.KrytonNHReqCount.Size = new System.Drawing.Size(40, 20);
             this.KrytonNHReqCount.TabIndex = 109;
             this.KrytonNHReqCount.Value = new decimal(new int[] {
-            7,
+            3,
             0,
             0,
             0});
@@ -831,7 +831,7 @@
             // 
             this.KrytonHAAttacksCount.Location = new System.Drawing.Point(373, 284);
             this.KrytonHAAttacksCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -843,7 +843,7 @@
             // 
             this.KrytonHAReqCount.Location = new System.Drawing.Point(299, 284);
             this.KrytonHAReqCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -856,7 +856,7 @@
             this.KrytonHAReqCount.Size = new System.Drawing.Size(40, 20);
             this.KrytonHAReqCount.TabIndex = 106;
             this.KrytonHAReqCount.Value = new decimal(new int[] {
-            2,
+            3,
             0,
             0,
             0});
@@ -1054,7 +1054,7 @@
             // 
             this.superMOAKNHAtkCount.Location = new System.Drawing.Point(374, 258);
             this.superMOAKNHAtkCount.Maximum = new decimal(new int[] {
-            2,
+            7,
             0,
             0,
             0});
@@ -1066,7 +1066,7 @@
             // 
             this.superMOAKNHReqCount.Location = new System.Drawing.Point(300, 258);
             this.superMOAKNHReqCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1079,7 +1079,7 @@
             this.superMOAKNHReqCount.Size = new System.Drawing.Size(40, 20);
             this.superMOAKNHReqCount.TabIndex = 68;
             this.superMOAKNHReqCount.Value = new decimal(new int[] {
-            2,
+            1,
             0,
             0,
             0});
@@ -1088,7 +1088,7 @@
             // 
             this.superMOAKHAAtkCount.Location = new System.Drawing.Point(374, 209);
             this.superMOAKHAAtkCount.Maximum = new decimal(new int[] {
-            2,
+            7,
             0,
             0,
             0});
@@ -1100,7 +1100,7 @@
             // 
             this.superMOAKHAReqCount.Location = new System.Drawing.Point(300, 209);
             this.superMOAKHAReqCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1113,7 +1113,7 @@
             this.superMOAKHAReqCount.Size = new System.Drawing.Size(40, 20);
             this.superMOAKHAReqCount.TabIndex = 63;
             this.superMOAKHAReqCount.Value = new decimal(new int[] {
-            2,
+            1,
             0,
             0,
             0});
@@ -1122,7 +1122,7 @@
             // 
             this.superLOCNHAtkCount.Location = new System.Drawing.Point(374, 160);
             this.superLOCNHAtkCount.Maximum = new decimal(new int[] {
-            2,
+            7,
             0,
             0,
             0});
@@ -1134,7 +1134,7 @@
             // 
             this.superLOCNHReqCount.Location = new System.Drawing.Point(300, 160);
             this.superLOCNHReqCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1147,7 +1147,7 @@
             this.superLOCNHReqCount.Size = new System.Drawing.Size(40, 20);
             this.superLOCNHReqCount.TabIndex = 58;
             this.superLOCNHReqCount.Value = new decimal(new int[] {
-            2,
+            1,
             0,
             0,
             0});
@@ -1156,7 +1156,7 @@
             // 
             this.superLOCHAAtkCount.Location = new System.Drawing.Point(374, 111);
             this.superLOCHAAtkCount.Maximum = new decimal(new int[] {
-            2,
+            7,
             0,
             0,
             0});
@@ -1168,7 +1168,7 @@
             // 
             this.superLOCHAReqCount.Location = new System.Drawing.Point(300, 111);
             this.superLOCHAReqCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1181,7 +1181,7 @@
             this.superLOCHAReqCount.Size = new System.Drawing.Size(40, 20);
             this.superLOCHAReqCount.TabIndex = 53;
             this.superLOCHAReqCount.Value = new decimal(new int[] {
-            2,
+            1,
             0,
             0,
             0});
@@ -1239,7 +1239,7 @@
             // 
             this.MOAKNHAttacksCount.Location = new System.Drawing.Point(374, 235);
             this.MOAKNHAttacksCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1251,7 +1251,7 @@
             // 
             this.MOAKNHRequirementCount.Location = new System.Drawing.Point(300, 235);
             this.MOAKNHRequirementCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1264,7 +1264,7 @@
             this.MOAKNHRequirementCount.Size = new System.Drawing.Size(40, 20);
             this.MOAKNHRequirementCount.TabIndex = 42;
             this.MOAKNHRequirementCount.Value = new decimal(new int[] {
-            7,
+            3,
             0,
             0,
             0});
@@ -1349,7 +1349,7 @@
             // 
             this.MOAKHAAttacksCount.Location = new System.Drawing.Point(374, 186);
             this.MOAKHAAttacksCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1361,7 +1361,7 @@
             // 
             this.MOAKHARequirementCount.Location = new System.Drawing.Point(300, 186);
             this.MOAKHARequirementCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1374,7 +1374,7 @@
             this.MOAKHARequirementCount.Size = new System.Drawing.Size(40, 20);
             this.MOAKHARequirementCount.TabIndex = 28;
             this.MOAKHARequirementCount.Value = new decimal(new int[] {
-            2,
+            3,
             0,
             0,
             0});
@@ -1459,7 +1459,7 @@
             // 
             this.LOCNHAttacksCount.Location = new System.Drawing.Point(374, 137);
             this.LOCNHAttacksCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1471,7 +1471,7 @@
             // 
             this.LOCNHRequirementCount.Location = new System.Drawing.Point(300, 137);
             this.LOCNHRequirementCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1484,7 +1484,7 @@
             this.LOCNHRequirementCount.Size = new System.Drawing.Size(40, 20);
             this.LOCNHRequirementCount.TabIndex = 11;
             this.LOCNHRequirementCount.Value = new decimal(new int[] {
-            7,
+            3,
             0,
             0,
             0});
@@ -1511,7 +1511,7 @@
             // 
             this.LOCHAAttacksCount.Location = new System.Drawing.Point(374, 88);
             this.LOCHAAttacksCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1523,7 +1523,7 @@
             // 
             this.LOCHARequirementCount.Location = new System.Drawing.Point(300, 88);
             this.LOCHARequirementCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1536,7 +1536,7 @@
             this.LOCHARequirementCount.Size = new System.Drawing.Size(40, 20);
             this.LOCHARequirementCount.TabIndex = 3;
             this.LOCHARequirementCount.Value = new decimal(new int[] {
-            2,
+            3,
             0,
             0,
             0});
@@ -1647,7 +1647,7 @@
             // 
             this.DoyHAAttacksCount.Location = new System.Drawing.Point(373, 382);
             this.DoyHAAttacksCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1659,7 +1659,7 @@
             // 
             this.DoyHAReqCount.Location = new System.Drawing.Point(299, 382);
             this.DoyHAReqCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1672,7 +1672,7 @@
             this.DoyHAReqCount.Size = new System.Drawing.Size(40, 20);
             this.DoyHAReqCount.TabIndex = 212;
             this.DoyHAReqCount.Value = new decimal(new int[] {
-            2,
+            3,
             0,
             0,
             0});
@@ -1681,7 +1681,7 @@
             // 
             this.SuperDoyHAAttacksCount.Location = new System.Drawing.Point(373, 405);
             this.SuperDoyHAAttacksCount.Maximum = new decimal(new int[] {
-            2,
+            7,
             0,
             0,
             0});
@@ -1693,7 +1693,7 @@
             // 
             this.SuperDoyHAReqCount.Location = new System.Drawing.Point(299, 405);
             this.SuperDoyHAReqCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1706,7 +1706,7 @@
             this.SuperDoyHAReqCount.Size = new System.Drawing.Size(40, 20);
             this.SuperDoyHAReqCount.TabIndex = 0;
             this.SuperDoyHAReqCount.Value = new decimal(new int[] {
-            2,
+            1,
             0,
             0,
             0});
@@ -1715,7 +1715,7 @@
             // 
             this.DoyNHAttacksCount.Location = new System.Drawing.Point(373, 431);
             this.DoyNHAttacksCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1727,7 +1727,7 @@
             // 
             this.DoyNHReqCount.Location = new System.Drawing.Point(299, 431);
             this.DoyNHReqCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1740,7 +1740,7 @@
             this.DoyNHReqCount.Size = new System.Drawing.Size(40, 20);
             this.DoyNHReqCount.TabIndex = 0;
             this.DoyNHReqCount.Value = new decimal(new int[] {
-            7,
+            3,
             0,
             0,
             0});
@@ -1749,7 +1749,7 @@
             // 
             this.SuperDoyNHAttacksCount.Location = new System.Drawing.Point(373, 454);
             this.SuperDoyNHAttacksCount.Maximum = new decimal(new int[] {
-            2,
+            7,
             0,
             0,
             0});
@@ -1761,7 +1761,7 @@
             // 
             this.SuperDoyNHReqCount.Location = new System.Drawing.Point(299, 454);
             this.SuperDoyNHReqCount.Maximum = new decimal(new int[] {
-            8,
+            7,
             0,
             0,
             0});
@@ -1774,7 +1774,7 @@
             this.SuperDoyNHReqCount.Size = new System.Drawing.Size(40, 20);
             this.SuperDoyNHReqCount.TabIndex = 0;
             this.SuperDoyNHReqCount.Value = new decimal(new int[] {
-            2,
+            1,
             0,
             0,
             0});
@@ -2496,8 +2496,6 @@
             // DQSoundBox
             // 
             this.DQSoundBox.AutoSize = true;
-            this.DQSoundBox.Checked = true;
-            this.DQSoundBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.DQSoundBox.Location = new System.Drawing.Point(6, 19);
             this.DQSoundBox.Name = "DQSoundBox";
             this.DQSoundBox.Size = new System.Drawing.Size(113, 17);
