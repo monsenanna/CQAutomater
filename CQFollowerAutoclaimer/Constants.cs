@@ -26,6 +26,7 @@ namespace CQFollowerAutoclaimer
         };
 
         public static string[] names = {
+            "adybbuk", "aedana", "ajade", "amahatma",
             "spike", "riptide", "ember", "cloud", "b-day", "thewanderer", "maunder", "transient", "cupid", "aurora", "orin", "flint", "blossom",
             "aseethe", "seethe", "ruin", "raze", "kedari", "5-12-6", "fir", "frosty", "maraudermagnus", "corsaircharles", "buccaneerbeatrice", "raiderrose",
             "adefile", "guy", "cliodhna", "sanqueen", "billy", "doyenne", "ahattori", "ahirate", "atakeda", "ahosokawa",
@@ -57,6 +58,7 @@ namespace CQFollowerAutoclaimer
             "Mahatma", "Jade", "Edana", "Dybbuk", "Ashygu", "Athert", "Alordkirk", "Aneptunius", "Ahosokawa", "Atakeda", "Ahirate", "Ahattori", "Doyenne",
             "Billy", "Sanqueen", "Cliodhna", "Guy", "Adefile", "Raiderrose", "Buccaneerbeatrice", "Corsaircharles","Maraudermagnus", "Frosty", "Fir", "5-12-6", "Kedari",
             "Raze", "Ruin", "Seethe", "Aseethe", "Blossom", "Flint", "Orin", "Aurora", "Cupid", "Transient", "Maunder", "Thewanderer", "B-day", "Cloud", "Ember", "Riptide", "Spike", 
+            "Amahatma", "Ajade", "Aedana", "Adybbuk",
         };
 
         public static prices[] heroPrices = new prices[] {
@@ -80,6 +82,7 @@ namespace CQFollowerAutoclaimer
             prices.LEG, prices.LEG, prices.LEG, prices.ASCEND, prices.LEG, //Season 7 Heroes + Valentines LTO
             prices.COMMON, prices.RARE, prices.LEG, // Drifter Heroes
             prices.LEG, prices.NONLEVELABLE, prices.NONLEVELABLE, prices.NONLEVELABLE, prices.NONLEVELABLE, //Anniversary + Dragon Heroes
+            prices.ASCEND, prices.ASCEND, prices.ASCEND, prices.ASCEND, //AQuest Djinn Heroes
 
         };
 
@@ -96,7 +99,7 @@ namespace CQFollowerAutoclaimer
             "Valor", "Rokka", "Pyromancer", "Bewat", "Nicte", "Forestdruid", "Ignitor", "Undine", "Chroma", "Petry", "Zaytus", "Ladyodelith",
             "Shygu", "Thert", "Lordkirk", "Neptunius", "Werewolf", "Jackoknight", "Dullahan", "Leprechaun", "Hosokawa", "Takeda", "Hirate", "Hattori",
             "Neil", "Mahatma", "Jade", "Edana", "Dybbuk", "Ashygu", "Athert", "Alordkirk", "Aneptunius", "Ahosokawa", "Atakeda", "Ahirate", "Ahattori",
-            "Billy", "Sanqueen", "Cliodhna", "Cupid", "B-Day", 
+            "Billy", "Sanqueen", "Cliodhna", "Cupid", "B-Day", "Amahatma", "Ajade", "Aedana", "Adybbuk",
         };
 
         public static string[] ascensionHeroes = new string[] {
