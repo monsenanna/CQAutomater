@@ -302,11 +302,17 @@ namespace CQFollowerAutoclaimer
                 //{
                 //    WBchanged = true;
                 //}
-                
+
             }
-            catch (WebException webex)
+            // MB fix to prevent crashes
+            catch (Exception webex)
             {
-                Console.Write(webex.Message);
+                //Console.Write(webex.Message);
+
+                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now + "\n\t" + webex.Message);
+                }
             }
         }
 

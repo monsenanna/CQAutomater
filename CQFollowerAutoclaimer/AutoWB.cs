@@ -299,42 +299,42 @@ namespace CQFollowerAutoclaimer
                 return b;
             }
         }
-            public async void getWebsiteData()
-            {
-                PFStuff.getWebsiteData(main.KongregateId);
-                main.currentBossLabel.setText(shortBossName(PFStuff.WBName) + (PFStuff.wbMode == 0 ? " NH" : " HA") + ", Attacks left: " + PFStuff.attacksLeft);
-                main.auctionHouse.loadAuctions(false);
-                double x = await main.auctionHouse.getAuctionInterval();
-                WBTimer.Interval = Math.Min(Math.Max(PFStuff.attacksLeft * 2500, 5000), x);
-                nextWBRefresh = DateTime.Now.AddMilliseconds(WBTimer.Interval);
-                main.currentDungLevelLabel.Text = PFStuff.DungLevel;
-            }
+        public async void getWebsiteData()
+        {
+            PFStuff.getWebsiteData(main.KongregateId);
+            main.currentBossLabel.setText(shortBossName(PFStuff.WBName) + (PFStuff.wbMode == 0 ? " NH" : " HA") + ", Attacks left: " + PFStuff.attacksLeft);
+            main.auctionHouse.loadAuctions(false);
+            double x = await main.auctionHouse.getAuctionInterval();
+            WBTimer.Interval = Math.Min(Math.Max(PFStuff.attacksLeft * 2500, 5000), x);
+            nextWBRefresh = DateTime.Now.AddMilliseconds(WBTimer.Interval);
+            main.currentDungLevelLabel.Text = PFStuff.DungLevel;
+        }
 
 
-            string shortBossName(string longName)
+        string shortBossName(string longName)
+        {
+            switch (longName)
             {
-                switch (longName)
-                {
-                    case ("LORD OF CHAOS"):
-                        return "LoC";
-                    case ("SUPER LORD OF CHAOS"):
-                        return "Super LoC";
-                    case ("MOTHER OF ALL KODAMAS"):
-                        return "MOAK";
-                    case ("SUPER MOTHER OF ALL KODAMAS"):
-                        return "Super MOAK";
-                    case ("KRYTON"):
-                        return "KRYTON";
-                    case ("SUPER KRYTON"):
-                        return "Super Kryton";
-                    case ("DOYENNE"):
-                        return "Doy";
-                    case ("SUPER DOYENNE"):
-                        return "Super Doy";
-                    default:
-                        return "Unknown";
-                }
+                case ("LORD OF CHAOS"):
+                    return "LoC";
+                case ("SUPER LORD OF CHAOS"):
+                    return "Super LoC";
+                case ("MOTHER OF ALL KODAMAS"):
+                    return "MOAK";
+                case ("SUPER MOTHER OF ALL KODAMAS"):
+                    return "Super MOAK";
+                case ("KRYTON"):
+                    return "KRYTON";
+                case ("SUPER KRYTON"):
+                    return "Super Kryton";
+                case ("DOYENNE"):
+                    return "Doy";
+                case ("SUPER DOYENNE"):
+                    return "Super Doy";
+                default:
+                    return "Unknown";
             }
         }
     }
+}
 

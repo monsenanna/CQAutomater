@@ -40,6 +40,7 @@ namespace CQFollowerAutoclaimer
         Form1 main;
         List<Auction> auctionList = new List<Auction>();
         internal DateTime[] auctionDates = new DateTime[3];
+        static int secondsBeforeDeadline = 10;
 
         public AuctionHouse(Form1 m) { main = m; }
 
@@ -92,7 +93,7 @@ namespace CQFollowerAutoclaimer
                 if (main.auctionHero1Box.getCheckState())
                 {
                     a.setRequirements(main.auctionHero1PriceCount.Value, main.auctionHero1LevelCount.Value);
-                    times.Add((a.endTime - DateTime.Now).TotalMilliseconds - 15000);
+                    times.Add((a.endTime - DateTime.Now).TotalMilliseconds - secondsBeforeDeadline*1000);
                     b.Add(a);
                 }
                 
@@ -107,7 +108,7 @@ namespace CQFollowerAutoclaimer
                 if (main.auctionHero2Box.getCheckState())
                 {
                     a.setRequirements(main.auctionHero2PriceCount.Value, main.auctionHero2LevelCount.Value);
-                    times.Add((a.endTime - DateTime.Now).TotalMilliseconds - 15000);
+                    times.Add((a.endTime - DateTime.Now).TotalMilliseconds - secondsBeforeDeadline * 1000);
                     b.Add(a);
                 }                
             }
@@ -121,7 +122,7 @@ namespace CQFollowerAutoclaimer
                 if (main.auctionHero3Box.getCheckState())
                 {
                     a.setRequirements(main.auctionHero3PriceCount.Value, main.auctionHero3LevelCount.Value);
-                    times.Add((a.endTime - DateTime.Now).TotalMilliseconds - 15000);
+                    times.Add((a.endTime - DateTime.Now).TotalMilliseconds - secondsBeforeDeadline * 1000);
                     b.Add(a);
                 }                
             }
