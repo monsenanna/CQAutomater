@@ -52,13 +52,20 @@ namespace CQFollowerAutoclaimer
                 main.currentDungLevelLabel.Text = PFStuff.DungLevel;
             }
             auctionList = new List<Auction>();
-            foreach (JObject jo in PFStuff.auctionData)
+            try
             {
-                int id = Int32.Parse(jo["hero"].ToString());
-                string bidName = jo["bidname"].ToString();
-                int price = Int32.Parse(jo["bid"].ToString());
-                DateTime dt = DateTime.Now.AddMilliseconds(double.Parse(jo["timer"].ToString()));
-                auctionList.Add(new Auction(id, bidName, dt, price));
+                foreach (JObject jo in PFStuff.auctionData)
+                {
+                    int id = Int32.Parse(jo["hero"].ToString());
+                    string bidName = jo["bidname"].ToString();
+                    int price = Int32.Parse(jo["bid"].ToString());
+                    DateTime dt = DateTime.Now.AddMilliseconds(double.Parse(jo["timer"].ToString()));
+                    auctionList.Add(new Auction(id, bidName, dt, price));
+                }
+            }
+            catch (Exception ex)
+            {
+                // we're probably just missing data because the server is offline
             }
         }
 
