@@ -26,7 +26,7 @@ namespace CQFollowerAutoclaimer
         };
 
         public static string[] names = {
-            "adybbuk", "aedana", "ajade", "amahatma",
+            "mother", "murphy", "bortles", "thumper", "daisy", "gizmo", "willow", "adybbuk", "aedana", "ajade", "amahatma",
             "spike", "riptide", "ember", "cloud", "b-day", "thewanderer", "maunder", "transient", "cupid", "aurora", "orin", "flint", "blossom",
             "aseethe", "seethe", "ruin", "raze", "kedari", "5-12-6", "fir", "frosty", "maraudermagnus", "corsaircharles", "buccaneerbeatrice", "raiderrose",
             "adefile", "guy", "cliodhna", "sanqueen", "billy", "doyenne", "ahattori", "ahirate", "atakeda", "ahosokawa",
@@ -58,7 +58,7 @@ namespace CQFollowerAutoclaimer
             "Mahatma", "Jade", "Edana", "Dybbuk", "Ashygu", "Athert", "Alordkirk", "Aneptunius", "Ahosokawa", "Atakeda", "Ahirate", "Ahattori", "Doyenne",
             "Billy", "Sanqueen", "Cliodhna", "Guy", "Adefile", "Raiderrose", "Buccaneerbeatrice", "Corsaircharles","Maraudermagnus", "Frosty", "Fir", "5-12-6", "Kedari",
             "Raze", "Ruin", "Seethe", "Aseethe", "Blossom", "Flint", "Orin", "Aurora", "Cupid", "Transient", "Maunder", "Thewanderer", "B-day", "Cloud", "Ember", "Riptide", "Spike", 
-            "Amahatma", "Ajade", "Aedana", "Adybbuk", "Willow", "Gizmo", "Daisy", "Thumper", "Bortles", "Murphy", "Nerissa", 
+            "Amahatma", "Ajade", "Aedana", "Adybbuk", "Willow", "Gizmo", "Daisy", "Thumper", "Bortles", "Murphy", "Nerissa", "Mother",
         };
 
         public static prices[] heroPrices = new prices[] {
@@ -85,6 +85,7 @@ namespace CQFollowerAutoclaimer
             prices.ASCEND, prices.ASCEND, prices.ASCEND, prices.ASCEND, //AQuest Djinn Heroes
             prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Easter2019 Heroes
             prices.COMMON, prices.RARE, prices.LEG, // Aquatic Heroes
+            prices.LEG, // Mother
 
         };
 
@@ -95,7 +96,7 @@ namespace CQFollowerAutoclaimer
             "Arshen", "Rua", "Dorth", "Bylar", "Boor", "Bavah", "Hawking", "Kumu-San", "LiuCheng", "Hidoka", "Spyke", "Aoyuki", "Gaiabyte",
             "Dicemaster", "Luxurious", "Pokerface", "Taint", "Putrid", "Defile", "Mahatma", "Jade", "Edana", "Dybbuk", "Billy", "Sanqueen", "Cliodhna",
             "Buccaneerbeatrice", "Corsaircharles", "Maraudermagnus", "Frosty", "Raze", "Ruin", "Seethe", "Blossom", "Flint", "Orin", "Cupid", "Transient", "Maunder", "Thewanderer", "B-Day",
-            "Willow", "Gizmo", "Daisy", "Bortles", "Murphy", "Nerissa",
+            "Willow", "Gizmo", "Daisy", "Bortles", "Murphy", "Nerissa", "Mother",
         };
 
         public static string[] cosmicCoinHeroes = new string[] {
@@ -103,7 +104,7 @@ namespace CQFollowerAutoclaimer
             "Shygu", "Thert", "Lordkirk", "Neptunius", "Werewolf", "Jackoknight", "Dullahan", "Leprechaun", "Hosokawa", "Takeda", "Hirate", "Hattori",
             "Neil", "Mahatma", "Jade", "Edana", "Dybbuk", "Ashygu", "Athert", "Alordkirk", "Aneptunius", "Ahosokawa", "Atakeda", "Ahirate", "Ahattori",
             "Billy", "Sanqueen", "Cliodhna", "Cupid", "B-Day", "Amahatma", "Ajade", "Aedana", "Adybbuk",
-            "Willow", "Gizmo", "Daisy", "Thumper", "Bortles", "Murphy", "Nerissa",
+            "Willow", "Gizmo", "Daisy", "Thumper", "Bortles", "Murphy", "Nerissa", "Mother",
         };
 
         public static string[] ascensionHeroes = new string[] {

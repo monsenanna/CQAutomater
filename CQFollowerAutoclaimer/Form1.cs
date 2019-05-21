@@ -865,5 +865,10 @@ namespace CQFollowerAutoclaimer
         {
             autoDQ.fightWithPresetLineup(AutoDQ.CalcMode.DUNG);
         }
+
+        private void InstaBidCBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

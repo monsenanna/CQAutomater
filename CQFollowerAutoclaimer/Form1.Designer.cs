@@ -426,7 +426,7 @@
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(46, 13);
             this.label22.TabIndex = 32;
-            this.label22.Text = "v4.1.4.0";
+            this.label22.Text = "v4.2.1.0";
             // 
             // DQIndicator
             // 
@@ -2997,6 +2997,7 @@
             this.instaBidCBox.TabIndex = 131;
             this.instaBidCBox.Text = "Bid immediately if last bid allowed by max price is possible";
             this.instaBidCBox.UseVisualStyleBackColor = true;
+            this.instaBidCBox.CheckedChanged += new System.EventHandler(this.InstaBidCBox_CheckedChanged);
             // 
             // ahCountdown3
             // 
