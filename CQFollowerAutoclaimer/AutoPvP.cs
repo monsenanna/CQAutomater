@@ -26,6 +26,21 @@ namespace CQFollowerAutoclaimer
             main.playersAboveCount.Value = main.appSettings.pvpUpperLimit ?? 5;
         }
 
+        internal async Task<Int32> pickOpponent()
+        {
+            int size = Math.Max(3, 2 * (int)Math.Max(main.playersAboveCount.Value, main.playersBelowCount.Value + 1));
+            while (!await main.pf.getLeaderboard(size)) ;
+            Random r = new Random();
+            int index;
+            do
+            {
+                index = r.Next(0, PFStuff.nearbyPlayersIDs.Length);
+            } while (index == PFStuff.userIndex ||
+                    index > PFStuff.userIndex + (int)main.playersBelowCount.Value ||
+                    index < PFStuff.userIndex - (int)main.playersAboveCount.Value);
+            return index;
+        }
+
         async void PVPTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (main.autoPvPCheckbox.Checked)
@@ -35,17 +50,8 @@ namespace CQFollowerAutoclaimer
                 {
                     await main.login();
                 }
-                int size = Math.Max(3, 2 * (int)Math.Max(main.playersAboveCount.Value, main.playersBelowCount.Value + 1));
-                while (!await main.pf.getLeaderboard(size)) ;
-                Random r = new Random();
-                int index;
-                do
-                {
-                    index = r.Next(0, PFStuff.nearbyPlayersIDs.Length);
-                } while (index == PFStuff.userIndex ||
-                        index > PFStuff.userIndex + (int)main.playersBelowCount.Value ||
-                        index < PFStuff.userIndex - (int)main.playersAboveCount.Value);
 
+                int index = await pickOpponent();
                 main.taskQueue.Enqueue(() => sendFight(index), "PVP");
             }
         }
@@ -54,7 +60,11 @@ namespace CQFollowerAutoclaimer
         {
             bool b = await main.pf.sendPVPFight(index);
             nextPVP = Form1.getTime(PFStuff.PVPTime);
-            PVPTimer.Interval = Math.Max(5000, (nextPVP - DateTime.Now).TotalMilliseconds);
+            if (nextPVP < DateTime.Now)
+                nextPVP = nextPVP.AddMilliseconds(3600000);
+            PVPTimer.Interval = Math.Min(3660000, Math.Max(5000, (nextPVP - DateTime.Now).TotalMilliseconds + 3600000));
+            if (PVPTimer.Interval < 0)
+                PVPTimer.Interval += 3600000;
             main.PvPLog.SynchronizedInvoke(() => main.PvPLog.AppendText(PFStuff.battleResult));
             main.PvPTimeLabel.setText(nextPVP.ToString());
             PVPTimer.Start();

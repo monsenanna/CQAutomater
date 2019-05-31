@@ -26,6 +26,7 @@ namespace CQFollowerAutoclaimer
         static public string DQLevel;
         static public bool DQResult;
         static public string PVPTime;
+        static public string PVPCharges;
         static public int[] heroLevels;
         static public string DungLevel;
 
@@ -170,7 +171,9 @@ namespace CQFollowerAutoclaimer
                 followers = json["data"]["followers"].ToString();
                 DQTime = json["data"]["city"]["daily"]["timer2"].ToString();
                 DQLevel = json["data"]["city"]["daily"]["lvl"].ToString();
-                PVPTime = json["data"]["city"]["nextfight"].ToString();
+                //PVPTime = json["data"]["city"]["nextfight"].ToString();
+                PVPTime = json["data"]["city"]["pvp"]["next"].ToString();
+                PVPCharges = json["data"]["city"]["pvp"]["attacks"].ToString();
                 wbAttacksAvailable = int.Parse(json["data"]["city"]["WB"]["atks"].ToString());
                 wbAttackNext = Form1.getTime(json["data"]["city"]["WB"]["next"].ToString());
                 return true;

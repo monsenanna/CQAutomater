@@ -257,7 +257,7 @@ namespace CQFollowerAutoclaimer
                 autoDQ.DQTimer.Interval = (autoDQ.nextDQTime < DateTime.Now && DQCalcBox.Checked) ? 8000 : Math.Max(8000, (autoDQ.nextDQTime - DateTime.Now).TotalMilliseconds);
                 autoDQ.DQTimer.Start();
             }
-            autopvp.nextPVP = getTime(PFStuff.PVPTime);
+            autopvp.nextPVP = getTime(PFStuff.PVPTime).AddMilliseconds(3600000);
             PvPTimeLabel.setText(autopvp.nextPVP.ToString());
             autopvp.PVPTimer.Interval = Math.Max(3000, (autopvp.nextPVP - DateTime.Now).TotalMilliseconds);
             autopvp.PVPTimer.Start();
@@ -456,7 +456,14 @@ namespace CQFollowerAutoclaimer
                 if ((DateTime.Now - start).TotalSeconds > 3)
                 {
                     await getData();
+                    if (Int32.Parse(PFStuff.PVPCharges) > 0)
+                    {
+                        int index = await autopvp.pickOpponent();
+                        taskQueue.Enqueue(() => autopvp.sendFight(index), "PVP");
+                    }
                     autopvp.nextPVP = getTime(PFStuff.PVPTime);
+                    if (autopvp.nextPVP < DateTime.Now)
+                        autopvp.nextPVP = autopvp.nextPVP.AddMilliseconds(3600000);
                     PvPTimeLabel.setText(autopvp.nextPVP.ToString());
                     autopvp.PVPTimer.Interval = Math.Max(8000, (autopvp.nextPVP - DateTime.Now).TotalMilliseconds);
                 }
@@ -579,7 +586,7 @@ namespace CQFollowerAutoclaimer
 
         private void automaterGithubButton_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/monsenanna/CQAutomater");
+            System.Diagnostics.Process.Start("https://github.com/MatthieuBonne/CQAutomater");
         }
 
         private void macroCreatorGithubButton_Click(object sender, EventArgs e)
