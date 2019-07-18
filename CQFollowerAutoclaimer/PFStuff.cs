@@ -33,6 +33,8 @@ namespace CQFollowerAutoclaimer
         static public string[] nearbyPlayersIDs;
         static public string username;
         static public int userIndex;
+        static public int initialRanking = 0;
+        static public int currentRanking = 0;
         static public int freeChestRecharge;
 
         static public string battleResult;
@@ -212,13 +214,14 @@ namespace CQFollowerAutoclaimer
                     if (leaderboardTask.Result.Leaderboard[i].DisplayName == username)
                     {
                         userIndex = i;
-                    }
+                        currentRanking = leaderboardTask.Result.Leaderboard[i].Position;
+                        if (initialRanking == 0)
+                            initialRanking = currentRanking;
+            }
                 }
                 return true;
             }
         }
-
-
 
         public async Task<bool> getCurrencies()
         {
@@ -245,8 +248,6 @@ namespace CQFollowerAutoclaimer
             await Task.Delay(1500);
             return false;
         }
-
-
 
         internal static void getUsername(string id)
         {

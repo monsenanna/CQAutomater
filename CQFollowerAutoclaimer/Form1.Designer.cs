@@ -329,6 +329,7 @@
             this.ah2Indicator = new System.Windows.Forms.Label();
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
+            this.pvpRankingSummary = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SuperKrytonNHAttacksCount)).BeginInit();
@@ -1847,6 +1848,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.pvpRankingSummary);
             this.tabPage4.Controls.Add(this.savePvPSettingsButton);
             this.tabPage4.Controls.Add(this.label54);
             this.tabPage4.Controls.Add(this.autoPvPCheckbox);
@@ -3859,6 +3861,15 @@
             this.ALIndicator.TabIndex = 39;
             this.ALIndicator.Text = "          ";
             // 
+            // pvpRankingSummary
+            // 
+            this.pvpRankingSummary.AutoSize = true;
+            this.pvpRankingSummary.Location = new System.Drawing.Point(9, 169);
+            this.pvpRankingSummary.Name = "pvpRankingSummary";
+            this.pvpRankingSummary.Size = new System.Drawing.Size(99, 13);
+            this.pvpRankingSummary.TabIndex = 90;
+            this.pvpRankingSummary.Text = "Ranking evolution :";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4252,6 +4263,7 @@
         internal System.Windows.Forms.NumericUpDown DoyNHReqCount;
         internal System.Windows.Forms.NumericUpDown DoyHAAttacksCount;
         internal System.Windows.Forms.NumericUpDown DoyHAReqCount;
+        internal System.Windows.Forms.Label pvpRankingSummary;
     }
 }
 

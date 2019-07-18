@@ -30,6 +30,7 @@ namespace CQFollowerAutoclaimer
         {
             int size = Math.Max(3, 2 * (int)Math.Max(main.playersAboveCount.Value, main.playersBelowCount.Value + 1));
             while (!await main.pf.getLeaderboard(size)) ;
+            main.pvpRankingSummary.setText("Ranking evolution : " + (PFStuff.initialRanking - PFStuff.currentRanking).ToString() + " (" + PFStuff.initialRanking + " -> " + PFStuff.currentRanking + ")");
             Random r = new Random();
             int index;
             do
@@ -53,6 +54,11 @@ namespace CQFollowerAutoclaimer
 
                 int index = await pickOpponent();
                 main.taskQueue.Enqueue(() => sendFight(index), "PVP");
+                nextPVP = Form1.getTime(PFStuff.PVPTime);
+                if (nextPVP < DateTime.Now)
+                    nextPVP = nextPVP.AddMilliseconds(3600000);
+                main.PvPTimeLabel.setText(nextPVP.ToString());
+                PVPTimer.Interval = Math.Max(8000, (nextPVP - DateTime.Now).TotalMilliseconds);
             }
         }
 
