@@ -463,7 +463,7 @@ namespace CQFollowerAutoclaimer
                     }
                     autopvp.nextPVP = getTime(PFStuff.PVPTime);
                     if (autopvp.nextPVP < DateTime.Now)
-                        autopvp.nextPVP = autopvp.nextPVP.AddMilliseconds(3600000);
+                        autopvp.nextPVP = autopvp.nextPVP.AddMilliseconds(3605000);
                     PvPTimeLabel.setText(autopvp.nextPVP.ToString());
                     autopvp.PVPTimer.Interval = Math.Max(8000, (autopvp.nextPVP - DateTime.Now).TotalMilliseconds);
                 }

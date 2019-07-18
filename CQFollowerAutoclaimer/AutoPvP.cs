@@ -56,7 +56,7 @@ namespace CQFollowerAutoclaimer
                 main.taskQueue.Enqueue(() => sendFight(index), "PVP");
                 nextPVP = Form1.getTime(PFStuff.PVPTime);
                 if (nextPVP < DateTime.Now)
-                    nextPVP = nextPVP.AddMilliseconds(3600000);
+                    nextPVP = nextPVP.AddMilliseconds(3605000);
                 main.PvPTimeLabel.setText(nextPVP.ToString());
                 PVPTimer.Interval = Math.Max(8000, (nextPVP - DateTime.Now).TotalMilliseconds);
             }
@@ -67,10 +67,10 @@ namespace CQFollowerAutoclaimer
             bool b = await main.pf.sendPVPFight(index);
             nextPVP = Form1.getTime(PFStuff.PVPTime);
             if (nextPVP < DateTime.Now)
-                nextPVP = nextPVP.AddMilliseconds(3600000);
+                nextPVP = nextPVP.AddMilliseconds(3605000);
             PVPTimer.Interval = Math.Min(3660000, Math.Max(5000, (nextPVP - DateTime.Now).TotalMilliseconds + 3600000));
             if (PVPTimer.Interval < 0)
-                PVPTimer.Interval += 3600000;
+                PVPTimer.Interval += 3605000;
             main.PvPLog.SynchronizedInvoke(() => main.PvPLog.AppendText(PFStuff.battleResult));
             main.PvPTimeLabel.setText(nextPVP.ToString());
             PVPTimer.Start();
