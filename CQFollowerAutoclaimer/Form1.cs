@@ -259,7 +259,7 @@ namespace CQFollowerAutoclaimer
             }
             autopvp.nextPVP = getTime(PFStuff.PVPTime).AddMilliseconds(3600000);
             PvPTimeLabel.setText(autopvp.nextPVP.ToString());
-            autopvp.PVPTimer.Interval = Math.Max(3000, (autopvp.nextPVP - DateTime.Now).TotalMilliseconds);
+            autopvp.PVPTimer.Interval = Math.Max(5000, (autopvp.nextPVP - DateTime.Now).TotalMilliseconds);
             autopvp.PVPTimer.Start();
             await getCurr();
             autoChests.nextFreeChest = DateTime.Now.AddSeconds(PFStuff.freeChestRecharge);
@@ -271,7 +271,12 @@ namespace CQFollowerAutoclaimer
             autoWB.nextWBRefresh = DateTime.Now.AddMilliseconds(autoWB.WBTimer.Interval);
             foreach (ComboBox c in auctionComboBoxes)
             {
-                c.Items.AddRange(auctionHouse.getAvailableHeroes());
+                foreach (string n in auctionHouse.getAvailableHeroes().OrderBy(s => s))
+                {
+                    c.Items.Add(n);
+                }
+                // before sort :
+                //c.Items.AddRange(auctionHouse.getAvailableHeroes());
             }
             auctionHouse.loadSettings();
         }
@@ -461,11 +466,11 @@ namespace CQFollowerAutoclaimer
                         int index = await autopvp.pickOpponent();
                         taskQueue.Enqueue(() => autopvp.sendFight(index), "PVP");
                     }
-                    autopvp.nextPVP = getTime(PFStuff.PVPTime);
+                    /*autopvp.nextPVP = getTime(PFStuff.PVPTime);
                     if (autopvp.nextPVP < DateTime.Now)
                         autopvp.nextPVP = autopvp.nextPVP.AddMilliseconds(3605000);
                     PvPTimeLabel.setText(autopvp.nextPVP.ToString());
-                    autopvp.PVPTimer.Interval = Math.Max(8000, (autopvp.nextPVP - DateTime.Now).TotalMilliseconds);
+                    autopvp.PVPTimer.Interval = Math.Max(8000, (autopvp.nextPVP - DateTime.Now).TotalMilliseconds);*/
                 }
             }
             else

@@ -444,7 +444,8 @@ namespace CQFollowerAutoclaimer
             else
             {
                 JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
-                PVPTime = json["data"]["city"]["nextfight"].ToString();
+                //PVPTime = json["data"]["city"]["nextfight"].ToString();
+                PVPTime = json["data"]["city"]["pvp"]["next"].ToString();
                 switch (json["data"]["city"]["log"][0]["result"].ToString())
                 {
                     case ("-1"):

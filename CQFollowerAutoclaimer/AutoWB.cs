@@ -20,7 +20,7 @@ namespace CQFollowerAutoclaimer
         public AutoWB(Form1 m)
         {
             main = m;
-            WBTimer.Interval = 10 * 1000;
+            WBTimer.Interval = 20 * 1000;
             WBTimer.Elapsed += WBTimer_Elapsed;
             WBTimer.Start();
             nextWBRefresh = DateTime.Now.AddMilliseconds(WBTimer.Interval);
@@ -268,6 +268,7 @@ namespace CQFollowerAutoclaimer
 
             async Task<bool> fightWB(int[] lineup)
             {
+                await Task.Delay(5000); // prevent spamming
                 bool b = await main.pf.sendWBFight(lineup);
                 string s = "";
                 if (b)

@@ -25,9 +25,22 @@ namespace CQFollowerAutoclaimer
             m.pranaHeroCombo.Items.Add("");
             m.coinsHeroCombo.Items.Add("");
             m.spheresHeroCombo.Items.Add("");
-            m.pranaHeroCombo.Items.AddRange(Constants.pranaHeroes);
+            foreach (string n in Constants.pranaHeroes.OrderBy(s => s))
+            {
+                m.pranaHeroCombo.Items.Add(n);
+            }
+            foreach (string n in Constants.cosmicCoinHeroes.OrderBy(s => s))
+            {
+                m.coinsHeroCombo.Items.Add(n);
+            }
+            foreach (string n in Constants.ascensionHeroes.OrderBy(s => s))
+            {
+                m.spheresHeroCombo.Items.Add(n);
+            }
+            // before sort :
+            /*m.pranaHeroCombo.Items.AddRange(Constants.pranaHeroes);
             m.coinsHeroCombo.Items.AddRange(Constants.cosmicCoinHeroes);
-            m.spheresHeroCombo.Items.AddRange(Constants.ascensionHeroes);
+            m.spheresHeroCombo.Items.AddRange(Constants.ascensionHeroes);*/
 
             bank = new List<NumericUpDown>() { m.pranaBankCount, m.coinsBankCount, m.spheresBankCount };
             heroToLevel = new List<ComboBox>() { m.pranaHeroCombo, m.coinsHeroCombo, m.spheresHeroCombo };

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.IO;
 
 namespace CQFollowerAutoclaimer
 {
@@ -54,6 +55,10 @@ namespace CQFollowerAutoclaimer
                     rew += PFStuff.chestResult < 0 ? Constants.heroNames[-PFStuff.chestResult] : Constants.rewardNames[PFStuff.chestResult];
                 }
                 main.ChestLog.SynchronizedInvoke(() => main.ChestLog.AppendText(rew + "\n"));
+                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                {
+                    sw.WriteLine(rew + "\n");
+                }
             }
             if (!main.taskQueue.Contains("chest"))
             {
