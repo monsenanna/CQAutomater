@@ -26,6 +26,7 @@ namespace CQFollowerAutoclaimer
         public List<string> MOAKLineup { get; set; }
         public List<string> KrytonLineup { get; set; }
         public List<string> DoyLineup { get; set; }
+        public List<string> BorLineup { get; set; }
         public List<string> defaultDQLineup { get; set; }
         public List<string> calcEnabledHeroes { get; set; }
         public bool? DQSoundEnabled { get; set; }

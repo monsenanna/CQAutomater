@@ -39,6 +39,7 @@ namespace CQFollowerAutoclaimer
         internal AutoDQ autoDQ;
         internal AutoPvP autopvp;
         internal AutoWB autoWB;
+        internal AutoEvent autoEvent;
         internal TaskQueue taskQueue = new TaskQueue();
 
         int claimCount = 0;
@@ -76,7 +77,8 @@ namespace CQFollowerAutoclaimer
                 KrytonHAReqCount, KrytonHAAttacksCount, SuperKrytonHAReqCount, SuperKrytonHAAttacksCount,
                 KrytonNHReqCount, KrytonNHAttacksCount, SuperKrytonNHReqCount, SuperKrytonNHAttacksCount,
                 DoyHAReqCount, DoyHAAttacksCount, SuperDoyHAReqCount, SuperDoyHAAttacksCount,
-                DoyNHReqCount, DoyNHAttacksCount, SuperDoyNHReqCount, SuperDoyNHAttacksCount
+                DoyNHReqCount, DoyNHAttacksCount, SuperDoyNHReqCount, SuperDoyNHAttacksCount,
+                BorHAReqCount, BorHAAttacksCount, SuperBorHAReqCount, SuperBorHAAttacksCount
             };
             auctionCountdowns = new List<Label> { ahCountdown1, ahCountdown2, ahCountdown3 };
             toolTip1.SetToolTip(safeModeWB, "Asks for confirmation before attacking. Won't ask again for the same boss");
@@ -86,7 +88,8 @@ namespace CQFollowerAutoclaimer
                     new List<ComboBox> {MOAKHA1, MOAKHA2, MOAKHA3, MOAKHA4, MOAKHA5, MOAKHA6},
                     new List<ComboBox> {DQLineup1, DQLineup2, DQLineup3, DQLineup4, DQLineup5, DQLineup6},
                     new List<ComboBox> {KrytonHA1, KrytonHA2, KrytonHA3, KrytonHA4, KrytonHA5, KrytonHA6},
-                    new List<ComboBox> {DOYHA1, DOYHA2, DOYHA3, DOYHA4, DOYHA5, DOYHA6}
+                    new List<ComboBox> {DOYHA1, DOYHA2, DOYHA3, DOYHA4, DOYHA5, DOYHA6},
+                    new List<ComboBox> {BORHA1, BORHA2, BORHA3, BORHA4, BORHA5, BORHA6 }
                 };
             auctionComboBoxes = new List<ComboBox> {
                 auctionHero1Combo, auctionHero2Combo, auctionHero3Combo,
@@ -113,6 +116,7 @@ namespace CQFollowerAutoclaimer
                 autoDQ = new AutoDQ(this);
                 autopvp = new AutoPvP(this);
                 autoWB = new AutoWB(this);
+                autoEvent = new AutoEvent(this);
                 PFStuff.getUsername(KongregateId);
                 startTimers();
                 countdownsTimer.Interval = 1000;
@@ -279,6 +283,8 @@ namespace CQFollowerAutoclaimer
                 //c.Items.AddRange(auctionHouse.getAvailableHeroes());
             }
             auctionHouse.loadSettings();
+            autoEvent.EventTimer.Interval = 30 * 1000;
+            autoEvent.EventTimer.Start();
         }
 
 
@@ -691,6 +697,15 @@ namespace CQFollowerAutoclaimer
                     break;
                 case 8:
                     foreach (ComboBox cb in WBlineups[4])
+                    {
+                        string s = "";
+                        cb.SynchronizedInvoke(() => s = cb.Text);
+                        temp.Add(Array.IndexOf(Constants.names, s) - Constants.heroesInGame);
+                    }
+                    lineup = temp.ToArray();
+                    break;
+                case 9:
+                    foreach (ComboBox cb in WBlineups[5])
                     {
                         string s = "";
                         cb.SynchronizedInvoke(() => s = cb.Text);

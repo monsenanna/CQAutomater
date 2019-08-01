@@ -86,7 +86,7 @@ namespace CQFollowerAutoclaimer
             PVPTimer.Interval = Math.Max(8000, (nextPVP - DateTime.Now).TotalMilliseconds);
             /*if (PVPTimer.Interval < 0)
                 PVPTimer.Interval += 3605000;*/
-            main.PvPLog.SynchronizedInvoke(() => main.PvPLog.AppendText("time debug B : " + DateTime.Now + " --- " + nextPVP +" --- "+ PVPTimer.Interval + "\n"));
+            //main.PvPLog.SynchronizedInvoke(() => main.PvPLog.AppendText("time debug B : " + DateTime.Now + " --- " + nextPVP +" --- "+ PVPTimer.Interval + "\n"));
             main.PvPLog.SynchronizedInvoke(() => main.PvPLog.AppendText(PFStuff.battleResult));
             main.PvPTimeLabel.setText(nextPVP.ToString());
             PVPTimer.Start();

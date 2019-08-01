@@ -18,8 +18,8 @@ namespace CQFollowerAutoclaimer
     class PFStuff
     {
         string token;
-        static string kongID;
-        static int requestsSent = 0;
+        static public string kongID;
+        //static int requestsSent = 0;
         static public string miracleTimes;
         static public string followers;
         static public string DQTime;
@@ -28,7 +28,14 @@ namespace CQFollowerAutoclaimer
         static public string PVPTime;
         static public string PVPCharges;
         static public int[] heroLevels;
+        static public int FlashStatus;
+        static public int EASDay;
         static public string DungLevel;
+        static public string LuckyFollowers;
+        static public JArray KeysTower;
+        static public JArray PGCards;
+        static public int[] PGDeck;
+        static public int[] PGPicked;
 
         static public string[] nearbyPlayersIDs;
         static public string username;
@@ -67,7 +74,7 @@ namespace CQFollowerAutoclaimer
             kongID = kid;
         }
 
-        private int[] getArray(string s)
+        private static int[] getArray(string s)
         {
             s = Regex.Replace(s, @"\s+", "");
             s = s.Substring(1, s.Length - 2);
@@ -182,8 +189,6 @@ namespace CQFollowerAutoclaimer
             }
         }
 
-
-
         public async Task<bool> getLeaderboard(int size)
         {
             await Task.Delay(500);
@@ -285,7 +290,23 @@ namespace CQFollowerAutoclaimer
                 WBName = WBData["name"].ToString();
                 WBchanged = (int.Parse(WBData["atk"].ToString()) > attacksLeft);               
                 attacksLeft = int.Parse(WBData["atk"].ToString());
-                if(json["dungeon"] != null)
+                if (json["flash"] != null)
+                {
+                    FlashStatus = 1;// json["FlashStatus"].ToString();
+                }
+                else
+                {
+                    FlashStatus = -1;
+                }
+                if (json["super"] != null && Int64.Parse(json["super"].ToString()) == 1 && !WBName.Contains("SUPER"))
+                {
+                    EASDay = 1;
+                }
+                else
+                {
+                    EASDay = -1;
+                }
+                if (json["dungeon"] != null)
                 {
                     DungLevel = json["dungeon"]["lvl"].ToString();
                 }
@@ -306,13 +327,39 @@ namespace CQFollowerAutoclaimer
                 //{
                 //    WBchanged = true;
                 //}
-
+                if (json["followers"] != null)
+                {
+                    LuckyFollowers = json["followers"].ToString();
+                }
+                else
+                {
+                    LuckyFollowers = "";
+                }
+                if (json["keys"] != null)
+                {
+                    KeysTower = (JArray)json["keys"];
+                }
+                else
+                {
+                    KeysTower = null;
+                }
+                if (json["pge"] != null)
+                {
+                    PGCards = (JArray)json["pge"];
+                    string tmp = PGCards["cards"].ToString();
+                    PGDeck = getArray(tmp);
+                    tmp = PGCards["picks"].ToString();
+                    PGPicked = getArray(tmp);
+                }
+                else
+                {
+                    PGCards = null;
+                }
             }
             // MB fix to prevent crashes
             catch (Exception webex)
             {
                 //Console.Write(webex.Message);
-
                 using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now + "\n\t" + webex.Message);
@@ -557,6 +604,33 @@ namespace CQFollowerAutoclaimer
                 //JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
                 //DQLevel = json["data"]["city"]["daily"]["lvl"].ToString();
                 //DQResult = true;
+                return true;
+            }
+        }
+
+        public async Task<bool> sendKeysTowerPick()
+        {
+            int pick = 0; // todo : random ?
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Live,
+                FunctionName = "keyevent",
+                FunctionParameter = new { pick = pick }
+            };
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
+            {
+                logError("Cloud Script Error: Send KeysTower", statusTask);
+                return false;
+            }
+            else
+            {
+                JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
                 return true;
             }
         }

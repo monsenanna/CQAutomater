@@ -63,7 +63,7 @@ namespace CQFollowerAutoclaimer
                     auctionList.Add(new Auction(id, bidName, dt, price));
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // we're probably just missing data because the server is offline
             }

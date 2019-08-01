@@ -75,6 +75,7 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="AuctionHouse.cs" />
     <Compile Include="AutoDQ.cs" />
+    <Compile Include="AutoEvent.cs" />
     <Compile Include="AutoLevel.cs" />
     <Compile Include="AutoChests.cs" />
     <Compile Include="AutoPvP.cs" />

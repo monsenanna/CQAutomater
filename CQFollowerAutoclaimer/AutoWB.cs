@@ -66,6 +66,13 @@ namespace CQFollowerAutoclaimer
                     main.WBlineups[4][i].Text = main.appSettings.DoyLineup[i];
                 }
             }
+            if (main.appSettings.BorLineup != null)
+            {
+                for (int i = 0; i < main.appSettings.BorLineup.Count; i++)
+                {
+                    main.WBlineups[5][i].Text = main.appSettings.BorLineup[i];
+                }
+            }
         }
 
         async void WBTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -205,10 +212,26 @@ namespace CQFollowerAutoclaimer
                             }
                             lineup = main.getLineup(8, uint.Parse(PFStuff.followers));
                         }
+                        else if (PFStuff.WBName.Contains("BORNAG") && PFStuff.wbMode == 1) //bornag heroes allowed
+                        {
+                            if (PFStuff.WBName.Contains("SUPER"))
+                            {
+                                attacksToDo = main.SuperBorHAAttacksCount.Value;
+                                requirement = main.SuperBorHAReqCount.Value;
+                            }
+                            else
+                            {
+                                attacksToDo = main.BorHAAttacksCount.Value;
+                                requirement = main.BorHAReqCount.Value;
+                            }
+                            lineup = main.getLineup(9, uint.Parse(PFStuff.followers));
+                        }
                         else
                         {
                             return;
                         }
+                        if (PFStuff.WBName.Contains("SUPER")) // hard block on 2
+                            attacksToDo = Math.Max(2, attacksToDo);
 
                         if (lineup.Contains(-1))
                         {
@@ -332,6 +355,10 @@ namespace CQFollowerAutoclaimer
                     return "Doy";
                 case ("SUPER DOYENNE"):
                     return "Super Doy";
+                case ("BORNAG"):
+                    return "Bor";
+                case ("SUPER BORNAG"):
+                    return "Super Bor";
                 default:
                     return "Unknown";
             }
