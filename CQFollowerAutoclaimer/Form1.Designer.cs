@@ -39,6 +39,15 @@
             this.chestIndicator = new System.Windows.Forms.Label();
             this.PVPIndicator = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.label130 = new System.Windows.Forms.Label();
+            this.label131 = new System.Windows.Forms.Label();
+            this.label132 = new System.Windows.Forms.Label();
+            this.BORHA6 = new System.Windows.Forms.ComboBox();
+            this.BORHA5 = new System.Windows.Forms.ComboBox();
+            this.BORHA4 = new System.Windows.Forms.ComboBox();
+            this.BORHA3 = new System.Windows.Forms.ComboBox();
+            this.BORHA2 = new System.Windows.Forms.ComboBox();
+            this.BORHA1 = new System.Windows.Forms.ComboBox();
             this.label127 = new System.Windows.Forms.Label();
             this.label128 = new System.Windows.Forms.Label();
             this.label129 = new System.Windows.Forms.Label();
@@ -346,15 +355,6 @@
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
-            this.label130 = new System.Windows.Forms.Label();
-            this.label131 = new System.Windows.Forms.Label();
-            this.label132 = new System.Windows.Forms.Label();
-            this.BORHA6 = new System.Windows.Forms.ComboBox();
-            this.BORHA5 = new System.Windows.Forms.ComboBox();
-            this.BORHA4 = new System.Windows.Forms.ComboBox();
-            this.BORHA3 = new System.Windows.Forms.ComboBox();
-            this.BORHA2 = new System.Windows.Forms.ComboBox();
-            this.BORHA1 = new System.Windows.Forms.ComboBox();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -457,7 +457,7 @@
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(46, 13);
             this.label22.TabIndex = 32;
-            this.label22.Text = "v4.3.2.0";
+            this.label22.Text = "v4.3.3.0";
             // 
             // DQIndicator
             // 
@@ -623,6 +623,100 @@
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "WB";
             this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // label130
+            // 
+            this.label130.AutoSize = true;
+            this.label130.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label130.Location = new System.Drawing.Point(152, 756);
+            this.label130.Name = "label130";
+            this.label130.Size = new System.Drawing.Size(106, 13);
+            this.label130.TabIndex = 224;
+            this.label130.Text = "Bornag HA lineup";
+            // 
+            // label131
+            // 
+            this.label131.AutoSize = true;
+            this.label131.Location = new System.Drawing.Point(341, 759);
+            this.label131.Name = "label131";
+            this.label131.Size = new System.Drawing.Size(71, 13);
+            this.label131.TabIndex = 225;
+            this.label131.Text = "Attacks first->";
+            // 
+            // label132
+            // 
+            this.label132.AutoSize = true;
+            this.label132.Location = new System.Drawing.Point(6, 759);
+            this.label132.Name = "label132";
+            this.label132.Size = new System.Drawing.Size(74, 13);
+            this.label132.TabIndex = 226;
+            this.label132.Text = "<- Attacks last";
+            // 
+            // BORHA6
+            // 
+            this.BORHA6.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.BORHA6.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.BORHA6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.BORHA6.FormattingEnabled = true;
+            this.BORHA6.Location = new System.Drawing.Point(6, 776);
+            this.BORHA6.Name = "BORHA6";
+            this.BORHA6.Size = new System.Drawing.Size(66, 21);
+            this.BORHA6.TabIndex = 232;
+            // 
+            // BORHA5
+            // 
+            this.BORHA5.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.BORHA5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.BORHA5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.BORHA5.FormattingEnabled = true;
+            this.BORHA5.Location = new System.Drawing.Point(74, 776);
+            this.BORHA5.Name = "BORHA5";
+            this.BORHA5.Size = new System.Drawing.Size(66, 21);
+            this.BORHA5.TabIndex = 231;
+            // 
+            // BORHA4
+            // 
+            this.BORHA4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.BORHA4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.BORHA4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.BORHA4.FormattingEnabled = true;
+            this.BORHA4.Location = new System.Drawing.Point(143, 776);
+            this.BORHA4.Name = "BORHA4";
+            this.BORHA4.Size = new System.Drawing.Size(66, 21);
+            this.BORHA4.TabIndex = 230;
+            // 
+            // BORHA3
+            // 
+            this.BORHA3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.BORHA3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.BORHA3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.BORHA3.FormattingEnabled = true;
+            this.BORHA3.Location = new System.Drawing.Point(212, 776);
+            this.BORHA3.Name = "BORHA3";
+            this.BORHA3.Size = new System.Drawing.Size(66, 21);
+            this.BORHA3.TabIndex = 229;
+            // 
+            // BORHA2
+            // 
+            this.BORHA2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.BORHA2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.BORHA2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.BORHA2.FormattingEnabled = true;
+            this.BORHA2.Location = new System.Drawing.Point(281, 776);
+            this.BORHA2.Name = "BORHA2";
+            this.BORHA2.Size = new System.Drawing.Size(66, 21);
+            this.BORHA2.TabIndex = 228;
+            // 
+            // BORHA1
+            // 
+            this.BORHA1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.BORHA1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.BORHA1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.BORHA1.FormattingEnabled = true;
+            this.BORHA1.Location = new System.Drawing.Point(349, 776);
+            this.BORHA1.Name = "BORHA1";
+            this.BORHA1.Size = new System.Drawing.Size(66, 21);
+            this.BORHA1.TabIndex = 227;
             // 
             // label127
             // 
@@ -4109,100 +4203,6 @@
             this.AEIndicator.Size = new System.Drawing.Size(13, 6);
             this.AEIndicator.TabIndex = 40;
             this.AEIndicator.Text = "          ";
-            // 
-            // label130
-            // 
-            this.label130.AutoSize = true;
-            this.label130.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label130.Location = new System.Drawing.Point(152, 756);
-            this.label130.Name = "label130";
-            this.label130.Size = new System.Drawing.Size(106, 13);
-            this.label130.TabIndex = 224;
-            this.label130.Text = "Bornag HA lineup";
-            // 
-            // label131
-            // 
-            this.label131.AutoSize = true;
-            this.label131.Location = new System.Drawing.Point(341, 759);
-            this.label131.Name = "label131";
-            this.label131.Size = new System.Drawing.Size(71, 13);
-            this.label131.TabIndex = 225;
-            this.label131.Text = "Attacks first->";
-            // 
-            // label132
-            // 
-            this.label132.AutoSize = true;
-            this.label132.Location = new System.Drawing.Point(6, 759);
-            this.label132.Name = "label132";
-            this.label132.Size = new System.Drawing.Size(74, 13);
-            this.label132.TabIndex = 226;
-            this.label132.Text = "<- Attacks last";
-            // 
-            // BORHA6
-            // 
-            this.BORHA6.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.BORHA6.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.BORHA6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.BORHA6.FormattingEnabled = true;
-            this.BORHA6.Location = new System.Drawing.Point(6, 776);
-            this.BORHA6.Name = "BORHA6";
-            this.BORHA6.Size = new System.Drawing.Size(66, 21);
-            this.BORHA6.TabIndex = 232;
-            // 
-            // BORHA5
-            // 
-            this.BORHA5.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.BORHA5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.BORHA5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.BORHA5.FormattingEnabled = true;
-            this.BORHA5.Location = new System.Drawing.Point(74, 776);
-            this.BORHA5.Name = "BORHA5";
-            this.BORHA5.Size = new System.Drawing.Size(66, 21);
-            this.BORHA5.TabIndex = 231;
-            // 
-            // BORHA4
-            // 
-            this.BORHA4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.BORHA4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.BORHA4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.BORHA4.FormattingEnabled = true;
-            this.BORHA4.Location = new System.Drawing.Point(143, 776);
-            this.BORHA4.Name = "BORHA4";
-            this.BORHA4.Size = new System.Drawing.Size(66, 21);
-            this.BORHA4.TabIndex = 230;
-            // 
-            // BORHA3
-            // 
-            this.BORHA3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.BORHA3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.BORHA3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.BORHA3.FormattingEnabled = true;
-            this.BORHA3.Location = new System.Drawing.Point(212, 776);
-            this.BORHA3.Name = "BORHA3";
-            this.BORHA3.Size = new System.Drawing.Size(66, 21);
-            this.BORHA3.TabIndex = 229;
-            // 
-            // BORHA2
-            // 
-            this.BORHA2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.BORHA2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.BORHA2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.BORHA2.FormattingEnabled = true;
-            this.BORHA2.Location = new System.Drawing.Point(281, 776);
-            this.BORHA2.Name = "BORHA2";
-            this.BORHA2.Size = new System.Drawing.Size(66, 21);
-            this.BORHA2.TabIndex = 228;
-            // 
-            // BORHA1
-            // 
-            this.BORHA1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.BORHA1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.BORHA1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.BORHA1.FormattingEnabled = true;
-            this.BORHA1.Location = new System.Drawing.Point(349, 776);
-            this.BORHA1.Name = "BORHA1";
-            this.BORHA1.Size = new System.Drawing.Size(66, 21);
-            this.BORHA1.TabIndex = 227;
             // 
             // Form1
             // 

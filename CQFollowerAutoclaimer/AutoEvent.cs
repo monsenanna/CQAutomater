@@ -32,6 +32,12 @@ namespace CQFollowerAutoclaimer
             }
             PFStuff.getWebsiteData(main.KongregateId);
 
+            /* status :
+             * flash/eas OK (just a notice, no action)
+             * keys OK (all automated, report on GUI ; add to log ?)
+             * lf/pg IN PROGRESS
+             * snake/lottery TODO (just a notice, no action)
+            */
             if (PFStuff.FlashStatus != -1)
             {
                 main.label73.setText("Flash : " + (PFStuff.FlashStatus == 1 ? "active" : "not active") + " today");

@@ -760,6 +760,7 @@ namespace CQFollowerAutoclaimer
             var MOAK = WBlineups[1].Select(x => x.Text);
             var Kryton = WBlineups[3].Select(x => x.Text);
             var Doy = WBlineups[4].Select(x => x.Text);
+            var Bor = WBlineups[5].Select(x => x.Text);
             appSettings = AppSettings.loadSettings();
             appSettings.safeModeWBEnabled = safeModeWB.Checked;
             appSettings.autoWBEnabled = autoWBCheckbox.Checked;
@@ -768,6 +769,7 @@ namespace CQFollowerAutoclaimer
             appSettings.MOAKLineup = MOAK.ToList();
             appSettings.KrytonLineup = Kryton.ToList();
             appSettings.DoyLineup = Doy.ToList();
+            appSettings.BorLineup = Bor.ToList();
             appSettings.waitAutoLevel = waitAutoLevelBox.Checked;
             appSettings.saveSettings();
         }
