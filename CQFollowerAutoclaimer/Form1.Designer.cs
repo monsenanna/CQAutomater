@@ -355,6 +355,7 @@
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
+            this.label133 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -464,7 +465,7 @@
             this.DQIndicator.AutoSize = true;
             this.DQIndicator.BackColor = System.Drawing.Color.Red;
             this.DQIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 3.25F);
-            this.DQIndicator.Location = new System.Drawing.Point(77, 2);
+            this.DQIndicator.Location = new System.Drawing.Point(74, 2);
             this.DQIndicator.Name = "DQIndicator";
             this.DQIndicator.Size = new System.Drawing.Size(13, 6);
             this.DQIndicator.TabIndex = 13;
@@ -475,7 +476,7 @@
             this.chestIndicator.AutoSize = true;
             this.chestIndicator.BackColor = System.Drawing.Color.Red;
             this.chestIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 3.25F);
-            this.chestIndicator.Location = new System.Drawing.Point(123, 2);
+            this.chestIndicator.Location = new System.Drawing.Point(121, 2);
             this.chestIndicator.Name = "chestIndicator";
             this.chestIndicator.Size = new System.Drawing.Size(13, 6);
             this.chestIndicator.TabIndex = 33;
@@ -486,7 +487,7 @@
             this.PVPIndicator.AutoSize = true;
             this.PVPIndicator.BackColor = System.Drawing.Color.Red;
             this.PVPIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 3.25F);
-            this.PVPIndicator.Location = new System.Drawing.Point(171, 2);
+            this.PVPIndicator.Location = new System.Drawing.Point(168, 2);
             this.PVPIndicator.Name = "PVPIndicator";
             this.PVPIndicator.Size = new System.Drawing.Size(13, 6);
             this.PVPIndicator.TabIndex = 34;
@@ -2851,7 +2852,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(502, 438);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Followers";
+            this.tabPage1.Text = "Foll";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // label19
@@ -3175,10 +3176,12 @@
             this.tabControl1.Controls.Add(this.tabPage8);
             this.tabControl1.Controls.Add(this.tabPage9);
             this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.ItemSize = new System.Drawing.Size(48, 18);
             this.tabControl1.Location = new System.Drawing.Point(6, 9);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(510, 464);
+            this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 31;
             // 
             // tabPage7
@@ -3998,6 +4001,7 @@
             // 
             // tabPage9
             // 
+            this.tabPage9.Controls.Add(this.label133);
             this.tabPage9.Controls.Add(this.label126);
             this.tabPage9.Controls.Add(this.label125);
             this.tabPage9.Controls.Add(this.label124);
@@ -4017,7 +4021,7 @@
             // 
             this.label126.AutoSize = true;
             this.label126.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label126.Location = new System.Drawing.Point(6, 182);
+            this.label126.Location = new System.Drawing.Point(6, 224);
             this.label126.Name = "label126";
             this.label126.Size = new System.Drawing.Size(48, 16);
             this.label126.TabIndex = 7;
@@ -4027,7 +4031,7 @@
             // 
             this.label125.AutoSize = true;
             this.label125.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label125.Location = new System.Drawing.Point(6, 154);
+            this.label125.Location = new System.Drawing.Point(6, 194);
             this.label125.Name = "label125";
             this.label125.Size = new System.Drawing.Size(64, 16);
             this.label125.TabIndex = 6;
@@ -4037,7 +4041,7 @@
             // 
             this.label124.AutoSize = true;
             this.label124.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label124.Location = new System.Drawing.Point(6, 126);
+            this.label124.Location = new System.Drawing.Point(6, 164);
             this.label124.Name = "label124";
             this.label124.Size = new System.Drawing.Size(47, 16);
             this.label124.TabIndex = 5;
@@ -4047,7 +4051,7 @@
             // 
             this.label123.AutoSize = true;
             this.label123.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label123.Location = new System.Drawing.Point(6, 100);
+            this.label123.Location = new System.Drawing.Point(6, 134);
             this.label123.Name = "label123";
             this.label123.Size = new System.Drawing.Size(25, 16);
             this.label123.TabIndex = 4;
@@ -4057,7 +4061,7 @@
             // 
             this.label122.AutoSize = true;
             this.label122.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label122.Location = new System.Drawing.Point(6, 72);
+            this.label122.Location = new System.Drawing.Point(6, 104);
             this.label122.Name = "label122";
             this.label122.Size = new System.Drawing.Size(23, 16);
             this.label122.TabIndex = 3;
@@ -4067,7 +4071,7 @@
             // 
             this.label109.AutoSize = true;
             this.label109.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label109.Location = new System.Drawing.Point(6, 43);
+            this.label109.Location = new System.Drawing.Point(6, 44);
             this.label109.Name = "label109";
             this.label109.Size = new System.Drawing.Size(35, 16);
             this.label109.TabIndex = 2;
@@ -4143,7 +4147,7 @@
             this.WBIndicator.AutoSize = true;
             this.WBIndicator.BackColor = System.Drawing.Color.Red;
             this.WBIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 3.25F);
-            this.WBIndicator.Location = new System.Drawing.Point(219, 2);
+            this.WBIndicator.Location = new System.Drawing.Point(217, 2);
             this.WBIndicator.Name = "WBIndicator";
             this.WBIndicator.Size = new System.Drawing.Size(13, 6);
             this.WBIndicator.TabIndex = 35;
@@ -4154,7 +4158,7 @@
             this.ah1Indicator.AutoSize = true;
             this.ah1Indicator.BackColor = System.Drawing.Color.Red;
             this.ah1Indicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 3.25F);
-            this.ah1Indicator.Location = new System.Drawing.Point(262, 2);
+            this.ah1Indicator.Location = new System.Drawing.Point(252, 2);
             this.ah1Indicator.Name = "ah1Indicator";
             this.ah1Indicator.Size = new System.Drawing.Size(13, 6);
             this.ah1Indicator.TabIndex = 36;
@@ -4165,7 +4169,7 @@
             this.ah2Indicator.AutoSize = true;
             this.ah2Indicator.BackColor = System.Drawing.Color.Red;
             this.ah2Indicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 3.25F);
-            this.ah2Indicator.Location = new System.Drawing.Point(276, 2);
+            this.ah2Indicator.Location = new System.Drawing.Point(266, 2);
             this.ah2Indicator.Name = "ah2Indicator";
             this.ah2Indicator.Size = new System.Drawing.Size(13, 6);
             this.ah2Indicator.TabIndex = 37;
@@ -4176,7 +4180,7 @@
             this.ah3Indicator.AutoSize = true;
             this.ah3Indicator.BackColor = System.Drawing.Color.Red;
             this.ah3Indicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 3.25F);
-            this.ah3Indicator.Location = new System.Drawing.Point(290, 2);
+            this.ah3Indicator.Location = new System.Drawing.Point(280, 2);
             this.ah3Indicator.Name = "ah3Indicator";
             this.ah3Indicator.Size = new System.Drawing.Size(13, 6);
             this.ah3Indicator.TabIndex = 38;
@@ -4187,7 +4191,7 @@
             this.ALIndicator.AutoSize = true;
             this.ALIndicator.BackColor = System.Drawing.Color.Red;
             this.ALIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 3.25F);
-            this.ALIndicator.Location = new System.Drawing.Point(314, 2);
+            this.ALIndicator.Location = new System.Drawing.Point(312, 2);
             this.ALIndicator.Name = "ALIndicator";
             this.ALIndicator.Size = new System.Drawing.Size(13, 6);
             this.ALIndicator.TabIndex = 39;
@@ -4198,11 +4202,21 @@
             this.AEIndicator.AutoSize = true;
             this.AEIndicator.BackColor = System.Drawing.Color.Red;
             this.AEIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 3.25F);
-            this.AEIndicator.Location = new System.Drawing.Point(363, 2);
+            this.AEIndicator.Location = new System.Drawing.Point(360, 2);
             this.AEIndicator.Name = "AEIndicator";
             this.AEIndicator.Size = new System.Drawing.Size(13, 6);
             this.AEIndicator.TabIndex = 40;
             this.AEIndicator.Text = "          ";
+            // 
+            // label133
+            // 
+            this.label133.AutoSize = true;
+            this.label133.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.label133.Location = new System.Drawing.Point(6, 74);
+            this.label133.Name = "label133";
+            this.label133.Size = new System.Drawing.Size(63, 16);
+            this.label133.TabIndex = 8;
+            this.label133.Text = "Dungeon";
             // 
             // Form1
             // 
@@ -4603,7 +4617,7 @@
         internal System.Windows.Forms.NumericUpDown DoyHAReqCount;
         internal System.Windows.Forms.Label pvpRankingSummary;
         private System.Windows.Forms.TabPage tabPage9;
-        private System.Windows.Forms.Label AEIndicator;
+        public System.Windows.Forms.Label AEIndicator;
         public System.Windows.Forms.Label label122;
         public System.Windows.Forms.Label label123;
         public System.Windows.Forms.Label label126;
@@ -4630,6 +4644,7 @@
         internal System.Windows.Forms.ComboBox BORHA3;
         internal System.Windows.Forms.ComboBox BORHA2;
         internal System.Windows.Forms.ComboBox BORHA1;
+        public System.Windows.Forms.Label label133;
     }
 }
 

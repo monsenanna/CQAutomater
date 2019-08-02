@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,7 @@ namespace CQFollowerAutoclaimer
                 main.label73.setText("Flash : " + (PFStuff.FlashStatus == 1 ? "active" : "not active") + " today");
             }
             main.label109.setText("EAS : " + (PFStuff.EASDay == 1 ? "active" : "not active") + " today");
+            main.label133.setText("Dungeon : " + (PFStuff.DungLevel != "-/-" ? "active" : "not active") + " today");
             if (PFStuff.LuckyFollowers != null)
             {
                 main.label122.setText("Lucky Followers : " + PFStuff.LuckyFollowers.ToString()); // debug
@@ -88,6 +90,7 @@ namespace CQFollowerAutoclaimer
                 }
                 Work();
             }
+            main.AEIndicator.BackColor = Color.Green;
         }
     }
 }
