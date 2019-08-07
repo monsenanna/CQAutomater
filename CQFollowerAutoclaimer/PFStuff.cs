@@ -28,12 +28,14 @@ namespace CQFollowerAutoclaimer
         static public string PVPTime;
         static public string PVPCharges;
         static public int[] heroLevels;
+        static public int emMultiplier;
         static public int FlashStatus;
         static public int EASDay;
         static public string DungLevel;
-        static public string LuckyFollowers;
+        static public JToken LuckyFollowers;
+        static public int[] LuckyFollowersLocal;
         static public JArray KeysTower;
-        static public JArray PGCards;
+        static public string PGCards;
         static public int[] PGDeck;
         static public int[] PGPicked;
 
@@ -78,6 +80,8 @@ namespace CQFollowerAutoclaimer
         {
             s = Regex.Replace(s, @"\s+", "");
             s = s.Substring(1, s.Length - 2);
+            s = Regex.Replace(s, "true", "1");
+            s = Regex.Replace(s, "false", "0");
             int[] result = s.Split(',').Select(n => Convert.ToInt32(n)).ToArray();
             return result;
         }
@@ -185,6 +189,21 @@ namespace CQFollowerAutoclaimer
                 PVPCharges = json["data"]["city"]["pvp"]["attacks"].ToString();
                 wbAttacksAvailable = int.Parse(json["data"]["city"]["WB"]["atks"].ToString());
                 wbAttackNext = Form1.getTime(json["data"]["city"]["WB"]["next"].ToString());
+                try
+                {
+                    PGCards = json["data"]["city"]["pge"]["attempts"].ToString();
+                    if(json["data"]["city"]["pge"]["done"].ToString() == "true")
+                        PGCards = "no";
+                    PGDeck = getArray(json["data"]["city"]["pge"]["cards"].ToString());
+                    PGPicked = getArray(json["data"]["city"]["pge"]["picks"].ToString());
+                    //PGPicked = getArray(json["data"]["city"]["pge"]["cards"].ToString());
+                }
+                catch
+                {
+                    PGCards = "no";
+                    PGDeck = null;
+                    PGPicked = null;
+                }
                 return true;
             }
         }
@@ -248,6 +267,7 @@ namespace CQFollowerAutoclaimer
                 ascensionSpheres = int.Parse(currenciesTask.Result.VirtualCurrency["AS"].ToString());
                 heroChests = int.Parse(currenciesTask.Result.VirtualCurrency["KU"].ToString()) / 10;
                 freeChestAvailable = currenciesTask.Result.VirtualCurrency["BK"].ToString() == "1" ? true : false;
+                emMultiplier = (int)currenciesTask.Result.Inventory[2].RemainingUses;
                 return true;
             }
             await Task.Delay(1500);
@@ -329,31 +349,23 @@ namespace CQFollowerAutoclaimer
                 //}
                 if (json["followers"] != null)
                 {
-                    LuckyFollowers = json["followers"].ToString();
+                    LuckyFollowers = json["followers"];
                 }
                 else
                 {
-                    LuckyFollowers = "";
+                    LuckyFollowers = null;
                 }
-                if (json["keys"] != null)
+                try
                 {
                     KeysTower = (JArray)json["keys"];
                 }
-                else
+                catch
                 {
                     KeysTower = null;
                 }
-                if (json["pge"] != null)
+                if (json["pge"] == null || (bool)json["pge"] != true)
                 {
-                    PGCards = (JArray)json["pge"];
-                    string tmp = PGCards["cards"].ToString();
-                    PGDeck = getArray(tmp);
-                    tmp = PGCards["picks"].ToString();
-                    PGPicked = getArray(tmp);
-                }
-                else
-                {
-                    PGCards = null;
+                    PGCards = "no";
                 }
             }
             // MB fix to prevent crashes
@@ -362,7 +374,7 @@ namespace CQFollowerAutoclaimer
                 //Console.Write(webex.Message);
                 using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
-                    sw.WriteLine(DateTime.Now + "\n\t" + webex.Message);
+                    sw.WriteLine(DateTime.Now + "\n\t" + "Error in PFStuff" + "\n\t" + webex.Message);
                 }
             }
         }
@@ -517,6 +529,7 @@ namespace CQFollowerAutoclaimer
                 return true;
             }
         }
+
         public async Task<bool> sendOpen(string chestMode)
         {
             if (chestMode != "normal" && chestMode != "hero")
@@ -608,6 +621,40 @@ namespace CQFollowerAutoclaimer
             }
         }
 
+        public async Task<int> sendLFPick(int cell)
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Live,
+                FunctionName = "sfcell",
+                FunctionParameter = new { cell = cell }
+            };
+            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\n\t Picking LF cell " + cell.ToString());
+            }
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return 0;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
+            {
+                logError("Cloud Script Error: Send LF", statusTask);
+                return 0;
+            }
+            else
+            {
+                JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
+                if ((bool)json["ok"] == true)
+                {
+                    return (int)json["followers"];
+                }
+                return 0;
+            }
+        }
+
         public async Task<bool> sendKeysTowerPick()
         {
             int pick = 0; // todo : random ?
@@ -631,6 +678,38 @@ namespace CQFollowerAutoclaimer
             else
             {
                 JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
+                return true;
+            }
+        }
+
+        public async Task<bool> sendPGPick(int cell)
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Live,
+                FunctionName = "pge",
+                FunctionParameter = new { card = cell, kid = kongID }
+            };
+            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\n\t Picking PG cell " + cell.ToString());
+            }
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
+            {
+                logError("Cloud Script Error: Send PGEvent", statusTask);
+                return false;
+            }
+            else
+            {
+                JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
+                PGDeck = getArray(json["data"]["city"]["pge"]["cards"].ToString());
+                PGPicked = getArray(json["data"]["city"]["pge"]["picks"].ToString());
                 return true;
             }
         }
@@ -735,8 +814,7 @@ namespace CQFollowerAutoclaimer
                 return true;
             }
         }
-
-
+        
         public async Task<bool> sendLevelUp10(int heroID, string mode)
         {
             var request = new ExecuteCloudScriptRequest()
@@ -859,8 +937,7 @@ namespace CQFollowerAutoclaimer
                 return true;
             }
         }
-
-
+        
         #endregion
     }
 }

@@ -34,20 +34,89 @@ namespace CQFollowerAutoclaimer
             PFStuff.getWebsiteData(main.KongregateId);
 
             /* status :
-             * flash/eas OK (just a notice, no action)
+             * flash/eas/dung OK (just a notice, no action)
              * keys OK (all automated, report on GUI ; add to log ?)
              * lf/pg IN PROGRESS
              * snake/lottery TODO (just a notice, no action)
             */
-            if (PFStuff.FlashStatus != -1)
-            {
-                main.label73.setText("Flash : " + (PFStuff.FlashStatus == 1 ? "active" : "not active") + " today");
-            }
+            main.label73.setText("Flash : " + (PFStuff.FlashStatus == 1 ? "active" : "not active") + " today");
             main.label109.setText("EAS : " + (PFStuff.EASDay == 1 ? "active" : "not active") + " today");
             main.label133.setText("Dungeon : " + (PFStuff.DungLevel != "-/-" ? "active" : "not active") + " today");
-            if (PFStuff.LuckyFollowers != null)
+            if (PFStuff.LuckyFollowers != null)// && 1 == 0)
             {
-                main.label122.setText("Lucky Followers : " + PFStuff.LuckyFollowers.ToString()); // debug
+                main.label122.setText("Lucky Followers debug : " + PFStuff.LuckyFollowers.ToString()); // debug, todo
+                try
+                {
+                    string requrl_base = "https://script.google.com/macros/s/AKfycbwhVd1nC3e70v-6wX3swoSUo1-mnaAiGgkoEQR9xcD6D4Z5l27M/exec?action=";
+                    string requrl = requrl_base;
+                    var l = PFStuff.LuckyFollowers["open"].ToArray().Length;
+                    int c1, c2;
+                    // ask gsheet
+                    switch (l)
+                    {
+                        case 0: // let's start
+                            requrl += "autolf&p1=0";
+                            break;
+                        case 1: // let's ask for 2nd cell
+                            c1 = convertCellToLocal((int)PFStuff.LuckyFollowers["open"][0]);
+                            requrl += "autolf&p1=" + c1 + "&r1=" + PFStuff.LuckyFollowersLocal[c1] + "&p2=0";
+                            break;
+                        case 2: // let's ask for 3rd cell
+                            c1 = convertCellToLocal((int)PFStuff.LuckyFollowers["open"][0]);
+                            c2 = convertCellToLocal((int)PFStuff.LuckyFollowers["open"][1]);
+                            requrl += "autolf&p1=" + c1 + "&r1=" + PFStuff.LuckyFollowersLocal[c1] + "&p2=" + c2 + "&r2=" + PFStuff.LuckyFollowersLocal[c2] + "&p3=0";
+                            break;
+                    }
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@requrl);
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                    string content = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                    JObject json = JObject.Parse(content);
+                    var c = json["data"];
+                    int res;
+                    // send pick
+                    switch (l)
+                    {
+                        case 0: // we received first cell
+                            res = await main.pf.sendLFPick(convertCellFromLocal((int)c));
+                            PFStuff.LuckyFollowersLocal[(int)c] = res;
+                            break;
+                        case 1: // we received 2nd cell
+                            res = await main.pf.sendLFPick(convertCellFromLocal((int)c));
+                            PFStuff.LuckyFollowersLocal[(int)c] = res;
+                            break;
+                        case 2: // we received 3rd cell
+                            res = await main.pf.sendLFPick(convertCellFromLocal((int)c));
+                            PFStuff.LuckyFollowersLocal[(int)c] = res;
+                            break;
+                    }
+                    main.label122.setText("Lucky Followers debug2 : " + PFStuff.LuckyFollowersLocal.ToString()); // debug, todo
+                    // send new tpl
+                    string values = "";
+                    PFStuff.getWebsiteData(main.KongregateId);
+                    for (int i = 0; i < 12; i++)
+                    {
+                        PFStuff.LuckyFollowersLocal[convertCellToLocal(i)] = (int)PFStuff.LuckyFollowers[i];
+                    }
+                    for (int i = 1; i <= 12; i++)
+                    {
+                        if (i > 1)
+                            values += "-";
+                        values += PFStuff.LuckyFollowersLocal[i];
+                    }
+                    requrl = requrl_base + "addtpl&v=" + values;
+                    request = (HttpWebRequest)WebRequest.Create(@requrl);
+                    response = (HttpWebResponse)request.GetResponse();
+                    content = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                    main.label122.setText("Lucky Followers debug3 : " + values); // debug, todo
+                }
+                catch (Exception webex)
+                {
+                    //Console.Write(webex.Message);
+                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                    {
+                        sw.WriteLine(DateTime.Now + "\n\t" + webex.Message);
+                    }
+                }
             }
             if (PFStuff.KeysTower != null)
             { // let's run KT
@@ -64,33 +133,131 @@ namespace CQFollowerAutoclaimer
                     await main.pf.sendKeysTowerPick();
                 }
             }
-            if (PFStuff.PGCards != null && (Int64)PFStuff.PGCards["attempts"] != 0)
+            if (PFStuff.PGCards != null && PFStuff.PGCards != "no")
             { // let's run PGCards
-                void Work()
+                await main.pf.GetGameData();
+                var nbCells = PFStuff.PGDeck.Length;
+                bool stop = false;
+                // 1 : find 2 similar cards among non-picked ones
+                for (int i = 0; i < nbCells; i++)
                 {
-                    // 1 : find 2 similar cards among non-picked ones
-                    for (int i = 0; i < PFStuff.PGDeck.Length; i++)
+                    if (!stop && PFStuff.PGPicked[i] == 0 && PFStuff.PGDeck[i] != -1)
                     {
-                        if (PFStuff.PGPicked[i] == 0 && PFStuff.PGDeck[i] != -1)
+                        for (int j = 0; j < nbCells; j++)
                         {
-                            for (int j = 0; j < PFStuff.PGDeck.Length; j++)
+                            if (i != j && PFStuff.PGPicked[j] == 0 && PFStuff.PGDeck[i] == PFStuff.PGDeck[j])
                             {
-                                if (PFStuff.PGPicked[j] == 0 && PFStuff.PGDeck[i] == PFStuff.PGDeck[j])
+                                // found ! let's pick both
+                                await main.pf.sendPGPick(i);
+                                await main.pf.sendPGPick(j);
+                                // TODO
+                                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                                 {
-                                    // found ! let's pick both
-                                    // TODO
-                                    return;
+                                    sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, pick " + i + " and " + j);
                                 }
+                                stop = true;
+                                break;
                             }
                         }
                     }
-                    // 2a : pick one card
-                    // 2b : check if similar card among non-picked ones
-                    // 2c : pick another card
                 }
-                Work();
+                if (!stop)
+                {
+                    // 2a : pick one card
+                    int firstCard = 0;
+                    for (int i = 0; i < nbCells; i++)
+                    {
+                        if (PFStuff.PGPicked[i] == 0)
+                        {
+                            firstCard = i;
+                            await main.pf.sendPGPick(i);
+                            break;
+                        }
+                    }
+                    // 2b : check if similar card among non-picked ones
+                    for (int j = 0; j < nbCells; j++)
+                    {
+                        if (PFStuff.PGDeck[firstCard] == PFStuff.PGDeck[j])
+                        {
+                            // found ! let's pick 2nd card
+                            await main.pf.sendPGPick(j);
+                            stop = true;
+                            break;
+                        }
+                    }
+                    if (!stop)
+                    {
+                        // 2c : pick another card
+                        for (int j = 0; j < nbCells; j++)
+                        {
+                            if (PFStuff.PGPicked[j] == 0)
+                            {
+                                await main.pf.sendPGPick(j);
+                                stop = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                main.label125.setText("PG : " + String.Join(",", PFStuff.PGDeck.Select(p => p.ToString()).ToArray()));
             }
+            else
+            {
+                main.label125.setText("PG : not active today");
+            }
+            /*if (PFStuff.PGCards != null)
+            {
+                try
+                {
+                    //main.label124.setText("debug : " + PFStuff.PGCards.ToString());
+                    main.label125.setText("PG : " + String.Join(",", PFStuff.PGDeck.Select(p => p.ToString()).ToArray()));
+                }
+                catch (Exception webex)
+                {
+                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                    {
+                        sw.WriteLine(DateTime.Now + "\n\t" + "Error in AutoEvent" + "\n\t" + webex.Message);
+                    }
+                }
+            }*/
             main.AEIndicator.BackColor = Color.Green;
+        }
+
+        public int convertCellToLocal(int cell)
+        {
+            switch (cell)
+            {
+                case 0: return 1;
+                case 1: return 7;
+                case 2: return 2;
+                case 3: return 8;
+                case 4: return 3;
+                case 5: return 9;
+                case 6: return 4;
+                case 7: return 10;
+                case 8: return 5;
+                case 9: return 11;
+                case 10: return 6;
+                default: return 12;
+            }
+        }
+        public int convertCellFromLocal(int cell)
+        {
+            switch (cell)
+            {
+                case 1: return 0;
+                case 2: return 2;
+                case 3: return 4;
+                case 4: return 6;
+                case 5: return 8;
+                case 6: return 10;
+                case 7: return 1;
+                case 8: return 3;
+                case 9: return 5;
+                case 10: return 7;
+                case 11: return 9;
+                default: return 11;
+            }
         }
     }
 }

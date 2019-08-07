@@ -283,7 +283,7 @@ namespace CQFollowerAutoclaimer
                 //c.Items.AddRange(auctionHouse.getAvailableHeroes());
             }
             auctionHouse.loadSettings();
-            autoEvent.EventTimer.Interval = 30 * 1000;
+            autoEvent.EventTimer.Interval = 20 * 1000;
             autoEvent.EventTimer.Start();
         }
 
