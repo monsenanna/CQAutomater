@@ -336,6 +336,7 @@
             this.label80 = new System.Windows.Forms.Label();
             this.label76 = new System.Windows.Forms.Label();
             this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.label133 = new System.Windows.Forms.Label();
             this.label126 = new System.Windows.Forms.Label();
             this.label125 = new System.Windows.Forms.Label();
             this.label124 = new System.Windows.Forms.Label();
@@ -355,7 +356,6 @@
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
-            this.label133 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -458,7 +458,7 @@
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(46, 13);
             this.label22.TabIndex = 32;
-            this.label22.Text = "v4.3.3.0";
+            this.label22.Text = "v4.3.3.2";
             // 
             // DQIndicator
             // 
@@ -4017,6 +4017,16 @@
             this.tabPage9.Text = "Events";
             this.tabPage9.UseVisualStyleBackColor = true;
             // 
+            // label133
+            // 
+            this.label133.AutoSize = true;
+            this.label133.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.label133.Location = new System.Drawing.Point(6, 74);
+            this.label133.Name = "label133";
+            this.label133.Size = new System.Drawing.Size(63, 16);
+            this.label133.TabIndex = 8;
+            this.label133.Text = "Dungeon";
+            // 
             // label126
             // 
             this.label126.AutoSize = true;
@@ -4207,16 +4217,6 @@
             this.AEIndicator.Size = new System.Drawing.Size(13, 6);
             this.AEIndicator.TabIndex = 40;
             this.AEIndicator.Text = "          ";
-            // 
-            // label133
-            // 
-            this.label133.AutoSize = true;
-            this.label133.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label133.Location = new System.Drawing.Point(6, 74);
-            this.label133.Name = "label133";
-            this.label133.Size = new System.Drawing.Size(63, 16);
-            this.label133.TabIndex = 8;
-            this.label133.Text = "Dungeon";
             // 
             // Form1
             // 

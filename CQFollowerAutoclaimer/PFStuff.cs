@@ -13,6 +13,7 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using System.IO;
 using System.Net.Http;
+
 namespace CQFollowerAutoclaimer
 {
     class PFStuff
@@ -33,7 +34,8 @@ namespace CQFollowerAutoclaimer
         static public int EASDay;
         static public string DungLevel;
         static public JToken LuckyFollowers;
-        static public int[] LuckyFollowersLocal;
+        static public int[] LuckyFollowersLocal = new int[13];
+        static public List<string> LuckyFollowersSent = new List<string>();
         static public JArray KeysTower;
         static public string PGCards;
         static public int[] PGDeck;

@@ -42,76 +42,127 @@ namespace CQFollowerAutoclaimer
             main.label73.setText("Flash : " + (PFStuff.FlashStatus == 1 ? "active" : "not active") + " today");
             main.label109.setText("EAS : " + (PFStuff.EASDay == 1 ? "active" : "not active") + " today");
             main.label133.setText("Dungeon : " + (PFStuff.DungLevel != "-/-" ? "active" : "not active") + " today");
-            if (PFStuff.LuckyFollowers != null)// && 1 == 0)
+            main.label122.setText("Lucky Followers debug : not active today");
+            if (PFStuff.LuckyFollowers != null)
             {
-                main.label122.setText("Lucky Followers debug : " + PFStuff.LuckyFollowers.ToString()); // debug, todo
+                //main.label122.setText("Lucky Followers debug : " + PFStuff.LuckyFollowers.ToString()); // debug
                 try
                 {
                     string requrl_base = "https://script.google.com/macros/s/AKfycbwhVd1nC3e70v-6wX3swoSUo1-mnaAiGgkoEQR9xcD6D4Z5l27M/exec?action=";
                     string requrl = requrl_base;
                     var l = PFStuff.LuckyFollowers["open"].ToArray().Length;
+                    DateTime nextlf = Form1.getTime(PFStuff.LuckyFollowers["timeleft"].ToString());
                     int c1, c2;
-                    // ask gsheet
-                    switch (l)
+                    main.label122.setText("Lucky Followers : waiting for timer");
+                    if (nextlf < DateTime.Now) // find a solution if the time counter is over
                     {
-                        case 0: // let's start
-                            requrl += "autolf&p1=0";
-                            break;
-                        case 1: // let's ask for 2nd cell
-                            c1 = convertCellToLocal((int)PFStuff.LuckyFollowers["open"][0]);
-                            requrl += "autolf&p1=" + c1 + "&r1=" + PFStuff.LuckyFollowersLocal[c1] + "&p2=0";
-                            break;
-                        case 2: // let's ask for 3rd cell
-                            c1 = convertCellToLocal((int)PFStuff.LuckyFollowers["open"][0]);
-                            c2 = convertCellToLocal((int)PFStuff.LuckyFollowers["open"][1]);
-                            requrl += "autolf&p1=" + c1 + "&r1=" + PFStuff.LuckyFollowersLocal[c1] + "&p2=" + c2 + "&r2=" + PFStuff.LuckyFollowersLocal[c2] + "&p3=0";
-                            break;
+                        // ask gsheet
+                        switch (l)
+                        {
+                            case 1: // let's ask for 2nd cell
+                                c1 = convertCellToLocal((int)PFStuff.LuckyFollowers["open"][0]);
+                                if(PFStuff.LuckyFollowersLocal[c1] == 0)
+                                {
+                                    PFStuff.LuckyFollowersLocal[c1] = (int)PFStuff.LuckyFollowers["current"][(int)PFStuff.LuckyFollowers["open"][0]];
+                                }
+                                requrl += "autolf&p1=" + c1 + "&r1=" + PFStuff.LuckyFollowersLocal[c1] + "&p2=0";
+                                break;
+                            case 2: // let's ask for 3rd cell
+                            case 3:
+                                c1 = convertCellToLocal((int)PFStuff.LuckyFollowers["open"][0]);
+                                c2 = convertCellToLocal((int)PFStuff.LuckyFollowers["open"][1]);
+                                if (PFStuff.LuckyFollowersLocal[c1] == 0)
+                                {
+                                    PFStuff.LuckyFollowersLocal[c1] = (int)PFStuff.LuckyFollowers["current"][(int)PFStuff.LuckyFollowers["open"][0]];
+                                }
+                                if (PFStuff.LuckyFollowersLocal[c2] == 0)
+                                {
+                                    PFStuff.LuckyFollowersLocal[c2] = (int)PFStuff.LuckyFollowers["current"][(int)PFStuff.LuckyFollowers["open"][1]];
+                                }
+                                requrl += "autolf&p1=" + c1 + "&r1=" + PFStuff.LuckyFollowersLocal[c1] + "&p2=" + c2 + "&r2=" + PFStuff.LuckyFollowersLocal[c2] + "&p3=0";
+                                break;
+                            case 0: // let's start
+                            default:
+                                requrl += "autolf&p1=0";
+                                break;
+                        }
+                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@requrl);
+                        request.MaximumAutomaticRedirections = 2;
+                        request.AllowAutoRedirect = true;
+                        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                        string content = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                        //main.label122.setText("Lucky Followers debug1b : " + content.ToString()); // debug
+                        /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                        {
+                            sw.WriteLine(DateTime.Now + "\n\t" + @requrl);
+                            sw.WriteLine(DateTime.Now + "\n\t" + content.ToString());
+                        }*/
+                        JObject json = JObject.Parse(content);
+                        var c = json["data"];
+                        //main.label122.setText("Lucky Followers debug1c : " + c.ToString()); // debug
+                        // send pick
+                        /*
+                        */
+                        int res = 0;
+                        switch (l)
+                        {
+                            case 0: // we received first cell
+                                res = await main.pf.sendLFPick(convertCellFromLocal((int)c));
+                                PFStuff.LuckyFollowersLocal[(int)c] = res;
+                                break;
+                            case 1: // we received 2nd cell
+                                res = await main.pf.sendLFPick(convertCellFromLocal((int)c));
+                                PFStuff.LuckyFollowersLocal[(int)c] = res;
+                                break;
+                            case 2: // we received 3rd cell
+                                res = await main.pf.sendLFPick(convertCellFromLocal((int)c));
+                                PFStuff.LuckyFollowersLocal[(int)c] = res;
+                                break;
+                        }
+                        main.label122.setText("Lucky Followers : pick #" + (l+1).ToString() + " done, won " + res.ToString() + " followers");
+                        //main.label122.setText("Lucky Followers debug2 : " + PFStuff.LuckyFollowersLocal.ToString()); // debug, todo
                     }
-                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@requrl);
-                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                    string content = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                    JObject json = JObject.Parse(content);
-                    var c = json["data"];
-                    int res;
-                    // send pick
-                    switch (l)
+                    if (l >= 2)
                     {
-                        case 0: // we received first cell
-                            res = await main.pf.sendLFPick(convertCellFromLocal((int)c));
-                            PFStuff.LuckyFollowersLocal[(int)c] = res;
-                            break;
-                        case 1: // we received 2nd cell
-                            res = await main.pf.sendLFPick(convertCellFromLocal((int)c));
-                            PFStuff.LuckyFollowersLocal[(int)c] = res;
-                            break;
-                        case 2: // we received 3rd cell
-                            res = await main.pf.sendLFPick(convertCellFromLocal((int)c));
-                            PFStuff.LuckyFollowersLocal[(int)c] = res;
-                            break;
+                        // send new tpl
+                        string values = "";
+                        PFStuff.getWebsiteData(main.KongregateId);
+                        //main.label122.setText("Lucky Followers debug1d : " + PFStuff.LuckyFollowersLocal.ToString()); // debug, todo
+                        for (int i = 0; i < 12; i++)
+                        {
+                            /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                            {
+                                sw.WriteLine(DateTime.Now + "\n\t i " + i.ToString());
+                                sw.WriteLine(DateTime.Now + "\n\t ic " + convertCellToLocal(i).ToString());
+                            }*/
+                            PFStuff.LuckyFollowersLocal[convertCellToLocal(i)] = (int)PFStuff.LuckyFollowers["current"][i];
+                        }
+                        //main.label122.setText("Lucky Followers debug1e : " + PFStuff.LuckyFollowersLocal.ToString()); // debug, todo
+                        for (int i = 1; i <= 12; i++)
+                        {
+                            if (i > 1)
+                                values += "-";
+                            values += PFStuff.LuckyFollowersLocal[i];
+                        }
+                        if (!PFStuff.LuckyFollowersSent.Contains(values) && PFStuff.LuckyFollowersLocal[1] != -1)
+                        {
+                            requrl = requrl_base + "addtpl&v=" + values;
+                            HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create(@requrl);
+                            HttpWebResponse response2 = (HttpWebResponse)request2.GetResponse();
+                            string content2 = new StreamReader(response2.GetResponseStream()).ReadToEnd();
+                            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                            {
+                                //sw.WriteLine(DateTime.Now + "\n\t" + @requrl);
+                                //sw.WriteLine(DateTime.Now + "\n\t" + content2.ToString());
+                                sw.WriteLine(DateTime.Now + "\n\tNew template added : " + values);
+                            }
+                            PFStuff.LuckyFollowersSent.Add(values);
+                            main.label122.setText("Lucky Followers : done, new template added (" + values + ")");
+                        }
                     }
-                    main.label122.setText("Lucky Followers debug2 : " + PFStuff.LuckyFollowersLocal.ToString()); // debug, todo
-                    // send new tpl
-                    string values = "";
-                    PFStuff.getWebsiteData(main.KongregateId);
-                    for (int i = 0; i < 12; i++)
-                    {
-                        PFStuff.LuckyFollowersLocal[convertCellToLocal(i)] = (int)PFStuff.LuckyFollowers[i];
-                    }
-                    for (int i = 1; i <= 12; i++)
-                    {
-                        if (i > 1)
-                            values += "-";
-                        values += PFStuff.LuckyFollowersLocal[i];
-                    }
-                    requrl = requrl_base + "addtpl&v=" + values;
-                    request = (HttpWebRequest)WebRequest.Create(@requrl);
-                    response = (HttpWebResponse)request.GetResponse();
-                    content = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                    main.label122.setText("Lucky Followers debug3 : " + values); // debug, todo
                 }
                 catch (Exception webex)
                 {
-                    //Console.Write(webex.Message);
                     using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                     {
                         sw.WriteLine(DateTime.Now + "\n\t" + webex.Message);
