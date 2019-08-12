@@ -158,12 +158,13 @@ namespace CQFollowerAutoclaimer
                     if (au.bidderName != PFStuff.username && (int)Math.Ceiling(au.currentPrice * 1.1) <= au.maxPrice && (au.maxLevel - 1) >= PFStuff.heroLevels[au.heroID])
                     { 
                         placeBid(au.heroID, (int)Math.Ceiling(au.currentPrice * 1.1));
+                        loadAuctions(true);
                     }
                 }
             }
             if (times.Count > 0)
-                return Math.Max(8000, Math.Min(times.Min(), 2 * 60 * 1000));
-            return 2 * 60 * 1000;
+                return Math.Max(8000, Math.Min(times.Min(), 1 * 60 * 1000));
+            return 5 * 60 * 1000;
         }
 
         public void placeBid(int id, int price)
