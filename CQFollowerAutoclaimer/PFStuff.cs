@@ -269,7 +269,14 @@ namespace CQFollowerAutoclaimer
                 ascensionSpheres = int.Parse(currenciesTask.Result.VirtualCurrency["AS"].ToString());
                 heroChests = int.Parse(currenciesTask.Result.VirtualCurrency["KU"].ToString()) / 10;
                 freeChestAvailable = currenciesTask.Result.VirtualCurrency["BK"].ToString() == "1" ? true : false;
-                emMultiplier = (int)currenciesTask.Result.Inventory[2].RemainingUses;
+                emMultiplier = 1;
+                for (int i = 0; i < currenciesTask.Result.Inventory.Count; i++)
+                {
+                    if(currenciesTask.Result.Inventory[i].ItemId == "FOL")
+                    {
+                        emMultiplier = (int)currenciesTask.Result.Inventory[i].RemainingUses;
+                    }
+                }
                 return true;
             }
             await Task.Delay(1500);
