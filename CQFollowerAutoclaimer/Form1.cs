@@ -793,7 +793,7 @@ namespace CQFollowerAutoclaimer
 
         private async void auctionHero1Combo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            await auctionHouse.getAuctionInterval();
+            await auctionHouse.getAuctionInterval(true);
         }
 
         private void auctionHero1Box_CheckedChanged(object sender, EventArgs e)

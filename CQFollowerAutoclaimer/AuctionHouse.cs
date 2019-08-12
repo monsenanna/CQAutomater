@@ -86,10 +86,14 @@ namespace CQFollowerAutoclaimer
             return n.ToArray();
         }
 
-        public async Task<double> getAuctionInterval()
+        public async Task<double> getAuctionInterval(bool forceUpdate = false)
         {
             List<Auction> b = new List<Auction>();
             List<double> times = new List<double>();
+            if(forceUpdate)
+            {
+                loadAuctions(true);
+            }
             if (main.auctionHero1Combo.getText() != "")
             {
                 int index = Array.IndexOf(Constants.heroNames, main.auctionHero1Combo.getText());
