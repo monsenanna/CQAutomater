@@ -184,11 +184,26 @@ namespace CQFollowerAutoclaimer
                     await main.pf.sendKeysTowerPick();
                 }
             }
+            if (PFStuff.CCDay != -1)
+            {
+                main.label124.setText("CC Catcher : active today ; current score = " + PFStuff.CCDone);
+                if (PFStuff.CCDone == 0)
+                {
+                    Random rnd = new Random();
+                    int score = rnd.Next(180, 290);
+                    await main.pf.sendCCScore(score);
+                    main.label124.setText("CC Catcher : sent score " + score);
+                }
+            }
+            await main.pf.GetGameData();
             if (PFStuff.PGCards != null && PFStuff.PGCards != "no")
             { // let's run PGCards
-                await main.pf.GetGameData();
                 var nbCells = PFStuff.PGDeck.Length;
                 bool stop = false;
+                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, PGCards value " + PFStuff.PGCards);
+                }
                 // 1 : find 2 similar cards among non-picked ones
                 for (int i = 0; i < nbCells; i++)
                 {
@@ -196,7 +211,7 @@ namespace CQFollowerAutoclaimer
                     {
                         for (int j = 0; j < nbCells; j++)
                         {
-                            if (i != j && PFStuff.PGPicked[j] == 0 && PFStuff.PGDeck[i] == PFStuff.PGDeck[j])
+                            if (i != j && PFStuff.PGPicked[j] == 0 && PFStuff.PGDeck[j] != -1 && PFStuff.PGDeck[i] == PFStuff.PGDeck[j])
                             {
                                 // found ! let's pick both
                                 await main.pf.sendPGPick(i);

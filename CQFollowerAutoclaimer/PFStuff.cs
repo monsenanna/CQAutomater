@@ -37,6 +37,8 @@ namespace CQFollowerAutoclaimer
         static public int[] LuckyFollowersLocal = new int[13];
         static public List<string> LuckyFollowersSent = new List<string>();
         static public JArray KeysTower;
+        static public int CCDay;
+        static public int CCDone;
         static public string PGCards;
         static public int[] PGDeck;
         static public int[] PGPicked;
@@ -193,12 +195,21 @@ namespace CQFollowerAutoclaimer
                 wbAttackNext = Form1.getTime(json["data"]["city"]["WB"]["next"].ToString());
                 try
                 {
+                    CCDone = int.Parse(json["data"]["city"]["cc"]["coins"].ToString());
+                    if (CCDone < 180)
+                        CCDone = 0;
+                }
+                catch
+                {
+                    CCDone = 0;
+                }
+                try
+                {
                     PGCards = json["data"]["city"]["pge"]["attempts"].ToString();
-                    if(json["data"]["city"]["pge"]["done"].ToString() == "true")
+                    if((bool)json["data"]["city"]["pge"]["done"] == true)
                         PGCards = "no";
                     PGDeck = getArray(json["data"]["city"]["pge"]["cards"].ToString());
                     PGPicked = getArray(json["data"]["city"]["pge"]["picks"].ToString());
-                    //PGPicked = getArray(json["data"]["city"]["pge"]["cards"].ToString());
                 }
                 catch
                 {
@@ -342,6 +353,14 @@ namespace CQFollowerAutoclaimer
                 else
                 {
                     DungLevel = "-/-";
+                }
+                if (json["cc"] != null)
+                {
+                    CCDay = 1;
+                }
+                else
+                {
+                    CCDay = -1;
                 }
                 if (WBchanged)
                 {
@@ -687,6 +706,35 @@ namespace CQFollowerAutoclaimer
             else
             {
                 JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
+                return true;
+            }
+        }
+
+        public async Task<bool> sendCCScore(int score)
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Live,
+                FunctionName = "cc3v3nt",
+                FunctionParameter = new { coins = score, kid = kongID }
+            };
+            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\n\t Sending CC catcher score " + score.ToString());
+            }
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null)// || !statusTask.Result.FunctionResult.ToString().Contains("true"))
+            {
+                logError("Cloud Script Error: Send CC catcher score", statusTask);
+                return false;
+            }
+            else
+            {
                 return true;
             }
         }
