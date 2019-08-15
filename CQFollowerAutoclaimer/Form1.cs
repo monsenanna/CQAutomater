@@ -899,5 +899,18 @@ namespace CQFollowerAutoclaimer
         {
 
         }
+
+        private void AutoEvCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (autoEvCheckbox.Checked)
+            {
+                AEIndicator.BackColor = Color.Green;
+                autoEvent.EventTimer.Interval = 30 * 1000;
+            }
+            else
+            {
+                AEIndicator.BackColor = Color.Red;
+            }
+        }
     }
 }

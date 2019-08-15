@@ -42,6 +42,7 @@ namespace CQFollowerAutoclaimer
         static public string PGCards;
         static public int[] PGDeck;
         static public int[] PGPicked;
+        static public int LotteryDay;
 
         static public string[] nearbyPlayersIDs;
         static public string username;
@@ -361,6 +362,14 @@ namespace CQFollowerAutoclaimer
                 else
                 {
                     CCDay = -1;
+                }
+                if (json["lottery"] != null)
+                {
+                    LotteryDay = 1;
+                }
+                else
+                {
+                    LotteryDay = -1;
                 }
                 if (WBchanged)
                 {

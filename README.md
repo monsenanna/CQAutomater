@@ -1,6 +1,9 @@
 # CQAutomater
 
 CQAutomater is a tool that runs in the background and automatically claims your miracles as soon as they are ready. It can also open the daily free chest, start battles with random person when your hourly battle is ready, automatically send a predefined lineup to beat DQ or run the calc to solve it and finally fight World Bosses.
+# v 4.3.3.2
+Events mostly done, need more tests/debug on LF/PG.
+
 # v 4.3.3.0
 Added Bornag WB.
 Events in progress.

@@ -356,6 +356,7 @@
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
+            this.autoEvCheckbox = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -4001,6 +4002,7 @@
             // 
             // tabPage9
             // 
+            this.tabPage9.Controls.Add(this.autoEvCheckbox);
             this.tabPage9.Controls.Add(this.label133);
             this.tabPage9.Controls.Add(this.label126);
             this.tabPage9.Controls.Add(this.label125);
@@ -4217,6 +4219,17 @@
             this.AEIndicator.Size = new System.Drawing.Size(13, 6);
             this.AEIndicator.TabIndex = 40;
             this.AEIndicator.Text = "          ";
+            // 
+            // autoEvCheckbox
+            // 
+            this.autoEvCheckbox.AutoSize = true;
+            this.autoEvCheckbox.Location = new System.Drawing.Point(381, 13);
+            this.autoEvCheckbox.Name = "autoEvCheckbox";
+            this.autoEvCheckbox.Size = new System.Drawing.Size(120, 17);
+            this.autoEvCheckbox.TabIndex = 48;
+            this.autoEvCheckbox.Text = "Enable Auto-Events";
+            this.autoEvCheckbox.UseVisualStyleBackColor = true;
+            this.autoEvCheckbox.CheckedChanged += new System.EventHandler(this.AutoEvCheckbox_CheckedChanged);
             // 
             // Form1
             // 
@@ -4645,6 +4658,7 @@
         internal System.Windows.Forms.ComboBox BORHA2;
         internal System.Windows.Forms.ComboBox BORHA1;
         public System.Windows.Forms.Label label133;
+        internal System.Windows.Forms.CheckBox autoEvCheckbox;
     }
 }
 
