@@ -157,14 +157,17 @@ namespace CQFollowerAutoclaimer
                                 HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create(@requrl);
                                 HttpWebResponse response2 = (HttpWebResponse)request2.GetResponse();
                                 string content2 = new StreamReader(response2.GetResponseStream()).ReadToEnd();
-                                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                                JObject json2 = JObject.Parse(content2);
+                                string IsTplAdded = json2["data"].ToString();
+                                if (IsTplAdded == "ok")
                                 {
-                                    //sw.WriteLine(DateTime.Now + "\n\t" + @requrl);
-                                    //sw.WriteLine(DateTime.Now + "\n\t" + content2.ToString());
-                                    sw.WriteLine(DateTime.Now + "\n\tNew template added : " + values);
+                                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                                    {
+                                        sw.WriteLine(DateTime.Now + "\n\tNew template added : " + values);
+                                    }
+                                    PFStuff.LuckyFollowersSent.Add(values);
+                                    main.label122.setText("Lucky Followers : done, new template added (" + values + ")");
                                 }
-                                PFStuff.LuckyFollowersSent.Add(values);
-                                main.label122.setText("Lucky Followers : done, new template added (" + values + ")");
                             }
                         }
                     }
