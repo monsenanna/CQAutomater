@@ -47,6 +47,7 @@ namespace CQFollowerAutoclaimer
         public int[] levelLimits { get; set; }
         public bool? waitAutoLevel { get; set; }
         public bool? instantMaxPriceBid { get; set; }
+        public bool? autoEvEnabled { get; set; }
 
         public static AppSettings loadSettings()
         {

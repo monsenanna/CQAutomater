@@ -25,6 +25,12 @@ namespace CQFollowerAutoclaimer
             EventTimer.Elapsed += EventTimer_Elapsed;
         }
 
+        public void loadSettings()
+        {
+            AppSettings ap = AppSettings.loadSettings();
+            main.autoEvCheckbox.Checked = ap.autoEvEnabled ?? false;
+        }
+
         async void EventTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (!PlayFab.PlayFabClientAPI.IsClientLoggedIn())

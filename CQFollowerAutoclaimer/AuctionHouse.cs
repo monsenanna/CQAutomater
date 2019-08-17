@@ -107,7 +107,7 @@ namespace CQFollowerAutoclaimer
                     times.Add((a.endTime - DateTime.Now).TotalMilliseconds - secondsBeforeDeadline*1000);
                     b.Add(a);
                 }
-                
+                main.label134.setText("current: " + PFStuff.heroLevels[a.heroID]);
             }
             if (main.auctionHero2Combo.getText() != "")
             {

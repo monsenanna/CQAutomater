@@ -283,6 +283,7 @@ namespace CQFollowerAutoclaimer
                 //c.Items.AddRange(auctionHouse.getAvailableHeroes());
             }
             auctionHouse.loadSettings();
+            autoEvent.loadSettings();
             autoEvent.EventTimer.Interval = 30 * 1000;
             autoEvent.EventTimer.Start();
         }
@@ -911,6 +912,9 @@ namespace CQFollowerAutoclaimer
             {
                 AEIndicator.BackColor = Color.Red;
             }
+            appSettings = AppSettings.loadSettings();
+            appSettings.autoEvEnabled = autoEvCheckbox.Checked;
+            appSettings.saveSettings();
         }
     }
 }

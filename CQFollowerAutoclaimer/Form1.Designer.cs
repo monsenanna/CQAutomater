@@ -357,6 +357,9 @@
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
             this.autoEvCheckbox = new System.Windows.Forms.CheckBox();
+            this.label134 = new System.Windows.Forms.Label();
+            this.label135 = new System.Windows.Forms.Label();
+            this.label136 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -3187,6 +3190,9 @@
             // 
             // tabPage7
             // 
+            this.tabPage7.Controls.Add(this.label136);
+            this.tabPage7.Controls.Add(this.label135);
+            this.tabPage7.Controls.Add(this.label134);
             this.tabPage7.Controls.Add(this.instaBidCBox);
             this.tabPage7.Controls.Add(this.ahCountdown3);
             this.tabPage7.Controls.Add(this.label83);
@@ -4231,6 +4237,33 @@
             this.autoEvCheckbox.UseVisualStyleBackColor = true;
             this.autoEvCheckbox.CheckedChanged += new System.EventHandler(this.AutoEvCheckbox_CheckedChanged);
             // 
+            // label134
+            // 
+            this.label134.AutoSize = true;
+            this.label134.Location = new System.Drawing.Point(405, 39);
+            this.label134.Name = "label134";
+            this.label134.Size = new System.Drawing.Size(43, 13);
+            this.label134.TabIndex = 132;
+            this.label134.Text = "current:";
+            // 
+            // label135
+            // 
+            this.label135.AutoSize = true;
+            this.label135.Location = new System.Drawing.Point(405, 104);
+            this.label135.Name = "label135";
+            this.label135.Size = new System.Drawing.Size(43, 13);
+            this.label135.TabIndex = 133;
+            this.label135.Text = "current:";
+            // 
+            // label136
+            // 
+            this.label136.AutoSize = true;
+            this.label136.Location = new System.Drawing.Point(405, 170);
+            this.label136.Name = "label136";
+            this.label136.Size = new System.Drawing.Size(43, 13);
+            this.label136.TabIndex = 134;
+            this.label136.Text = "current:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4659,6 +4692,9 @@
         internal System.Windows.Forms.ComboBox BORHA1;
         public System.Windows.Forms.Label label133;
         internal System.Windows.Forms.CheckBox autoEvCheckbox;
+        public System.Windows.Forms.Label label136;
+        public System.Windows.Forms.Label label135;
+        public System.Windows.Forms.Label label134;
     }
 }
 
