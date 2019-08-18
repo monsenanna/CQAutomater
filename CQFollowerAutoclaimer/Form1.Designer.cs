@@ -263,6 +263,9 @@
             this.claimtime7 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.label136 = new System.Windows.Forms.Label();
+            this.label135 = new System.Windows.Forms.Label();
+            this.label134 = new System.Windows.Forms.Label();
             this.instaBidCBox = new System.Windows.Forms.CheckBox();
             this.ahCountdown3 = new System.Windows.Forms.Label();
             this.label83 = new System.Windows.Forms.Label();
@@ -336,6 +339,7 @@
             this.label80 = new System.Windows.Forms.Label();
             this.label76 = new System.Windows.Forms.Label();
             this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.autoEvCheckbox = new System.Windows.Forms.CheckBox();
             this.label133 = new System.Windows.Forms.Label();
             this.label126 = new System.Windows.Forms.Label();
             this.label125 = new System.Windows.Forms.Label();
@@ -356,10 +360,10 @@
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
-            this.autoEvCheckbox = new System.Windows.Forms.CheckBox();
-            this.label134 = new System.Windows.Forms.Label();
-            this.label135 = new System.Windows.Forms.Label();
-            this.label136 = new System.Windows.Forms.Label();
+            this.label137 = new System.Windows.Forms.Label();
+            this.label138 = new System.Windows.Forms.Label();
+            this.label139 = new System.Windows.Forms.Label();
+            this.label140 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -3190,6 +3194,7 @@
             // 
             // tabPage7
             // 
+            this.tabPage7.Controls.Add(this.label137);
             this.tabPage7.Controls.Add(this.label136);
             this.tabPage7.Controls.Add(this.label135);
             this.tabPage7.Controls.Add(this.label134);
@@ -3242,6 +3247,33 @@
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "AH";
             this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // label136
+            // 
+            this.label136.AutoSize = true;
+            this.label136.Location = new System.Drawing.Point(405, 170);
+            this.label136.Name = "label136";
+            this.label136.Size = new System.Drawing.Size(43, 13);
+            this.label136.TabIndex = 134;
+            this.label136.Text = "current:";
+            // 
+            // label135
+            // 
+            this.label135.AutoSize = true;
+            this.label135.Location = new System.Drawing.Point(405, 104);
+            this.label135.Name = "label135";
+            this.label135.Size = new System.Drawing.Size(43, 13);
+            this.label135.TabIndex = 133;
+            this.label135.Text = "current:";
+            // 
+            // label134
+            // 
+            this.label134.AutoSize = true;
+            this.label134.Location = new System.Drawing.Point(405, 39);
+            this.label134.Name = "label134";
+            this.label134.Size = new System.Drawing.Size(43, 13);
+            this.label134.TabIndex = 132;
+            this.label134.Text = "current:";
             // 
             // instaBidCBox
             // 
@@ -3662,6 +3694,9 @@
             // 
             // tabPage8
             // 
+            this.tabPage8.Controls.Add(this.label140);
+            this.tabPage8.Controls.Add(this.label139);
+            this.tabPage8.Controls.Add(this.label138);
             this.tabPage8.Controls.Add(this.spheresLevelCount);
             this.tabPage8.Controls.Add(this.label112);
             this.tabPage8.Controls.Add(this.pranaLevelCount);
@@ -4025,6 +4060,17 @@
             this.tabPage9.Text = "Events";
             this.tabPage9.UseVisualStyleBackColor = true;
             // 
+            // autoEvCheckbox
+            // 
+            this.autoEvCheckbox.AutoSize = true;
+            this.autoEvCheckbox.Location = new System.Drawing.Point(381, 13);
+            this.autoEvCheckbox.Name = "autoEvCheckbox";
+            this.autoEvCheckbox.Size = new System.Drawing.Size(120, 17);
+            this.autoEvCheckbox.TabIndex = 48;
+            this.autoEvCheckbox.Text = "Enable Auto-Events";
+            this.autoEvCheckbox.UseVisualStyleBackColor = true;
+            this.autoEvCheckbox.CheckedChanged += new System.EventHandler(this.AutoEvCheckbox_CheckedChanged);
+            // 
             // label133
             // 
             this.label133.AutoSize = true;
@@ -4226,43 +4272,41 @@
             this.AEIndicator.TabIndex = 40;
             this.AEIndicator.Text = "          ";
             // 
-            // autoEvCheckbox
+            // label137
             // 
-            this.autoEvCheckbox.AutoSize = true;
-            this.autoEvCheckbox.Location = new System.Drawing.Point(381, 13);
-            this.autoEvCheckbox.Name = "autoEvCheckbox";
-            this.autoEvCheckbox.Size = new System.Drawing.Size(120, 17);
-            this.autoEvCheckbox.TabIndex = 48;
-            this.autoEvCheckbox.Text = "Enable Auto-Events";
-            this.autoEvCheckbox.UseVisualStyleBackColor = true;
-            this.autoEvCheckbox.CheckedChanged += new System.EventHandler(this.AutoEvCheckbox_CheckedChanged);
+            this.label137.AutoSize = true;
+            this.label137.Location = new System.Drawing.Point(357, 10);
+            this.label137.Name = "label137";
+            this.label137.Size = new System.Drawing.Size(67, 13);
+            this.label137.TabIndex = 135;
+            this.label137.Text = "Current UM: ";
             // 
-            // label134
+            // label138
             // 
-            this.label134.AutoSize = true;
-            this.label134.Location = new System.Drawing.Point(405, 39);
-            this.label134.Name = "label134";
-            this.label134.Size = new System.Drawing.Size(43, 13);
-            this.label134.TabIndex = 132;
-            this.label134.Text = "current:";
+            this.label138.AutoSize = true;
+            this.label138.Location = new System.Drawing.Point(268, 71);
+            this.label138.Name = "label138";
+            this.label138.Size = new System.Drawing.Size(65, 13);
+            this.label138.TabIndex = 136;
+            this.label138.Text = "(currently: 0)";
             // 
-            // label135
+            // label139
             // 
-            this.label135.AutoSize = true;
-            this.label135.Location = new System.Drawing.Point(405, 104);
-            this.label135.Name = "label135";
-            this.label135.Size = new System.Drawing.Size(43, 13);
-            this.label135.TabIndex = 133;
-            this.label135.Text = "current:";
+            this.label139.AutoSize = true;
+            this.label139.Location = new System.Drawing.Point(303, 132);
+            this.label139.Name = "label139";
+            this.label139.Size = new System.Drawing.Size(65, 13);
+            this.label139.TabIndex = 137;
+            this.label139.Text = "(currently: 0)";
             // 
-            // label136
+            // label140
             // 
-            this.label136.AutoSize = true;
-            this.label136.Location = new System.Drawing.Point(405, 170);
-            this.label136.Name = "label136";
-            this.label136.Size = new System.Drawing.Size(43, 13);
-            this.label136.TabIndex = 134;
-            this.label136.Text = "current:";
+            this.label140.AutoSize = true;
+            this.label140.Location = new System.Drawing.Point(331, 194);
+            this.label140.Name = "label140";
+            this.label140.Size = new System.Drawing.Size(65, 13);
+            this.label140.TabIndex = 138;
+            this.label140.Text = "(currently: 0)";
             // 
             // Form1
             // 
@@ -4695,6 +4739,10 @@
         public System.Windows.Forms.Label label136;
         public System.Windows.Forms.Label label135;
         public System.Windows.Forms.Label label134;
+        public System.Windows.Forms.Label label137;
+        public System.Windows.Forms.Label label140;
+        public System.Windows.Forms.Label label139;
+        public System.Windows.Forms.Label label138;
     }
 }
 

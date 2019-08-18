@@ -359,6 +359,10 @@ namespace CQFollowerAutoclaimer
             FreeChestTimeLabel.setText(autoChests.nextFreeChest.ToString());
             NormalChestLabel.setText(PFStuff.normalChests.ToString());
             HeroChestLabel.setText(PFStuff.heroChests.ToString());
+            label137.setText("Current UM: " + pf.universeMarbles.ToString());
+            label138.setText("(currently: " + pf.pranaGems.ToString() + ")");
+            label139.setText("(currently: " + pf.cosmicCoins.ToString() + ")");
+            label140.setText("(currently: " + pf.ascensionSpheres.ToString() + ")");
 
             autoChests.FreeChestTimer.Interval = PFStuff.freeChestAvailable == true ? 20000 : Math.Max(4000, PFStuff.freeChestRecharge * 1000);
             return b;

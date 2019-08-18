@@ -121,7 +121,8 @@ namespace CQFollowerAutoclaimer
                     a.setRequirements(main.auctionHero2PriceCount.Value, main.auctionHero2LevelCount.Value);
                     times.Add((a.endTime - DateTime.Now).TotalMilliseconds - secondsBeforeDeadline * 1000);
                     b.Add(a);
-                }                
+                }
+                main.label135.setText("current: " + PFStuff.heroLevels[a.heroID]);
             }
             if (main.auctionHero3Combo.getText() != "")
             {
@@ -135,7 +136,8 @@ namespace CQFollowerAutoclaimer
                     a.setRequirements(main.auctionHero3PriceCount.Value, main.auctionHero3LevelCount.Value);
                     times.Add((a.endTime - DateTime.Now).TotalMilliseconds - secondsBeforeDeadline * 1000);
                     b.Add(a);
-                }                
+                }
+                main.label136.setText("current: " + PFStuff.heroLevels[a.heroID]);
             }
             IEnumerable<Auction> temp;
             if (main.instaBidCBox.Checked)

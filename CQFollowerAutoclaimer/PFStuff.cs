@@ -56,9 +56,10 @@ namespace CQFollowerAutoclaimer
 
         static public int normalChests;
         static public int heroChests;
-        public int ascensionSpheres;
-        public int pranaGems;
-        public int cosmicCoins;
+        public int ascensionSpheres = 0;
+        public int pranaGems = 0;
+        public int cosmicCoins = 0;
+        public int universeMarbles = 0;
 
         static public bool freeChestAvailable = false;
 
@@ -279,6 +280,7 @@ namespace CQFollowerAutoclaimer
                 pranaGems = int.Parse(currenciesTask.Result.VirtualCurrency["PG"].ToString());
                 cosmicCoins = int.Parse(currenciesTask.Result.VirtualCurrency["CC"].ToString());
                 ascensionSpheres = int.Parse(currenciesTask.Result.VirtualCurrency["AS"].ToString());
+                universeMarbles = int.Parse(currenciesTask.Result.VirtualCurrency["UM"].ToString());
                 heroChests = int.Parse(currenciesTask.Result.VirtualCurrency["KU"].ToString()) / 10;
                 freeChestAvailable = currenciesTask.Result.VirtualCurrency["BK"].ToString() == "1" ? true : false;
                 emMultiplier = 1;
