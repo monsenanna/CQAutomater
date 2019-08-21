@@ -198,7 +198,7 @@ namespace CQFollowerAutoclaimer
                 try
                 {
                     CCDone = int.Parse(json["data"]["city"]["cc"]["coins"].ToString());
-                    if (CCDone < 180)
+                    if (int.Parse(json["data"]["city"]["cc"]["tid"].ToString()) < int.Parse(json["data"]["city"]["pge"]["tid"].ToString()) || CCDone < 180)
                         CCDone = 0;
                 }
                 catch
@@ -505,7 +505,7 @@ namespace CQFollowerAutoclaimer
             }
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
-                logError("Cloud Script Error: Claim All", statusTask);
+                //logError("Cloud Script Error: Claim All", statusTask);
                 return false;
             }
             else
@@ -741,7 +741,7 @@ namespace CQFollowerAutoclaimer
             }
             if (statusTask == null || statusTask.Result.FunctionResult == null)// || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
-                logError("Cloud Script Error: Send CC catcher score", statusTask);
+                //logError("Cloud Script Error: Send CC catcher score", statusTask);
                 return false;
             }
             else
@@ -770,7 +770,7 @@ namespace CQFollowerAutoclaimer
             }
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
-                logError("Cloud Script Error: Send PGEvent", statusTask);
+                //logError("Cloud Script Error: Send PGEvent", statusTask);
                 return false;
             }
             else

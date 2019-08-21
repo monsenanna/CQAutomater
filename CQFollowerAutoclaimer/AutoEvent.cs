@@ -40,6 +40,7 @@ namespace CQFollowerAutoclaimer
             if (main.autoEvCheckbox.Checked)
             {
                 PFStuff.getWebsiteData(main.KongregateId);
+                await main.pf.GetGameData();
 
                 /* status :
                  * flash/eas/dung/lottery OK (just a notice, no action)
@@ -52,7 +53,6 @@ namespace CQFollowerAutoclaimer
                 main.label122.setText("Lucky Followers debug : not active today");
                 if (PFStuff.LuckyFollowers != null)
                 {
-                    //main.label122.setText("Lucky Followers debug : " + PFStuff.LuckyFollowers.ToString()); // debug
                     try
                     {
                         string requrl_base = "https://script.google.com/macros/s/AKfycbwhVd1nC3e70v-6wX3swoSUo1-mnaAiGgkoEQR9xcD6D4Z5l27M/exec?action=";
@@ -63,6 +63,7 @@ namespace CQFollowerAutoclaimer
                         main.label122.setText("Lucky Followers : waiting for timer");
                         if (nextlf < DateTime.Now) // find a solution if the time counter is over
                         {
+                            EventTimer.Interval = 10 * 1000;
                             // ask gsheet
                             switch (l)
                             {
@@ -98,18 +99,9 @@ namespace CQFollowerAutoclaimer
                             request.AllowAutoRedirect = true;
                             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                             string content = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                            //main.label122.setText("Lucky Followers debug1b : " + content.ToString()); // debug
-                            /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                            {
-                                sw.WriteLine(DateTime.Now + "\n\t" + @requrl);
-                                sw.WriteLine(DateTime.Now + "\n\t" + content.ToString());
-                            }*/
                             JObject json = JObject.Parse(content);
                             var c = json["data"];
-                            //main.label122.setText("Lucky Followers debug1c : " + c.ToString()); // debug
                             // send pick
-                            /*
-                            */
                             int res = 0;
                             switch (l)
                             {
@@ -127,24 +119,17 @@ namespace CQFollowerAutoclaimer
                                     break;
                             }
                             main.label122.setText("Lucky Followers : pick #" + (l + 1).ToString() + " done, won " + res.ToString() + " followers");
-                            //main.label122.setText("Lucky Followers debug2 : " + PFStuff.LuckyFollowersLocal.ToString()); // debug, todo
                         }
                         if (l >= 2)
                         {
+                            EventTimer.Interval = 30 * 1000;
                             // send new tpl
                             string values = "";
                             PFStuff.getWebsiteData(main.KongregateId);
-                            //main.label122.setText("Lucky Followers debug1d : " + PFStuff.LuckyFollowersLocal.ToString()); // debug, todo
                             for (int i = 0; i < 12; i++)
                             {
-                                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                                {
-                                    sw.WriteLine(DateTime.Now + "\n\t i " + i.ToString());
-                                    sw.WriteLine(DateTime.Now + "\n\t ic " + convertCellToLocal(i).ToString());
-                                }*/
                                 PFStuff.LuckyFollowersLocal[convertCellToLocal(i)] = (int)PFStuff.LuckyFollowers["current"][i];
                             }
-                            //main.label122.setText("Lucky Followers debug1e : " + PFStuff.LuckyFollowersLocal.ToString()); // debug, todo
                             for (int i = 1; i <= 12; i++)
                             {
                                 if (i > 1)
@@ -205,7 +190,6 @@ namespace CQFollowerAutoclaimer
                         main.label124.setText("CC Catcher : sent score " + score);
                     }
                 }
-                await main.pf.GetGameData();
                 if (PFStuff.PGCards != null && PFStuff.PGCards != "no")
                 { // let's run PGCards
                     var nbCells = PFStuff.PGDeck.Length;
