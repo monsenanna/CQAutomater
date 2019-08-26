@@ -33,7 +33,7 @@ namespace CQFollowerAutoclaimer
             {
                 TweetCoupon = firstTweet.Substring(firstTweet.Length - 10);
                 TweetID = tweetList.First().StatusID;
-                main.label141.setText("Last coupon : " + TweetCoupon);
+                main.label141.setText("Last coupon detected : " + TweetCoupon);
             }
         }
 
@@ -339,12 +339,10 @@ namespace CQFollowerAutoclaimer
             {
                 CredentialStore = new InMemoryCredentialStore()
                 {
-
-                    ConsumerKey = "OcLmZG6B3nzKM9TOIMjNRB6W8",
-                    ConsumerSecret = "lnwISlanizbJqGIPFiXNm9XuvfE6cwk8nJ6WtewcsElgH5ILr6",
-                    OAuthToken = "19539139-ztzAgMDCSoLYUt402gS6CL0Rpwy1TKZ5pk9MEJGVl",
-                    OAuthTokenSecret = "HxlhRD15zGXBIkYYnvK41x7GVxcvcWutWIU7zfuqnwSMS"
-
+                    ConsumerKey = Twitter.ConsumerKey,
+                    ConsumerSecret = Twitter.ConsumerSecret,
+                    OAuthToken = Twitter.OAuthToken,
+                    OAuthTokenSecret = Twitter.OAuthTokenSecret
                 }
             };
             var twitterCtx = new TwitterContext(auth);

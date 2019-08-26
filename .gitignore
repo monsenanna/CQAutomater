@@ -5,6 +5,7 @@
 *.suo
 *.user
 *.sln.docstates
+Twitter.cs
 
 # Build results
 
