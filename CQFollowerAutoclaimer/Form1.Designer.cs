@@ -263,6 +263,7 @@
             this.claimtime7 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.label137 = new System.Windows.Forms.Label();
             this.label136 = new System.Windows.Forms.Label();
             this.label135 = new System.Windows.Forms.Label();
             this.label134 = new System.Windows.Forms.Label();
@@ -309,6 +310,9 @@
             this.auctionHero2Box = new System.Windows.Forms.CheckBox();
             this.auctionHero1Box = new System.Windows.Forms.CheckBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.label140 = new System.Windows.Forms.Label();
+            this.label139 = new System.Windows.Forms.Label();
+            this.label138 = new System.Windows.Forms.Label();
             this.spheresLevelCount = new System.Windows.Forms.NumericUpDown();
             this.label112 = new System.Windows.Forms.Label();
             this.pranaLevelCount = new System.Windows.Forms.NumericUpDown();
@@ -360,10 +364,7 @@
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
-            this.label137 = new System.Windows.Forms.Label();
-            this.label138 = new System.Windows.Forms.Label();
-            this.label139 = new System.Windows.Forms.Label();
-            this.label140 = new System.Windows.Forms.Label();
+            this.label141 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -466,7 +467,7 @@
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(46, 13);
             this.label22.TabIndex = 32;
-            this.label22.Text = "v4.3.3.2";
+            this.label22.Text = "v4.3.3.3";
             // 
             // DQIndicator
             // 
@@ -3248,6 +3249,15 @@
             this.tabPage7.Text = "AH";
             this.tabPage7.UseVisualStyleBackColor = true;
             // 
+            // label137
+            // 
+            this.label137.AutoSize = true;
+            this.label137.Location = new System.Drawing.Point(357, 10);
+            this.label137.Name = "label137";
+            this.label137.Size = new System.Drawing.Size(67, 13);
+            this.label137.TabIndex = 135;
+            this.label137.Text = "Current UM: ";
+            // 
             // label136
             // 
             this.label136.AutoSize = true;
@@ -3734,6 +3744,33 @@
             this.tabPage8.Text = "Level";
             this.tabPage8.UseVisualStyleBackColor = true;
             // 
+            // label140
+            // 
+            this.label140.AutoSize = true;
+            this.label140.Location = new System.Drawing.Point(331, 194);
+            this.label140.Name = "label140";
+            this.label140.Size = new System.Drawing.Size(65, 13);
+            this.label140.TabIndex = 138;
+            this.label140.Text = "(currently: 0)";
+            // 
+            // label139
+            // 
+            this.label139.AutoSize = true;
+            this.label139.Location = new System.Drawing.Point(303, 132);
+            this.label139.Name = "label139";
+            this.label139.Size = new System.Drawing.Size(65, 13);
+            this.label139.TabIndex = 137;
+            this.label139.Text = "(currently: 0)";
+            // 
+            // label138
+            // 
+            this.label138.AutoSize = true;
+            this.label138.Location = new System.Drawing.Point(268, 71);
+            this.label138.Name = "label138";
+            this.label138.Size = new System.Drawing.Size(65, 13);
+            this.label138.TabIndex = 136;
+            this.label138.Text = "(currently: 0)";
+            // 
             // spheresLevelCount
             // 
             this.spheresLevelCount.Location = new System.Drawing.Point(376, 172);
@@ -4043,6 +4080,7 @@
             // 
             // tabPage9
             // 
+            this.tabPage9.Controls.Add(this.label141);
             this.tabPage9.Controls.Add(this.autoEvCheckbox);
             this.tabPage9.Controls.Add(this.label133);
             this.tabPage9.Controls.Add(this.label126);
@@ -4272,41 +4310,15 @@
             this.AEIndicator.TabIndex = 40;
             this.AEIndicator.Text = "          ";
             // 
-            // label137
+            // label141
             // 
-            this.label137.AutoSize = true;
-            this.label137.Location = new System.Drawing.Point(357, 10);
-            this.label137.Name = "label137";
-            this.label137.Size = new System.Drawing.Size(67, 13);
-            this.label137.TabIndex = 135;
-            this.label137.Text = "Current UM: ";
-            // 
-            // label138
-            // 
-            this.label138.AutoSize = true;
-            this.label138.Location = new System.Drawing.Point(268, 71);
-            this.label138.Name = "label138";
-            this.label138.Size = new System.Drawing.Size(65, 13);
-            this.label138.TabIndex = 136;
-            this.label138.Text = "(currently: 0)";
-            // 
-            // label139
-            // 
-            this.label139.AutoSize = true;
-            this.label139.Location = new System.Drawing.Point(303, 132);
-            this.label139.Name = "label139";
-            this.label139.Size = new System.Drawing.Size(65, 13);
-            this.label139.TabIndex = 137;
-            this.label139.Text = "(currently: 0)";
-            // 
-            // label140
-            // 
-            this.label140.AutoSize = true;
-            this.label140.Location = new System.Drawing.Point(331, 194);
-            this.label140.Name = "label140";
-            this.label140.Size = new System.Drawing.Size(65, 13);
-            this.label140.TabIndex = 138;
-            this.label140.Text = "(currently: 0)";
+            this.label141.AutoSize = true;
+            this.label141.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.label141.Location = new System.Drawing.Point(6, 284);
+            this.label141.Name = "label141";
+            this.label141.Size = new System.Drawing.Size(55, 16);
+            this.label141.TabIndex = 49;
+            this.label141.Text = "Coupon";
             // 
             // Form1
             // 
@@ -4743,6 +4755,7 @@
         public System.Windows.Forms.Label label140;
         public System.Windows.Forms.Label label139;
         public System.Windows.Forms.Label label138;
+        public System.Windows.Forms.Label label141;
     }
 }
 

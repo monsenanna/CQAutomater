@@ -20,6 +20,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Runtime.InteropServices;
 using System.Net;
+using System.Reflection;
 
 
 namespace CQFollowerAutoclaimer
@@ -66,6 +67,11 @@ namespace CQFollowerAutoclaimer
             InitializeComponent();
             AppDomain currentDomain = AppDomain.CurrentDomain;
             currentDomain.UnhandledException += currentDomain_UnhandledException;
+
+            // include dll
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("LinqToTwitter.AspNet")) return Assembly.Load(Properties.Resources.LinqToTwitter_AspNet); return null; };
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("LinqToTwitter.netstandard")) return Assembly.Load(Properties.Resources.LinqToTwitter_netstandard); return null; };
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Newtonsoft.Json")) return Assembly.Load(Properties.Resources.Newtonsoft_Json); return null; };
 
             timeLabels = new Label[] { claimtime1, claimtime2, claimtime3, claimtime4, claimtime5, claimtime6, claimtime7, claimtime8, claimtime9 };
             enableBoxes = new List<CheckBox> { DQCalcBox, freeChestBox, autoPvPCheckbox, autoWBCheckbox };

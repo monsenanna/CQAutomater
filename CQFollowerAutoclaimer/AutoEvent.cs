@@ -10,6 +10,7 @@ using System.IO;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using LinqToTwitter;
 
 namespace CQFollowerAutoclaimer
 {
@@ -18,11 +19,22 @@ namespace CQFollowerAutoclaimer
         Form1 main;
         static int goodPicks = 0, badPicks = 0;
         public System.Timers.Timer EventTimer = new System.Timers.Timer();
+        static ulong TweetID = 0;
+        static string TweetCoupon = "";
 
         public AutoEvent(Form1 m)
         {
             main = m;
             EventTimer.Elapsed += EventTimer_Elapsed;
+            var tweetList = GetTwitterFeeds();
+            string firstTweet = tweetList.First().Text.ToString();
+            main.label141.setText("id : " + tweetList.First().StatusID.ToString());
+            if (tweetList.First().StatusID > TweetID) // there's a new tweet to parse !
+            {
+                TweetCoupon = firstTweet.Substring(firstTweet.Length - 10);
+                TweetID = tweetList.First().StatusID;
+                main.label141.setText("Last coupon : " + TweetCoupon);
+            }
         }
 
         public void loadSettings()
@@ -59,7 +71,7 @@ namespace CQFollowerAutoclaimer
                         string requrl = requrl_base;
                         var l = PFStuff.LuckyFollowers["open"].ToArray().Length;
                         DateTime nextlf = Form1.getTime(PFStuff.LuckyFollowers["timeleft"].ToString());
-                        int c1, c2;
+                        int c1 = 0, c2 = 0;
                         main.label122.setText("Lucky Followers : waiting for timer");
                         if (nextlf < DateTime.Now) // find a solution if the time counter is over
                         {
@@ -101,21 +113,34 @@ namespace CQFollowerAutoclaimer
                             string content = new StreamReader(response.GetResponseStream()).ReadToEnd();
                             JObject json = JObject.Parse(content);
                             var c = json["data"];
+                            int cellToPick;
                             // send pick
                             int res = 0;
+                            try
+                            {
+                                cellToPick = (int)c;
+                            }
+                            catch // we received a "no" : pick something
+                            {
+                                do
+                                {
+                                    Random rnd = new Random();
+                                    cellToPick = rnd.Next(0, 11);
+                                } while (cellToPick == c1 || cellToPick == c2);
+                            }
                             switch (l)
                             {
                                 case 0: // we received first cell
-                                    res = await main.pf.sendLFPick(convertCellFromLocal((int)c));
-                                    PFStuff.LuckyFollowersLocal[(int)c] = res;
+                                    res = await main.pf.sendLFPick(convertCellFromLocal(cellToPick));
+                                    PFStuff.LuckyFollowersLocal[cellToPick] = res;
                                     break;
                                 case 1: // we received 2nd cell
-                                    res = await main.pf.sendLFPick(convertCellFromLocal((int)c));
-                                    PFStuff.LuckyFollowersLocal[(int)c] = res;
+                                    res = await main.pf.sendLFPick(convertCellFromLocal(cellToPick));
+                                    PFStuff.LuckyFollowersLocal[cellToPick] = res;
                                     break;
                                 case 2: // we received 3rd cell
-                                    res = await main.pf.sendLFPick(convertCellFromLocal((int)c));
-                                    PFStuff.LuckyFollowersLocal[(int)c] = res;
+                                    res = await main.pf.sendLFPick(convertCellFromLocal(cellToPick));
+                                    PFStuff.LuckyFollowersLocal[cellToPick] = res;
                                     break;
                             }
                             main.label122.setText("Lucky Followers : pick #" + (l + 1).ToString() + " done, won " + res.ToString() + " followers");
@@ -196,7 +221,7 @@ namespace CQFollowerAutoclaimer
                     bool stop = false;
                     using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                     {
-                        sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, PGCards value " + PFStuff.PGCards);
+                        sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, PGCards attempts remaining : " + PFStuff.PGCards);
                     }
                     // 1 : find 2 similar cards among non-picked ones
                     for (int i = 0; i < nbCells; i++)
@@ -210,7 +235,6 @@ namespace CQFollowerAutoclaimer
                                     // found ! let's pick both
                                     await main.pf.sendPGPick(i);
                                     await main.pf.sendPGPick(j);
-                                    // TODO
                                     using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                                     {
                                         sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, pick " + i + " and " + j);
@@ -237,7 +261,7 @@ namespace CQFollowerAutoclaimer
                         // 2b : check if similar card among non-picked ones
                         for (int j = 0; j < nbCells; j++)
                         {
-                            if (PFStuff.PGDeck[firstCard] == PFStuff.PGDeck[j])
+                            if (firstCard != j && PFStuff.PGDeck[firstCard] == PFStuff.PGDeck[j])
                             {
                                 // found ! let's pick 2nd card
                                 await main.pf.sendPGPick(j);
@@ -250,7 +274,7 @@ namespace CQFollowerAutoclaimer
                             // 2c : pick another card
                             for (int j = 0; j < nbCells; j++)
                             {
-                                if (PFStuff.PGPicked[j] == 0)
+                                if (firstCard != j && PFStuff.PGPicked[j] == 0)
                                 {
                                     await main.pf.sendPGPick(j);
                                     stop = true;
@@ -306,5 +330,70 @@ namespace CQFollowerAutoclaimer
                 default: return 11;
             }
         }
+
+        public static List<Status> GetTwitterFeeds()
+        {
+            string screenname = "Gaia_Byte";
+
+            var auth = new SingleUserAuthorizer
+            {
+                CredentialStore = new InMemoryCredentialStore()
+                {
+
+                    ConsumerKey = "OcLmZG6B3nzKM9TOIMjNRB6W8",
+                    ConsumerSecret = "lnwISlanizbJqGIPFiXNm9XuvfE6cwk8nJ6WtewcsElgH5ILr6",
+                    OAuthToken = "19539139-ztzAgMDCSoLYUt402gS6CL0Rpwy1TKZ5pk9MEJGVl",
+                    OAuthTokenSecret = "HxlhRD15zGXBIkYYnvK41x7GVxcvcWutWIU7zfuqnwSMS"
+
+                }
+            };
+            var twitterCtx = new TwitterContext(auth);
+            var ownTweets = new List<Status>();
+
+            ulong maxId = 0;
+            bool flag = true;
+            var statusResponse = new List<Status>();
+            statusResponse = (from tweet in twitterCtx.Status
+                              where tweet.Type == StatusType.User
+                              && tweet.ScreenName == screenname
+                              && tweet.Count == 200
+                              select tweet).ToList();
+
+            if (statusResponse.Count > 0)
+            {
+                maxId = ulong.Parse(statusResponse.Last().StatusID.ToString()) - 1;
+                ownTweets.AddRange(statusResponse);
+            }
+            do
+            {
+                int rateLimitStatus = twitterCtx.RateLimitRemaining;
+                if (rateLimitStatus != 0)
+                {
+                    statusResponse = (from tweet in twitterCtx.Status
+                                      where tweet.Type == StatusType.User
+                                      && tweet.ScreenName == screenname
+                                      && tweet.MaxID == maxId
+                                      && tweet.Count == 200
+                                      select tweet).ToList();
+
+                    if (statusResponse.Count != 0)
+                    {
+                        maxId = ulong.Parse(statusResponse.Last().StatusID.ToString()) - 1;
+                        ownTweets.AddRange(statusResponse);
+                    }
+                    else
+                    {
+                        flag = false;
+                    }
+                }
+                else
+                {
+                    flag = false;
+                }
+            } while (flag);
+
+            return ownTweets;
+        }
+
     }
 }
