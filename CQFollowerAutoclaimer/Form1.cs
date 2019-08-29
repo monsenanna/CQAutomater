@@ -292,6 +292,8 @@ namespace CQFollowerAutoclaimer
             autoEvent.loadSettings();
             autoEvent.EventTimer.Interval = 30 * 1000;
             autoEvent.EventTimer.Start();
+            autoEvent.CouponTimer.Interval = 10 * 1000; // 10sec on start, then 12h
+            autoEvent.CouponTimer.Start();
         }
 
 

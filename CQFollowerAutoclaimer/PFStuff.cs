@@ -716,7 +716,7 @@ namespace CQFollowerAutoclaimer
             }
             else
             {
-                JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
+                //JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
                 return true;
             }
         }
@@ -778,6 +778,40 @@ namespace CQFollowerAutoclaimer
                 JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
                 PGDeck = getArray(json["data"]["city"]["pge"]["cards"].ToString());
                 PGPicked = getArray(json["data"]["city"]["pge"]["picks"].ToString());
+                return true;
+            }
+        }
+
+        public async Task<bool> sendCoupon(string coupon)
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Live,
+                FunctionName = "coupon",
+                FunctionParameter = new { code = coupon }
+            };
+            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\n\t Sending coupon " + coupon);
+            }
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
+            {
+                logError("Cloud Script Error: Send coupon (maybe coupon already used)", statusTask);
+                return false;
+            }
+            else
+            {
+                JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
+                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now + "\n\t Coupon gave " + json["prize"].ToString());
+                }
                 return true;
             }
         }

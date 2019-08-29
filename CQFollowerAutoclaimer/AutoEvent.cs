@@ -19,6 +19,7 @@ namespace CQFollowerAutoclaimer
         Form1 main;
         static int goodPicks = 0, badPicks = 0;
         public System.Timers.Timer EventTimer = new System.Timers.Timer();
+        public System.Timers.Timer CouponTimer = new System.Timers.Timer();
         static ulong TweetID = 0;
         static string TweetCoupon = "";
 
@@ -26,15 +27,7 @@ namespace CQFollowerAutoclaimer
         {
             main = m;
             EventTimer.Elapsed += EventTimer_Elapsed;
-            var tweetList = GetTwitterFeeds();
-            string firstTweet = tweetList.First().Text.ToString();
-            main.label141.setText("id : " + tweetList.First().StatusID.ToString());
-            if (tweetList.First().StatusID > TweetID) // there's a new tweet to parse !
-            {
-                TweetCoupon = firstTweet.Substring(firstTweet.Length - 10);
-                TweetID = tweetList.First().StatusID;
-                main.label141.setText("Last coupon detected : " + TweetCoupon);
-            }
+            CouponTimer.Elapsed += CouponTimer_Elapsed;
         }
 
         public void loadSettings()
@@ -291,6 +284,24 @@ namespace CQFollowerAutoclaimer
                 }
                 main.label126.setText("Lottery : " + (PFStuff.LotteryDay == 1 ? "active" : "not active") + " today");
                 main.AEIndicator.BackColor = Color.Green;
+            }
+        }
+        async void CouponTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (!PlayFab.PlayFabClientAPI.IsClientLoggedIn())
+            {
+                await main.login();
+            }
+            CouponTimer.Interval = 12 * 60 * 60 * 1000; // 12h
+            var tweetList = GetTwitterFeeds();
+            string firstTweet = tweetList.First().Text.ToString();
+            main.label141.setText("id : " + tweetList.First().StatusID.ToString());
+            if (tweetList.First().StatusID > TweetID) // there's a new tweet to parse !
+            {
+                TweetCoupon = firstTweet.Substring(firstTweet.Length - 10);
+                TweetID = tweetList.First().StatusID;
+                await main.pf.sendCoupon(TweetCoupon);
+                main.label141.setText("Last coupon detected : " + TweetCoupon);
             }
         }
 
