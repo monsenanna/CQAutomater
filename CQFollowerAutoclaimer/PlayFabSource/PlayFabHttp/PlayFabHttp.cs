@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace PlayFab.Internal
 {
@@ -45,14 +46,24 @@ namespace PlayFab.Internal
 
         static PlayFabHttp()
         {
-            var httpInterfaceType = typeof(IPlayFabHttp);
-            var types = typeof(PlayFabHttp).GetAssembly().GetTypes();
-            foreach (var eachType in types)
+            try
             {
-                if (httpInterfaceType.IsAssignableFrom(eachType) && !eachType.IsAbstract)
+                var httpInterfaceType = typeof(IPlayFabHttp);
+                var types = typeof(PlayFabHttp).GetAssembly().GetTypes();
+                foreach (var eachType in types)
                 {
-                    _http = (IPlayFabHttp)Activator.CreateInstance(eachType.AsType());
-                    return;
+                    if (httpInterfaceType.IsAssignableFrom(eachType) && !eachType.IsAbstract)
+                    {
+                        _http = (IPlayFabHttp)Activator.CreateInstance(eachType.AsType());
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                using (StreamWriter sw = new StreamWriter("ErrorLog.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now + "\n\t" + "Error in PlayFabHttp" + "\n\t" + ex.Message);
                 }
             }
             throw new Exception("Cannot find a valid IPlayFabHttp type");
