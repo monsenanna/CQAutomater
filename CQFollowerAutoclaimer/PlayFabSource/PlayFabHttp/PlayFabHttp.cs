@@ -49,12 +49,24 @@ namespace PlayFab.Internal
             try
             {
                 var httpInterfaceType = typeof(IPlayFabHttp);
+                using (StreamWriter sw = new StreamWriter("ErrorLog.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now + "\n\t" + "httpInterfaceType" + "\n\t" + httpInterfaceType.ToString());
+                }
                 var types = typeof(PlayFabHttp).GetAssembly().GetTypes();
                 foreach (var eachType in types)
                 {
+                    using (StreamWriter sw = new StreamWriter("ErrorLog.txt", true))
+                    {
+                        sw.WriteLine(DateTime.Now + "\n\t" + "eachType" + "\n\t" + eachType.ToString());
+                    }
                     if (httpInterfaceType.IsAssignableFrom(eachType) && !eachType.IsAbstract)
                     {
                         _http = (IPlayFabHttp)Activator.CreateInstance(eachType.AsType());
+                        using (StreamWriter sw = new StreamWriter("ErrorLog.txt", true))
+                        {
+                            sw.WriteLine(DateTime.Now + "\n\t" + "eachType CreateInstance done");
+                        }
                         return;
                     }
                 }
