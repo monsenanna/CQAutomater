@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using System.IO;
-using System.Net.Http;
+//using System.Net.Http;
 
 namespace CQFollowerAutoclaimer
 {

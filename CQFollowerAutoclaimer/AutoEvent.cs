@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Net;
 using System.IO;
-using System.Net.Http;
+//using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using LinqToTwitter;
