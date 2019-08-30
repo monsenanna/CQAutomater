@@ -203,19 +203,21 @@ namespace CQFollowerAutoclaimer
                     if (PFStuff.CCDone == 0)
                     {
                         Random rnd = new Random();
-                        int score = rnd.Next(180, 290);
+                        int score = rnd.Next(60, 90) * 3;
                         await main.pf.sendCCScore(score);
                         main.label124.setText("CC Catcher : sent score " + score);
                     }
                 }
-                if (PFStuff.PGCards != null && PFStuff.PGCards != "no")
+                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, PGCards attempts remaining : " + PFStuff.PGCards);
+                    sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, PGPicked : " + String.Join(",", PFStuff.PGPicked.Select(p => p.ToString()).ToArray()));
+                    sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, PGDeck : " + String.Join(",", PFStuff.PGDeck.Select(p => p.ToString()).ToArray()));
+                }*/
+                if (PFStuff.PGCards != null && PFStuff.PGCards != "no" && PFStuff.PGCards != "done")
                 { // let's run PGCards
                     var nbCells = PFStuff.PGDeck.Length;
                     bool stop = false;
-                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                    {
-                        sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, PGCards attempts remaining : " + PFStuff.PGCards);
-                    }
                     // 1 : find 2 similar cards among non-picked ones
                     for (int i = 0; i < nbCells; i++)
                     {
@@ -244,7 +246,7 @@ namespace CQFollowerAutoclaimer
                         int firstCard = 0;
                         for (int i = 0; i < nbCells; i++)
                         {
-                            if (PFStuff.PGPicked[i] == 0)
+                            if (PFStuff.PGDeck[i] == -1)
                             {
                                 firstCard = i;
                                 await main.pf.sendPGPick(i);
@@ -267,7 +269,7 @@ namespace CQFollowerAutoclaimer
                             // 2c : pick another card
                             for (int j = 0; j < nbCells; j++)
                             {
-                                if (firstCard != j && PFStuff.PGPicked[j] == 0)
+                                if (firstCard != j && PFStuff.PGDeck[j] == -1)
                                 {
                                     await main.pf.sendPGPick(j);
                                     stop = true;
@@ -280,7 +282,10 @@ namespace CQFollowerAutoclaimer
                 }
                 else
                 {
-                    main.label125.setText("PG : not active today");
+                    if (PFStuff.PGCards == "done")
+                        main.label125.setText("PG : event completed today, " + PFStuff.PGWon + " PG won");
+                    else
+                        main.label125.setText("PG : not active today");
                 }
                 main.label126.setText("Lottery : " + (PFStuff.LotteryDay == 1 ? "active" : "not active") + " today");
                 main.AEIndicator.BackColor = Color.Green;
@@ -300,7 +305,7 @@ namespace CQFollowerAutoclaimer
             {
                 TweetCoupon = firstTweet.Substring(firstTweet.Length - 10);
                 TweetID = tweetList.First().StatusID;
-                await main.pf.sendCoupon(TweetCoupon);
+                //await main.pf.sendCoupon(TweetCoupon);
                 main.label141.setText("Last coupon detected : " + TweetCoupon);
             }
         }

@@ -42,6 +42,7 @@ namespace CQFollowerAutoclaimer
         static public string PGCards;
         static public int[] PGDeck;
         static public int[] PGPicked;
+        static public int PGWon;
         static public int LotteryDay;
 
         static public string[] nearbyPlayersIDs;
@@ -209,15 +210,26 @@ namespace CQFollowerAutoclaimer
                 {
                     PGCards = json["data"]["city"]["pge"]["attempts"].ToString();
                     if((bool)json["data"]["city"]["pge"]["done"] == true)
-                        PGCards = "no";
+                        PGCards = "done";
                     PGDeck = getArray(json["data"]["city"]["pge"]["cards"].ToString());
                     PGPicked = getArray(json["data"]["city"]["pge"]["picks"].ToString());
+                    PGWon = (int)json["data"]["city"]["pge"]["pg"];
+                    if ((int)json["data"]["city"]["pge"]["tid"] < (int)json["data"]["city"]["tour"][0]["tid"])
+                    {
+                        PGCards = "8";
+                        for (int i = 0; i < PGDeck.Length; i++)
+                        {
+                            PGDeck[i] = 0;
+                            PGPicked[i] = -1;
+                        }
+                    }
                 }
                 catch
                 {
                     PGCards = "no";
                     PGDeck = null;
                     PGPicked = null;
+                    PGWon = 0;
                 }
                 return true;
             }
