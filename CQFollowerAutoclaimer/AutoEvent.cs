@@ -305,7 +305,7 @@ namespace CQFollowerAutoclaimer
             {
                 TweetCoupon = firstTweet.Substring(firstTweet.Length - 10);
                 TweetID = tweetList.First().StatusID;
-                //await main.pf.sendCoupon(TweetCoupon);
+                await main.pf.sendCoupon(TweetCoupon);
                 main.label141.setText("Last coupon detected : " + TweetCoupon);
             }
         }
