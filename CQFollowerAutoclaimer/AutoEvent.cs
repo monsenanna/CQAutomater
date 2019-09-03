@@ -297,10 +297,10 @@ namespace CQFollowerAutoclaimer
             {
                 await main.login();
             }
-            CouponTimer.Interval = 12 * 60 * 60 * 1000; // 12h
+            CouponTimer.Interval = 8 * 60 * 60 * 1000; // 12h
             var tweetList = GetTwitterFeeds();
             string firstTweet = tweetList.First().Text.ToString();
-            main.label141.setText("id : " + tweetList.First().StatusID.ToString());
+            //main.label141.setText("id : " + tweetList.First().StatusID.ToString());
             if (tweetList.First().StatusID > TweetID) // there's a new tweet to parse !
             {
                 TweetCoupon = firstTweet.Substring(firstTweet.Length - 10);
