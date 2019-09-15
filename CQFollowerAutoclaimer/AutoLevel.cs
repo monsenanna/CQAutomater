@@ -45,6 +45,7 @@ namespace CQFollowerAutoclaimer
             bank = new List<NumericUpDown>() { m.pranaBankCount, m.coinsBankCount, m.spheresBankCount };
             heroToLevel = new List<ComboBox>() { m.pranaHeroCombo, m.coinsHeroCombo, m.spheresHeroCombo };
             levels = new List<NumericUpDown>() { m.pranaLevelCount, m.coinsLevelCount, m.spheresLevelCount };
+            updateHeroLevels();
             nextLevelCheck = DateTime.Now.AddMinutes(10);
             levelTimer.Interval = 10 * 60 * 1000;
             levelTimer.Elapsed += levelTimer_Elapsed;
@@ -53,10 +54,10 @@ namespace CQFollowerAutoclaimer
 
         async void levelTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            levelTimer.Stop();            
+            levelTimer.Stop();
+            await main.getCurr();
             if (main.autoLevelCheckbox.getCheckState())
             {
-                await main.getCurr();
                 await main.getData();
                 int toSpend = (int)(main.pf.ascensionSpheres - main.spheresBankCount.getValue());
                 string onWhat = main.spheresHeroCombo.getText();
@@ -235,6 +236,7 @@ namespace CQFollowerAutoclaimer
                     levels[i++].Value = x;
                 }
             }
+            updateHeroLevels();
         }
 
         public void saveALSettings()
@@ -247,8 +249,23 @@ namespace CQFollowerAutoclaimer
             apps.saveSettings();
         }
 
+        public void updateHeroLevels()
+        {
+            main.label142.setText("current: " + PFStuff.getHeroLevel(main.pranaHeroCombo.getText()));
+            main.label143.setText("current: " + PFStuff.getHeroLevel(main.coinsHeroCombo.getText()));
+            main.label144.setText("current: " + PFStuff.getHeroLevel(main.spheresHeroCombo.getText()));
+        }
+        public void updateCurr()
+        {
+            main.label137.setText("Current UM: " + main.pf.universeMarbles.ToString());
+            main.label138.setText("(currently: " + main.pf.pranaGems.ToString() + ")");
+            main.label139.setText("(currently: " + main.pf.cosmicCoins.ToString() + ")");
+            main.label140.setText("(currently: " + main.pf.ascensionSpheres.ToString() + ")");
 
-        public static class InternetTime
+        }
+
+
+    public static class InternetTime
         {
             public static DateTimeOffset? GetCurrentTime()
             {

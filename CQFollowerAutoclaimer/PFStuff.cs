@@ -235,6 +235,19 @@ namespace CQFollowerAutoclaimer
             }
         }
 
+        public static int getHeroLevel(string heroName)
+        {
+            if (!string.IsNullOrEmpty(heroName))
+            {
+                int heroIndex = Array.IndexOf(Constants.heroNames, heroName) - 2;
+                if (heroIndex != -1)
+                {
+                    return heroLevels[heroIndex];
+                }
+            }
+            return 0;
+        }
+
         public async Task<bool> getLeaderboard(int size)
         {
             await Task.Delay(500);

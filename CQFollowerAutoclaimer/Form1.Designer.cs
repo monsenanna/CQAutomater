@@ -365,6 +365,9 @@
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
             this.label141 = new System.Windows.Forms.Label();
+            this.label142 = new System.Windows.Forms.Label();
+            this.label143 = new System.Windows.Forms.Label();
+            this.label144 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -3704,6 +3707,9 @@
             // 
             // tabPage8
             // 
+            this.tabPage8.Controls.Add(this.label144);
+            this.tabPage8.Controls.Add(this.label143);
+            this.tabPage8.Controls.Add(this.label142);
             this.tabPage8.Controls.Add(this.label140);
             this.tabPage8.Controls.Add(this.label139);
             this.tabPage8.Controls.Add(this.label138);
@@ -3938,6 +3944,7 @@
             this.spheresHeroCombo.Name = "spheresHeroCombo";
             this.spheresHeroCombo.Size = new System.Drawing.Size(114, 21);
             this.spheresHeroCombo.TabIndex = 115;
+            this.spheresHeroCombo.SelectedIndexChanged += new System.EventHandler(this.PranaHeroCombo_SelectedIndexChanged);
             // 
             // label93
             // 
@@ -3998,6 +4005,7 @@
             this.coinsHeroCombo.Name = "coinsHeroCombo";
             this.coinsHeroCombo.Size = new System.Drawing.Size(114, 21);
             this.coinsHeroCombo.TabIndex = 109;
+            this.coinsHeroCombo.SelectedIndexChanged += new System.EventHandler(this.PranaHeroCombo_SelectedIndexChanged);
             // 
             // label89
             // 
@@ -4058,6 +4066,7 @@
             this.pranaHeroCombo.Name = "pranaHeroCombo";
             this.pranaHeroCombo.Size = new System.Drawing.Size(114, 21);
             this.pranaHeroCombo.TabIndex = 103;
+            this.pranaHeroCombo.SelectedIndexChanged += new System.EventHandler(this.PranaHeroCombo_SelectedIndexChanged);
             // 
             // label80
             // 
@@ -4319,6 +4328,33 @@
             this.label141.Size = new System.Drawing.Size(55, 16);
             this.label141.TabIndex = 49;
             this.label141.Text = "Coupon";
+            // 
+            // label142
+            // 
+            this.label142.AutoSize = true;
+            this.label142.Location = new System.Drawing.Point(434, 50);
+            this.label142.Name = "label142";
+            this.label142.Size = new System.Drawing.Size(43, 13);
+            this.label142.TabIndex = 139;
+            this.label142.Text = "current:";
+            // 
+            // label143
+            // 
+            this.label143.AutoSize = true;
+            this.label143.Location = new System.Drawing.Point(434, 111);
+            this.label143.Name = "label143";
+            this.label143.Size = new System.Drawing.Size(43, 13);
+            this.label143.TabIndex = 140;
+            this.label143.Text = "current:";
+            // 
+            // label144
+            // 
+            this.label144.AutoSize = true;
+            this.label144.Location = new System.Drawing.Point(434, 174);
+            this.label144.Name = "label144";
+            this.label144.Size = new System.Drawing.Size(43, 13);
+            this.label144.TabIndex = 141;
+            this.label144.Text = "current:";
             // 
             // Form1
             // 
@@ -4756,6 +4792,9 @@
         public System.Windows.Forms.Label label139;
         public System.Windows.Forms.Label label138;
         public System.Windows.Forms.Label label141;
+        public System.Windows.Forms.Label label144;
+        public System.Windows.Forms.Label label143;
+        public System.Windows.Forms.Label label142;
     }
 }
 

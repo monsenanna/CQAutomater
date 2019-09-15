@@ -333,7 +333,7 @@ namespace CQFollowerAutoclaimer
                     auctionCountdowns[i].setText((auctionHouse.auctionDates[i] - DateTime.Now).ToString("hh\\:mm\\:ss"));
                 }
             }
-
+            autoLevel.updateCurr();
         }
 
         #endregion
@@ -347,6 +347,8 @@ namespace CQFollowerAutoclaimer
                 await login();
             }
             await pf.GetGameData();
+            autoLevel.updateHeroLevels();
+
             autoDQ.nextDQTime = getTime(PFStuff.DQTime);
             autoDQ.DQTimer.Interval = (autoDQ.nextDQTime < DateTime.Now && DQCalcBox.Checked) ? 4000 : Math.Max(4000, (autoDQ.nextDQTime - DateTime.Now).TotalMilliseconds);
             DQLevelLabel.SynchronizedInvoke(() => DQLevelLabel.Text = PFStuff.DQLevel);
@@ -367,10 +369,7 @@ namespace CQFollowerAutoclaimer
             FreeChestTimeLabel.setText(autoChests.nextFreeChest.ToString());
             NormalChestLabel.setText(PFStuff.normalChests.ToString());
             HeroChestLabel.setText(PFStuff.heroChests.ToString());
-            label137.setText("Current UM: " + pf.universeMarbles.ToString());
-            label138.setText("(currently: " + pf.pranaGems.ToString() + ")");
-            label139.setText("(currently: " + pf.cosmicCoins.ToString() + ")");
-            label140.setText("(currently: " + pf.ascensionSpheres.ToString() + ")");
+            autoLevel.updateCurr();
 
             autoChests.FreeChestTimer.Interval = PFStuff.freeChestAvailable == true ? 20000 : Math.Max(4000, PFStuff.freeChestRecharge * 1000);
             return b;
@@ -927,6 +926,11 @@ namespace CQFollowerAutoclaimer
             appSettings = AppSettings.loadSettings();
             appSettings.autoEvEnabled = autoEvCheckbox.Checked;
             appSettings.saveSettings();
+        }
+
+        private void PranaHeroCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            autoLevel.updateHeroLevels();
         }
     }
 }
