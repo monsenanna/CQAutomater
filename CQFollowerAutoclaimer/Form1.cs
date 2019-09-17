@@ -290,7 +290,7 @@ namespace CQFollowerAutoclaimer
             }
             auctionHouse.loadSettings();
             autoEvent.loadSettings();
-            autoEvent.EventTimer.Interval = 30 * 1000;
+            autoEvent.EventTimer.Interval = 10 * 1000; // 10sec on start, then 12h
             autoEvent.EventTimer.Start();
             autoEvent.CouponTimer.Interval = 10 * 1000; // 10sec on start, then 12h
             autoEvent.CouponTimer.Start();
@@ -358,6 +358,10 @@ namespace CQFollowerAutoclaimer
         internal async Task<bool> getCurr()
         {
             bool b = false;
+            if (!PlayFab.PlayFabClientAPI.IsClientLoggedIn())
+            {
+                await login();
+            }
             while (!(b = await pf.getCurrencies())) { }
 
             if (PFStuff.freeChestAvailable && freeChestBox.Checked && !taskQueue.Contains("chest"))

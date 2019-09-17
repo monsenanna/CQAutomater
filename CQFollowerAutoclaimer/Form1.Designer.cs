@@ -310,6 +310,9 @@
             this.auctionHero2Box = new System.Windows.Forms.CheckBox();
             this.auctionHero1Box = new System.Windows.Forms.CheckBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.label144 = new System.Windows.Forms.Label();
+            this.label143 = new System.Windows.Forms.Label();
+            this.label142 = new System.Windows.Forms.Label();
             this.label140 = new System.Windows.Forms.Label();
             this.label139 = new System.Windows.Forms.Label();
             this.label138 = new System.Windows.Forms.Label();
@@ -343,6 +346,7 @@
             this.label80 = new System.Windows.Forms.Label();
             this.label76 = new System.Windows.Forms.Label();
             this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.label141 = new System.Windows.Forms.Label();
             this.autoEvCheckbox = new System.Windows.Forms.CheckBox();
             this.label133 = new System.Windows.Forms.Label();
             this.label126 = new System.Windows.Forms.Label();
@@ -364,10 +368,7 @@
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
-            this.label141 = new System.Windows.Forms.Label();
-            this.label142 = new System.Windows.Forms.Label();
-            this.label143 = new System.Windows.Forms.Label();
-            this.label144 = new System.Windows.Forms.Label();
+            this.label145 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -470,7 +471,7 @@
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(46, 13);
             this.label22.TabIndex = 32;
-            this.label22.Text = "v4.3.3.3";
+            this.label22.Text = "v4.4.0.0";
             // 
             // DQIndicator
             // 
@@ -3750,6 +3751,33 @@
             this.tabPage8.Text = "Level";
             this.tabPage8.UseVisualStyleBackColor = true;
             // 
+            // label144
+            // 
+            this.label144.AutoSize = true;
+            this.label144.Location = new System.Drawing.Point(434, 174);
+            this.label144.Name = "label144";
+            this.label144.Size = new System.Drawing.Size(43, 13);
+            this.label144.TabIndex = 141;
+            this.label144.Text = "current:";
+            // 
+            // label143
+            // 
+            this.label143.AutoSize = true;
+            this.label143.Location = new System.Drawing.Point(434, 111);
+            this.label143.Name = "label143";
+            this.label143.Size = new System.Drawing.Size(43, 13);
+            this.label143.TabIndex = 140;
+            this.label143.Text = "current:";
+            // 
+            // label142
+            // 
+            this.label142.AutoSize = true;
+            this.label142.Location = new System.Drawing.Point(434, 50);
+            this.label142.Name = "label142";
+            this.label142.Size = new System.Drawing.Size(43, 13);
+            this.label142.TabIndex = 139;
+            this.label142.Text = "current:";
+            // 
             // label140
             // 
             this.label140.AutoSize = true;
@@ -4089,6 +4117,7 @@
             // 
             // tabPage9
             // 
+            this.tabPage9.Controls.Add(this.label145);
             this.tabPage9.Controls.Add(this.label141);
             this.tabPage9.Controls.Add(this.autoEvCheckbox);
             this.tabPage9.Controls.Add(this.label133);
@@ -4106,6 +4135,16 @@
             this.tabPage9.TabIndex = 8;
             this.tabPage9.Text = "Events";
             this.tabPage9.UseVisualStyleBackColor = true;
+            // 
+            // label141
+            // 
+            this.label141.AutoSize = true;
+            this.label141.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.label141.Location = new System.Drawing.Point(6, 314);
+            this.label141.Name = "label141";
+            this.label141.Size = new System.Drawing.Size(55, 16);
+            this.label141.TabIndex = 49;
+            this.label141.Text = "Coupon";
             // 
             // autoEvCheckbox
             // 
@@ -4132,7 +4171,7 @@
             // 
             this.label126.AutoSize = true;
             this.label126.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label126.Location = new System.Drawing.Point(6, 224);
+            this.label126.Location = new System.Drawing.Point(6, 254);
             this.label126.Name = "label126";
             this.label126.Size = new System.Drawing.Size(48, 16);
             this.label126.TabIndex = 7;
@@ -4319,42 +4358,15 @@
             this.AEIndicator.TabIndex = 40;
             this.AEIndicator.Text = "          ";
             // 
-            // label141
+            // label145
             // 
-            this.label141.AutoSize = true;
-            this.label141.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label141.Location = new System.Drawing.Point(6, 284);
-            this.label141.Name = "label141";
-            this.label141.Size = new System.Drawing.Size(55, 16);
-            this.label141.TabIndex = 49;
-            this.label141.Text = "Coupon";
-            // 
-            // label142
-            // 
-            this.label142.AutoSize = true;
-            this.label142.Location = new System.Drawing.Point(434, 50);
-            this.label142.Name = "label142";
-            this.label142.Size = new System.Drawing.Size(43, 13);
-            this.label142.TabIndex = 139;
-            this.label142.Text = "current:";
-            // 
-            // label143
-            // 
-            this.label143.AutoSize = true;
-            this.label143.Location = new System.Drawing.Point(434, 111);
-            this.label143.Name = "label143";
-            this.label143.Size = new System.Drawing.Size(43, 13);
-            this.label143.TabIndex = 140;
-            this.label143.Text = "current:";
-            // 
-            // label144
-            // 
-            this.label144.AutoSize = true;
-            this.label144.Location = new System.Drawing.Point(434, 174);
-            this.label144.Name = "label144";
-            this.label144.Size = new System.Drawing.Size(43, 13);
-            this.label144.TabIndex = 141;
-            this.label144.Text = "current:";
+            this.label145.AutoSize = true;
+            this.label145.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.label145.Location = new System.Drawing.Point(6, 224);
+            this.label145.Name = "label145";
+            this.label145.Size = new System.Drawing.Size(69, 16);
+            this.label145.TabIndex = 50;
+            this.label145.Text = "Adventure";
             // 
             // Form1
             // 
@@ -4795,6 +4807,7 @@
         public System.Windows.Forms.Label label144;
         public System.Windows.Forms.Label label143;
         public System.Windows.Forms.Label label142;
+        public System.Windows.Forms.Label label145;
     }
 }
 

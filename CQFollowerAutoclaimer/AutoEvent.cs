@@ -38,14 +38,15 @@ namespace CQFollowerAutoclaimer
 
         async void EventTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (!PlayFab.PlayFabClientAPI.IsClientLoggedIn())
-            {
-                await main.login();
-            }
             if (main.autoEvCheckbox.Checked)
             {
+                if (!PlayFab.PlayFabClientAPI.IsClientLoggedIn())
+                {
+                    await main.login();
+                }
                 PFStuff.getWebsiteData(main.KongregateId);
                 await main.pf.GetGameData();
+                EventTimer.Interval = 30 * 1000; // 30sec
 
                 /* status :
                  * flash/eas/dung/lottery OK (just a notice, no action)
@@ -55,7 +56,7 @@ namespace CQFollowerAutoclaimer
                 main.label73.setText("Flash : " + (PFStuff.FlashStatus == 1 ? "active" : "not active") + " today");
                 main.label109.setText("EAS : " + (PFStuff.EASDay == 1 ? "active" : "not active") + " today");
                 main.label133.setText("Dungeon : " + (PFStuff.DungLevel != "-/-" ? "active" : "not active") + " today");
-                main.label122.setText("Lucky Followers debug : not active today");
+                main.label122.setText("Lucky Followers : not active today");
                 if (PFStuff.LuckyFollowers != null)
                 {
                     try
@@ -182,6 +183,7 @@ namespace CQFollowerAutoclaimer
                         }
                     }
                 }
+                main.label123.setText("Keys Tower : not active today");
                 if (PFStuff.KeysTower != null)
                 { // let's run KT
                     goodPicks = 0;
@@ -197,6 +199,7 @@ namespace CQFollowerAutoclaimer
                         await main.pf.sendKeysTowerPick();
                     }
                 }
+                main.label124.setText("CC Catcher : not active today");
                 if (PFStuff.CCDay != -1)
                 {
                     main.label124.setText("CC Catcher : active today ; current score = " + PFStuff.CCDone);
@@ -278,14 +281,19 @@ namespace CQFollowerAutoclaimer
                             }
                         }
                     }
-                    main.label125.setText("PG : " + String.Join(",", PFStuff.PGDeck.Select(p => p.ToString()).ToArray()));
+                    main.label125.setText("PG match cards : " + String.Join(",", PFStuff.PGDeck.Select(p => p.ToString()).ToArray()));
                 }
                 else
                 {
                     if (PFStuff.PGCards == "done")
-                        main.label125.setText("PG : event completed today, " + PFStuff.PGWon + " PG won");
+                        main.label125.setText("PG match cards : event completed today, " + PFStuff.PGWon + " PG won");
                     else
-                        main.label125.setText("PG : not active today");
+                        main.label125.setText("PG match cards : not active today");
+                }
+                main.label145.setText("Adventure : " + (PFStuff.AdventureDay == 1 ? "active" : "not active") + " today");
+                if (PFStuff.AdventureDay == 1 && PFStuff.AdventureStatus == 1)
+                {
+                    await main.pf.sendAdventure(2, 100);
                 }
                 main.label126.setText("Lottery : " + (PFStuff.LotteryDay == 1 ? "active" : "not active") + " today");
                 main.AEIndicator.BackColor = Color.Green;
@@ -297,16 +305,23 @@ namespace CQFollowerAutoclaimer
             {
                 await main.login();
             }
-            CouponTimer.Interval = 8 * 60 * 60 * 1000; // 12h
-            var tweetList = GetTwitterFeeds();
-            string firstTweet = tweetList.First().Text.ToString();
-            //main.label141.setText("id : " + tweetList.First().StatusID.ToString());
-            if (tweetList.First().StatusID > TweetID) // there's a new tweet to parse !
+            CouponTimer.Interval = 8 * 60 * 60 * 1000; // 8h
+            try
             {
-                TweetCoupon = firstTweet.Substring(firstTweet.Length - 10);
-                TweetID = tweetList.First().StatusID;
-                await main.pf.sendCoupon(TweetCoupon);
-                main.label141.setText("Last coupon detected : " + TweetCoupon);
+                var tweetList = GetTwitterFeeds();
+                string firstTweet = tweetList.First().Text.ToString();
+                //main.label141.setText("id : " + tweetList.First().StatusID.ToString());
+                if (tweetList.First().StatusID > TweetID) // there's a new tweet to parse !
+                {
+                    TweetCoupon = firstTweet.Substring(firstTweet.Length - 10);
+                    TweetID = tweetList.First().StatusID;
+                    await main.pf.sendCoupon(TweetCoupon);
+                    main.label141.setText("Last coupon detected : " + TweetCoupon);
+                }
+            }
+            catch
+            {
+                main.label141.setText("Unable to connect to Twitter");
             }
         }
 

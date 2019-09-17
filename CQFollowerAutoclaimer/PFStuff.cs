@@ -43,6 +43,8 @@ namespace CQFollowerAutoclaimer
         static public int[] PGDeck;
         static public int[] PGPicked;
         static public int PGWon;
+        static public int AdventureDay;
+        static public int AdventureStatus;
         static public int LotteryDay;
 
         static public string[] nearbyPlayersIDs;
@@ -214,7 +216,7 @@ namespace CQFollowerAutoclaimer
                     PGDeck = getArray(json["data"]["city"]["pge"]["cards"].ToString());
                     PGPicked = getArray(json["data"]["city"]["pge"]["picks"].ToString());
                     PGWon = (int)json["data"]["city"]["pge"]["pg"];
-                    if ((int)json["data"]["city"]["pge"]["tid"] < (int)json["data"]["city"]["tour"][0]["tid"])
+                    if ((int)json["data"]["city"]["pge"]["tid"] > (int)json["data"]["city"]["tour"][0]["tid"])
                     {
                         PGCards = "8";
                         for (int i = 0; i < PGDeck.Length; i++)
@@ -223,6 +225,10 @@ namespace CQFollowerAutoclaimer
                             PGPicked[i] = -1;
                         }
                     }
+                    else
+                    {
+                        PGCards = "no";
+                    }
                 }
                 catch
                 {
@@ -230,6 +236,17 @@ namespace CQFollowerAutoclaimer
                     PGDeck = null;
                     PGPicked = null;
                     PGWon = 0;
+                }
+                AdventureStatus = 0;
+                try
+                {
+                    if ((int)json["data"]["city"]["adventure"]["tid"] > (int)json["data"]["city"]["tour"][0]["tid"] && json["data"]["city"]["adventure"]["time"] == null)
+                    {
+                        AdventureStatus = 1;
+                    }
+                }
+                catch
+                {
                 }
                 return true;
             }
@@ -390,6 +407,14 @@ namespace CQFollowerAutoclaimer
                 {
                     CCDay = -1;
                 }
+                if (json["adventure"] != null)
+                {
+                    AdventureDay = 1;
+                }
+                else
+                {
+                    AdventureDay = -1;
+                }
                 if (json["lottery"] != null)
                 {
                     LotteryDay = 1;
@@ -430,6 +455,9 @@ namespace CQFollowerAutoclaimer
                 if (json["pge"] == null || (bool)json["pge"] != true)
                 {
                     PGCards = "no";
+                    PGDeck = null;
+                    PGPicked = null;
+                    PGWon = 0;
                 }
             }
             // MB fix to prevent crashes
@@ -803,6 +831,35 @@ namespace CQFollowerAutoclaimer
                 JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
                 PGDeck = getArray(json["data"]["city"]["pge"]["cards"].ToString());
                 PGPicked = getArray(json["data"]["city"]["pge"]["picks"].ToString());
+                return true;
+            }
+        }
+
+        public async Task<bool> sendAdventure(int kind, int pct)
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Live,
+                FunctionName = "adventure",
+                FunctionParameter = new { kind = kind, percentage = pct }
+            };
+            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\n\t Sending Adventure (" + kind.ToString() + ", " + pct.ToString() + "%)");
+            }
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null)// || !statusTask.Result.FunctionResult.ToString().Contains("true"))
+            {
+                //logError("Cloud Script Error: Send Adventure", statusTask);
+                return false;
+            }
+            else
+            {
                 return true;
             }
         }
