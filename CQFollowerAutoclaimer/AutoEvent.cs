@@ -71,6 +71,7 @@ namespace CQFollowerAutoclaimer
                         {
                             EventTimer.Interval = 10 * 1000;
                             // ask gsheet
+                            /*
                             switch (l)
                             {
                                 case 1: // let's ask for 2nd cell
@@ -122,6 +123,15 @@ namespace CQFollowerAutoclaimer
                                     cellToPick = rnd.Next(0, 11);
                                 } while (cellToPick == c1 || cellToPick == c2);
                             }
+                            */
+                            // new code without gsheet
+                            int cellToPick;
+                            int res = 0;
+                            do
+                            {
+                                Random rnd = new Random();
+                                cellToPick = rnd.Next(0, 11);
+                            } while (cellToPick == c1 || cellToPick == c2);
                             switch (l)
                             {
                                 case 0: // we received first cell
@@ -155,6 +165,7 @@ namespace CQFollowerAutoclaimer
                                     values += "-";
                                 values += PFStuff.LuckyFollowersLocal[i];
                             }
+                            /*
                             if (!PFStuff.LuckyFollowersSent.Contains(values) && PFStuff.LuckyFollowersLocal[1] != -1)
                             {
                                 requrl = requrl_base + "addtpl&v=" + values;
@@ -173,6 +184,7 @@ namespace CQFollowerAutoclaimer
                                     main.label122.setText("Lucky Followers : done, new template added (" + values + ")");
                                 }
                             }
+                            */
                         }
                     }
                     catch (Exception webex)
@@ -281,7 +293,8 @@ namespace CQFollowerAutoclaimer
                             }
                         }
                     }
-                    main.label125.setText("PG match cards : " + String.Join(",", PFStuff.PGDeck.Select(p => p.ToString()).ToArray()));
+                    //main.label125.setText("PG match cards : " + String.Join(",", PFStuff.PGDeck.Select(p => p.ToString()).ToArray()));
+                    main.label125.setText("PG match cards : CQA is playing, please wait");
                 }
                 else
                 {
@@ -290,10 +303,14 @@ namespace CQFollowerAutoclaimer
                     else
                         main.label125.setText("PG match cards : not active today");
                 }
-                main.label145.setText("Adventure : " + (PFStuff.AdventureDay == 1 ? "active" : "not active") + " today");
+                main.label145.setText("Adventure : not active today");
                 if (PFStuff.AdventureDay == 1 && PFStuff.AdventureStatus == 1)
                 {
                     await main.pf.sendAdventure(2, 100);
+                }
+                if (PFStuff.AdventureDay == 1)
+                {
+                    main.label145.setText("Adventure : active today, under progress");
                 }
                 main.label126.setText("Lottery : " + (PFStuff.LotteryDay == 1 ? "active" : "not active") + " today");
                 main.AEIndicator.BackColor = Color.Green;

@@ -181,7 +181,7 @@ namespace CQFollowerAutoclaimer
             }
             if (statusTask.Result == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
-                logError("Cloud Script Error: status", statusTask);
+                //logError("Cloud Script Error: status", statusTask);
                 return false;
             }
             else
@@ -216,7 +216,7 @@ namespace CQFollowerAutoclaimer
                     PGDeck = getArray(json["data"]["city"]["pge"]["cards"].ToString());
                     PGPicked = getArray(json["data"]["city"]["pge"]["picks"].ToString());
                     PGWon = (int)json["data"]["city"]["pge"]["pg"];
-                    if ((int)json["data"]["city"]["pge"]["tid"] > (int)json["data"]["city"]["tour"][0]["tid"])
+                    if ((int)json["data"]["city"]["pge"]["tid"] >= (int)json["data"]["city"]["tour"][0]["tid"] && (bool)json["data"]["city"]["pge"]["done"] != true)
                     {
                         PGCards = "8";
                         for (int i = 0; i < PGDeck.Length; i++)
@@ -240,7 +240,7 @@ namespace CQFollowerAutoclaimer
                 AdventureStatus = 0;
                 try
                 {
-                    if ((int)json["data"]["city"]["adventure"]["tid"] > (int)json["data"]["city"]["tour"][0]["tid"] && json["data"]["city"]["adventure"]["time"] == null)
+                    if ((int)json["data"]["city"]["adventure"]["tid"] >= (int)json["data"]["city"]["tour"][0]["tid"] && json["data"]["city"]["adventure"]["time"] == null)
                     {
                         AdventureStatus = 1;
                     }
