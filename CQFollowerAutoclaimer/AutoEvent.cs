@@ -306,7 +306,18 @@ namespace CQFollowerAutoclaimer
                 main.label145.setText("Adventure : not active today");
                 if (PFStuff.AdventureDay == 1 && PFStuff.AdventureStatus == 1)
                 {
-                    await main.pf.sendAdventure(2, 100);
+                    if (main.pf.ascensionSpheres >= 100)
+                    {
+                        await main.pf.sendAdventure(2, 100);
+                    }
+                    else if (main.pf.pranaGems >= 100)
+                    {
+                        await main.pf.sendAdventure(1, 100);
+                    }
+                    else if (main.pf.cosmicCoins >= 100)
+                    {
+                        await main.pf.sendAdventure(0, 100);
+                    }
                 }
                 if (PFStuff.AdventureDay == 1)
                 {
