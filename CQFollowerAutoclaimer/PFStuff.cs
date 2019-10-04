@@ -216,7 +216,7 @@ namespace CQFollowerAutoclaimer
                     PGDeck = getArray(json["data"]["city"]["pge"]["cards"].ToString());
                     PGPicked = getArray(json["data"]["city"]["pge"]["picks"].ToString());
                     PGWon = (int)json["data"]["city"]["pge"]["pg"];
-                    if ((int)json["data"]["city"]["pge"]["tid"] >= (int)json["data"]["city"]["tour"][0]["tid"] && (bool)json["data"]["city"]["pge"]["done"] != true)
+                    if ((int)json["data"]["city"]["pge"]["tid"] < (int)json["data"]["city"]["tour"][0]["tid"]) // don't consider last week
                     {
                         PGCards = "8";
                         for (int i = 0; i < PGDeck.Length; i++)
@@ -224,10 +224,6 @@ namespace CQFollowerAutoclaimer
                             PGDeck[i] = 0;
                             PGPicked[i] = -1;
                         }
-                    }
-                    else
-                    {
-                        PGCards = "no";
                     }
                 }
                 catch
