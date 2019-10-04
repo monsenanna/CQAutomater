@@ -44,8 +44,8 @@ namespace CQFollowerAutoclaimer
                 {
                     await main.login();
                 }
-                PFStuff.getWebsiteData(main.KongregateId);
                 await main.pf.GetGameData();
+                PFStuff.getWebsiteData(main.KongregateId);
                 EventTimer.Interval = 30 * 1000; // 30sec
 
                 /* status :
