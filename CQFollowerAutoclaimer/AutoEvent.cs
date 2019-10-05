@@ -223,12 +223,12 @@ namespace CQFollowerAutoclaimer
                         main.label124.setText("CC Catcher : sent score " + score);
                     }
                 }
-                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, PGCards attempts remaining : " + PFStuff.PGCards);
                     sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, PGPicked : " + String.Join(",", PFStuff.PGPicked.Select(p => p.ToString()).ToArray()));
                     sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, PGDeck : " + String.Join(",", PFStuff.PGDeck.Select(p => p.ToString()).ToArray()));
-                }
+                }*/
                 if (PFStuff.PGCards != null && PFStuff.PGCards != "no" && PFStuff.PGCards != "done")
                 { // let's run PGCards
                     var nbCells = PFStuff.PGDeck.Length;
