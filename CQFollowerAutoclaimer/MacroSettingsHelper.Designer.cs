@@ -60,6 +60,7 @@
             this.autoPVPBox = new System.Windows.Forms.CheckBox();
             this.autoChestBox = new System.Windows.Forms.CheckBox();
             this.autoDQBox = new System.Windows.Forms.CheckBox();
+            this.warnTMHBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.defaultActionCount)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lowerPercCount)).BeginInit();
@@ -410,11 +411,22 @@
             this.autoDQBox.Text = "Enable autoDQ";
             this.autoDQBox.UseVisualStyleBackColor = true;
             // 
+            // warnTMHBox
+            // 
+            this.warnTMHBox.AutoSize = true;
+            this.warnTMHBox.Location = new System.Drawing.Point(330, 130);
+            this.warnTMHBox.Name = "warnTMHBox";
+            this.warnTMHBox.Size = new System.Drawing.Size(169, 17);
+            this.warnTMHBox.TabIndex = 4;
+            this.warnTMHBox.Text = "Warn if using too many heroes";
+            this.warnTMHBox.UseVisualStyleBackColor = true;
+            // 
             // MacroSettingsHelper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(544, 413);
+            this.Controls.Add(this.warnTMHBox);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.button2);
@@ -483,5 +495,6 @@
         private System.Windows.Forms.CheckBox autoWBBox;
         private System.Windows.Forms.CheckBox autoPVPBox;
         private System.Windows.Forms.CheckBox autoChestBox;
+        private System.Windows.Forms.CheckBox warnTMHBox;
     }
 }

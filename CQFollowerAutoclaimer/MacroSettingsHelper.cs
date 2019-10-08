@@ -67,6 +67,7 @@ namespace CQFollowerAutoclaimer
             autoDQBox.Checked = a.autoDQEnabled ?? false;
             autoWBBox.Checked = a.autoWBEnabled ?? false;
             autoPVPBox.Checked = a.autoPvPEnabled ?? false;
+            warnTMHBox.Checked = a.warnManyHeroes ?? true;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -127,6 +128,7 @@ namespace CQFollowerAutoclaimer
             a.autoDQEnabled = autoDQBox.Checked;
             a.autoPvPEnabled = autoPVPBox.Checked;
             a.autoWBEnabled = autoWBBox.Checked;
+            a.warnManyHeroes = warnTMHBox.Checked;
 
             if (lowerFlatRadio.Checked)
             {
