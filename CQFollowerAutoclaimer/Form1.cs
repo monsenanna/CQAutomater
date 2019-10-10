@@ -741,7 +741,7 @@ namespace CQFollowerAutoclaimer
         {
             if (autoWBCheckbox.Checked)
             {
-                if ((DateTime.Now - start).TotalSeconds > 10)
+                if (appSettings.usernameActivated != true && (DateTime.Now - start).TotalSeconds > 10)
                 {
                     DialogResult dr = MessageBox.Show("Warning: auto-WB will work correctly only if you enabled your username on website. Are you sure you've enabled your username?", "WB Name Question",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);

@@ -68,8 +68,8 @@ namespace CQFollowerAutoclaimer
             autoWBBox.Checked = a.autoWBEnabled ?? false;
             autoPVPBox.Checked = a.autoPvPEnabled ?? false;
             warnTMHBox.Checked = a.warnManyHeroes ?? true;
+            usernameActivatedBox.Checked = a.usernameActivated ?? true;
         }
-
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             actionLabel.Text = DefaultActions[(int)defaultActionCount.Value];
@@ -129,6 +129,7 @@ namespace CQFollowerAutoclaimer
             a.autoPvPEnabled = autoPVPBox.Checked;
             a.autoWBEnabled = autoWBBox.Checked;
             a.warnManyHeroes = warnTMHBox.Checked;
+            a.usernameActivated = usernameActivatedBox.Checked;
 
             if (lowerFlatRadio.Checked)
             {
