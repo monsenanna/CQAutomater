@@ -22,7 +22,6 @@ using System.Runtime.InteropServices;
 using System.Net;
 using System.Reflection;
 
-
 namespace CQFollowerAutoclaimer
 {
     public partial class Form1 : Form
@@ -64,14 +63,41 @@ namespace CQFollowerAutoclaimer
 
         public Form1()
         {
+            /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\n\t test");
+            }
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            {
+                string resourceName = new AssemblyName(args.Name).Name + ".dll";
+                string resource = Array.Find(this.GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
+
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
+                {
+                    Byte[] assemblyData = new Byte[stream.Length];
+                    stream.Read(assemblyData, 0, assemblyData.Length);
+                    return Assembly.Load(assemblyData);
+                }
+            };
+            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\n\t test2");
+            }*/
             InitializeComponent();
-            AppDomain currentDomain = AppDomain.CurrentDomain;
+            /*AppDomain currentDomain = AppDomain.CurrentDomain;
             currentDomain.UnhandledException += currentDomain_UnhandledException;
 
             // include dll
             AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("LinqToTwitter.AspNet")) return Assembly.Load(Properties.Resources.LinqToTwitter_AspNet); return null; };
             AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("LinqToTwitter.netstandard")) return Assembly.Load(Properties.Resources.LinqToTwitter_netstandard); return null; };
             AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Newtonsoft.Json")) return Assembly.Load(Properties.Resources.Newtonsoft_Json); return null; };
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Google.Apis")) return Assembly.Load(Properties.Resources.Google_Apis); return null; };
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Google.Apis.Auth")) return Assembly.Load(Properties.Resources.Google_Apis_Auth); return null; };
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Google.Apis.Auth.PlatformServices")) return Assembly.Load(Properties.Resources.Google_Apis_Auth_PlatformServices); return null; };
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Google.Apis.Sheets.v4")) return Assembly.Load(Properties.Resources.Google_Apis_Sheets_v4); return null; };
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Google.Apis.Oauth")) return Assembly.Load(Properties.Resources.Google_Apis_Oauth2_v2); return null; };
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Google.Apis.Core")) return Assembly.Load(Properties.Resources.Google_Apis_Core); return null; };
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Google.Apis.PlatformServices")) return Assembly.Load(Properties.Resources.Google_Apis_PlatformServices); return null; };*/
 
             timeLabels = new Label[] { claimtime1, claimtime2, claimtime3, claimtime4, claimtime5, claimtime6, claimtime7, claimtime8, claimtime9 };
             enableBoxes = new List<CheckBox> { DQCalcBox, freeChestBox, autoPvPCheckbox, autoWBCheckbox };
@@ -111,6 +137,7 @@ namespace CQFollowerAutoclaimer
                     }
                 }
             }
+            versionLabel.Text = Constants.version;
 
             init();
 
@@ -148,10 +175,10 @@ namespace CQFollowerAutoclaimer
         #region START
         private void init()
         {
-            if (!File.Exists("Newtonsoft.Json.dll"))
+            /*if (!File.Exists("Newtonsoft.Json.dll"))
             {
                 MessageBox.Show("Newtonsoft file not found. Please download it from this project's github");
-            }
+            }*/
             if (File.Exists(SettingsFilename))
             {
                 appSettings = AppSettings.loadSettings();
@@ -457,7 +484,7 @@ namespace CQFollowerAutoclaimer
         {
             if (freeChestBox.Checked)
             {
-                chestIndicator.BackColor = Color.Green;
+                chestIndicator.BackColor = System.Drawing.Color.Green;
                 if ((DateTime.Now - start).TotalSeconds > 3)
                 {
                     await getCurr();
@@ -465,7 +492,7 @@ namespace CQFollowerAutoclaimer
             }
             else
             {
-                chestIndicator.BackColor = Color.Red;
+                chestIndicator.BackColor = System.Drawing.Color.Red;
             }
         }
 
@@ -479,7 +506,7 @@ namespace CQFollowerAutoclaimer
         {
             if (autoPvPCheckbox.Checked)
             {
-                PVPIndicator.BackColor = Color.Green;
+                PVPIndicator.BackColor = System.Drawing.Color.Green;
                 if ((DateTime.Now - start).TotalSeconds > 3)
                 {
                     await getData();
@@ -497,7 +524,7 @@ namespace CQFollowerAutoclaimer
             }
             else
             {
-                PVPIndicator.BackColor = Color.Red;
+                PVPIndicator.BackColor = System.Drawing.Color.Red;
             }
         }
         #endregion
@@ -514,17 +541,17 @@ namespace CQFollowerAutoclaimer
 
             if (DQCalcBox.Checked)
             {
-                DQIndicator.BackColor = Color.Green;
+                DQIndicator.BackColor = System.Drawing.Color.Green;
             }
             else
             {
                 if (DQBestBox.Checked)
                 {
-                    DQIndicator.BackColor = Color.Yellow;
+                    DQIndicator.BackColor = System.Drawing.Color.Yellow;
                 }
                 else
                 {
-                    DQIndicator.BackColor = Color.Red;
+                    DQIndicator.BackColor = System.Drawing.Color.Red;
                 }
             }
             if (DQCalcBox.Checked && (DateTime.Now - start).TotalSeconds > 3)
@@ -618,7 +645,7 @@ namespace CQFollowerAutoclaimer
 
         private void macroCreatorGithubButton_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/Alya-N/CQMacroCreator");
+            System.Diagnostics.Process.Start("https://github.com/MatthieuBonne/CQMacroCreator");
         }
 
         private void saveDQSettingsButton_Click(object sender, EventArgs e)
@@ -747,25 +774,25 @@ namespace CQFollowerAutoclaimer
                         MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                     if (dr == DialogResult.Yes)
                     {
-                        WBIndicator.BackColor = safeModeWB.Checked ? Color.Yellow : Color.Green;
+                        WBIndicator.BackColor = safeModeWB.Checked ? System.Drawing.Color.Yellow : System.Drawing.Color.Green;
                         safeModeWB.Enabled = true;
                     }
                     else
                     {
                         autoWBCheckbox.Checked = false;
-                        WBIndicator.BackColor = Color.Red;
+                        WBIndicator.BackColor = System.Drawing.Color.Red;
                         //safeModeWB.Enabled = false;
                     }
                 }
                 else
                 {
-                    WBIndicator.BackColor = safeModeWB.Checked ? Color.Yellow : Color.Green;
+                    WBIndicator.BackColor = safeModeWB.Checked ? System.Drawing.Color.Yellow : System.Drawing.Color.Green;
                     safeModeWB.Enabled = true;
                 }
             }
             else
             {
-                WBIndicator.BackColor = Color.Red;
+                WBIndicator.BackColor = System.Drawing.Color.Red;
                 safeModeWB.Enabled = false;
             }
         }
@@ -816,11 +843,11 @@ namespace CQFollowerAutoclaimer
         {
             if (auctionHero1Box.Checked)
             {
-                ah1Indicator.BackColor = Color.Green;
+                ah1Indicator.BackColor = System.Drawing.Color.Green;
             }
             else
             {
-                ah1Indicator.BackColor = Color.Red;
+                ah1Indicator.BackColor = System.Drawing.Color.Red;
             }
         }
 
@@ -828,11 +855,11 @@ namespace CQFollowerAutoclaimer
         {
             if (auctionHero2Box.Checked)
             {
-                ah2Indicator.BackColor = Color.Green;
+                ah2Indicator.BackColor = System.Drawing.Color.Green;
             }
             else
             {
-                ah2Indicator.BackColor = Color.Red;
+                ah2Indicator.BackColor = System.Drawing.Color.Red;
             }
         }
 
@@ -840,11 +867,11 @@ namespace CQFollowerAutoclaimer
         {
             if (auctionHero3Box.Checked)
             {
-                ah3Indicator.BackColor = Color.Green;
+                ah3Indicator.BackColor = System.Drawing.Color.Green;
             }
             else
             {
-                ah3Indicator.BackColor = Color.Red;
+                ah3Indicator.BackColor = System.Drawing.Color.Red;
             }
         }
 
@@ -852,15 +879,15 @@ namespace CQFollowerAutoclaimer
         {
             if (DQCalcBox.Checked)
             {
-                DQIndicator.BackColor = Color.Green;
+                DQIndicator.BackColor = System.Drawing.Color.Green;
             }
             else if (DQBestBox.Checked)
             {
-                DQIndicator.BackColor = Color.Yellow;
+                DQIndicator.BackColor = System.Drawing.Color.Yellow;
             }
             else
             {
-                DQIndicator.BackColor = Color.Red;
+                DQIndicator.BackColor = System.Drawing.Color.Red;
             }
         }
 
@@ -873,13 +900,13 @@ namespace CQFollowerAutoclaimer
         {
             if (autoLevelCheckbox.Checked)
             {
-                ALIndicator.BackColor = Color.Green;
+                ALIndicator.BackColor = System.Drawing.Color.Green;
                 autoLevel.levelTimer.Interval = 60 * 1000;
                 autoLevel.nextLevelCheck = DateTime.Now.AddMilliseconds(autoLevel.levelTimer.Interval);
             }
             else
             {
-                ALIndicator.BackColor = Color.Red;
+                ALIndicator.BackColor = System.Drawing.Color.Red;
             }
         }
 
@@ -887,15 +914,15 @@ namespace CQFollowerAutoclaimer
         {
             if (safeModeWB.Checked && autoWBCheckbox.Checked)
             {
-                WBIndicator.BackColor = Color.Orange;
+                WBIndicator.BackColor = System.Drawing.Color.Orange;
             }
             else if (autoWBCheckbox.Checked)
             {
-                WBIndicator.BackColor = Color.Green;
+                WBIndicator.BackColor = System.Drawing.Color.Green;
             }
             else
             {
-                WBIndicator.BackColor = Color.Red;
+                WBIndicator.BackColor = System.Drawing.Color.Red;
             }
         }
 
@@ -920,12 +947,12 @@ namespace CQFollowerAutoclaimer
         {
             if (autoEvCheckbox.Checked)
             {
-                AEIndicator.BackColor = Color.Green;
+                AEIndicator.BackColor = System.Drawing.Color.Green;
                 autoEvent.EventTimer.Interval = 30 * 1000;
             }
             else
             {
-                AEIndicator.BackColor = Color.Red;
+                AEIndicator.BackColor = System.Drawing.Color.Red;
             }
             appSettings = AppSettings.loadSettings();
             appSettings.autoEvEnabled = autoEvCheckbox.Checked;
@@ -935,6 +962,17 @@ namespace CQFollowerAutoclaimer
         private void PranaHeroCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
             autoLevel.updateHeroLevels();
+        }
+        private void DoAutoLFCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            appSettings = AppSettings.loadSettings();
+            appSettings.doAutoLF = doAutoLFCheckbox.Checked;
+            appSettings.doAutoKT = doAutoKTCheckbox.Checked;
+            appSettings.doAutoCC = doAutoCCCheckbox.Checked;
+            appSettings.doAutoPG = doAutoPGCheckbox.Checked;
+            appSettings.doAutoAD = doAutoADCheckbox.Checked;
+            appSettings.doAutoLO = doAutoLOCheckbox.Checked;
+            appSettings.saveSettings();
         }
     }
 }

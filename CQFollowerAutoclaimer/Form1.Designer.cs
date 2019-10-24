@@ -34,7 +34,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.label22 = new System.Windows.Forms.Label();
+            this.versionLabel = new System.Windows.Forms.Label();
             this.DQIndicator = new System.Windows.Forms.Label();
             this.chestIndicator = new System.Windows.Forms.Label();
             this.PVPIndicator = new System.Windows.Forms.Label();
@@ -346,6 +346,13 @@
             this.label80 = new System.Windows.Forms.Label();
             this.label76 = new System.Windows.Forms.Label();
             this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.doAutoLOCheckbox = new System.Windows.Forms.CheckBox();
+            this.doAutoADCheckbox = new System.Windows.Forms.CheckBox();
+            this.doAutoPGCheckbox = new System.Windows.Forms.CheckBox();
+            this.doAutoCCCheckbox = new System.Windows.Forms.CheckBox();
+            this.doAutoKTCheckbox = new System.Windows.Forms.CheckBox();
+            this.doAutoLFCheckbox = new System.Windows.Forms.CheckBox();
+            this.label145 = new System.Windows.Forms.Label();
             this.label141 = new System.Windows.Forms.Label();
             this.autoEvCheckbox = new System.Windows.Forms.CheckBox();
             this.label133 = new System.Windows.Forms.Label();
@@ -368,7 +375,8 @@
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
-            this.label145 = new System.Windows.Forms.Label();
+            this.lotteryCount = new System.Windows.Forms.NumericUpDown();
+            this.adventurePriority = new System.Windows.Forms.ComboBox();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -433,6 +441,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pranaBankCount)).BeginInit();
             this.tabPage9.SuspendLayout();
             this.tabPage6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.lotteryCount)).BeginInit();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -464,14 +473,14 @@
             this.toolStripMenuItem2.Text = "Exit";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
-            // label22
+            // versionLabel
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(465, 9);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(46, 13);
-            this.label22.TabIndex = 32;
-            this.label22.Text = Constants.version;
+            this.versionLabel.AutoSize = true;
+            this.versionLabel.Location = new System.Drawing.Point(465, 9);
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(22, 13);
+            this.versionLabel.TabIndex = 32;
+            this.versionLabel.Text = "v...";
             // 
             // DQIndicator
             // 
@@ -4117,6 +4126,14 @@
             // 
             // tabPage9
             // 
+            this.tabPage9.Controls.Add(this.adventurePriority);
+            this.tabPage9.Controls.Add(this.lotteryCount);
+            this.tabPage9.Controls.Add(this.doAutoLOCheckbox);
+            this.tabPage9.Controls.Add(this.doAutoADCheckbox);
+            this.tabPage9.Controls.Add(this.doAutoPGCheckbox);
+            this.tabPage9.Controls.Add(this.doAutoCCCheckbox);
+            this.tabPage9.Controls.Add(this.doAutoKTCheckbox);
+            this.tabPage9.Controls.Add(this.doAutoLFCheckbox);
             this.tabPage9.Controls.Add(this.label145);
             this.tabPage9.Controls.Add(this.label141);
             this.tabPage9.Controls.Add(this.autoEvCheckbox);
@@ -4136,11 +4153,81 @@
             this.tabPage9.Text = "Events";
             this.tabPage9.UseVisualStyleBackColor = true;
             // 
+            // doAutoLOCheckbox
+            // 
+            this.doAutoLOCheckbox.AutoSize = true;
+            this.doAutoLOCheckbox.Location = new System.Drawing.Point(10, 254);
+            this.doAutoLOCheckbox.Name = "doAutoLOCheckbox";
+            this.doAutoLOCheckbox.Size = new System.Drawing.Size(15, 14);
+            this.doAutoLOCheckbox.TabIndex = 56;
+            this.doAutoLOCheckbox.UseVisualStyleBackColor = true;
+            this.doAutoLOCheckbox.CheckedChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
+            // 
+            // doAutoADCheckbox
+            // 
+            this.doAutoADCheckbox.AutoSize = true;
+            this.doAutoADCheckbox.Location = new System.Drawing.Point(10, 224);
+            this.doAutoADCheckbox.Name = "doAutoADCheckbox";
+            this.doAutoADCheckbox.Size = new System.Drawing.Size(15, 14);
+            this.doAutoADCheckbox.TabIndex = 55;
+            this.doAutoADCheckbox.UseVisualStyleBackColor = true;
+            this.doAutoADCheckbox.CheckedChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
+            // 
+            // doAutoPGCheckbox
+            // 
+            this.doAutoPGCheckbox.AutoSize = true;
+            this.doAutoPGCheckbox.Location = new System.Drawing.Point(10, 196);
+            this.doAutoPGCheckbox.Name = "doAutoPGCheckbox";
+            this.doAutoPGCheckbox.Size = new System.Drawing.Size(15, 14);
+            this.doAutoPGCheckbox.TabIndex = 54;
+            this.doAutoPGCheckbox.UseVisualStyleBackColor = true;
+            this.doAutoPGCheckbox.CheckedChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
+            // 
+            // doAutoCCCheckbox
+            // 
+            this.doAutoCCCheckbox.AutoSize = true;
+            this.doAutoCCCheckbox.Location = new System.Drawing.Point(10, 166);
+            this.doAutoCCCheckbox.Name = "doAutoCCCheckbox";
+            this.doAutoCCCheckbox.Size = new System.Drawing.Size(15, 14);
+            this.doAutoCCCheckbox.TabIndex = 53;
+            this.doAutoCCCheckbox.UseVisualStyleBackColor = true;
+            this.doAutoCCCheckbox.CheckedChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
+            // 
+            // doAutoKTCheckbox
+            // 
+            this.doAutoKTCheckbox.AutoSize = true;
+            this.doAutoKTCheckbox.Location = new System.Drawing.Point(10, 134);
+            this.doAutoKTCheckbox.Name = "doAutoKTCheckbox";
+            this.doAutoKTCheckbox.Size = new System.Drawing.Size(15, 14);
+            this.doAutoKTCheckbox.TabIndex = 52;
+            this.doAutoKTCheckbox.UseVisualStyleBackColor = true;
+            this.doAutoKTCheckbox.CheckedChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
+            // 
+            // doAutoLFCheckbox
+            // 
+            this.doAutoLFCheckbox.AutoSize = true;
+            this.doAutoLFCheckbox.Location = new System.Drawing.Point(10, 106);
+            this.doAutoLFCheckbox.Name = "doAutoLFCheckbox";
+            this.doAutoLFCheckbox.Size = new System.Drawing.Size(15, 14);
+            this.doAutoLFCheckbox.TabIndex = 51;
+            this.doAutoLFCheckbox.UseVisualStyleBackColor = true;
+            this.doAutoLFCheckbox.CheckedChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
+            // 
+            // label145
+            // 
+            this.label145.AutoSize = true;
+            this.label145.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.label145.Location = new System.Drawing.Point(31, 224);
+            this.label145.Name = "label145";
+            this.label145.Size = new System.Drawing.Size(69, 16);
+            this.label145.TabIndex = 50;
+            this.label145.Text = "Adventure";
+            // 
             // label141
             // 
             this.label141.AutoSize = true;
             this.label141.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label141.Location = new System.Drawing.Point(6, 314);
+            this.label141.Location = new System.Drawing.Point(31, 314);
             this.label141.Name = "label141";
             this.label141.Size = new System.Drawing.Size(55, 16);
             this.label141.TabIndex = 49;
@@ -4161,7 +4248,7 @@
             // 
             this.label133.AutoSize = true;
             this.label133.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label133.Location = new System.Drawing.Point(6, 74);
+            this.label133.Location = new System.Drawing.Point(31, 74);
             this.label133.Name = "label133";
             this.label133.Size = new System.Drawing.Size(63, 16);
             this.label133.TabIndex = 8;
@@ -4171,7 +4258,7 @@
             // 
             this.label126.AutoSize = true;
             this.label126.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label126.Location = new System.Drawing.Point(6, 254);
+            this.label126.Location = new System.Drawing.Point(31, 254);
             this.label126.Name = "label126";
             this.label126.Size = new System.Drawing.Size(48, 16);
             this.label126.TabIndex = 7;
@@ -4181,7 +4268,7 @@
             // 
             this.label125.AutoSize = true;
             this.label125.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label125.Location = new System.Drawing.Point(6, 194);
+            this.label125.Location = new System.Drawing.Point(31, 194);
             this.label125.Name = "label125";
             this.label125.Size = new System.Drawing.Size(64, 16);
             this.label125.TabIndex = 6;
@@ -4191,7 +4278,7 @@
             // 
             this.label124.AutoSize = true;
             this.label124.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label124.Location = new System.Drawing.Point(6, 164);
+            this.label124.Location = new System.Drawing.Point(31, 164);
             this.label124.Name = "label124";
             this.label124.Size = new System.Drawing.Size(47, 16);
             this.label124.TabIndex = 5;
@@ -4201,7 +4288,7 @@
             // 
             this.label123.AutoSize = true;
             this.label123.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label123.Location = new System.Drawing.Point(6, 134);
+            this.label123.Location = new System.Drawing.Point(31, 134);
             this.label123.Name = "label123";
             this.label123.Size = new System.Drawing.Size(25, 16);
             this.label123.TabIndex = 4;
@@ -4211,7 +4298,7 @@
             // 
             this.label122.AutoSize = true;
             this.label122.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label122.Location = new System.Drawing.Point(6, 104);
+            this.label122.Location = new System.Drawing.Point(31, 104);
             this.label122.Name = "label122";
             this.label122.Size = new System.Drawing.Size(23, 16);
             this.label122.TabIndex = 3;
@@ -4221,7 +4308,7 @@
             // 
             this.label109.AutoSize = true;
             this.label109.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label109.Location = new System.Drawing.Point(6, 44);
+            this.label109.Location = new System.Drawing.Point(31, 44);
             this.label109.Name = "label109";
             this.label109.Size = new System.Drawing.Size(35, 16);
             this.label109.TabIndex = 2;
@@ -4231,7 +4318,7 @@
             // 
             this.label73.AutoSize = true;
             this.label73.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label73.Location = new System.Drawing.Point(6, 14);
+            this.label73.Location = new System.Drawing.Point(31, 14);
             this.label73.Name = "label73";
             this.label73.Size = new System.Drawing.Size(41, 16);
             this.label73.TabIndex = 1;
@@ -4358,15 +4445,32 @@
             this.AEIndicator.TabIndex = 40;
             this.AEIndicator.Text = "          ";
             // 
-            // label145
+            // lotteryCount
             // 
-            this.label145.AutoSize = true;
-            this.label145.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label145.Location = new System.Drawing.Point(6, 224);
-            this.label145.Name = "label145";
-            this.label145.Size = new System.Drawing.Size(69, 16);
-            this.label145.TabIndex = 50;
-            this.label145.Text = "Adventure";
+            this.lotteryCount.Location = new System.Drawing.Point(437, 252);
+            this.lotteryCount.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.lotteryCount.Name = "lotteryCount";
+            this.lotteryCount.Size = new System.Drawing.Size(59, 20);
+            this.lotteryCount.TabIndex = 106;
+            // 
+            // adventurePriority
+            // 
+            this.adventurePriority.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.adventurePriority.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.adventurePriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.adventurePriority.FormattingEnabled = true;
+            this.adventurePriority.Items.AddRange(new object[] {
+            "AS",
+            "PG",
+            "CC"});
+            this.adventurePriority.Location = new System.Drawing.Point(437, 221);
+            this.adventurePriority.Name = "adventurePriority";
+            this.adventurePriority.Size = new System.Drawing.Size(58, 21);
+            this.adventurePriority.TabIndex = 107;
             // 
             // Form1
             // 
@@ -4382,7 +4486,7 @@
             this.Controls.Add(this.PVPIndicator);
             this.Controls.Add(this.chestIndicator);
             this.Controls.Add(this.DQIndicator);
-            this.Controls.Add(this.label22);
+            this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
@@ -4462,6 +4566,7 @@
             this.tabPage9.ResumeLayout(false);
             this.tabPage9.PerformLayout();
             this.tabPage6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.lotteryCount)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4473,7 +4578,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.Label DQIndicator;
         private System.Windows.Forms.Label chestIndicator;
         private System.Windows.Forms.Label PVPIndicator;
@@ -4808,6 +4913,14 @@
         public System.Windows.Forms.Label label143;
         public System.Windows.Forms.Label label142;
         public System.Windows.Forms.Label label145;
+        internal System.Windows.Forms.CheckBox doAutoLOCheckbox;
+        internal System.Windows.Forms.CheckBox doAutoADCheckbox;
+        internal System.Windows.Forms.CheckBox doAutoPGCheckbox;
+        internal System.Windows.Forms.CheckBox doAutoCCCheckbox;
+        internal System.Windows.Forms.CheckBox doAutoKTCheckbox;
+        internal System.Windows.Forms.CheckBox doAutoLFCheckbox;
+        internal System.Windows.Forms.NumericUpDown lotteryCount;
+        internal System.Windows.Forms.ComboBox adventurePriority;
     }
 }
 

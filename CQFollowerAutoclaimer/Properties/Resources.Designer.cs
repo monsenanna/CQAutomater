@@ -63,6 +63,86 @@ namespace CQFollowerAutoclaimer.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Byte[].
         /// </summary>
+        internal static byte[] Google_Apis {
+            get {
+                object obj = ResourceManager.GetObject("Google_Apis", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Byte[].
+        /// </summary>
+        internal static byte[] Google_Apis_Auth {
+            get {
+                object obj = ResourceManager.GetObject("Google_Apis_Auth", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Byte[].
+        /// </summary>
+        internal static byte[] Google_Apis_Auth_PlatformServices {
+            get {
+                object obj = ResourceManager.GetObject("Google_Apis_Auth_PlatformServices", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Byte[].
+        /// </summary>
+        internal static byte[] Google_Apis_Core {
+            get {
+                object obj = ResourceManager.GetObject("Google_Apis_Core", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Byte[].
+        /// </summary>
+        internal static byte[] Google_Apis_Oauth2_v2 {
+            get {
+                object obj = ResourceManager.GetObject("Google_Apis_Oauth2_v2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Byte[].
+        /// </summary>
+        internal static byte[] Google_Apis_PlatformServices {
+            get {
+                object obj = ResourceManager.GetObject("Google_Apis_PlatformServices", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Byte[].
+        /// </summary>
+        internal static byte[] Google_Apis_Sheets_v4 {
+            get {
+                object obj = ResourceManager.GetObject("Google_Apis_Sheets_v4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Byte[].
+        /// </summary>
+        internal static byte[] HtmlAgilityPack {
+            get {
+                object obj = ResourceManager.GetObject("HtmlAgilityPack", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Byte[].
+        /// </summary>
         internal static byte[] LinqToTwitter_AspNet {
             get {
                 object obj = ResourceManager.GetObject("LinqToTwitter_AspNet", resourceCulture);
@@ -109,9 +189,9 @@ namespace CQFollowerAutoclaimer.Properties {
         ///            &lt;value&gt;The value of the Oid.&lt;/value&gt;
         ///        &lt; [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
-        internal static string Newtonsoft_Json1 {
+        internal static string Newtonsoft_Json_xml {
             get {
-                return ResourceManager.GetString("Newtonsoft_Json1", resourceCulture);
+                return ResourceManager.GetString("Newtonsoft_Json_xml", resourceCulture);
             }
         }
     }

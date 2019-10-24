@@ -34,6 +34,12 @@ namespace CQFollowerAutoclaimer
         {
             AppSettings ap = AppSettings.loadSettings();
             main.autoEvCheckbox.Checked = ap.autoEvEnabled ?? false;
+            main.doAutoLFCheckbox.Checked = ap.doAutoLF ?? false;
+            main.doAutoKTCheckbox.Checked = ap.doAutoKT ?? false;
+            main.doAutoCCCheckbox.Checked = ap.doAutoCC ?? false;
+            main.doAutoPGCheckbox.Checked = ap.doAutoPG ?? false;
+            main.doAutoADCheckbox.Checked = ap.doAutoAD ?? false;
+            main.doAutoLOCheckbox.Checked = ap.doAutoLO ?? false;
         }
 
         async void EventTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -57,7 +63,7 @@ namespace CQFollowerAutoclaimer
                 main.label109.setText("EAS : " + (PFStuff.EASDay == 1 ? "active" : "not active") + " today");
                 main.label133.setText("Dungeon : " + (PFStuff.DungLevel != "-/-" ? "active" : "not active") + " today");
                 main.label122.setText("Lucky Followers : not active today");
-                if (PFStuff.LuckyFollowers != null)
+                if (main.doAutoLFCheckbox.Checked && PFStuff.LuckyFollowers != null)
                 {
                     try
                     {
@@ -196,7 +202,7 @@ namespace CQFollowerAutoclaimer
                     }
                 }
                 main.label123.setText("Keys Tower : not active today");
-                if (PFStuff.KeysTower != null)
+                if (main.doAutoKTCheckbox.Checked && PFStuff.KeysTower != null)
                 { // let's run KT
                     goodPicks = 0;
                     badPicks = 0;
@@ -212,7 +218,7 @@ namespace CQFollowerAutoclaimer
                     }
                 }
                 main.label124.setText("CC Catcher : not active today");
-                if (PFStuff.CCDay != -1)
+                if (main.doAutoCCCheckbox.Checked && PFStuff.CCDay != -1)
                 {
                     main.label124.setText("CC Catcher : active today ; current score = " + PFStuff.CCDone);
                     if (PFStuff.CCDone == 0)
@@ -223,13 +229,7 @@ namespace CQFollowerAutoclaimer
                         main.label124.setText("CC Catcher : sent score " + score);
                     }
                 }
-                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                {
-                    sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, PGCards attempts remaining : " + PFStuff.PGCards);
-                    sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, PGPicked : " + String.Join(",", PFStuff.PGPicked.Select(p => p.ToString()).ToArray()));
-                    sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, PGDeck : " + String.Join(",", PFStuff.PGDeck.Select(p => p.ToString()).ToArray()));
-                }*/
-                if (PFStuff.PGCards != null && PFStuff.PGCards != "no" && PFStuff.PGCards != "done")
+                if (main.doAutoPGCheckbox.Checked && PFStuff.PGCards != null && PFStuff.PGCards != "no" && PFStuff.PGCards != "done")
                 { // let's run PGCards
                     var nbCells = PFStuff.PGDeck.Length;
                     bool stop = false;
@@ -265,6 +265,10 @@ namespace CQFollowerAutoclaimer
                             {
                                 firstCard = i;
                                 await main.pf.sendPGPick(i);
+                                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                                {
+                                    sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, case 2a");
+                                }
                                 break;
                             }
                         }
@@ -275,6 +279,10 @@ namespace CQFollowerAutoclaimer
                             {
                                 // found ! let's pick 2nd card
                                 await main.pf.sendPGPick(j);
+                                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                                {
+                                    sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, case 2b");
+                                }
                                 stop = true;
                                 break;
                             }
@@ -287,6 +295,10 @@ namespace CQFollowerAutoclaimer
                                 if (firstCard != j && PFStuff.PGDeck[j] == -1)
                                 {
                                     await main.pf.sendPGPick(j);
+                                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                                    {
+                                        sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, case 2c");
+                                    }
                                     stop = true;
                                     break;
                                 }
@@ -298,25 +310,55 @@ namespace CQFollowerAutoclaimer
                 }
                 else
                 {
-                    if (PFStuff.PGCards == "done")
-                        main.label125.setText("PG match cards : event completed today, " + PFStuff.PGWon + " PG won");
-                    else
                         main.label125.setText("PG match cards : not active today");
                 }
                 main.label145.setText("Adventure : not active today");
-                if (PFStuff.AdventureDay == 1 && PFStuff.AdventureStatus == 1)
+                if (main.doAutoADCheckbox.Checked && PFStuff.AdventureDay == 1 && PFStuff.AdventureStatus == 1)
                 {
-                    if (main.pf.ascensionSpheres >= 100)
+                    switch (main.adventurePriority.SelectedIndex)
                     {
-                        await main.pf.sendAdventure(2, 100);
-                    }
-                    else if (main.pf.pranaGems >= 100)
-                    {
-                        await main.pf.sendAdventure(1, 100);
-                    }
-                    else if (main.pf.cosmicCoins >= 100)
-                    {
-                        await main.pf.sendAdventure(0, 100);
+                        case 2: // CC
+                            if (main.pf.cosmicCoins >= 100)
+                            {
+                                await main.pf.sendAdventure(0, 100);
+                            }
+                            else if (main.pf.ascensionSpheres >= 100)
+                            {
+                                await main.pf.sendAdventure(2, 100);
+                            }
+                            else if (main.pf.pranaGems >= 100)
+                            {
+                                await main.pf.sendAdventure(1, 100);
+                            }
+                            break;
+                        case 1: // PG
+                            if (main.pf.pranaGems >= 100)
+                            {
+                                await main.pf.sendAdventure(1, 100);
+                            }
+                            else if (main.pf.ascensionSpheres >= 100)
+                            {
+                                await main.pf.sendAdventure(2, 100);
+                            }
+                            else if (main.pf.cosmicCoins >= 100)
+                            {
+                                await main.pf.sendAdventure(0, 100);
+                            }
+                            break;
+                        default: // AS
+                            if (main.pf.ascensionSpheres >= 100)
+                            {
+                                await main.pf.sendAdventure(2, 100);
+                            }
+                            else if (main.pf.pranaGems >= 100)
+                            {
+                                await main.pf.sendAdventure(1, 100);
+                            }
+                            else if (main.pf.cosmicCoins >= 100)
+                            {
+                                await main.pf.sendAdventure(0, 100);
+                            }
+                            break;
                     }
                 }
                 if (PFStuff.AdventureDay == 1)
@@ -324,6 +366,13 @@ namespace CQFollowerAutoclaimer
                     main.label145.setText("Adventure : active today, under progress");
                 }
                 main.label126.setText("Lottery : " + (PFStuff.LotteryDay == 1 ? "active" : "not active") + " today");
+                if (main.doAutoLOCheckbox.Checked && PFStuff.LotteryDay == 1)
+                {
+                    if (PFStuff.LotteryCurrent < main.lotteryCount.Value)
+                    {
+                        await main.pf.sendLottery();
+                    }
+                }
                 main.AEIndicator.BackColor = Color.Green;
             }
         }
@@ -338,7 +387,6 @@ namespace CQFollowerAutoclaimer
             {
                 var tweetList = GetTwitterFeeds();
                 string firstTweet = tweetList.First().Text.ToString();
-                //main.label141.setText("id : " + tweetList.First().StatusID.ToString());
                 if (tweetList.First().StatusID > TweetID) // there's a new tweet to parse !
                 {
                     TweetCoupon = firstTweet.Substring(firstTweet.Length - 10);

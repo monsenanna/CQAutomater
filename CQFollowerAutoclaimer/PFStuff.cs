@@ -13,6 +13,11 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using System.IO;
 //using System.Net.Http;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Sheets.v4;
+using Google.Apis.Sheets.v4.Data;
+using Google.Apis.Services;
+
 
 namespace CQFollowerAutoclaimer
 {
@@ -28,6 +33,8 @@ namespace CQFollowerAutoclaimer
         static public bool DQResult;
         static public string PVPTime;
         static public string PVPCharges;
+        static public int PVPLastUpdate = 0;
+        static public JToken PVPGrid;
         static public int[] heroLevels;
         static public int emMultiplier;
         static public int FlashStatus;
@@ -46,6 +53,7 @@ namespace CQFollowerAutoclaimer
         static public int AdventureDay;
         static public int AdventureStatus;
         static public int LotteryDay;
+        static public int LotteryCurrent;
 
         static public string[] nearbyPlayersIDs;
         static public string username;
@@ -78,6 +86,8 @@ namespace CQFollowerAutoclaimer
         static public JArray auctionData;
 
         TaskQueue logQueue = new TaskQueue();
+        static public AppSettings ap = AppSettings.loadSettings();
+        static public bool doPVPHistory = ap.doPVPHistory ?? false;
 
         public PFStuff(string t, string kid)
         {
@@ -196,6 +206,9 @@ namespace CQFollowerAutoclaimer
                 //PVPTime = json["data"]["city"]["nextfight"].ToString();
                 PVPTime = json["data"]["city"]["pvp"]["next"].ToString();
                 PVPCharges = json["data"]["city"]["pvp"]["attacks"].ToString();
+                PVPGrid = json["data"]["city"]["setup"];
+                if (doPVPHistory)
+                    updatePVPHistory(json["data"]["city"]["log"]);
                 wbAttacksAvailable = int.Parse(json["data"]["city"]["WB"]["atks"].ToString());
                 wbAttackNext = Form1.getTime(json["data"]["city"]["WB"]["next"].ToString());
                 try
@@ -236,7 +249,7 @@ namespace CQFollowerAutoclaimer
                 AdventureStatus = 0;
                 try
                 {
-                    if ((int)json["data"]["city"]["adventure"]["tid"] >= (int)json["data"]["city"]["tour"][0]["tid"] && json["data"]["city"]["adventure"]["time"] == null)
+                    if ((int)json["data"]["city"]["adventure"]["tid"] >= (int)json["data"]["city"]["tour"][0]["tid"] || json["data"]["city"]["adventure"]["time"] == null)
                     {
                         AdventureStatus = 1;
                     }
@@ -245,6 +258,73 @@ namespace CQFollowerAutoclaimer
                 {
                 }
                 return true;
+            }
+        }
+
+        public void updatePVPHistory(JToken json)
+        {
+            try
+            {
+                string[] Scopes = { SheetsService.Scope.Spreadsheets };
+                string ApplicationName = "CQ PvP";
+                string SpreadsheetId = "1LMFWNFLzG2wYctLXcHs-8YPCXnxU_MxuB-Uh3U78ikw";
+                string sheet = "History";
+                // only use Gapi calls if there's been new data
+                var d = json[0]["date"].ToString();
+                d = d.Substring(0, d.Length - 3);
+                if (int.Parse(d) <= PVPLastUpdate)
+                    return;
+                PVPLastUpdate = int.Parse(d);
+                // connect & read
+                SheetsService service;
+                GoogleCredential credential = GoogleCredential.FromJson(PvPAuth.gCred).CreateScoped(Scopes);
+                service = new SheetsService(new BaseClientService.Initializer()
+                {
+                    HttpClientInitializer = credential,
+                    ApplicationName = ApplicationName,
+                });
+                var range = $"{sheet}!A2:D";
+                SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(SpreadsheetId, range);
+                var response = request.Execute();
+                IList<IList<object>> values = response.Values;
+                int lastdate = 0;
+                if (values != null && values.Count > 0)
+                {
+                    var lastrow = values[values.Count - 1];
+                    d = lastrow[0].ToString();
+                    lastdate = int.Parse(d);
+                }
+                for (int i = json.Count() - 1; i >= 0; i--)
+                {
+                    d = json[i]["date"].ToString();
+                    d = d.Substring(0, d.Length - 3);
+                    if (int.Parse(d) > lastdate)
+                    {
+                        // write new data
+                        var valueRange = new ValueRange();
+                        int ownLane = 0;
+                        for (int j = 0; j < 6; j++)
+                        {
+                            if (PVPGrid[j * 6].ToString() == json[i]["setup"][0].ToString())
+                            {
+                                ownLane = j + 1;
+                                break;
+                            }
+                        }
+                        var oblist = new List<object>() { d, json[i]["enemy"].ToString(), ownLane.ToString(), json[i]["result"].ToString() };
+                        valueRange.Values = new List<IList<object>> { oblist };
+                        var appendRequest = service.Spreadsheets.Values.Append(valueRange, SpreadsheetId, range);
+                        appendRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.USERENTERED;
+                        var appendReponse = appendRequest.Execute();
+                    }
+                }
+            }
+            catch (Exception webex)
+            {
+                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now + "\n\t" + webex.Message);
+                }
             }
         }
 
@@ -373,7 +453,7 @@ namespace CQFollowerAutoclaimer
                 attacksLeft = int.Parse(WBData["atk"].ToString());
                 if (json["flash"] != null)
                 {
-                    FlashStatus = 1;// json["FlashStatus"].ToString();
+                    FlashStatus = 1;
                 }
                 else
                 {
@@ -403,21 +483,23 @@ namespace CQFollowerAutoclaimer
                 {
                     CCDay = -1;
                 }
-                if (json["adventure"] != null)
+                if (json["adventure"] == null || (bool)json["adventure"] != true)
                 {
-                    AdventureDay = 1;
+                    AdventureDay = -1;
                 }
                 else
                 {
-                    AdventureDay = -1;
+                    AdventureDay = 1;
                 }
                 if (json["lottery"] != null)
                 {
                     LotteryDay = 1;
+                    LotteryCurrent = json["lottery"]["numbers"].Count();
                 }
                 else
                 {
                     LotteryDay = -1;
+                    LotteryCurrent = 0;
                 }
                 if (WBchanged)
                 {
@@ -459,7 +541,6 @@ namespace CQFollowerAutoclaimer
             // MB fix to prevent crashes
             catch (Exception webex)
             {
-                //Console.Write(webex.Message);
                 using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now + "\n\t" + "Error in PFStuff" + "\n\t" + webex.Message);
@@ -852,6 +933,34 @@ namespace CQFollowerAutoclaimer
             if (statusTask == null || statusTask.Result.FunctionResult == null)// || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
                 //logError("Cloud Script Error: Send Adventure", statusTask);
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public async Task<bool> sendLottery()
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Live,
+                FunctionName = "buylot",
+                FunctionParameter = new { }
+            };
+            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\n\t Buying Lottery Ticket");
+            }
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null)
+            {
                 return false;
             }
             else
