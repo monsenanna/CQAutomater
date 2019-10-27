@@ -209,7 +209,8 @@ namespace CQFollowerAutoclaimer
                 PVPTime = json["data"]["city"]["pvp"]["next"].ToString();
                 PVPCharges = json["data"]["city"]["pvp"]["attacks"].ToString();
                 PVPGrid = json["data"]["city"]["setup"];
-                if ((bool)ap.doPVPHistory)
+                bool tmp = ap.doPVPHistory ?? false;
+                if (tmp)
                     updatePVPHistory(json["data"]["city"]["log"]);
                 wbAttacksAvailable = int.Parse(json["data"]["city"]["WB"]["atks"].ToString());
                 wbAttackNext = Form1.getTime(json["data"]["city"]["WB"]["next"].ToString());
