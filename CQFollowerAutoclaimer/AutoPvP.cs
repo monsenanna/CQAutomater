@@ -22,6 +22,7 @@ namespace CQFollowerAutoclaimer
         internal void loadPVPSettings()
         {
             main.autoPvPCheckbox.Checked = main.appSettings.autoPvPEnabled ?? false;
+            main.doPvPHistoryCheckbox.Checked = main.appSettings.doPVPHistory ?? false;
             main.playersBelowCount.Value = main.appSettings.pvpLowerLimit ?? 4;
             main.playersAboveCount.Value = main.appSettings.pvpUpperLimit ?? 5;
         }

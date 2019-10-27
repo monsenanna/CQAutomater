@@ -34,6 +34,7 @@ namespace CQFollowerAutoclaimer
         {
             AppSettings ap = AppSettings.loadSettings();
             main.autoEvCheckbox.Checked = ap.autoEvEnabled ?? false;
+            main.doAutoDGCheckbox.Checked = ap.doAutoDG ?? false;
             main.doAutoLFCheckbox.Checked = ap.doAutoLF ?? false;
             main.doAutoKTCheckbox.Checked = ap.doAutoKT ?? false;
             main.doAutoCCCheckbox.Checked = ap.doAutoCC ?? false;
@@ -52,16 +53,36 @@ namespace CQFollowerAutoclaimer
                 }
                 await main.pf.GetGameData();
                 PFStuff.getWebsiteData(main.KongregateId);
-                EventTimer.Interval = 30 * 1000; // 30sec
+                EventTimer.Interval = 60 * 1000; // 60sec
 
-                /* status :
-                 * flash/eas/dung/lottery OK (just a notice, no action)
-                 * keys/snake OK (all automated, report on GUI ; add to log ?)
-                 * lf/pg IN PROGRESS (gotta test more)
-                */
                 main.label73.setText("Flash : " + (PFStuff.FlashStatus == 1 ? "active" : "not active") + " today");
                 main.label109.setText("EAS : " + (PFStuff.EASDay == 1 ? "active" : "not active") + " today");
-                main.label133.setText("Dungeon : " + (PFStuff.DungLevel != "-/-" ? "active" : "not active") + " today");
+                if (PFStuff.DungStatus == -1)
+                {
+                    main.label133.setText("Dungeon : not active today");
+                }
+                if (main.doAutoDGCheckbox.Checked && PFStuff.DungStatus == 0 && PFStuff.DungRunning == 0)
+                {
+                    try
+                    {
+                        PFStuff.lastDungLevel = PFStuff.DungLevel;
+                        PFStuff.DungRunning = 1; // prevent parallel calcs
+                        main.label133.setText("Dungeon : working");
+                        if (!File.Exists("CQMacroCreator.exe") || !File.Exists("CosmosQuest.exe"))
+                        {
+                            main.autoDQ.fightWithPresetLineup(AutoDQ.CalcMode.DUNG);
+                        }
+                        else
+                        {
+                            main.autoDQ.RunCalc(AutoDQ.CalcMode.DUNG);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        PFStuff.DungStatus = 1;
+                        main.label133.setText("Dungeon : error (are calc and GUI present ?");
+                    }
+                }
                 main.label122.setText("Lucky Followers : not active today");
                 if (main.doAutoLFCheckbox.Checked && PFStuff.LuckyFollowers != null)
                 {

@@ -77,7 +77,7 @@ namespace CQFollowerAutoclaimer
             {
                 bool b = false;
                 if(mode == CalcMode.DQ)
-                     b = await main.pf.sendDQSolution(lineup);
+                    b = await main.pf.sendDQSolution(lineup);
                 if(mode == CalcMode.DUNG)
                     b = await main.pf.sendDungSolution(lineup);
                 if (!b)
@@ -193,6 +193,17 @@ namespace CQFollowerAutoclaimer
             main.DQTimeLabel.SynchronizedInvoke(() => main.DQTimeLabel.Text = nextDQTime.ToString());
 
             main.currentDungLevelLabel.setText(PFStuff.DungLevel);
+            PFStuff.getWebsiteData(main.KongregateId);
+            if (PFStuff.lastDungLevel == PFStuff.DungLevel) // stop autoDG if stalled
+            {
+                PFStuff.DungStatus = 1;
+                main.label133.setText("Dungeon : done, reached " + PFStuff.DungLevel);
+            }
+            else
+            {
+                main.label133.setText("Dungeon : partially solved, from " + PFStuff.lastDungLevel + " to " + PFStuff.DungLevel);
+            }
+            PFStuff.DungRunning = 0;
             main.autoLevel.levelTimer.Interval = 1.5 * 60 * 1000;
             DQTimer.Start();
             if (!string.IsNullOrEmpty(calcErrorOut))

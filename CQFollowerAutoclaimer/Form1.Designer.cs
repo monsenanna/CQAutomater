@@ -346,6 +346,9 @@
             this.label80 = new System.Windows.Forms.Label();
             this.label76 = new System.Windows.Forms.Label();
             this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.doAutoDGCheckbox = new System.Windows.Forms.CheckBox();
+            this.adventurePriority = new System.Windows.Forms.ComboBox();
+            this.lotteryCount = new System.Windows.Forms.NumericUpDown();
             this.doAutoLOCheckbox = new System.Windows.Forms.CheckBox();
             this.doAutoADCheckbox = new System.Windows.Forms.CheckBox();
             this.doAutoPGCheckbox = new System.Windows.Forms.CheckBox();
@@ -375,8 +378,7 @@
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
-            this.lotteryCount = new System.Windows.Forms.NumericUpDown();
-            this.adventurePriority = new System.Windows.Forms.ComboBox();
+            this.doPvPHistoryCheckbox = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -440,8 +442,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.coinsBankCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pranaBankCount)).BeginInit();
             this.tabPage9.SuspendLayout();
-            this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lotteryCount)).BeginInit();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -2106,6 +2108,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.doPvPHistoryCheckbox);
             this.tabPage4.Controls.Add(this.pvpRankingSummary);
             this.tabPage4.Controls.Add(this.savePvPSettingsButton);
             this.tabPage4.Controls.Add(this.label54);
@@ -2160,9 +2163,9 @@
             this.autoPvPCheckbox.AutoSize = true;
             this.autoPvPCheckbox.Location = new System.Drawing.Point(9, 37);
             this.autoPvPCheckbox.Name = "autoPvPCheckbox";
-            this.autoPvPCheckbox.Size = new System.Drawing.Size(110, 17);
+            this.autoPvPCheckbox.Size = new System.Drawing.Size(107, 17);
             this.autoPvPCheckbox.TabIndex = 19;
-            this.autoPvPCheckbox.Text = "Enable Auto-PvP.";
+            this.autoPvPCheckbox.Text = "Enable Auto-PvP";
             this.autoPvPCheckbox.UseVisualStyleBackColor = true;
             this.autoPvPCheckbox.CheckedChanged += new System.EventHandler(this.autoPvPCheckbox_CheckedChanged);
             // 
@@ -4126,6 +4129,7 @@
             // 
             // tabPage9
             // 
+            this.tabPage9.Controls.Add(this.doAutoDGCheckbox);
             this.tabPage9.Controls.Add(this.adventurePriority);
             this.tabPage9.Controls.Add(this.lotteryCount);
             this.tabPage9.Controls.Add(this.doAutoLOCheckbox);
@@ -4152,6 +4156,43 @@
             this.tabPage9.TabIndex = 8;
             this.tabPage9.Text = "Events";
             this.tabPage9.UseVisualStyleBackColor = true;
+            // 
+            // doAutoDGCheckbox
+            // 
+            this.doAutoDGCheckbox.AutoSize = true;
+            this.doAutoDGCheckbox.Location = new System.Drawing.Point(10, 76);
+            this.doAutoDGCheckbox.Name = "doAutoDGCheckbox";
+            this.doAutoDGCheckbox.Size = new System.Drawing.Size(15, 14);
+            this.doAutoDGCheckbox.TabIndex = 108;
+            this.doAutoDGCheckbox.UseVisualStyleBackColor = true;
+            this.doAutoDGCheckbox.CheckedChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
+            // 
+            // adventurePriority
+            // 
+            this.adventurePriority.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.adventurePriority.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.adventurePriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.adventurePriority.FormattingEnabled = true;
+            this.adventurePriority.Items.AddRange(new object[] {
+            "AS",
+            "PG",
+            "CC"});
+            this.adventurePriority.Location = new System.Drawing.Point(437, 221);
+            this.adventurePriority.Name = "adventurePriority";
+            this.adventurePriority.Size = new System.Drawing.Size(58, 21);
+            this.adventurePriority.TabIndex = 107;
+            // 
+            // lotteryCount
+            // 
+            this.lotteryCount.Location = new System.Drawing.Point(437, 252);
+            this.lotteryCount.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.lotteryCount.Name = "lotteryCount";
+            this.lotteryCount.Size = new System.Drawing.Size(59, 20);
+            this.lotteryCount.TabIndex = 106;
             // 
             // doAutoLOCheckbox
             // 
@@ -4445,32 +4486,16 @@
             this.AEIndicator.TabIndex = 40;
             this.AEIndicator.Text = "          ";
             // 
-            // lotteryCount
+            // doPvPHistoryCheckbox
             // 
-            this.lotteryCount.Location = new System.Drawing.Point(437, 252);
-            this.lotteryCount.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.lotteryCount.Name = "lotteryCount";
-            this.lotteryCount.Size = new System.Drawing.Size(59, 20);
-            this.lotteryCount.TabIndex = 106;
-            // 
-            // adventurePriority
-            // 
-            this.adventurePriority.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.adventurePriority.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.adventurePriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.adventurePriority.FormattingEnabled = true;
-            this.adventurePriority.Items.AddRange(new object[] {
-            "AS",
-            "PG",
-            "CC"});
-            this.adventurePriority.Location = new System.Drawing.Point(437, 221);
-            this.adventurePriority.Name = "adventurePriority";
-            this.adventurePriority.Size = new System.Drawing.Size(58, 21);
-            this.adventurePriority.TabIndex = 107;
+            this.doPvPHistoryCheckbox.AutoSize = true;
+            this.doPvPHistoryCheckbox.Location = new System.Drawing.Point(321, 37);
+            this.doPvPHistoryCheckbox.Name = "doPvPHistoryCheckbox";
+            this.doPvPHistoryCheckbox.Size = new System.Drawing.Size(115, 17);
+            this.doPvPHistoryCheckbox.TabIndex = 91;
+            this.doPvPHistoryCheckbox.Text = "Enable PvP history";
+            this.doPvPHistoryCheckbox.UseVisualStyleBackColor = true;
+            this.doPvPHistoryCheckbox.CheckedChanged += new System.EventHandler(this.DoPvPHistoryCheckbox_CheckedChanged);
             // 
             // Form1
             // 
@@ -4565,8 +4590,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pranaBankCount)).EndInit();
             this.tabPage9.ResumeLayout(false);
             this.tabPage9.PerformLayout();
-            this.tabPage6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.lotteryCount)).EndInit();
+            this.tabPage6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4921,6 +4946,8 @@
         internal System.Windows.Forms.CheckBox doAutoLFCheckbox;
         internal System.Windows.Forms.NumericUpDown lotteryCount;
         internal System.Windows.Forms.ComboBox adventurePriority;
+        internal System.Windows.Forms.CheckBox doAutoDGCheckbox;
+        internal System.Windows.Forms.CheckBox doPvPHistoryCheckbox;
     }
 }
 

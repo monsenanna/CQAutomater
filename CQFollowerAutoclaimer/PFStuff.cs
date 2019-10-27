@@ -39,6 +39,9 @@ namespace CQFollowerAutoclaimer
         static public int emMultiplier;
         static public int FlashStatus;
         static public int EASDay;
+        static public int DungStatus = 0;
+        static public int DungRunning = 0;
+        static public string lastDungLevel = "";
         static public string DungLevel;
         static public JToken LuckyFollowers;
         static public int[] LuckyFollowersLocal = new int[13];
@@ -87,7 +90,6 @@ namespace CQFollowerAutoclaimer
 
         TaskQueue logQueue = new TaskQueue();
         static public AppSettings ap = AppSettings.loadSettings();
-        static public bool doPVPHistory = ap.doPVPHistory ?? false;
 
         public PFStuff(string t, string kid)
         {
@@ -207,7 +209,7 @@ namespace CQFollowerAutoclaimer
                 PVPTime = json["data"]["city"]["pvp"]["next"].ToString();
                 PVPCharges = json["data"]["city"]["pvp"]["attacks"].ToString();
                 PVPGrid = json["data"]["city"]["setup"];
-                if (doPVPHistory)
+                if ((bool)ap.doPVPHistory)
                     updatePVPHistory(json["data"]["city"]["log"]);
                 wbAttacksAvailable = int.Parse(json["data"]["city"]["WB"]["atks"].ToString());
                 wbAttackNext = Form1.getTime(json["data"]["city"]["WB"]["next"].ToString());
@@ -470,9 +472,12 @@ namespace CQFollowerAutoclaimer
                 if (json["dungeon"] != null)
                 {
                     DungLevel = json["dungeon"]["lvl"].ToString();
+                    if (DungStatus == -1)
+                        DungStatus = 0;
                 }
                 else
                 {
+                    DungStatus = -1;
                     DungLevel = "-/-";
                 }
                 if (json["cc"] != null)

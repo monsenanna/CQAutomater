@@ -63,41 +63,7 @@ namespace CQFollowerAutoclaimer
 
         public Form1()
         {
-            /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-            {
-                sw.WriteLine(DateTime.Now + "\n\t test");
-            }
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-            {
-                string resourceName = new AssemblyName(args.Name).Name + ".dll";
-                string resource = Array.Find(this.GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
-
-                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
-                {
-                    Byte[] assemblyData = new Byte[stream.Length];
-                    stream.Read(assemblyData, 0, assemblyData.Length);
-                    return Assembly.Load(assemblyData);
-                }
-            };
-            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-            {
-                sw.WriteLine(DateTime.Now + "\n\t test2");
-            }*/
             InitializeComponent();
-            /*AppDomain currentDomain = AppDomain.CurrentDomain;
-            currentDomain.UnhandledException += currentDomain_UnhandledException;
-
-            // include dll
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("LinqToTwitter.AspNet")) return Assembly.Load(Properties.Resources.LinqToTwitter_AspNet); return null; };
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("LinqToTwitter.netstandard")) return Assembly.Load(Properties.Resources.LinqToTwitter_netstandard); return null; };
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Newtonsoft.Json")) return Assembly.Load(Properties.Resources.Newtonsoft_Json); return null; };
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Google.Apis")) return Assembly.Load(Properties.Resources.Google_Apis); return null; };
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Google.Apis.Auth")) return Assembly.Load(Properties.Resources.Google_Apis_Auth); return null; };
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Google.Apis.Auth.PlatformServices")) return Assembly.Load(Properties.Resources.Google_Apis_Auth_PlatformServices); return null; };
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Google.Apis.Sheets.v4")) return Assembly.Load(Properties.Resources.Google_Apis_Sheets_v4); return null; };
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Google.Apis.Oauth")) return Assembly.Load(Properties.Resources.Google_Apis_Oauth2_v2); return null; };
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Google.Apis.Core")) return Assembly.Load(Properties.Resources.Google_Apis_Core); return null; };
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) => { if (arg.Name.StartsWith("Google.Apis.PlatformServices")) return Assembly.Load(Properties.Resources.Google_Apis_PlatformServices); return null; };*/
 
             timeLabels = new Label[] { claimtime1, claimtime2, claimtime3, claimtime4, claimtime5, claimtime6, claimtime7, claimtime8, claimtime9 };
             enableBoxes = new List<CheckBox> { DQCalcBox, freeChestBox, autoPvPCheckbox, autoWBCheckbox };
@@ -317,7 +283,7 @@ namespace CQFollowerAutoclaimer
             }
             auctionHouse.loadSettings();
             autoEvent.loadSettings();
-            autoEvent.EventTimer.Interval = 10 * 1000; // 10sec on start, then 12h
+            autoEvent.EventTimer.Interval = 10 * 1000;
             autoEvent.EventTimer.Start();
             autoEvent.CouponTimer.Interval = 10 * 1000; // 10sec on start, then 12h
             autoEvent.CouponTimer.Start();
@@ -663,6 +629,7 @@ namespace CQFollowerAutoclaimer
         {
             appSettings = AppSettings.loadSettings();
             appSettings.autoPvPEnabled = autoPvPCheckbox.Checked;
+            appSettings.doPVPHistory = doPvPHistoryCheckbox.Checked;
             appSettings.pvpLowerLimit = (int)playersBelowCount.Value;
             appSettings.pvpUpperLimit = (int)playersAboveCount.Value;
             appSettings.saveSettings();
@@ -966,12 +933,20 @@ namespace CQFollowerAutoclaimer
         private void DoAutoLFCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             appSettings = AppSettings.loadSettings();
+            appSettings.doAutoDG = doAutoDGCheckbox.Checked;
             appSettings.doAutoLF = doAutoLFCheckbox.Checked;
             appSettings.doAutoKT = doAutoKTCheckbox.Checked;
             appSettings.doAutoCC = doAutoCCCheckbox.Checked;
             appSettings.doAutoPG = doAutoPGCheckbox.Checked;
             appSettings.doAutoAD = doAutoADCheckbox.Checked;
             appSettings.doAutoLO = doAutoLOCheckbox.Checked;
+            appSettings.saveSettings();
+        }
+
+        private void DoPvPHistoryCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            appSettings = AppSettings.loadSettings();
+            appSettings.doPVPHistory = doPvPHistoryCheckbox.Checked;
             appSettings.saveSettings();
         }
     }
