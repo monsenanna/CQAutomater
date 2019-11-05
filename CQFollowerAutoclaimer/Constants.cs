@@ -8,7 +8,7 @@ namespace CQFollowerAutoclaimer
 {
     static class Constants
     {
-        public static string version = "v4.5.0.3";
+        public static string version = "v4.5.0.4";
         public static string ErrorLog = "ErrorLog.txt";
         public static DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         public enum prices
@@ -27,7 +27,7 @@ namespace CQFollowerAutoclaimer
         };
 
         public static string[] names = {
-            "higgs","boson","electra","newt","retia","myrmillo","scinda","thrace",
+            "adam","emily","adrian","casper","higgs","boson","electra","newt","retia","myrmillo","scinda","thrace",
             "lili","achocoknight","chocoknight","sharkjellyn","mrcotton","smith","acrei","crei","catzar","cathos","tetra","awanderer","minerva","helga","ophelia","agatha",
             "anerissa","mother","nerissa","murphy","bortles", "thumper", "daisy", "gizmo", "willow", "adybbuk", "aedana", "ajade", "amahatma",
             "spike", "riptide", "ember", "cloud", "b-day", "thewanderer", "maunder", "transient", "cupid", "aurora", "orin", "flint", "blossom",
@@ -66,7 +66,7 @@ namespace CQFollowerAutoclaimer
             "Raze", "Ruin", "Seethe", "Aseethe", "Blossom", "Flint", "Orin", "Aurora", "Cupid", "Transient", "Maunder", "Thewanderer", "B-day", "Cloud", "Ember", "Riptide", "Spike", 
             "Amahatma", "Ajade", "Aedana", "Adybbuk", "Willow", "Gizmo", "Daisy", "Thumper", "Bortles", "Murphy", "Nerissa", "Mother", "Anerissa", "Agatha", "Ophelia",
             "Helga", "Minerva", "Awanderer", "Tetra", "Cathos", "Catzar", "Crei", "Acrei", "Smith", "Mrcotton", "Sharkjellyn", "Chocoknight", "Achocoknight", "Lili",
-            "Thrace","Scinda","Myrmillo","Retia","Newt","Electra","Boson","Higgs",
+            "Thrace","Scinda","Myrmillo","Retia","Newt","Electra","Boson","Higgs","Casper","Adrian","Emily","Adam",
         };
 
         public static prices[] heroPrices = new prices[] {
@@ -104,6 +104,7 @@ namespace CQFollowerAutoclaimer
             prices.ASCEND, // Lili
             prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Gladiators (S9)
             prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Subatomic Heroes
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Halloween2019
         };
 
         public static string[] pranaHeroes = new string[] {
@@ -115,7 +116,7 @@ namespace CQFollowerAutoclaimer
             "Buccaneerbeatrice", "Corsaircharles", "Maraudermagnus", "Frosty", "Raze", "Ruin", "Seethe", "Blossom", "Flint", "Orin", "Cupid", "Transient", "Maunder", "Thewanderer", "B-Day",
             "Willow", "Gizmo", "Daisy", "Bortles", "Murphy", "Nerissa", "Mother", "Agatha", "Ophelia", "Helga",
             "Tetra", "Cathos", "Catzar", "Crei", "Smith", "Mrcotton", "Sharkjellyn", "Chocoknight",
-            "Thrace","Scinda","Myrmillo","Newt","Electra","Boson",
+            "Thrace","Scinda","Myrmillo","Newt","Electra","Boson","Casper","Adrian","Emily",
         };
 
         public static string[] cosmicCoinHeroes = new string[] {
@@ -129,7 +130,7 @@ namespace CQFollowerAutoclaimer
         public static string[] ascensionHeroes = new string[] {
             "Aalpha", "Aathos", "Arei", "Aauri", "Atr0n1x", "Ageum", "Ageror", "Bubbles", "Apontus", "Aatzar", "Arigr", "Adagda", "Abavah", "MasterLee",
             "Ashygu", "Athert", "Alordkirk", "Aneptunius", "Ahosokawa", "Atakeda", "Ahirate", "Ahattori", "Guy", "Adefile", "Raiderrose", "Aseethe", "Aurora",
-            "Thumper", "Anerissa", "Minerva", "Awanderer", "Acrei", "Achocoknight", "Lili", "Retia", "Higgs", "Convert to Prana",
+            "Thumper", "Anerissa", "Minerva", "Awanderer", "Acrei", "Achocoknight", "Lili", "Retia", "Higgs", "Adam", "Convert to Prana",
         };
 
         public static Dictionary<int, string> ERROR = new Dictionary<int, string>()
