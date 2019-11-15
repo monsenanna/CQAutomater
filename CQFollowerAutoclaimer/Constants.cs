@@ -8,7 +8,7 @@ namespace CQFollowerAutoclaimer
 {
     static class Constants
     {
-        public static string version = "v4.5.0.4";
+        public static string version = "v4.5.0.5";
         public static string ErrorLog = "ErrorLog.txt";
         public static DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         public enum prices
@@ -27,7 +27,7 @@ namespace CQFollowerAutoclaimer
         };
 
         public static string[] names = {
-            "adam","emily","adrian","casper","higgs","boson","electra","newt","retia","myrmillo","scinda","thrace",
+            "adam","emily","adrian","casper","higgs","boson","electra","newt","retia","myrmillo","scinda","thrace","bornag",
             "lili","achocoknight","chocoknight","sharkjellyn","mrcotton","smith","acrei","crei","catzar","cathos","tetra","awanderer","minerva","helga","ophelia","agatha",
             "anerissa","mother","nerissa","murphy","bortles", "thumper", "daisy", "gizmo", "willow", "adybbuk", "aedana", "ajade", "amahatma",
             "spike", "riptide", "ember", "cloud", "b-day", "thewanderer", "maunder", "transient", "cupid", "aurora", "orin", "flint", "blossom",

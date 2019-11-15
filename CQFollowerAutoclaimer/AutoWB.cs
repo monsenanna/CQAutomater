@@ -278,10 +278,10 @@ namespace CQFollowerAutoclaimer
                             }
                             if (dr == DialogResult.Yes && !main.taskQueue.Contains("WB")) //enqueue new attacks only if there are no attacks in queue already
                             {
-                                for (int i = 0; i < Math.Min(attacksToDo, attacksAvailable); i++)
-                                {
+                                //for (int i = 0; i < Math.Min(attacksToDo, attacksAvailable); i++)
+                                //{
                                     main.taskQueue.Enqueue(() => fightWB(lineup), "WB");
-                                }
+                                //}
                             }
                         }
                     }
