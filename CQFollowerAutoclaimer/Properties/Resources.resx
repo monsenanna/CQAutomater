@@ -118,27 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Google_Apis" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\Google.Apis.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Google_Apis_Auth" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\Google.Apis.Auth.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Google_Apis_Auth_PlatformServices" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\Google.Apis.Auth.PlatformServices.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Google_Apis_Core" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\Google.Apis.Core.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Google_Apis_Oauth2_v2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\Google.Apis.Oauth2.v2.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Google_Apis_PlatformServices" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\Google.Apis.PlatformServices.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Google_Apis_Sheets_v4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\Google.Apis.Sheets.v4.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="HtmlAgilityPack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\lib\HtmlAgilityPack.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

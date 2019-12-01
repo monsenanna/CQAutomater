@@ -8,7 +8,7 @@ namespace CQFollowerAutoclaimer
 {
     static class Constants
     {
-        public static string version = "v4.5.0.5";
+        public static string version = "v4.5.0.6";
         public static string ErrorLog = "ErrorLog.txt";
         public static DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         public enum prices
@@ -65,7 +65,7 @@ namespace CQFollowerAutoclaimer
             "Billy", "Sanqueen", "Cliodhna", "Guy", "Adefile", "Raiderrose", "Buccaneerbeatrice", "Corsaircharles","Maraudermagnus", "Frosty", "Fir", "5-12-6", "Kedari",
             "Raze", "Ruin", "Seethe", "Aseethe", "Blossom", "Flint", "Orin", "Aurora", "Cupid", "Transient", "Maunder", "Thewanderer", "B-day", "Cloud", "Ember", "Riptide", "Spike", 
             "Amahatma", "Ajade", "Aedana", "Adybbuk", "Willow", "Gizmo", "Daisy", "Thumper", "Bortles", "Murphy", "Nerissa", "Mother", "Anerissa", "Agatha", "Ophelia",
-            "Helga", "Minerva", "Awanderer", "Tetra", "Cathos", "Catzar", "Crei", "Acrei", "Smith", "Mrcotton", "Sharkjellyn", "Chocoknight", "Achocoknight", "Lili",
+            "Helga", "Minerva", "Awanderer", "Tetra", "Cathos", "Catzar", "Crei", "Acrei", "Smith", "Mrcotton", "Sharkjellyn", "Chocoknight", "Achocoknight", "Lili", "Bornag",
             "Thrace","Scinda","Myrmillo","Retia","Newt","Electra","Boson","Higgs","Casper","Adrian","Emily","Adam",
         };
 
@@ -102,6 +102,7 @@ namespace CQFollowerAutoclaimer
             prices.LEG, // Smith
             prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Candy Heroes
             prices.ASCEND, // Lili
+            prices.NONLEVELABLE, // Bornag
             prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Gladiators (S9)
             prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Subatomic Heroes
             prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Halloween2019

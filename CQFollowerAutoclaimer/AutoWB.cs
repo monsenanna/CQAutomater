@@ -320,6 +320,7 @@ namespace CQFollowerAutoclaimer
                 {
                     sw.WriteLine(s);
                 }
+                await Task.Delay(30000); // prevent spamming
                 return b;
             }
         }
