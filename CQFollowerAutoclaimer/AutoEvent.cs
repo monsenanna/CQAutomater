@@ -40,7 +40,9 @@ namespace CQFollowerAutoclaimer
             main.doAutoCCCheckbox.Checked = ap.doAutoCC ?? false;
             main.doAutoPGCheckbox.Checked = ap.doAutoPG ?? false;
             main.doAutoADCheckbox.Checked = ap.doAutoAD ?? false;
+            main.adventurePriority.SelectedIndex = ap.optAutoAD ?? 0;
             main.doAutoLOCheckbox.Checked = ap.doAutoLO ?? false;
+            main.lotteryCount.Text = (ap.optAutoLO ?? 0).ToString();
         }
 
         async void EventTimer_Elapsed(object sender, ElapsedEventArgs e)

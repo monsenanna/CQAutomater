@@ -125,7 +125,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskQueue.cs" />
-    <Compile Include="Twitter.cs" />
+    <Compile Include="Secret.cs" />
     <Compile Include="WBLog.cs">
       <SubType>Form</SubType>
     </Compile>

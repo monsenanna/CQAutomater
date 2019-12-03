@@ -57,7 +57,9 @@ namespace CQFollowerAutoclaimer
         public bool? doAutoCC { get; set; }
         public bool? doAutoPG { get; set; }
         public bool? doAutoAD { get; set; }
+        public int? optAutoAD { get; set; }
         public bool? doAutoLO { get; set; }
+        public int? optAutoLO { get; set; }
 
         public static AppSettings loadSettings()
         {

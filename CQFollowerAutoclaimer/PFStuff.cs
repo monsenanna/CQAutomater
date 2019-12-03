@@ -13,10 +13,6 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using System.IO;
 using System.Net.Http;
-//using Google.Apis.Auth.OAuth2;
-//using Google.Apis.Sheets.v4;
-//using Google.Apis.Sheets.v4.Data;
-//using Google.Apis.Services;
 using MySqlConnector;
 using MySql.Data.MySqlClient;
 
@@ -60,6 +56,7 @@ namespace CQFollowerAutoclaimer
         static public int LotteryCurrent;
 
         static public string[] nearbyPlayersIDs;
+        static public string[] nearbyPlayersNames;
         static public string username;
         static public int userID = 0;
         static public int userIndex;
@@ -214,7 +211,7 @@ namespace CQFollowerAutoclaimer
                 PVPGrid = json["data"]["city"]["setup"];
                 bool tmp = ap.doPVPHistory ?? false;
                 if (tmp)
-                    updatePVPHistory(json["data"]["city"]["log"]);
+                    await updatePVPHistory(json["data"]["city"]["log"]);
                 wbAttacksAvailable = int.Parse(json["data"]["city"]["WB"]["atks"].ToString());
                 wbAttackNext = Form1.getTime(json["data"]["city"]["WB"]["next"].ToString());
                 try
@@ -267,39 +264,15 @@ namespace CQFollowerAutoclaimer
             }
         }
 
-        public void updatePVPHistory(JToken json)
+        public async Task<bool> updatePVPHistory(JToken json)
         {
             try
             {
-                /*string[] Scopes = { SheetsService.Scope.Spreadsheets };
-                string ApplicationName = "CQ PvP";
-                string SpreadsheetId = "1LMFWNFLzG2wYctLXcHs-8YPCXnxU_MxuB-Uh3U78ikw";
-                string sheet = "History";*/
-                // only use Gapi calls if there's been new data
                 var d = json[0]["date"].ToString();
                 d = d.Substring(0, d.Length - 3);
                 if (int.Parse(d) <= PVPLastUpdate)
-                    return;
+                    return true;
                 PVPLastUpdate = int.Parse(d);
-                /*// connect & read
-                SheetsService service;
-                GoogleCredential credential = GoogleCredential.FromJson(PvPAuth.gCred).CreateScoped(Scopes);
-                service = new SheetsService(new BaseClientService.Initializer()
-                {
-                    HttpClientInitializer = credential,
-                    ApplicationName = ApplicationName,
-                });
-                var range = $"{sheet}!A2:E";
-                SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(SpreadsheetId, range);
-                var response = request.Execute();
-                IList<IList<object>> values = response.Values;
-                int lastdate = 0;
-                if (values != null && values.Count > 0)
-                {
-                    var lastrow = values[values.Count - 1];
-                    d = lastrow[0].ToString();
-                    lastdate = int.Parse(d);
-                }*/
                 using (var connection = new MySqlConnection("Server=db.dcouv.fr;Port=22306;User ID=" + MySQLAuth.user + "; Password=" + MySQLAuth.pass + "; Database=cqdata"))
                 {
                     connection.Open();
@@ -307,51 +280,71 @@ namespace CQFollowerAutoclaimer
                     {
                         d = json[i]["date"].ToString();
                         d = d.Substring(0, d.Length - 3);
-                        /*if (int.Parse(d) > lastdate)
-                        {*/
-                            // write new data
-                            int ownLane = 0;
-                            for (int j = 0; j < 6; j++)
+                        // write new data
+                        int ownLane = 0;
+                        for (int j = 0; j < 6; j++)
+                        {
+                            if (PVPGrid[j * 6].ToString() == json[i]["setup"][0].ToString())
                             {
-                                if (PVPGrid[j * 6].ToString() == json[i]["setup"][0].ToString())
-                                {
-                                    ownLane = j + 1;
-                                    break;
-                                }
+                                ownLane = j + 1;
+                                break;
                             }
-                            /*var oblist = new List<object>() { d, json[i]["enemy"].ToString(), ownLane.ToString(), json[i]["result"].ToString(), username };
-                            var valueRange = new ValueRange();
-                            valueRange.Values = new List<IList<object>> { oblist };
-                            var appendRequest = service.Spreadsheets.Values.Append(valueRange, SpreadsheetId, range);
-                            appendRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.USERENTERED;
-                            var appendReponse = appendRequest.Execute();*/
-                            // find player id
-                            int enemyid = 0;
-                            bool doInsert = false;
-                            using (var command = new MySqlCommand("SELECT id FROM player WHERE name = '" + json[i]["enemy"].ToString() + "'", connection))
-                            using (var reader = command.ExecuteReader())
+                        }
+                        // find player id
+                        int enemyid = 0;
+                        bool doInsert = false;
+                        using (var command = new MySqlCommand("SELECT id FROM player WHERE name = '" + json[i]["enemy"].ToString() + "'", connection))
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                                while (reader.Read())
+                                {
+                                    enemyid = (int)reader.GetValue(0);
+                                }
+                            else // unknown player
                             {
-                                if (reader.HasRows)
-                                    while (reader.Read())
-                                    {
-                                        enemyid = (int)reader.GetValue(0);
-                                    }
-                                else // unknown player
-                                {
-                                    doInsert = true;
-                                }
+                                doInsert = true;
                             }
-                            if (doInsert)
+                        }
+                        if (doInsert)
+                        {
+                            using (var command = new MySqlCommand("INSERT INTO player(name) VALUES ('" + json[i]["enemy"].ToString() + "');", connection))
                             {
-                                using (var command = new MySqlCommand("INSERT INTO player(name) VALUES ('" + json[i]["enemy"].ToString() + "');", connection))
-                                {
-                                    command.ExecuteNonQuery();
-                                    enemyid = (int)command.LastInsertedId;
-                                }
+                                command.ExecuteNonQuery();
+                                enemyid = (int)command.LastInsertedId;
                             }
-                            using (var command = new MySqlCommand("INSERT INTO pvp(date, pleft, pright, lleft, lright, result) VALUES ('" + d + "', " + userID + ", " + enemyid + ", " + ownLane.ToString() + ", 0, '" + json[i]["result"].ToString() + "');", connection))
-                                    command.ExecuteNonQuery();
-                        /*}*/
+                        }
+                        JObject fightData = JObject.FromObject(new
+                        {
+                            date = d,
+                            pleft = userID,
+                            pright = enemyid,
+                            lleft = ownLane.ToString(),
+                            result = json[i]["result"].ToString(),
+                            p1lane = json[i]["setup"],
+                            p1levels = json[i]["shero"],
+                            p1proms = json[i]["spromo"],
+                            p2lane = json[i]["player"],
+                            p2levels = json[i]["phero"],
+                            p2proms = json[i]["ppromo"]
+                        });
+                        using (var client = new HttpClient())
+                        {
+                            try
+                            {
+                                var values = new Dictionary<string, string> { { "ipvp", JsonConvert.SerializeObject(fightData) } };
+                                var content = new FormUrlEncodedContent(values);
+                                var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                                var responseString = await response.Content.ReadAsStringAsync();
+                                //logError("debug - ", responseString);
+                            }
+                            catch
+                            {
+                                return true;
+                            }
+                        }
+                        /*using (var command = new MySqlCommand("INSERT INTO pvp(date, pleft, pright, lleft, lright, result, data) VALUES ('" + d + "', " + userID + ", " + enemyid + ", " + ownLane.ToString() + ", 0, '" + json[i]["result"].ToString() + "', '" + fightData.ToString() + "');", connection))
+                                command.ExecuteNonQuery();*/
                     }
                     connection.Close();
                 }
@@ -362,7 +355,9 @@ namespace CQFollowerAutoclaimer
                 {
                     sw.WriteLine(DateTime.Now + "\n\t" + webex.Message);
                 }
+                return false;
             }
+            return true;
         }
 
         public static int getHeroLevel(string heroName)
@@ -382,6 +377,7 @@ namespace CQFollowerAutoclaimer
         {
             await Task.Delay(500);
             nearbyPlayersIDs = new string[size];
+            nearbyPlayersNames = new string[size];
             var request = new GetLeaderboardAroundPlayerRequest
             {
                 StatisticName = "Ranking",
@@ -405,13 +401,14 @@ namespace CQFollowerAutoclaimer
                 for (int i = 0; i < size; i++)
                 {
                     nearbyPlayersIDs[i] = leaderboardTask.Result.Leaderboard[i].PlayFabId;
+                    nearbyPlayersNames[i] = leaderboardTask.Result.Leaderboard[i].DisplayName;
                     if (leaderboardTask.Result.Leaderboard[i].DisplayName == username)
                     {
                         userIndex = i;
                         currentRanking = leaderboardTask.Result.Leaderboard[i].Position;
                         if (initialRanking == 0)
                             initialRanking = currentRanking;
-            }
+                    }
                 }
                 return true;
             }
@@ -702,6 +699,36 @@ namespace CQFollowerAutoclaimer
             return 0;
         }
 
+        public async Task<int> getEasiestOpponent()
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var values = new Dictionary<string, string> { { "eopp", userID.ToString() } };
+                    var content = new FormUrlEncodedContent(values);
+                    var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    logError("debug - ", responseString);
+                    string[] result = responseString.Split(',').ToArray();
+                    for (int i = 0; i < result.Length; i++)
+                    {
+                        if (nearbyPlayersNames.Contains(result[i]))
+                        {
+                            logError("debug i - ", i.ToString());
+                            logError("debug resi - ", result[i]);
+                            return int.Parse(nearbyPlayersIDs[Array.IndexOf(nearbyPlayersNames, result[i])]);
+                        }
+                    }
+                    return 0;
+                }
+                catch
+                {
+                    return 0;
+                }
+            }
+        }
+
         #endregion
 
         #region Sending requests
@@ -790,7 +817,6 @@ namespace CQFollowerAutoclaimer
             else
             {
                 JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
-                //PVPTime = json["data"]["city"]["nextfight"].ToString();
                 PVPTime = json["data"]["city"]["pvp"]["next"].ToString();
                 switch (json["data"]["city"]["log"][0]["result"].ToString())
                 {

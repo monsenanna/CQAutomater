@@ -647,7 +647,7 @@ namespace CQFollowerAutoclaimer
 
         #region WB
 
-        internal int[] getLineup(int ID, uint followers)
+        internal int[] getLineup(int ID, ulong followers)
         {
             int[] lineup = new int[6];
             List<int> temp = new List<int>();
@@ -939,7 +939,9 @@ namespace CQFollowerAutoclaimer
             appSettings.doAutoCC = doAutoCCCheckbox.Checked;
             appSettings.doAutoPG = doAutoPGCheckbox.Checked;
             appSettings.doAutoAD = doAutoADCheckbox.Checked;
+            appSettings.optAutoAD = adventurePriority.SelectedIndex;
             appSettings.doAutoLO = doAutoLOCheckbox.Checked;
+            appSettings.optAutoLO = int.Parse(lotteryCount.Text);
             appSettings.saveSettings();
         }
 

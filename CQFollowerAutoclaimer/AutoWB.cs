@@ -112,7 +112,7 @@ namespace CQFollowerAutoclaimer
                                 attacksToDo = main.LOCNHAttacksCount.Value;
                                 requirement = main.LOCNHRequirementCount.Value;
                             }
-                            lineup = main.getLineup(0, uint.Parse(PFStuff.followers));
+                            lineup = main.getLineup(0, ulong.Parse(PFStuff.followers));
                         }
                         else if (PFStuff.WBName.Contains("LORD OF CHAOS") && PFStuff.wbMode == 1) //loc heroes allowed
                         {
@@ -126,7 +126,7 @@ namespace CQFollowerAutoclaimer
                                 attacksToDo = main.LOCHAAttacksCount.Value;
                                 requirement = main.LOCHARequirementCount.Value;
                             }
-                            lineup = main.getLineup(1, uint.Parse(PFStuff.followers));
+                            lineup = main.getLineup(1, ulong.Parse(PFStuff.followers));
                         }
                         else if (PFStuff.WBName.Contains("MOTHER OF ALL KODAMAS") && PFStuff.wbMode == 0) //moak no heroes
                         {
@@ -140,7 +140,7 @@ namespace CQFollowerAutoclaimer
                                 attacksToDo = main.MOAKNHAttacksCount.Value;
                                 requirement = main.MOAKNHRequirementCount.Value;
                             }
-                            lineup = main.getLineup(2, uint.Parse(PFStuff.followers));
+                            lineup = main.getLineup(2, ulong.Parse(PFStuff.followers));
                         }
                         else if (PFStuff.WBName.Contains("MOTHER OF ALL KODAMAS") && PFStuff.wbMode == 1) //moak heroes allowed
                         {
@@ -154,7 +154,7 @@ namespace CQFollowerAutoclaimer
                                 attacksToDo = main.MOAKHAAttacksCount.Value;
                                 requirement = main.MOAKHARequirementCount.Value;
                             }
-                            lineup = main.getLineup(3, uint.Parse(PFStuff.followers));
+                            lineup = main.getLineup(3, ulong.Parse(PFStuff.followers));
                         }
                         else if (PFStuff.WBName.Contains("KRYTON") && PFStuff.wbMode == 0) //kryton no heroes
                         {
@@ -168,7 +168,7 @@ namespace CQFollowerAutoclaimer
                                 attacksToDo = main.KrytonNHAttacksCount.Value;
                                 requirement = main.KrytonNHReqCount.Value;
                             }
-                            lineup = main.getLineup(5, uint.Parse(PFStuff.followers));
+                            lineup = main.getLineup(5, ulong.Parse(PFStuff.followers));
                         }
                         else if (PFStuff.WBName.Contains("KRYTON") && PFStuff.wbMode == 1) //kryton heroes allowed
                         {
@@ -182,7 +182,7 @@ namespace CQFollowerAutoclaimer
                                 attacksToDo = main.KrytonHAAttacksCount.Value;
                                 requirement = main.KrytonHAReqCount.Value;
                             }
-                            lineup = main.getLineup(6, uint.Parse(PFStuff.followers));
+                            lineup = main.getLineup(6, ulong.Parse(PFStuff.followers));
                         }
                         else if (PFStuff.WBName.Contains("DOYENNE") && PFStuff.wbMode == 0) //doyenne no heroes
                         {
@@ -196,7 +196,7 @@ namespace CQFollowerAutoclaimer
                                 attacksToDo = main.DoyNHAttacksCount.Value;
                                 requirement = main.DoyNHReqCount.Value;
                             }
-                            lineup = main.getLineup(7, uint.Parse(PFStuff.followers));
+                            lineup = main.getLineup(7, ulong.Parse(PFStuff.followers));
                         }
                         else if (PFStuff.WBName.Contains("DOYENNE") && PFStuff.wbMode == 1) //doyenne heroes allowed
                         {
@@ -210,7 +210,7 @@ namespace CQFollowerAutoclaimer
                                 attacksToDo = main.DoyHAAttacksCount.Value;
                                 requirement = main.DoyHAReqCount.Value;
                             }
-                            lineup = main.getLineup(8, uint.Parse(PFStuff.followers));
+                            lineup = main.getLineup(8, ulong.Parse(PFStuff.followers));
                         }
                         else if (PFStuff.WBName.Contains("BORNAG") && PFStuff.wbMode == 1) //bornag heroes allowed
                         {
@@ -224,7 +224,7 @@ namespace CQFollowerAutoclaimer
                                 attacksToDo = main.BorHAAttacksCount.Value;
                                 requirement = main.BorHAReqCount.Value;
                             }
-                            lineup = main.getLineup(9, uint.Parse(PFStuff.followers));
+                            lineup = main.getLineup(9, ulong.Parse(PFStuff.followers));
                         }
                         else
                         {
@@ -291,6 +291,10 @@ namespace CQFollowerAutoclaimer
 
             async Task<bool> fightWB(int[] lineup)
             {
+                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now + "\n\t Debug fightWB");
+                }
                 await Task.Delay(5000); // prevent spamming
                 bool b = await main.pf.sendWBFight(lineup);
                 string s = "";
@@ -324,6 +328,7 @@ namespace CQFollowerAutoclaimer
                 return b;
             }
         }
+
         public async void getWebsiteData()
         {
             PFStuff.getWebsiteData(main.KongregateId);
@@ -334,7 +339,6 @@ namespace CQFollowerAutoclaimer
             nextWBRefresh = DateTime.Now.AddMilliseconds(WBTimer.Interval);
             main.currentDungLevelLabel.Text = PFStuff.DungLevel;
         }
-
 
         string shortBossName(string longName)
         {

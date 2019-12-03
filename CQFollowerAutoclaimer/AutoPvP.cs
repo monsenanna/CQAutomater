@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.IO;
 
 namespace CQFollowerAutoclaimer
 {
@@ -30,16 +31,34 @@ namespace CQFollowerAutoclaimer
         internal async Task<Int32> pickOpponent()
         {
             int size = Math.Max(3, 2 * (int)Math.Max(main.playersAboveCount.Value, main.playersBelowCount.Value + 1));
-            while (!await main.pf.getLeaderboard(size)) ;
+            while (!await main.pf.getLeaderboard(size));
             main.pvpRankingSummary.setText("Ranking evolution : " + (PFStuff.initialRanking - PFStuff.currentRanking).ToString() + " (" + PFStuff.initialRanking + " -> " + PFStuff.currentRanking + ")");
             Random r = new Random();
             int index;
-            do
+            // try finding easiest opponent
+            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
-                index = r.Next(0, PFStuff.nearbyPlayersIDs.Length);
-            } while (index == PFStuff.userIndex ||
-                    index > PFStuff.userIndex + (int)main.playersBelowCount.Value ||
-                    index < PFStuff.userIndex - (int)main.playersAboveCount.Value);
+                sw.WriteLine(DateTime.Now + "\n\t pickOpponent a");
+            }
+            index = await main.pf.getEasiestOpponent();
+            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\n\t pickOpponent b " + index.ToString());
+            }
+            if (index == 0)
+            {
+                // random among neighbors
+                do
+                {
+                    index = r.Next(0, PFStuff.nearbyPlayersIDs.Length);
+                } while (index == PFStuff.userIndex ||
+                        index > PFStuff.userIndex + (int)main.playersBelowCount.Value ||
+                        index < PFStuff.userIndex - (int)main.playersAboveCount.Value);
+            }
+            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\n\t pickOpponent c " + index.ToString());
+            }
             return index;
         }
 
@@ -52,7 +71,6 @@ namespace CQFollowerAutoclaimer
                 {
                     await main.login();
                 }
-
                 await main.getData();
                 if (Int32.Parse(PFStuff.PVPCharges) > 0)
                 {
@@ -66,14 +84,6 @@ namespace CQFollowerAutoclaimer
                     PVPTimer.Interval = Math.Max(8000, (nextPVP - DateTime.Now).TotalMilliseconds);
                     PVPTimer.Start();
                 }
-                /*int index = await pickOpponent();
-                main.taskQueue.Enqueue(() => sendFight(index), "PVP");*/
-                /*nextPVP = Form1.getTime(PFStuff.PVPTime);
-                if (nextPVP < DateTime.Now)
-                    nextPVP = nextPVP.AddMilliseconds(3605000);
-                main.PvPTimeLabel.setText(nextPVP.ToString());
-                PVPTimer.Interval = Math.Max(8000, (nextPVP - DateTime.Now).TotalMilliseconds);
-                main.PvPLog.SynchronizedInvoke(() => main.PvPLog.AppendText("time debug A : " + DateTime.Now + " --- " + nextPVP + " --- " + PVPTimer.Interval + "\n"));*/
             }
         }
 
@@ -83,11 +93,7 @@ namespace CQFollowerAutoclaimer
             nextPVP = Form1.getTime(PFStuff.PVPTime);
             if (nextPVP < DateTime.Now)
                 nextPVP = nextPVP.AddMilliseconds(3605000);
-            //PVPTimer.Interval = Math.Min(3660000, Math.Max(5000, (nextPVP - DateTime.Now).TotalMilliseconds + 3600000));
             PVPTimer.Interval = Math.Max(8000, (nextPVP - DateTime.Now).TotalMilliseconds);
-            /*if (PVPTimer.Interval < 0)
-                PVPTimer.Interval += 3605000;*/
-            //main.PvPLog.SynchronizedInvoke(() => main.PvPLog.AppendText("time debug B : " + DateTime.Now + " --- " + nextPVP +" --- "+ PVPTimer.Interval + "\n"));
             main.PvPLog.SynchronizedInvoke(() => main.PvPLog.AppendText(PFStuff.battleResult));
             main.PvPTimeLabel.setText(nextPVP.ToString());
             PVPTimer.Start();
