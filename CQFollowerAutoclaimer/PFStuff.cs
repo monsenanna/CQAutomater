@@ -15,6 +15,7 @@ using System.IO;
 using System.Net.Http;
 using MySqlConnector;
 using MySql.Data.MySqlClient;
+using System.Globalization;
 
 namespace CQFollowerAutoclaimer
 {
@@ -35,6 +36,7 @@ namespace CQFollowerAutoclaimer
         static public int[] heroLevels;
         static public int emMultiplier;
         static public int FlashStatus;
+        static public int FlashLastUpdate = 0;
         static public int EASDay;
         static public int DungStatus = 0;
         static public int DungRunning = 0;
@@ -252,7 +254,8 @@ namespace CQFollowerAutoclaimer
                 AdventureStatus = 0;
                 try
                 {
-                    if ((int)json["data"]["city"]["adventure"]["tid"] >= (int)json["data"]["city"]["tour"][0]["tid"] || json["data"]["city"]["adventure"]["time"] == null)
+                    //if ((int)json["data"]["city"]["adventure"]["tid"] >= (int)json["data"]["city"]["tour"][0]["tid"] || json["data"]["city"]["adventure"]["time"] == null)
+                    if (json["data"]["city"]["adventure"]["time"] == null)
                     {
                         AdventureStatus = 1;
                     }
@@ -566,6 +569,7 @@ namespace CQFollowerAutoclaimer
                 if (json["flash"] != null)
                 {
                     FlashStatus = 1;
+                    updateFlashHistory(json["flash"]["history"]);
                 }
                 else
                 {
@@ -663,6 +667,57 @@ namespace CQFollowerAutoclaimer
             }
         }
 
+        internal static bool updateFlashHistory(JToken json)
+        {
+            try
+            {
+                var d = json[json.Count() - 1]["date"].ToString();
+                d = d.Substring(0, d.Length - 3);
+                if (int.Parse(d) <= FlashLastUpdate)
+                    return true;
+                using (var connection = new MySqlConnection("Server=db.dcouv.fr;Port=22306;User ID=" + MySQLAuth.user + "; Password=" + MySQLAuth.pass + "; Database=cqdata"))
+                {
+                    connection.Open();
+                    for (int i = json.Count() - 1; i >= 0; i--)
+                    {
+                        var id = json[i]["id"].ToString();
+                        d = json[i]["date"].ToString();
+                        d = d.Substring(0, d.Length - 3);
+                        // write new data
+                        using (var command = new MySqlCommand("SELECT * FROM flash WHERE id = '" + id + "'", connection))
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                continue;
+                            }
+                        }
+                        using (var command = new MySqlCommand("INSERT INTO flash(id, date, pool, updated) VALUES ('" + id + "', '" + d + "', '[" + String.Join(",", getArray(json[i]["hero"].ToString())) + "]', 0);", connection))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        for (int j = json[i]["players"].Count() - 1; j >= 0; j--)
+                        {
+                            var wr = Decimal.Divide(decimal.Parse(json[i]["players"][j]["wr"].ToString(), CultureInfo.InvariantCulture), 100).ToString().Replace(",", ".");
+                            using (var command = new MySqlCommand("INSERT INTO frank(flash, player, position, wr, grid) VALUES ('" + id + "', '" + json[i]["players"][j]["name"].ToString() + "', " + (j+1).ToString() + ", '" + wr + "', '[" + String.Join(",", getArray(json[i]["players"][j]["setup"].ToString())) + "]');", connection))
+                                command.ExecuteNonQuery();
+                        }
+                        FlashLastUpdate = int.Parse(d);
+                    }
+                    connection.Close();
+                }
+            }
+            catch (Exception webex)
+            {
+                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now + "\n\t" + webex.Message);
+                }
+                return false;
+            }
+            return true;
+        }
+
         internal static async Task<int> getWBData(string id)
         {
             int retryCount = 4;
@@ -709,14 +764,14 @@ namespace CQFollowerAutoclaimer
                     var content = new FormUrlEncodedContent(values);
                     var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
                     var responseString = await response.Content.ReadAsStringAsync();
-                    logError("debug - ", responseString);
+                    //logError("debug - ", responseString);
                     string[] result = responseString.Split(',').ToArray();
                     for (int i = 0; i < result.Length; i++)
                     {
                         if (nearbyPlayersNames.Contains(result[i]))
                         {
-                            logError("debug i - ", i.ToString());
-                            logError("debug resi - ", result[i]);
+                            //logError("debug i - ", i.ToString());
+                            //logError("debug resi - ", result[i]);
                             return int.Parse(nearbyPlayersIDs[Array.IndexOf(nearbyPlayersNames, result[i])]);
                         }
                     }

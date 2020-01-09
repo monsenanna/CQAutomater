@@ -36,15 +36,15 @@ namespace CQFollowerAutoclaimer
             Random r = new Random();
             int index;
             // try finding easiest opponent
-            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
                 sw.WriteLine(DateTime.Now + "\n\t pickOpponent a");
-            }
+            }*/
             index = await main.pf.getEasiestOpponent();
-            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
                 sw.WriteLine(DateTime.Now + "\n\t pickOpponent b " + index.ToString());
-            }
+            }*/
             if (index == 0)
             {
                 // random among neighbors
@@ -55,10 +55,10 @@ namespace CQFollowerAutoclaimer
                         index > PFStuff.userIndex + (int)main.playersBelowCount.Value ||
                         index < PFStuff.userIndex - (int)main.playersAboveCount.Value);
             }
-            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
                 sw.WriteLine(DateTime.Now + "\n\t pickOpponent c " + index.ToString());
-            }
+            }*/
             return index;
         }
 

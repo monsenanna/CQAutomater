@@ -336,48 +336,48 @@ namespace CQFollowerAutoclaimer
                         main.label125.setText("PG match cards : not active today");
                 }
                 main.label145.setText("Adventure : not active today");
-                if (main.doAutoADCheckbox.Checked && PFStuff.AdventureDay == 1 && PFStuff.AdventureStatus == 1)
+                if (main.doAutoADCheckbox.Checked && PFStuff.AdventureDay == 1 && PFStuff.AdventureStatus == 1 && (main.pf.cosmicCoins > 100 || main.pf.pranaGems > 100 || main.pf.ascensionSpheres > 100))
                 {
                     switch (main.adventurePriority.SelectedIndex)
                     {
                         case 2: // CC
-                            if (main.pf.cosmicCoins >= 100)
+                            if (main.pf.cosmicCoins > 100)
                             {
                                 await main.pf.sendAdventure(0, 100);
                             }
-                            else if (main.pf.ascensionSpheres >= 100)
+                            else if (main.pf.ascensionSpheres > 100)
                             {
                                 await main.pf.sendAdventure(2, 100);
                             }
-                            else if (main.pf.pranaGems >= 100)
+                            else
                             {
                                 await main.pf.sendAdventure(1, 100);
                             }
                             break;
                         case 1: // PG
-                            if (main.pf.pranaGems >= 100)
+                            if (main.pf.pranaGems > 100)
                             {
                                 await main.pf.sendAdventure(1, 100);
                             }
-                            else if (main.pf.ascensionSpheres >= 100)
+                            else if (main.pf.ascensionSpheres > 100)
                             {
                                 await main.pf.sendAdventure(2, 100);
                             }
-                            else if (main.pf.cosmicCoins >= 100)
+                            else
                             {
                                 await main.pf.sendAdventure(0, 100);
                             }
                             break;
                         default: // AS
-                            if (main.pf.ascensionSpheres >= 100)
+                            if (main.pf.ascensionSpheres > 100)
                             {
                                 await main.pf.sendAdventure(2, 100);
                             }
-                            else if (main.pf.pranaGems >= 100)
+                            else if (main.pf.pranaGems > 100)
                             {
                                 await main.pf.sendAdventure(1, 100);
                             }
-                            else if (main.pf.cosmicCoins >= 100)
+                            else
                             {
                                 await main.pf.sendAdventure(0, 100);
                             }
