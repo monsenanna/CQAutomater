@@ -699,7 +699,10 @@ namespace CQFollowerAutoclaimer
                         for (int j = json[i]["players"].Count() - 1; j >= 0; j--)
                         {
                             var wr = Decimal.Divide(decimal.Parse(json[i]["players"][j]["wr"].ToString(), CultureInfo.InvariantCulture), 100).ToString().Replace(",", ".");
-                            using (var command = new MySqlCommand("INSERT INTO frank(flash, player, position, wr, grid) VALUES ('" + id + "', '" + json[i]["players"][j]["name"].ToString() + "', " + (j+1).ToString() + ", '" + wr + "', '[" + String.Join(",", getArray(json[i]["players"][j]["setup"].ToString())) + "]');", connection))
+                            var pn = json[i]["players"][j]["name"].ToString();
+                            if (pn == "undefined")
+                                pn = "unknown" + (j + 1).ToString();
+                            using (var command = new MySqlCommand("INSERT INTO frank(flash, player, position, wr, grid) VALUES ('" + id + "', '" + pn + "', " + (j+1).ToString() + ", '" + wr + "', '[" + String.Join(",", getArray(json[i]["players"][j]["setup"].ToString())) + "]');", connection))
                                 command.ExecuteNonQuery();
                         }
                         FlashLastUpdate = int.Parse(d);
