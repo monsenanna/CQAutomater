@@ -941,7 +941,7 @@ namespace CQFollowerAutoclaimer
             appSettings.doAutoAD = doAutoADCheckbox.Checked;
             appSettings.optAutoAD = adventurePriority.SelectedIndex;
             appSettings.doAutoLO = doAutoLOCheckbox.Checked;
-            appSettings.optAutoLO = int.Parse(lotteryCount.Text);
+            appSettings.optAutoLO = Convert.ToInt32(Math.Round(lotteryCount.Value, 0));
             appSettings.saveSettings();
         }
 

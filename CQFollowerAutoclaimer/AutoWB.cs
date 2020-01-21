@@ -20,7 +20,7 @@ namespace CQFollowerAutoclaimer
         public AutoWB(Form1 m)
         {
             main = m;
-            WBTimer.Interval = 20 * 1000;
+            WBTimer.Interval = 30 * 1000;
             WBTimer.Elapsed += WBTimer_Elapsed;
             WBTimer.Start();
             nextWBRefresh = DateTime.Now.AddMilliseconds(WBTimer.Interval);
@@ -230,8 +230,6 @@ namespace CQFollowerAutoclaimer
                         {
                             return;
                         }
-                        if (PFStuff.WBName.Contains("SUPER")) // hard block on 2
-                            attacksToDo = Math.Max(2, attacksToDo);
 
                         if (lineup.Contains(-1))
                         {
@@ -239,6 +237,8 @@ namespace CQFollowerAutoclaimer
                             main.autoWBCheckbox.Checked = false;
                             return;
                         }
+                        if (PFStuff.WBName.Contains("SUPER")) // hard block on 2
+                            attacksToDo = Math.Min(2, attacksToDo);
                         attacksToDo -= r;
                         if (attacksToDo <= 0)
                             return;
@@ -324,7 +324,7 @@ namespace CQFollowerAutoclaimer
                 {
                     sw.WriteLine(s);
                 }
-                await Task.Delay(30000); // prevent spamming
+                await Task.Delay(45000); // prevent spamming
                 return b;
             }
         }

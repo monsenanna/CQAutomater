@@ -4193,6 +4193,7 @@
             this.lotteryCount.Name = "lotteryCount";
             this.lotteryCount.Size = new System.Drawing.Size(59, 20);
             this.lotteryCount.TabIndex = 106;
+            this.lotteryCount.ValueChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
             // 
             // doAutoLOCheckbox
             // 
