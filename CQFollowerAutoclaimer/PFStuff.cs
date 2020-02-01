@@ -705,7 +705,7 @@ namespace CQFollowerAutoclaimer
                             using (var command = new MySqlCommand("INSERT INTO frank(flash, player, position, wr, grid) VALUES ('" + id + "', '" + pn + "', " + (j+1).ToString() + ", '" + wr + "', '[" + String.Join(",", getArray(json[i]["players"][j]["setup"].ToString())) + "]');", connection))
                                 command.ExecuteNonQuery();
                         }
-                        FlashLastUpdate = int.Parse(d);
+                        FlashLastUpdate = int.Parse(d) - 60*60*4; // 4h before
                     }
                     connection.Close();
                 }

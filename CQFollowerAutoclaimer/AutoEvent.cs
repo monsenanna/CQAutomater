@@ -57,7 +57,7 @@ namespace CQFollowerAutoclaimer
                 PFStuff.getWebsiteData(main.KongregateId);
                 EventTimer.Interval = 60 * 1000; // 60sec
 
-                main.label73.setText("Flash : " + (PFStuff.FlashStatus == 1 ? "active" : "not active") + " today");
+                main.label73.setText("Flash : " + (PFStuff.FlashStatus == 1 ? "active today, sending history" : "not active today"));
                 main.label109.setText("EAS : " + (PFStuff.EASDay == 1 ? "active" : "not active") + " today");
                 if (PFStuff.DungStatus == -1)
                 {

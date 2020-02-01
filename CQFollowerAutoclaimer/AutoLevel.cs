@@ -201,7 +201,7 @@ namespace CQFollowerAutoclaimer
                     }
                 }
             }
-            levelTimer.Interval = 4 * 60 * 60 * 1000;
+            levelTimer.Interval = 5 * 60 * 1000;
             nextLevelCheck = DateTime.Now.AddMilliseconds(levelTimer.Interval);
             levelTimer.Start();
         }
