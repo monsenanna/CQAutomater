@@ -569,7 +569,7 @@ namespace CQFollowerAutoclaimer
                 if (json["flash"] != null)
                 {
                     FlashStatus = 1;
-                    updateFlashHistory(json["flash"]["history"]);
+                    updateFlashHistory(json["flash"]);
                 }
                 else
                 {
@@ -671,41 +671,69 @@ namespace CQFollowerAutoclaimer
         {
             try
             {
-                var d = json[json.Count() - 1]["date"].ToString();
+                var d = json["history"][json.Count() - 1]["date"].ToString();
                 d = d.Substring(0, d.Length - 3);
+                string id = "";
                 if (int.Parse(d) <= FlashLastUpdate)
                     return true;
                 using (var connection = new MySqlConnection("Server=db.dcouv.fr;Port=22306;User ID=" + MySQLAuth.user + "; Password=" + MySQLAuth.pass + "; Database=cqdata"))
                 {
                     connection.Open();
-                    for (int i = json.Count() - 1; i >= 0; i--)
+                    for (int i = json["history"].Count() - 1; i >= 0; i--)
                     {
-                        var id = json[i]["id"].ToString();
-                        d = json[i]["date"].ToString();
+                        id = json["history"][i]["id"].ToString();
+                        d = json["history"][i]["date"].ToString();
                         d = d.Substring(0, d.Length - 3);
                         // write new data
-                        using (var command = new MySqlCommand("SELECT * FROM flash WHERE id = '" + id + "'", connection))
+                        string action = "";
+                        using (var command = new MySqlCommand("SELECT updated FROM flash WHERE id = '" + id + "'", connection))
                         using (var reader = command.ExecuteReader())
                         {
                             if (reader.HasRows)
                             {
-                                continue;
+                                while (reader.Read())
+                                {
+                                    action = (int.Parse(reader.GetValue(0).ToString()) == 2 ? "upd" : "no");
+                                }
+                            }
+                            else
+                            {
+                                action = "ins";
                             }
                         }
-                        using (var command = new MySqlCommand("INSERT INTO flash(id, date, pool, updated) VALUES ('" + id + "', '" + d + "', '[" + String.Join(",", getArray(json[i]["hero"].ToString())) + "]', 0);", connection))
+                        switch(action)
                         {
-                            command.ExecuteNonQuery();
+                            case "ins":
+                                using (var command2 = new MySqlCommand("INSERT INTO flash(id, date, pool, updated) VALUES ('" + id + "', '" + d + "', '[" + String.Join(",", getArray(json["history"][i]["hero"].ToString())) + "]', 0);", connection))
+                                {
+                                    command2.ExecuteNonQuery();
+                                }
+                                break;
+                            case "upd":
+                                using (var command2 = new MySqlCommand("UPDATE flash SET date = '" + d + "', pool = '[" + String.Join(",", getArray(json["history"][i]["hero"].ToString())) + "]', updated = 0 WHERE id = " + id + ";", connection))
+                                {
+                                    command2.ExecuteNonQuery();
+                                }
+                                break;
+                            default:
+                                continue;
                         }
-                        for (int j = json[i]["players"].Count() - 1; j >= 0; j--)
+                        for (int j = json["history"][i]["players"].Count() - 1; j >= 0; j--)
                         {
-                            var wr = Decimal.Divide(decimal.Parse(json[i]["players"][j]["wr"].ToString(), CultureInfo.InvariantCulture), 100).ToString().Replace(",", ".");
-                            var pn = json[i]["players"][j]["name"].ToString();
+                            var wr = Decimal.Divide(decimal.Parse(json["history"][i]["players"][j]["wr"].ToString(), CultureInfo.InvariantCulture), 100).ToString().Replace(",", ".");
+                            var pn = json["history"][i]["players"][j]["name"].ToString();
                             if (pn == "undefined")
                                 pn = "unknown" + (j + 1).ToString();
-                            using (var command = new MySqlCommand("INSERT INTO frank(flash, player, position, wr, grid) VALUES ('" + id + "', '" + pn + "', " + (j+1).ToString() + ", '" + wr + "', '[" + String.Join(",", getArray(json[i]["players"][j]["setup"].ToString())) + "]');", connection))
+                            using (var command = new MySqlCommand("INSERT INTO frank(flash, player, position, wr, grid) VALUES ('" + id + "', '" + pn + "', " + (j+1).ToString() + ", '" + wr + "', '[" + String.Join(",", getArray(json["history"][i]["players"][j]["setup"].ToString())) + "]');", connection))
                                 command.ExecuteNonQuery();
                         }
-                        FlashLastUpdate = int.Parse(d) - 60*60*4; // 4h before
+                        FlashLastUpdate = int.Parse(d) - 60*60*8; // 8h before
+                    }
+                    // current flash
+                    id = json["current"]["id"].ToString();
+                    using (var command = new MySqlCommand("INSERT INTO flash(id, date, pool, updated, followers) VALUES ('" + id + "', '" + d + "', '[" + String.Join(",", getArray(json["current"]["hero"].ToString())) + "]', 2, '" + json["current"]["followers"].ToString() + "');", connection))
+                    {
+                        command.ExecuteNonQuery();
                     }
                     connection.Close();
                 }

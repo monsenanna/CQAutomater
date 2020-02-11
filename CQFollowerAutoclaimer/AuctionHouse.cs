@@ -60,6 +60,8 @@ namespace CQFollowerAutoclaimer
                     string bidName = jo["bidname"].ToString();
                     int price = Int32.Parse(jo["bid"].ToString());
                     DateTime dt = DateTime.Now.AddMilliseconds(double.Parse(jo["timer"].ToString()));
+                    //if(double.Parse(jo["timer"].ToString()) > 86400)
+                        //dt.AddMilliseconds(86400);
                     auctionList.Add(new Auction(id, bidName, dt, price));
                 }
             }
