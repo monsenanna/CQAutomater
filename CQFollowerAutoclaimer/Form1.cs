@@ -53,6 +53,7 @@ namespace CQFollowerAutoclaimer
         internal static WBLog wbl;
         internal List<List<ComboBox>> WBlineups;
         List<ComboBox> auctionComboBoxes;
+        List<ComboBox> p6HeroComboBoxes;
         List<Label> auctionCountdowns;
         System.Timers.Timer tmr = new System.Timers.Timer();
         System.Timers.Timer countdownsTimer = new System.Timers.Timer();
@@ -91,6 +92,9 @@ namespace CQFollowerAutoclaimer
                 };
             auctionComboBoxes = new List<ComboBox> {
                 auctionHero1Combo, auctionHero2Combo, auctionHero3Combo,
+            };
+            p6HeroComboBoxes = new List<ComboBox> {
+                p6HeroCombo1, p6HeroCombo2, p6HeroCombo3,
             };
             AutoCompleteStringCollection acsc = new AutoCompleteStringCollection();
             foreach (List<ComboBox> l in WBlineups)
@@ -280,6 +284,13 @@ namespace CQFollowerAutoclaimer
                 }
                 // before sort :
                 //c.Items.AddRange(auctionHouse.getAvailableHeroes());
+            }
+            foreach (ComboBox c in p6HeroComboBoxes)
+            {
+                foreach (string n in Constants.heroNames.ToList().OrderBy(s => s))
+                {
+                    c.Items.Add(n);
+                }
             }
             auctionHouse.loadSettings();
             autoEvent.loadSettings();

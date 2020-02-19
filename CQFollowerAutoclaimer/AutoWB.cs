@@ -291,10 +291,10 @@ namespace CQFollowerAutoclaimer
 
             async Task<bool> fightWB(int[] lineup)
             {
-                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now + "\n\t Debug fightWB");
-                }
+                }*/
                 await Task.Delay(5000); // prevent spamming
                 bool b = await main.pf.sendWBFight(lineup);
                 string s = "";

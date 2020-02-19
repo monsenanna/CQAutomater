@@ -162,6 +162,7 @@
             this.DOYHA2 = new System.Windows.Forms.ComboBox();
             this.DOYHA1 = new System.Windows.Forms.ComboBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.doPvPHistoryCheckbox = new System.Windows.Forms.CheckBox();
             this.pvpRankingSummary = new System.Windows.Forms.Label();
             this.savePvPSettingsButton = new System.Windows.Forms.Button();
             this.label54 = new System.Windows.Forms.Label();
@@ -310,6 +311,8 @@
             this.auctionHero2Box = new System.Windows.Forms.CheckBox();
             this.auctionHero1Box = new System.Windows.Forms.CheckBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.label22 = new System.Windows.Forms.Label();
+            this.p6HeroCombo1 = new System.Windows.Forms.ComboBox();
             this.label144 = new System.Windows.Forms.Label();
             this.label143 = new System.Windows.Forms.Label();
             this.label142 = new System.Windows.Forms.Label();
@@ -378,7 +381,8 @@
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
-            this.doPvPHistoryCheckbox = new System.Windows.Forms.CheckBox();
+            this.p6HeroCombo2 = new System.Windows.Forms.ComboBox();
+            this.p6HeroCombo3 = new System.Windows.Forms.ComboBox();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -2130,6 +2134,17 @@
             this.tabPage4.Text = "PvP";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // doPvPHistoryCheckbox
+            // 
+            this.doPvPHistoryCheckbox.AutoSize = true;
+            this.doPvPHistoryCheckbox.Location = new System.Drawing.Point(321, 37);
+            this.doPvPHistoryCheckbox.Name = "doPvPHistoryCheckbox";
+            this.doPvPHistoryCheckbox.Size = new System.Drawing.Size(115, 17);
+            this.doPvPHistoryCheckbox.TabIndex = 91;
+            this.doPvPHistoryCheckbox.Text = "Enable PvP history";
+            this.doPvPHistoryCheckbox.UseVisualStyleBackColor = true;
+            this.doPvPHistoryCheckbox.CheckedChanged += new System.EventHandler(this.DoPvPHistoryCheckbox_CheckedChanged);
+            // 
             // pvpRankingSummary
             // 
             this.pvpRankingSummary.AutoSize = true;
@@ -3720,6 +3735,10 @@
             // 
             // tabPage8
             // 
+            this.tabPage8.Controls.Add(this.p6HeroCombo3);
+            this.tabPage8.Controls.Add(this.p6HeroCombo2);
+            this.tabPage8.Controls.Add(this.label22);
+            this.tabPage8.Controls.Add(this.p6HeroCombo1);
             this.tabPage8.Controls.Add(this.label144);
             this.tabPage8.Controls.Add(this.label143);
             this.tabPage8.Controls.Add(this.label142);
@@ -3762,6 +3781,27 @@
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "Level";
             this.tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(8, 256);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(156, 16);
+            this.label22.TabIndex = 143;
+            this.label22.Text = "Promo6 next trainings";
+            // 
+            // p6HeroCombo1
+            // 
+            this.p6HeroCombo1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.p6HeroCombo1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.p6HeroCombo1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.p6HeroCombo1.FormattingEnabled = true;
+            this.p6HeroCombo1.Location = new System.Drawing.Point(194, 255);
+            this.p6HeroCombo1.Name = "p6HeroCombo1";
+            this.p6HeroCombo1.Size = new System.Drawing.Size(114, 21);
+            this.p6HeroCombo1.TabIndex = 142;
             // 
             // label144
             // 
@@ -4487,16 +4527,27 @@
             this.AEIndicator.TabIndex = 40;
             this.AEIndicator.Text = "          ";
             // 
-            // doPvPHistoryCheckbox
+            // p6HeroCombo2
             // 
-            this.doPvPHistoryCheckbox.AutoSize = true;
-            this.doPvPHistoryCheckbox.Location = new System.Drawing.Point(321, 37);
-            this.doPvPHistoryCheckbox.Name = "doPvPHistoryCheckbox";
-            this.doPvPHistoryCheckbox.Size = new System.Drawing.Size(115, 17);
-            this.doPvPHistoryCheckbox.TabIndex = 91;
-            this.doPvPHistoryCheckbox.Text = "Enable PvP history";
-            this.doPvPHistoryCheckbox.UseVisualStyleBackColor = true;
-            this.doPvPHistoryCheckbox.CheckedChanged += new System.EventHandler(this.DoPvPHistoryCheckbox_CheckedChanged);
+            this.p6HeroCombo2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.p6HeroCombo2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.p6HeroCombo2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.p6HeroCombo2.FormattingEnabled = true;
+            this.p6HeroCombo2.Location = new System.Drawing.Point(194, 282);
+            this.p6HeroCombo2.Name = "p6HeroCombo2";
+            this.p6HeroCombo2.Size = new System.Drawing.Size(114, 21);
+            this.p6HeroCombo2.TabIndex = 144;
+            // 
+            // p6HeroCombo3
+            // 
+            this.p6HeroCombo3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.p6HeroCombo3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.p6HeroCombo3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.p6HeroCombo3.FormattingEnabled = true;
+            this.p6HeroCombo3.Location = new System.Drawing.Point(194, 309);
+            this.p6HeroCombo3.Name = "p6HeroCombo3";
+            this.p6HeroCombo3.Size = new System.Drawing.Size(114, 21);
+            this.p6HeroCombo3.TabIndex = 145;
             // 
             // Form1
             // 
@@ -4949,6 +5000,10 @@
         internal System.Windows.Forms.ComboBox adventurePriority;
         internal System.Windows.Forms.CheckBox doAutoDGCheckbox;
         internal System.Windows.Forms.CheckBox doPvPHistoryCheckbox;
+        private System.Windows.Forms.Label label22;
+        internal System.Windows.Forms.ComboBox p6HeroCombo1;
+        internal System.Windows.Forms.ComboBox p6HeroCombo3;
+        internal System.Windows.Forms.ComboBox p6HeroCombo2;
     }
 }
 

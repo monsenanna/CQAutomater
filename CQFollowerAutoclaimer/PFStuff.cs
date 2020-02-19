@@ -34,6 +34,7 @@ namespace CQFollowerAutoclaimer
         static public int PVPLastUpdate = 0;
         static public JToken PVPGrid;
         static public int[] heroLevels;
+        static public int[] heroProms;
         static public int emMultiplier;
         static public int FlashStatus;
         static public int FlashLastUpdate = 0;
@@ -56,6 +57,7 @@ namespace CQFollowerAutoclaimer
         static public int AdventureStatus;
         static public int LotteryDay;
         static public int LotteryCurrent;
+        static public int TrainingStatus;
 
         static public string[] nearbyPlayersIDs;
         static public string[] nearbyPlayersNames;
@@ -201,8 +203,8 @@ namespace CQFollowerAutoclaimer
             else
             {
                 JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
-                string hLevels = json["data"]["city"]["hero"].ToString();
-                heroLevels = getArray(hLevels);
+                heroLevels = getArray(json["data"]["city"]["hero"].ToString());
+                heroProms = getArray(json["data"]["city"]["promo"].ToString());
                 miracleTimes = json["data"]["miracles"].ToString();
                 followers = json["data"]["followers"].ToString();
                 DQTime = json["data"]["city"]["daily"]["timer2"].ToString();
@@ -258,6 +260,17 @@ namespace CQFollowerAutoclaimer
                     if (json["data"]["city"]["adventure"]["time"] == null)
                     {
                         AdventureStatus = 1;
+                    }
+                }
+                catch
+                {
+                }
+                TrainingStatus = 0;
+                try
+                {
+                    if (json["data"]["city"]["training"]["time"] != null)
+                    {
+                        TrainingStatus = (int)json["data"]["city"]["training"]["hid"];
                     }
                 }
                 catch
@@ -674,6 +687,7 @@ namespace CQFollowerAutoclaimer
                 var d = json["history"][json.Count() - 1]["date"].ToString();
                 d = d.Substring(0, d.Length - 3);
                 string id = "";
+                string action = "";
                 if (int.Parse(d) <= FlashLastUpdate)
                     return true;
                 using (var connection = new MySqlConnection("Server=db.dcouv.fr;Port=22306;User ID=" + MySQLAuth.user + "; Password=" + MySQLAuth.pass + "; Database=cqdata"))
@@ -685,7 +699,7 @@ namespace CQFollowerAutoclaimer
                         d = json["history"][i]["date"].ToString();
                         d = d.Substring(0, d.Length - 3);
                         // write new data
-                        string action = "";
+                        action = "";
                         using (var command = new MySqlCommand("SELECT updated FROM flash WHERE id = '" + id + "'", connection))
                         using (var reader = command.ExecuteReader())
                         {
@@ -693,7 +707,7 @@ namespace CQFollowerAutoclaimer
                             {
                                 while (reader.Read())
                                 {
-                                    action = (int.Parse(reader.GetValue(0).ToString()) == 2 ? "upd" : "no");
+                                    action = ((int)reader.GetValue(0) == 2 ? "upd" : "no");
                                 }
                             }
                             else
@@ -731,9 +745,16 @@ namespace CQFollowerAutoclaimer
                     }
                     // current flash
                     id = json["current"]["id"].ToString();
-                    using (var command = new MySqlCommand("INSERT INTO flash(id, date, pool, updated, followers) VALUES ('" + id + "', '" + d + "', '[" + String.Join(",", getArray(json["current"]["hero"].ToString())) + "]', 2, '" + json["current"]["followers"].ToString() + "');", connection))
+                    using (var command = new MySqlCommand("SELECT updated FROM flash WHERE id = '" + id + "'", connection))
+                    using (var reader = command.ExecuteReader())
                     {
-                        command.ExecuteNonQuery();
+                        if (!reader.HasRows)
+                        {
+                            using (var command2 = new MySqlCommand("INSERT INTO flash(id, date, pool, updated, followers) VALUES ('" + id + "', '" + d + "', '[" + String.Join(",", getArray(json["current"]["hero"].ToString())) + "]', 2, '" + json["current"]["followers"].ToString() + "');", connection))
+                            {
+                                command2.ExecuteNonQuery();
+                            }
+                        }
                     }
                     connection.Close();
                 }
@@ -1421,6 +1442,36 @@ namespace CQFollowerAutoclaimer
                 {
                     sw.WriteLine(DateTime.Now);
                     sw.WriteLine("\tAscended hero: " + (Constants.heroNames.Length > heroID + 2 ? Constants.heroNames[heroID + 2] : ("Unknown, ID: " + heroID)));
+                }
+                return true;
+            }
+        }
+
+        public async Task<bool> sendTrainHero(int heroID)
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Live,
+                FunctionName = "training",
+                FunctionParameter = new { id = heroID, um = false }
+            };
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
+            {
+                logError("Cloud Script Error: train hero", statusTask);
+                return true;
+            }
+            else
+            {
+                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now);
+                    sw.WriteLine("\tTrain hero: " + (Constants.heroNames.Length > heroID + 2 ? Constants.heroNames[heroID + 2] : ("Unknown, ID: " + heroID)));
                 }
                 return true;
             }
