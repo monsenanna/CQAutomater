@@ -268,7 +268,7 @@ namespace CQFollowerAutoclaimer
                 TrainingStatus = 0;
                 try
                 {
-                    if (json["data"]["city"]["training"]["time"] != null)
+                    if (json["data"]["city"]["training"]["time"] != null && (int)json["data"]["city"]["training"]["hid"] >= 0)
                     {
                         TrainingStatus = (int)json["data"]["city"]["training"]["hid"];
                     }
@@ -1463,7 +1463,7 @@ namespace CQFollowerAutoclaimer
             }
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
-                logError("Cloud Script Error: train hero", statusTask);
+                logError("Cloud Script Error: train hero " + (Constants.heroNames.Length > heroID + 2 ? Constants.heroNames[heroID + 2] : ("Unknown, ID: " + heroID)), statusTask);
                 return true;
             }
             else

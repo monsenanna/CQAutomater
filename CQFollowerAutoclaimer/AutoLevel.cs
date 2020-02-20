@@ -201,7 +201,7 @@ namespace CQFollowerAutoclaimer
                     }
                 }
                 // P6
-                if (PFStuff.TrainingStatus != 0)
+                if (PFStuff.TrainingStatus >= 0)
                 { // some hero is currently training
                     main.p6HeroCombo1.Text = Constants.heroNames[PFStuff.TrainingStatus + 2];
                     main.p6HeroCombo1.Enabled = false;
@@ -212,10 +212,11 @@ namespace CQFollowerAutoclaimer
                     if(main.p6HeroCombo2.getText() != "")
                     { // do next
                         // run ajax training request
-                        main.taskQueue.Enqueue(() => main.pf.sendTrainHero(Array.IndexOf(Constants.heroNames, main.p6HeroCombo1.Text) - 2), "train");
+                        main.taskQueue.Enqueue(() => main.pf.sendTrainHero(Array.IndexOf(Constants.heroNames, main.p6HeroCombo1.getText()) - 2), "train");
                         // move picks up
                         main.p6HeroCombo1.Text = main.p6HeroCombo2.getText();
                         main.p6HeroCombo2.Text = main.p6HeroCombo3.getText();
+                        main.p6HeroCombo3.Text = "";
                     }
                 }
             }

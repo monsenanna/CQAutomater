@@ -3797,6 +3797,7 @@
             this.p6HeroCombo1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.p6HeroCombo1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.p6HeroCombo1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.p6HeroCombo1.Enabled = false;
             this.p6HeroCombo1.FormattingEnabled = true;
             this.p6HeroCombo1.Location = new System.Drawing.Point(194, 255);
             this.p6HeroCombo1.Name = "p6HeroCombo1";
