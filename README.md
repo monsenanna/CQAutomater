@@ -2,6 +2,12 @@
 
 CQAutomater is a tool that runs in the background and automatically claims your miracles as soon as they are ready. It can also open the daily free chest, start battles with random person when your hourly battle is ready, automatically send a predefined lineup to beat DQ or run the calc to solve it and finally fight World Bosses.
 
+### Public data
+Since v4.5, CQA has been collecting data to help players browse history and do some statistics. It's all here : http://dcouv.fr/cq.php
+
+# v 4.7
+P6 (under work).
+
 # v 4.6
 Xmas2019, flash data export.
 
@@ -9,7 +15,7 @@ Xmas2019, flash data export.
 Feeding a shared sql database with PvP history, tournament grids, and userid-username connection. Ever wanted to know your neighbour's grid ? :)
 
 # v 4.5.0.0
-Events ok, subatomic heroes, personal PvP history (work in progress, more info to come).
+Events ok, subatomic heroes, personal PvP history.
 
 # v 4.3.3.0
 Added Bornag WB.
