@@ -255,6 +255,16 @@ namespace CQFollowerAutoclaimer
                     levels[i++].Value = x;
                 }
             }
+
+            if (main.appSettings.heroesToProm6 != null && main.appSettings.heroesToProm6.Length == 3)
+            {
+                int i = 0;
+                foreach (ComboBox c in main.p6HeroComboBoxes)
+                {
+                    c.SelectedIndex = c.FindStringExact(main.appSettings.heroesToProm6[i]);
+                    i++;
+                }
+            }
             updateHeroLevels();
         }
 
@@ -265,6 +275,7 @@ namespace CQFollowerAutoclaimer
             apps.herosToLevel = heroToLevel.Select(x => x.Text).ToArray();
             apps.bankedCurrencies = bank.Select(x => (int)x.Value).ToArray();
             apps.levelLimits = levels.Select(x => (int)x.Value).ToArray();
+            apps.heroesToProm6 = main.p6HeroComboBoxes.Select(x => x.Text).ToArray();
             apps.saveSettings();
         }
 
@@ -274,6 +285,7 @@ namespace CQFollowerAutoclaimer
             main.label143.setText("current: " + PFStuff.getHeroLevel(main.coinsHeroCombo.getText()));
             main.label144.setText("current: " + PFStuff.getHeroLevel(main.spheresHeroCombo.getText()));
         }
+
         public void updateCurr()
         {
             main.label137.setText("Current UM: " + main.pf.universeMarbles.ToString());

@@ -265,7 +265,7 @@ namespace CQFollowerAutoclaimer
                 catch
                 {
                 }
-                TrainingStatus = 0;
+                TrainingStatus = -1;
                 try
                 {
                     if (json["data"]["city"]["training"]["time"] != null && (int)json["data"]["city"]["training"]["hid"] >= 0)
@@ -276,6 +276,7 @@ namespace CQFollowerAutoclaimer
                 catch
                 {
                 }
+                updateHeroPool();
                 return true;
             }
         }
@@ -376,7 +377,34 @@ namespace CQFollowerAutoclaimer
             return true;
         }
 
-        public static int getHeroLevel(string heroName)
+        internal static bool updateHeroPool()
+        {
+            try
+            {
+                using (var connection = new MySqlConnection("Server=db.dcouv.fr;Port=22306;User ID=" + MySQLAuth.user + "; Password=" + MySQLAuth.pass + "; Database=cqdata"))
+                {
+                    connection.Open();
+                    int[][] a = new int[2][];
+                    a[0] = heroLevels;
+                    a[1] = heroProms;
+                    using (var command = new MySqlCommand("UPDATE player SET pool = '" + JsonConvert.SerializeObject(a) + "' WHERE id = " + userID + ";", connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                }
+                return true;
+            }
+            catch
+            {
+                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now + "\n\t error");
+                }
+                return false;
+            }
+        }
+
+            public static int getHeroLevel(string heroName)
         {
             if (!string.IsNullOrEmpty(heroName))
             {

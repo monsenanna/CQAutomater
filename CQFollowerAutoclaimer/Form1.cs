@@ -53,7 +53,7 @@ namespace CQFollowerAutoclaimer
         internal static WBLog wbl;
         internal List<List<ComboBox>> WBlineups;
         List<ComboBox> auctionComboBoxes;
-        List<ComboBox> p6HeroComboBoxes;
+        public List<ComboBox> p6HeroComboBoxes;
         List<Label> auctionCountdowns;
         System.Timers.Timer tmr = new System.Timers.Timer();
         System.Timers.Timer countdownsTimer = new System.Timers.Timer();
@@ -227,7 +227,6 @@ namespace CQFollowerAutoclaimer
             }
             await getData();
             autoWB.loadWBSettings();
-            autoLevel.loadALSettings();
             autopvp.loadPVPSettings();
 
             times = getTimes(PFStuff.miracleTimes);
@@ -292,6 +291,7 @@ namespace CQFollowerAutoclaimer
                     c.Items.Add(n);
                 }
             }
+            autoLevel.loadALSettings();
             auctionHouse.loadSettings();
             autoEvent.loadSettings();
             autoEvent.EventTimer.Interval = 10 * 1000;
