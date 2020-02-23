@@ -159,7 +159,7 @@ namespace CQFollowerAutoclaimer
                 await main.getData();
                 foreach (Auction au in temp.ToList())
                 {
-                    if (au.bidderName != PFStuff.username && (int)Math.Ceiling(au.currentPrice * 1.1) <= au.maxPrice && (au.maxLevel - 1) >= PFStuff.heroLevels[au.heroID])
+                    if (au.bidderName != PFStuff.username && (int)Math.Ceiling(au.currentPrice * 1.1) <= au.maxPrice && (au.maxLevel - 1) >= PFStuff.heroLevels[au.heroID] && main.pf.universeMarbles > (int)Math.Ceiling(au.currentPrice * 1.1))
                     { 
                         placeBid(au.heroID, (int)Math.Ceiling(au.currentPrice * 1.1));
                         loadAuctions(true);

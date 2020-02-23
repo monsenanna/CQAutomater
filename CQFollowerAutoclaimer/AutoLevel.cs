@@ -212,11 +212,12 @@ namespace CQFollowerAutoclaimer
                     if(main.p6HeroCombo2.getText() != "")
                     { // do next
                         // run ajax training request
-                        main.taskQueue.Enqueue(() => main.pf.sendTrainHero(Array.IndexOf(Constants.heroNames, main.p6HeroCombo1.getText()) - 2), "train");
+                        await main.pf.sendTrainHero(Array.IndexOf(Constants.heroNames, main.p6HeroCombo1.getText()) - 2);
                         // move picks up
                         main.p6HeroCombo1.Text = main.p6HeroCombo2.getText();
                         main.p6HeroCombo2.Text = main.p6HeroCombo3.getText();
-                        main.p6HeroCombo3.Text = "";
+                        main.p6HeroCombo3.Text = main.p6HeroCombo4.getText();
+                        main.p6HeroCombo4.Text = "";
                     }
                 }
             }
@@ -256,8 +257,13 @@ namespace CQFollowerAutoclaimer
                 }
             }
 
-            if (main.appSettings.heroesToProm6 != null && main.appSettings.heroesToProm6.Length == 3)
+            if (main.appSettings.heroesToProm6 != null && main.appSettings.heroesToProm6.Length == 4)
             {
+                if (PFStuff.TrainingStatus >= 0)
+                { // some hero is currently training
+                    main.p6HeroCombo1.Text = Constants.heroNames[PFStuff.TrainingStatus + 2];
+                    main.p6HeroCombo1.Enabled = false;
+                }
                 int i = 0;
                 foreach (ComboBox c in main.p6HeroComboBoxes)
                 {

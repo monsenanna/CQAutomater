@@ -311,6 +311,8 @@
             this.auctionHero2Box = new System.Windows.Forms.CheckBox();
             this.auctionHero1Box = new System.Windows.Forms.CheckBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.p6HeroCombo3 = new System.Windows.Forms.ComboBox();
+            this.p6HeroCombo2 = new System.Windows.Forms.ComboBox();
             this.label22 = new System.Windows.Forms.Label();
             this.p6HeroCombo1 = new System.Windows.Forms.ComboBox();
             this.label144 = new System.Windows.Forms.Label();
@@ -381,8 +383,7 @@
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
-            this.p6HeroCombo2 = new System.Windows.Forms.ComboBox();
-            this.p6HeroCombo3 = new System.Windows.Forms.ComboBox();
+            this.p6HeroCombo4 = new System.Windows.Forms.ComboBox();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -3735,6 +3736,7 @@
             // 
             // tabPage8
             // 
+            this.tabPage8.Controls.Add(this.p6HeroCombo4);
             this.tabPage8.Controls.Add(this.p6HeroCombo3);
             this.tabPage8.Controls.Add(this.p6HeroCombo2);
             this.tabPage8.Controls.Add(this.label22);
@@ -3781,6 +3783,28 @@
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "Level";
             this.tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // p6HeroCombo3
+            // 
+            this.p6HeroCombo3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.p6HeroCombo3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.p6HeroCombo3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.p6HeroCombo3.FormattingEnabled = true;
+            this.p6HeroCombo3.Location = new System.Drawing.Point(194, 309);
+            this.p6HeroCombo3.Name = "p6HeroCombo3";
+            this.p6HeroCombo3.Size = new System.Drawing.Size(114, 21);
+            this.p6HeroCombo3.TabIndex = 145;
+            // 
+            // p6HeroCombo2
+            // 
+            this.p6HeroCombo2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.p6HeroCombo2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.p6HeroCombo2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.p6HeroCombo2.FormattingEnabled = true;
+            this.p6HeroCombo2.Location = new System.Drawing.Point(194, 282);
+            this.p6HeroCombo2.Name = "p6HeroCombo2";
+            this.p6HeroCombo2.Size = new System.Drawing.Size(114, 21);
+            this.p6HeroCombo2.TabIndex = 144;
             // 
             // label22
             // 
@@ -4528,27 +4552,16 @@
             this.AEIndicator.TabIndex = 40;
             this.AEIndicator.Text = "          ";
             // 
-            // p6HeroCombo2
+            // p6HeroCombo4
             // 
-            this.p6HeroCombo2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.p6HeroCombo2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.p6HeroCombo2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.p6HeroCombo2.FormattingEnabled = true;
-            this.p6HeroCombo2.Location = new System.Drawing.Point(194, 282);
-            this.p6HeroCombo2.Name = "p6HeroCombo2";
-            this.p6HeroCombo2.Size = new System.Drawing.Size(114, 21);
-            this.p6HeroCombo2.TabIndex = 144;
-            // 
-            // p6HeroCombo3
-            // 
-            this.p6HeroCombo3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.p6HeroCombo3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.p6HeroCombo3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.p6HeroCombo3.FormattingEnabled = true;
-            this.p6HeroCombo3.Location = new System.Drawing.Point(194, 309);
-            this.p6HeroCombo3.Name = "p6HeroCombo3";
-            this.p6HeroCombo3.Size = new System.Drawing.Size(114, 21);
-            this.p6HeroCombo3.TabIndex = 145;
+            this.p6HeroCombo4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.p6HeroCombo4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.p6HeroCombo4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.p6HeroCombo4.FormattingEnabled = true;
+            this.p6HeroCombo4.Location = new System.Drawing.Point(194, 336);
+            this.p6HeroCombo4.Name = "p6HeroCombo4";
+            this.p6HeroCombo4.Size = new System.Drawing.Size(114, 21);
+            this.p6HeroCombo4.TabIndex = 146;
             // 
             // Form1
             // 
@@ -5005,6 +5018,7 @@
         internal System.Windows.Forms.ComboBox p6HeroCombo1;
         internal System.Windows.Forms.ComboBox p6HeroCombo3;
         internal System.Windows.Forms.ComboBox p6HeroCombo2;
+        internal System.Windows.Forms.ComboBox p6HeroCombo4;
     }
 }
 

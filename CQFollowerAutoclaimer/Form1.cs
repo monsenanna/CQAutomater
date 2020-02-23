@@ -94,7 +94,7 @@ namespace CQFollowerAutoclaimer
                 auctionHero1Combo, auctionHero2Combo, auctionHero3Combo,
             };
             p6HeroComboBoxes = new List<ComboBox> {
-                p6HeroCombo1, p6HeroCombo2, p6HeroCombo3,
+                p6HeroCombo1, p6HeroCombo2, p6HeroCombo3, p6HeroCombo4,
             };
             AutoCompleteStringCollection acsc = new AutoCompleteStringCollection();
             foreach (List<ComboBox> l in WBlineups)
@@ -286,6 +286,7 @@ namespace CQFollowerAutoclaimer
             }
             foreach (ComboBox c in p6HeroComboBoxes)
             {
+                c.Items.Add("");
                 foreach (string n in Constants.heroNames.ToList().OrderBy(s => s))
                 {
                     c.Items.Add(n);
