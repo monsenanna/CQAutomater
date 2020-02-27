@@ -396,10 +396,6 @@ namespace CQFollowerAutoclaimer
             }
             catch
             {
-                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                {
-                    sw.WriteLine(DateTime.Now + "\n\t error");
-                }
                 return false;
             }
         }
@@ -1268,7 +1264,7 @@ namespace CQFollowerAutoclaimer
             }
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
-                logError("Cloud Script Error: Send coupon (maybe coupon already used)", statusTask);
+                //logError("Cloud Script Error: Send coupon (maybe coupon already used)", statusTask);
                 return false;
             }
             else

@@ -333,9 +333,18 @@ namespace CQFollowerAutoclaimer
             }
             for (int i = 0; i < 3; i++)
             {
-                if (auctionHouse.auctionDates[i] != null && Int32.Parse((auctionHouse.auctionDates[i] - DateTime.Now).ToString("d")) < 5)
+                if (auctionHouse.auctionDates[i] != null)
                 {
-                    auctionCountdowns[i].setText((auctionHouse.auctionDates[i] - DateTime.Now).ToString("d\\:hh\\:mm\\:ss"));
+                    TimeSpan ts = auctionHouse.auctionDates[i] - DateTime.Now;
+                    if (ts.Days > 0)
+                    {
+                        auctionCountdowns[i].setText(ts.ToString(@"d\:hh\:mm\:ss"));
+                    }
+                    else
+                    {
+                        auctionCountdowns[i].setText(ts.ToString(@"hh\:mm\:ss"));
+
+                    }
                 }
             }
             autoLevel.updateCurr();
