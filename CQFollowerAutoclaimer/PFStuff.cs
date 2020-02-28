@@ -731,7 +731,7 @@ namespace CQFollowerAutoclaimer
                             {
                                 while (reader.Read())
                                 {
-                                    action = ((int)reader.GetValue(0) == 2 ? "upd" : "no");
+                                    action = (Int32.Parse(reader.GetValue(0).ToString()) == 2 ? "upd" : "no");
                                 }
                             }
                             else
@@ -739,7 +739,7 @@ namespace CQFollowerAutoclaimer
                                 action = "ins";
                             }
                         }
-                        switch(action)
+                        switch (action)
                         {
                             case "ins":
                                 using (var command2 = new MySqlCommand("INSERT INTO flash(id, date, pool, updated) VALUES ('" + id + "', '" + d + "', '[" + String.Join(",", getArray(json["history"][i]["hero"].ToString())) + "]', 0);", connection))

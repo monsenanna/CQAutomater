@@ -209,17 +209,19 @@ namespace CQFollowerAutoclaimer
                 else
                 {
                     main.p6HeroCombo1.Enabled = true;
-                    if(main.p6HeroCombo2.getText() != "")
+                    if (PFStuff.heroProms[Array.IndexOf(Constants.heroNames, main.p6HeroCombo1.getText()) - 2] != 5)
+                    { // move picks up
+                        main.p6HeroCombo1.Text = main.p6HeroCombo2.getText();
+                        main.p6HeroCombo2.Text = main.p6HeroCombo3.getText();
+                        main.p6HeroCombo3.Text = main.p6HeroCombo4.getText();
+                        main.p6HeroCombo4.Text = "";
+                    }
+                    if (main.p6HeroCombo1.getText() != "" && PFStuff.heroProms[Array.IndexOf(Constants.heroNames, main.p6HeroCombo1.getText()) - 2] == 5)
                     { // do next
                         // run ajax training request
                         await main.pf.sendTrainHero(Array.IndexOf(Constants.heroNames, main.p6HeroCombo1.getText()) - 2);
                         await main.getData();
-                        // move picks up
-                        main.p6HeroCombo1.Text = main.p6HeroCombo2.getText();
                         main.p6HeroCombo1.Enabled = false;
-                        main.p6HeroCombo2.Text = main.p6HeroCombo3.getText();
-                        main.p6HeroCombo3.Text = main.p6HeroCombo4.getText();
-                        main.p6HeroCombo4.Text = "";
                     }
                 }
             }
