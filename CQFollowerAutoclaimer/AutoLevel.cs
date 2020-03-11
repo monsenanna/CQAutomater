@@ -209,7 +209,7 @@ namespace CQFollowerAutoclaimer
                 else
                 {
                     main.p6HeroCombo1.Enabled = true;
-                    if (PFStuff.heroProms[Array.IndexOf(Constants.heroNames, main.p6HeroCombo1.getText()) - 2] != 5)
+                    if (main.p6HeroCombo1.getText() != "" && PFStuff.heroProms[Array.IndexOf(Constants.heroNames, main.p6HeroCombo1.getText()) - 2] != 5)
                     { // move picks up
                         main.p6HeroCombo1.Text = main.p6HeroCombo2.getText();
                         main.p6HeroCombo2.Text = main.p6HeroCombo3.getText();
