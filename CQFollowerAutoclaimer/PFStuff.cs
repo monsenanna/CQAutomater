@@ -391,6 +391,7 @@ namespace CQFollowerAutoclaimer
                     {
                         command.ExecuteNonQuery();
                     }
+                    connection.Close();
                 }
                 return true;
             }
@@ -400,7 +401,7 @@ namespace CQFollowerAutoclaimer
             }
         }
 
-            public static int getHeroLevel(string heroName)
+        public static int getHeroLevel(string heroName)
         {
             if (!string.IsNullOrEmpty(heroName))
             {
@@ -769,17 +770,20 @@ namespace CQFollowerAutoclaimer
                     }
                     // current flash
                     id = json["current"]["id"].ToString();
+                    bool doins = false;
                     using (var command = new MySqlCommand("SELECT updated FROM flash WHERE id = '" + id + "'", connection))
                     using (var reader = command.ExecuteReader())
                     {
                         if (!reader.HasRows)
                         {
-                            using (var command2 = new MySqlCommand("INSERT INTO flash(id, date, pool, updated, followers) VALUES ('" + id + "', '" + d + "', '[" + String.Join(",", getArray(json["current"]["hero"].ToString())) + "]', 2, '" + json["current"]["followers"].ToString() + "');", connection))
-                            {
-                                command2.ExecuteNonQuery();
-                            }
+                            doins = true;
                         }
                     }
+                    if(doins)
+                        using (var command2 = new MySqlCommand("INSERT INTO flash(id, date, pool, updated, followers) VALUES ('" + id + "', '" + d + "', '[" + String.Join(",", getArray(json["current"]["hero"].ToString())) + "]', 2, '" + json["current"]["followers"].ToString() + "');", connection))
+                        {
+                            command2.ExecuteNonQuery();
+                        }
                     connection.Close();
                 }
             }
