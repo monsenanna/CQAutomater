@@ -7,7 +7,7 @@ Since v4.5, CQA has been collecting data to help players browse history and do s
 It's all here : http://dcouv.fr/cq.php
 
 # v 4.7
-P6 (under work).
+P6.
 
 # v 4.6
 Xmas2019, flash data export.
@@ -65,6 +65,29 @@ Added S6, Christmas 2018, and Destructor heroes. Fixed an issue with Doyenne lin
 
 # v 3.2.1
 Added Doyenne
+
+# How to compile
+You need to add a Secret.cs file, looking like this :
+```
+namespace CQFollowerAutoclaimer
+{
+    static class Twitter
+    {
+        public static string ConsumerKey = "";
+        public static string ConsumerSecret = "";
+        public static string OAuthToken = "";
+        public static string OAuthTokenSecret = "";
+    }
+
+    static class MySQLAuth
+    {
+        public static string user = "";
+        public static string pass = "";
+
+    }
+}
+```
+It should work without Twitter and SQL auth but you'll miss some features. I plan to complete my API to replace all SQL calls with web calls.
 
 # WARNING:
 Auto-WB will work correctly only if you've enabled your username on website: https://cosmosquest.net/enable.php

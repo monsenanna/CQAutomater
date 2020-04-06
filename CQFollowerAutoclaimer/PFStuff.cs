@@ -366,6 +366,10 @@ namespace CQFollowerAutoclaimer
                     connection.Close();
                 }
             }
+            catch (MySqlException e)
+            { // do nothing if sql is off
+                return false;
+            }
             catch (Exception webex)
             {
                 using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
@@ -577,6 +581,10 @@ namespace CQFollowerAutoclaimer
                     connection.Close();
                 }
             }
+            catch (MySqlException e)
+            { // do nothing if sql is off
+                username = null;
+            }
             catch (Exception webex)
             {
                 using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
@@ -786,6 +794,10 @@ namespace CQFollowerAutoclaimer
                         }
                     connection.Close();
                 }
+            }
+            catch (MySqlException e)
+            { // do nothing if sql is off
+                return false;
             }
             catch (Exception webex)
             {
@@ -1408,7 +1420,7 @@ namespace CQFollowerAutoclaimer
                 {
                     sw.WriteLine(DateTime.Now);
                     sw.WriteLine("\tLeveled up hero: " + (Constants.heroNames.Length > heroID + 2 ? Constants.heroNames[heroID + 2] : ("Unknown, ID: " + heroID))
-                        + "10 times with: " + mode);
+                        + " 10 times with: " + mode);
                 }
                 return true;
             }
@@ -1439,7 +1451,7 @@ namespace CQFollowerAutoclaimer
                 {
                     sw.WriteLine(DateTime.Now);
                     sw.WriteLine("\tLeveled up hero: " + (Constants.heroNames.Length > heroID + 2 ? Constants.heroNames[heroID + 2] : ("Unknown, ID: " + heroID))
-                        + "with:" + mode);
+                        + " with: " + mode);
                 }
                 return true;
             }
