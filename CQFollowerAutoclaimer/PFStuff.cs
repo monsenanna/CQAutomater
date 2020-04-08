@@ -221,7 +221,7 @@ namespace CQFollowerAutoclaimer
                 try
                 {
                     CCDone = int.Parse(json["data"]["city"]["cc"]["coins"].ToString());
-                    if (int.Parse(json["data"]["city"]["cc"]["tid"].ToString()) < int.Parse(json["data"]["city"]["pge"]["tid"].ToString()) || CCDone < 180)
+                    if (int.Parse(json["data"]["city"]["cc"]["tid"].ToString()) < int.Parse(json["data"]["city"]["pge"]["tid"].ToString()) || CCDone < 200)
                         CCDone = 0;
                 }
                 catch
@@ -958,8 +958,8 @@ namespace CQFollowerAutoclaimer
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
                 battleResult = "";
-                logError("Cloud Script Error: PvP Fight", statusTask);
-                return true;
+                logError("Cloud Script Error: PvP Fight", statusTask.Result.FunctionResult.ToString());
+                return false;
             }
             else
             {
