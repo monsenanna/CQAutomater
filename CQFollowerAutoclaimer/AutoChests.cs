@@ -52,7 +52,7 @@ namespace CQFollowerAutoclaimer
                 }
                 else
                 {
-                    rew += PFStuff.chestResult < 0 ? Constants.heroNames[-PFStuff.chestResult] : Constants.rewardNames[PFStuff.chestResult] + " from " + mode + " chest";
+                    rew += (PFStuff.chestResult < 0 ? Constants.heroNames[-PFStuff.chestResult] : Constants.rewardNames[PFStuff.chestResult]) + " from " + mode + " chest";
                 }
                 main.ChestLog.SynchronizedInvoke(() => main.ChestLog.AppendText(rew + "\n"));
                 using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))

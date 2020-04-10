@@ -256,7 +256,6 @@ namespace CQFollowerAutoclaimer
                 AdventureStatus = 0;
                 try
                 {
-                    //if ((int)json["data"]["city"]["adventure"]["tid"] >= (int)json["data"]["city"]["tour"][0]["tid"] || json["data"]["city"]["adventure"]["time"] == null)
                     if (json["data"]["city"]["adventure"]["time"] == null)
                     {
                         AdventureStatus = 1;
