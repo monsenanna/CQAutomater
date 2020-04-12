@@ -6,6 +6,9 @@ CQAutomater is a tool that runs in the background and automatically claims your 
 Since v4.5, CQA has been collecting data to help players browse history and do some statistics.
 It's all here : http://dcouv.fr/cq.php
 
+# v 4.7.2
+Easter2020.
+
 # v 4.7
 P6.
 
