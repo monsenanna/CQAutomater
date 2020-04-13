@@ -120,7 +120,7 @@ namespace CQFollowerAutoclaimer
                 autopvp = new AutoPvP(this);
                 autoWB = new AutoWB(this);
                 autoEvent = new AutoEvent(this);
-                PFStuff.getUsername(KongregateId);
+                pf.getUsername(KongregateId);
                 startTimers();
                 countdownsTimer.Interval = 1000;
                 countdownsTimer.Elapsed += countdownsTimer_Elapsed;
@@ -145,10 +145,6 @@ namespace CQFollowerAutoclaimer
         #region START
         private void init()
         {
-            /*if (!File.Exists("Newtonsoft.Json.dll"))
-            {
-                MessageBox.Show("Newtonsoft file not found. Please download it from this project's github");
-            }*/
             if (File.Exists(SettingsFilename))
             {
                 appSettings = AppSettings.loadSettings();

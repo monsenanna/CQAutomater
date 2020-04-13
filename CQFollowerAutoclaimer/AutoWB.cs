@@ -84,7 +84,7 @@ namespace CQFollowerAutoclaimer
                     decimal attacksToDo = 0;
                     decimal requirement = 99;
                     int[] lineup = new int[2];
-                    int r = await PFStuff.getWBData((PFStuff.WB_ID).ToString());
+                    int r = await main.pf.getWBData((PFStuff.WB_ID).ToString());
                     main.userWBInfo.setText("Your current damage: " + PFStuff.wbDamageDealt + " with " + r + " attacks");
                     if (r == -2)
                     {

@@ -27,7 +27,7 @@ namespace CQFollowerAutoclaimer
         };
 
         public static string[] names = {
-            "kingpyros","youngpyros","babypyros","mysteriousegg","kilkenny","annie","mechamary","hans","yetithepostman","galla","yisus","adam","emily","adrian","casper",
+            "kingpyros","youngpyros","babypyros","egg","kilkenny","annie","mechamary","hans","yetithepostman","galla","yisus","adam","emily","adrian","casper",
             "higgs","boson","electra","newt","retia","myrmillo","scinda","thrace","bornag",
             "lili","achocoknight","chocoknight","sharkjellyn","mrcotton","smith","acrei","crei","catzar","cathos","tetra","awanderer","minerva","helga","ophelia","agatha",
             "anerissa","mother","nerissa","murphy","bortles", "thumper", "daisy", "gizmo", "willow", "adybbuk", "aedana", "ajade", "amahatma",

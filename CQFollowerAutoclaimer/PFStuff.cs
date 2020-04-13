@@ -289,85 +289,52 @@ namespace CQFollowerAutoclaimer
                 if (int.Parse(d) <= PVPLastUpdate)
                     return true;
                 PVPLastUpdate = int.Parse(d);
-                using (var connection = new MySqlConnection("Server=db.dcouv.fr;Port=22306;User ID=" + MySQLAuth.user + "; Password=" + MySQLAuth.pass + "; Database=cqdata"))
+                for (int i = json.Count() - 1; i >= 0; i--)
                 {
-                    connection.Open();
-                    for (int i = json.Count() - 1; i >= 0; i--)
+                    d = json[i]["date"].ToString();
+                    d = d.Substring(0, d.Length - 3);
+                    // write new data
+                    int ownLane = 0;
+                    for (int j = 0; j < 6; j++)
                     {
-                        d = json[i]["date"].ToString();
-                        d = d.Substring(0, d.Length - 3);
-                        // write new data
-                        int ownLane = 0;
-                        for (int j = 0; j < 6; j++)
+                        if (PVPGrid[j * 6].ToString() == json[i]["setup"][0].ToString())
                         {
-                            if (PVPGrid[j * 6].ToString() == json[i]["setup"][0].ToString())
-                            {
-                                ownLane = j + 1;
-                                break;
-                            }
+                            ownLane = j + 1;
+                            break;
                         }
-                        // find player id
-                        int enemyid = 0;
-                        bool doInsert = false;
-                        using (var command = new MySqlCommand("SELECT id FROM player WHERE name = '" + json[i]["enemy"].ToString() + "'", connection))
-                        using (var reader = command.ExecuteReader())
-                        {
-                            if (reader.HasRows)
-                                while (reader.Read())
-                                {
-                                    enemyid = (int)reader.GetValue(0);
-                                }
-                            else // unknown player
-                            {
-                                doInsert = true;
-                            }
-                        }
-                        if (doInsert)
-                        {
-                            using (var command = new MySqlCommand("INSERT INTO player(name) VALUES ('" + json[i]["enemy"].ToString() + "');", connection))
-                            {
-                                command.ExecuteNonQuery();
-                                enemyid = (int)command.LastInsertedId;
-                            }
-                        }
-                        JObject fightData = JObject.FromObject(new
-                        {
-                            date = d,
-                            pleft = userID,
-                            pright = enemyid,
-                            lleft = ownLane.ToString(),
-                            result = json[i]["result"].ToString(),
-                            p1lane = json[i]["setup"],
-                            p1levels = json[i]["shero"],
-                            p1proms = json[i]["spromo"],
-                            p2lane = json[i]["player"],
-                            p2levels = json[i]["phero"],
-                            p2proms = json[i]["ppromo"]
-                        });
-                        using (var client = new HttpClient())
-                        {
-                            try
-                            {
-                                var values = new Dictionary<string, string> { { "ipvp", JsonConvert.SerializeObject(fightData) } };
-                                var content = new FormUrlEncodedContent(values);
-                                var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
-                                var responseString = await response.Content.ReadAsStringAsync();
-                                //logError("debug - ", responseString);
-                            }
-                            catch
-                            {
-                                return true;
-                            }
-                        }
-                        /*using (var command = new MySqlCommand("INSERT INTO pvp(date, pleft, pright, lleft, lright, result, data) VALUES ('" + d + "', " + userID + ", " + enemyid + ", " + ownLane.ToString() + ", 0, '" + json[i]["result"].ToString() + "', '" + fightData.ToString() + "');", connection))
-                                command.ExecuteNonQuery();*/
                     }
-                    connection.Close();
+                    // find player id
+                    int enemyid = 0;
+                    using (var client = new HttpClient())
+                    {
+                        var values = new Dictionary<string, string> { { "uget", json[i]["enemy"].ToString() } };
+                        var cont = new FormUrlEncodedContent(values);
+                        var resp = await client.PostAsync("http://dcouv.fr/cq.php", cont);
+                        var respString = await resp.Content.ReadAsStringAsync();
+                        enemyid = int.Parse(respString);
+                    }
+                    JObject fightData = JObject.FromObject(new
+                    {
+                        date = d,
+                        pleft = userID,
+                        pright = enemyid,
+                        lleft = ownLane.ToString(),
+                        result = json[i]["result"].ToString(),
+                        p1lane = json[i]["setup"],
+                        p1levels = json[i]["shero"],
+                        p1proms = json[i]["spromo"],
+                        p2lane = json[i]["player"],
+                        p2levels = json[i]["phero"],
+                        p2proms = json[i]["ppromo"]
+                    });
+                    using (var client = new HttpClient())
+                    {
+                        var values = new Dictionary<string, string> { { "ipvp", JsonConvert.SerializeObject(fightData) } };
+                        var content = new FormUrlEncodedContent(values);
+                        var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                        var responseString = await response.Content.ReadAsStringAsync();
+                    }
                 }
-            }
-            catch (MySqlException e)
-            { // do nothing if sql is off
-                return false;
             }
             catch (Exception webex)
             {
@@ -540,7 +507,7 @@ namespace CQFollowerAutoclaimer
             return false;
         }
 
-        internal static void getUsername(string id)
+        public async void getUsername(string id)
         {
             try
             {
@@ -549,40 +516,14 @@ namespace CQFollowerAutoclaimer
 
                 string content = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
-                JObject json = JObject.Parse(content);
-                username = json["username"].ToString();
-
-                using (var connection = new MySqlConnection("Server=db.dcouv.fr;Port=22306;User ID=" + MySQLAuth.user + "; Password=" + MySQLAuth.pass + "; Database=cqdata"))
+                using (var client = new HttpClient())
                 {
-                    connection.Open();
-                    bool doInsert = false;
-                    using (var command = new MySqlCommand("SELECT id FROM player WHERE name = '" + username + "'", connection))
-                    using (var reader = command.ExecuteReader())
-                    {
-                        if (reader.HasRows)
-                            while (reader.Read())
-                            {
-                                userID = (int)reader.GetValue(0);
-                            }
-                        else // unknown player
-                        {
-                            doInsert = true;
-                        }
-                        if (doInsert)
-                        {
-                            using (var command2 = new MySqlCommand("INSERT INTO player(name) VALUES ('" + username + "');", connection))
-                            {
-                                command2.ExecuteNonQuery();
-                                userID = (int)command2.LastInsertedId;
-                            }
-                        }
-                    }
-                    connection.Close();
+                    var values = new Dictionary<string, string> { { "uget", username } };
+                    var cont = new FormUrlEncodedContent(values);
+                    var resp = await client.PostAsync("http://dcouv.fr/cq.php", cont);
+                    var respString = await resp.Content.ReadAsStringAsync();
+                    userID = int.Parse(respString);
                 }
-            }
-            catch (MySqlException e)
-            { // do nothing if sql is off
-                username = null;
             }
             catch (Exception webex)
             {
@@ -794,7 +735,7 @@ namespace CQFollowerAutoclaimer
                     connection.Close();
                 }
             }
-            catch (MySqlException e)
+            catch (MySqlException)
             { // do nothing if sql is off
                 return false;
             }
@@ -809,7 +750,7 @@ namespace CQFollowerAutoclaimer
             return true;
         }
 
-        internal static async Task<int> getWBData(string id)
+        internal async Task<int> getWBData(string id)
         {
             int retryCount = 4;
             while (retryCount > 0)
@@ -819,7 +760,7 @@ namespace CQFollowerAutoclaimer
                 {
                     if (username == null)
                     {
-                        getUsername(kongID);
+                        this.getUsername(kongID);
                     }
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"https://cosmosquest.net/wb.php?id=" + id);
                     var response = await request.GetResponseAsync();
@@ -861,8 +802,6 @@ namespace CQFollowerAutoclaimer
                     {
                         if (nearbyPlayersNames.Contains(result[i]))
                         {
-                            //logError("debug i - ", i.ToString());
-                            //logError("debug resi - ", result[i]);
                             return int.Parse(nearbyPlayersIDs[Array.IndexOf(nearbyPlayersNames, result[i])]);
                         }
                     }

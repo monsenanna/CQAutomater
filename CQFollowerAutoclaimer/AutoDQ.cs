@@ -185,7 +185,7 @@ namespace CQFollowerAutoclaimer
        async void proc_Exited(object sender, EventArgs e)
         {
             await main.getData();
-            await PFStuff.getWBData(main.KongregateId);
+            await main.pf.getWBData(main.KongregateId);
             main.calcStatus.SynchronizedInvoke(() => main.calcStatus.Text = "Calc finished");
             nextDQTime = Form1.getTime(PFStuff.DQTime);
             DQTimer.Interval = (nextDQTime < DateTime.Now && main.DQCalcBox.Checked) ? 4000 : Math.Max(4000, (nextDQTime - DateTime.Now).TotalMilliseconds);

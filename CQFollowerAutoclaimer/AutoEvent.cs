@@ -268,10 +268,10 @@ namespace CQFollowerAutoclaimer
                                     // found ! let's pick both
                                     await main.pf.sendPGPick(i);
                                     await main.pf.sendPGPick(j);
-                                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                                    /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                                     {
                                         sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, pick " + i + " and " + j);
-                                    }
+                                    }*/
                                     stop = true;
                                     break;
                                 }
@@ -288,10 +288,10 @@ namespace CQFollowerAutoclaimer
                             {
                                 firstCard = i;
                                 await main.pf.sendPGPick(i);
-                                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                                 {
                                     sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, case 2a");
-                                }
+                                }*/
                                 break;
                             }
                         }
@@ -302,10 +302,10 @@ namespace CQFollowerAutoclaimer
                             {
                                 // found ! let's pick 2nd card
                                 await main.pf.sendPGPick(j);
-                                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                                 {
                                     sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, case 2b");
-                                }
+                                }*/
                                 stop = true;
                                 break;
                             }
@@ -318,10 +318,10 @@ namespace CQFollowerAutoclaimer
                                 if (firstCard != j && PFStuff.PGDeck[j] == -1)
                                 {
                                     await main.pf.sendPGPick(j);
-                                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                                    /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                                     {
                                         sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, case 2c");
-                                    }
+                                    }*/
                                     stop = true;
                                     break;
                                 }
