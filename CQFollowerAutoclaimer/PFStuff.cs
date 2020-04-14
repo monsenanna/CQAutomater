@@ -275,9 +275,19 @@ namespace CQFollowerAutoclaimer
                 catch
                 {
                 }
-                updateHeroPool();
+                if(doSometimes(5))
+                    await updateHeroPool();
                 return true;
             }
+        }
+
+        public static bool doSometimes(int pct)
+        {
+            Random rnd = new Random();
+            int doit = rnd.Next(1, 100);
+            if (doit < pct)
+                return true;
+            return false;
         }
 
         public async Task<bool> updatePVPHistory(JToken json)
@@ -347,21 +357,20 @@ namespace CQFollowerAutoclaimer
             return true;
         }
 
-        internal static bool updateHeroPool()
+        public async Task<bool> updateHeroPool()
         {
             try
             {
-                using (var connection = new MySqlConnection("Server=db.dcouv.fr;Port=22306;User ID=" + MySQLAuth.user + "; Password=" + MySQLAuth.pass + "; Database=cqdata"))
+                using (var client = new HttpClient())
                 {
-                    connection.Open();
                     int[][] a = new int[2][];
-                    a[0] = heroLevels;
-                    a[1] = heroProms;
-                    using (var command = new MySqlCommand("UPDATE player SET pool = '" + JsonConvert.SerializeObject(a) + "' WHERE id = " + userID + ";", connection))
-                    {
-                        command.ExecuteNonQuery();
-                    }
-                    connection.Close();
+                    a[0][0] = userID;
+                    a[1] = heroLevels;
+                    a[2] = heroProms;
+                    var values = new Dictionary<string, string> { { "uhpl", JsonConvert.SerializeObject(a) } };
+                    var content = new FormUrlEncodedContent(values);
+                    var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                    var responseString = await response.Content.ReadAsStringAsync();
                 }
                 return true;
             }
@@ -447,25 +456,28 @@ namespace CQFollowerAutoclaimer
             }
             else
             {
-                Dictionary<int, string> res = new Dictionary<int, string>();
-                JArray json = JArray.Parse(hofTask.Result.Data["tour"]);
-                for (int i = 0; i < json.Count(); i++)
+                if (doSometimes(5))
                 {
-                    int tid = int.Parse(json[i]["tid"].ToString());
-                    res.Add(tid, json[i]["top10"].ToString());
-                }
-                using (var client = new HttpClient())
-                {
-                    try
+                    Dictionary<int, string> res = new Dictionary<int, string>();
+                    JArray json = JArray.Parse(hofTask.Result.Data["tour"]);
+                    for (int i = 0; i < json.Count(); i++)
                     {
-                        var values = new Dictionary<string, string> { { "uupd", JsonConvert.SerializeObject(res) } };
-                        var content = new FormUrlEncodedContent(values);
-                        var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
-                        var responseString = await response.Content.ReadAsStringAsync();
+                        int tid = int.Parse(json[i]["tid"].ToString());
+                        res.Add(tid, json[i]["top10"].ToString());
                     }
-                    catch
+                    using (var client = new HttpClient())
                     {
-                        return true;
+                        try
+                        {
+                            var values = new Dictionary<string, string> { { "uupd", JsonConvert.SerializeObject(res) } };
+                            var content = new FormUrlEncodedContent(values);
+                            var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                            var responseString = await response.Content.ReadAsStringAsync();
+                        }
+                        catch
+                        {
+                            return true;
+                        }
                     }
                 }
                 return true;
@@ -515,6 +527,8 @@ namespace CQFollowerAutoclaimer
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
                 string content = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                JObject json = JObject.Parse(content);
+                username = json["username"].ToString();
 
                 using (var client = new HttpClient())
                 {
@@ -555,7 +569,8 @@ namespace CQFollowerAutoclaimer
                 if (json["flash"] != null)
                 {
                     FlashStatus = 1;
-                    updateFlashHistory(json["flash"]);
+                    if(doSometimes(20))
+                        updateFlashHistory(json["flash"]);
                 }
                 else
                 {
