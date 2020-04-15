@@ -495,7 +495,7 @@ namespace CQFollowerAutoclaimer
                     await getData();
                     if (Int32.Parse(PFStuff.PVPCharges) > 0)
                     {
-                        int index = await autopvp.pickOpponent();
+                        int index = await autopvp.pickOpponent(true);
                         taskQueue.Enqueue(() => autopvp.sendFight(index), "PVP");
                     }
                     /*autopvp.nextPVP = getTime(PFStuff.PVPTime);

@@ -4246,6 +4246,7 @@
             this.adventurePriority.Name = "adventurePriority";
             this.adventurePriority.Size = new System.Drawing.Size(58, 21);
             this.adventurePriority.TabIndex = 107;
+            this.adventurePriority.Leave += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
             // 
             // lotteryCount
             // 

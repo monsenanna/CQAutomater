@@ -98,14 +98,17 @@ namespace CQFollowerAutoclaimer
             {
                 int index = Array.IndexOf(Constants.heroNames, main.auctionHero1Combo.getText());
                 Auction a = auctionList.Find(x => x.heroID == index - 2);
-                main.auctionHero1CostLabel.setText(a.currentPrice.ToString());
-                main.auctionHero1BidderLabel.setText(a.bidderName);
-                auctionDates[0] = a.endTime;
-                if (main.auctionHero1Box.getCheckState())
+                if (PFStuff.heroLevels[a.heroID] > 1 || !await main.pf.sendBuyLTO(index - 2, a.currentPrice))
                 {
-                    a.setRequirements(main.auctionHero1PriceCount.Value, main.auctionHero1LevelCount.Value);
-                    times.Add((a.endTime - DateTime.Now).TotalMilliseconds - secondsBeforeDeadline*1000);
-                    b.Add(a);
+                    main.auctionHero1CostLabel.setText(a.currentPrice.ToString());
+                    main.auctionHero1BidderLabel.setText(a.bidderName);
+                    auctionDates[0] = a.endTime;
+                    if (main.auctionHero1Box.getCheckState())
+                    {
+                        a.setRequirements(main.auctionHero1PriceCount.Value, main.auctionHero1LevelCount.Value);
+                        times.Add((a.endTime - DateTime.Now).TotalMilliseconds - secondsBeforeDeadline * 1000);
+                        b.Add(a);
+                    }
                 }
                 main.label134.setText("current: " + PFStuff.heroLevels[a.heroID]);
             }

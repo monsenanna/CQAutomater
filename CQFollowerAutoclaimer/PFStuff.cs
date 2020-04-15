@@ -363,10 +363,12 @@ namespace CQFollowerAutoclaimer
             {
                 using (var client = new HttpClient())
                 {
-                    int[][] a = new int[2][];
-                    a[0][0] = userID;
-                    a[1] = heroLevels;
-                    a[2] = heroProms;
+                    Dictionary<int, Array> a = new Dictionary<int, Array>();
+                    int[] u = new int[1];
+                    u[0] = userID;
+                    a.Add(0, u);
+                    a.Add(1, heroLevels);
+                    a.Add(2, heroProms);
                     var values = new Dictionary<string, string> { { "uhpl", JsonConvert.SerializeObject(a) } };
                     var content = new FormUrlEncodedContent(values);
                     var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
@@ -1289,6 +1291,60 @@ namespace CQFollowerAutoclaimer
                         + " for: " + bidPrice + "UM.");
                 }
                 return true;
+            }
+        }
+
+        public async Task<bool> sendBuyLTO(int heroID, int maxPrice)
+        {
+            using (var client = new HttpClient())
+            {
+                var values = new Dictionary<string, string> { { "oget", heroID.ToString() }, { "oget2", maxPrice.ToString() } };
+                var cont = new FormUrlEncodedContent(values);
+                var resp = await client.PostAsync("http://dcouv.fr/cq.php", cont);
+                var respString = await resp.Content.ReadAsStringAsync();
+                int ltoID = int.Parse(respString);
+                if (ltoID > 0)
+                {
+                    var request = new ExecuteCloudScriptRequest()
+                    {
+                        RevisionSelection = CloudScriptRevisionOption.Live,
+                        FunctionName = "lto",
+                        FunctionParameter = new { offer = ltoID }
+                    };
+                    var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+                    if (statusTask.Error != null)
+                    {
+                        logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                        using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                        {
+                            sw.WriteLine(DateTime.Now);
+                            sw.WriteLine("\tFAILED LTO purchase");
+                            sw.WriteLine(statusTask.Error.ErrorMessage);
+                        }
+                        return false;
+                    }
+                    if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
+                    {
+                        logError("Cloud Script Error: LTO purchase", statusTask);
+                        using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                        {
+                            sw.WriteLine(DateTime.Now);
+                            sw.WriteLine("\tFAILED LTO purchase");
+                            sw.WriteLine(statusTask.Result.FunctionResult.ToString());
+                        }
+                        return true;
+                    }
+                    else
+                    {
+                        using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                        {
+                            sw.WriteLine(DateTime.Now);
+                            sw.WriteLine("\tLTO purchase OK");
+                        }
+                        return true;
+                    }
+                }
+                return false;
             }
         }
 

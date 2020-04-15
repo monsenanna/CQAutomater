@@ -171,7 +171,7 @@ namespace CQFollowerAutoclaimer
         {
             if (e.Data != null)
             {
-                calcErrorOut += e.Data + "\n";
+                calcErrorOut += "AutoDQ error received from calc\n" + e.Data + "\n";
             }
         }
         void proc_DataReceived(object sender, DataReceivedEventArgs e)

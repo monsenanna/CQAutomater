@@ -119,7 +119,7 @@ namespace CQFollowerAutoclaimer
             "Oymos", "Xarth", "Atzar", "Zeth", "Koth", "Gurth", "Sigrun", "Koldis", "Alvitr", "Hama", "Hallinskidi", "Rigr", "Sexysanta", "Toth", "Ganah", "Dagda",
             "Arshen", "Rua", "Dorth", "Bylar", "Boor", "Bavah", "Hawking", "Kumu-San", "LiuCheng", "Hidoka", "Spyke", "Aoyuki", "Gaiabyte",
             "Dicemaster", "Luxurious", "Pokerface", "Taint", "Putrid", "Defile", "Mahatma", "Jade", "Edana", "Dybbuk", "Billy", "Sanqueen", "Cliodhna",
-            "Buccaneerbeatrice", "Corsaircharles", "Maraudermagnus", "Frosty", "Raze", "Ruin", "Seethe", "Blossom", "Flint", "Orin", "Cupid", "Transient", "Maunder", "Thewanderer", "B-Day",
+            "Buccaneerbeatrice", "Corsaircharles", "Maraudermagnus", "Frosty", "Raze", "Ruin", "Seethe", "Blossom", "Flint", "Orin", "Cupid", "Transient", "Maunder", "Thewanderer", "B-day",
             "Willow", "Gizmo", "Daisy", "Bortles", "Murphy", "Nerissa", "Mother", "Agatha", "Ophelia", "Helga",
             "Tetra", "Cathos", "Catzar", "Crei", "Smith", "Mrcotton", "Sharkjellyn", "Chocoknight",
             "Thrace","Scinda","Myrmillo","Newt","Electra","Boson","Casper","Adrian","Emily","Yisus","Annie","Kilkenny",
@@ -129,7 +129,7 @@ namespace CQFollowerAutoclaimer
             "Valor", "Rokka", "Pyromancer", "Bewat", "Nicte", "Forestdruid", "Ignitor", "Undine", "Chroma", "Petry", "Zaytus", "Ladyodelith",
             "Shygu", "Thert", "Lordkirk", "Neptunius", "Werewolf", "Jackoknight", "Dullahan", "Leprechaun", "Hosokawa", "Takeda", "Hirate", "Hattori",
             "Neil", "Mahatma", "Jade", "Edana", "Dybbuk", "Ashygu", "Athert", "Alordkirk", "Aneptunius", "Ahosokawa", "Atakeda", "Ahirate", "Ahattori",
-            "Billy", "Sanqueen", "Cliodhna", "Cupid", "B-Day", "Amahatma", "Ajade", "Aedana", "Adybbuk",
+            "Billy", "Sanqueen", "Cliodhna", "Cupid", "B-day", "Amahatma", "Ajade", "Aedana", "Adybbuk",
             "Willow", "Gizmo", "Daisy", "Thumper", "Mother","Annie","Kilkenny",
         };
 

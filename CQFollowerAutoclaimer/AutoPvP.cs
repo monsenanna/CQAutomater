@@ -28,7 +28,7 @@ namespace CQFollowerAutoclaimer
             main.playersAboveCount.Value = main.appSettings.pvpUpperLimit ?? 5;
         }
 
-        internal async Task<Int32> pickOpponent()
+        internal async Task<Int32> pickOpponent(bool pickBest)
         {
             int size = Math.Max(3, 2 * (int)Math.Max(main.playersAboveCount.Value, main.playersBelowCount.Value + 1));
             while (!await main.pf.getLeaderboard(size));
@@ -36,16 +36,8 @@ namespace CQFollowerAutoclaimer
             Random r = new Random();
             int index;
             // try finding easiest opponent
-            /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-            {
-                sw.WriteLine(DateTime.Now + "\n\t pickOpponent a");
-            }*/
             index = await main.pf.getEasiestOpponent();
-            /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-            {
-                sw.WriteLine(DateTime.Now + "\n\t pickOpponent b " + index.ToString());
-            }*/
-            if (index == 0)
+            if (pickBest || index == 0)
             {
                 // random among neighbors
                 do
@@ -55,10 +47,6 @@ namespace CQFollowerAutoclaimer
                         index > PFStuff.userIndex + (int)main.playersBelowCount.Value ||
                         index < PFStuff.userIndex - (int)main.playersAboveCount.Value);
             }
-            /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-            {
-                sw.WriteLine(DateTime.Now + "\n\t pickOpponent c " + index.ToString());
-            }*/
             return index;
         }
 
@@ -72,10 +60,18 @@ namespace CQFollowerAutoclaimer
                     await main.login();
                 }
                 await main.getData();
-                if (Int32.Parse(PFStuff.PVPCharges) > 0)
+                int fightsToDo = Int32.Parse(PFStuff.PVPCharges);
+                if (fightsToDo > 0)
                 {
-                    int index = await pickOpponent();
+                    int index = await pickOpponent(true);
                     main.taskQueue.Enqueue(() => sendFight(index), "PVP");
+                    if (fightsToDo > 1)
+                    {
+                        await Task.Delay(10000);
+                        index = await pickOpponent(false);
+                        main.taskQueue.Enqueue(() => sendFight(index), "PVP");
+                    }
+
                 } else {
                     nextPVP = Form1.getTime(PFStuff.PVPTime);
                     if (nextPVP < DateTime.Now)
