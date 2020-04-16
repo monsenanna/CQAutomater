@@ -30,7 +30,7 @@ namespace CQFollowerAutoclaimer
             loadDQSettings();
         }
 
-        public enum CalcMode { DQ, DUNG};
+        public enum CalcMode { DQ, DUNG };
 
         void loadDQSettings()
         {
@@ -188,7 +188,7 @@ namespace CQFollowerAutoclaimer
             await main.pf.getWBData(main.KongregateId);
             main.calcStatus.SynchronizedInvoke(() => main.calcStatus.Text = "Calc finished");
             nextDQTime = Form1.getTime(PFStuff.DQTime);
-            DQTimer.Interval = (nextDQTime < DateTime.Now && main.DQCalcBox.Checked) ? 4000 : Math.Max(4000, (nextDQTime - DateTime.Now).TotalMilliseconds);
+            DQTimer.Interval = int.Parse(PFStuff.DQLevel) < 2 ? 300000 : (nextDQTime < DateTime.Now && main.DQCalcBox.Checked) ? 4000 : Math.Max(4000, (nextDQTime - DateTime.Now).TotalMilliseconds);
             main.DQLevelLabel.SynchronizedInvoke(() => main.DQLevelLabel.Text = PFStuff.DQLevel);
             main.DQTimeLabel.SynchronizedInvoke(() => main.DQTimeLabel.Text = nextDQTime.ToString());
 
