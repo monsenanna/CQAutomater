@@ -247,7 +247,7 @@ namespace CQFollowerAutoclaimer
                     if (PFStuff.CCDone == 0)
                     {
                         Random rnd = new Random();
-                        int score = rnd.Next(60, 90) * 3;
+                        int score = rnd.Next(60, 95) * 3;
                         await main.pf.sendCCScore(score);
                         main.label124.setText("CC Catcher : sent score " + score);
                     }

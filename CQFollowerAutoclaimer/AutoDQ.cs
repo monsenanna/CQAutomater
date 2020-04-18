@@ -76,13 +76,24 @@ namespace CQFollowerAutoclaimer
             else
             {
                 bool b = false;
-                if(mode == CalcMode.DQ)
-                    b = await main.pf.sendDQSolution(lineup);
-                if(mode == CalcMode.DUNG)
-                    b = await main.pf.sendDungSolution(lineup);
+                try
+                {
+                    if (mode == CalcMode.DQ)
+                        b = await main.pf.sendDQSolution(lineup);
+                    if (mode == CalcMode.DUNG)
+                        b = await main.pf.sendDungSolution(lineup);
+                }
+                catch
+                {
+                    using (StreamWriter sw = new StreamWriter("ActionLog.txt"))
+                    {
+                        sw.WriteLine(DateTime.Now + " Couldn't send calc solution " + JsonConvert.SerializeObject(lineup));
+                    }
+                }
                 if (!b)
                 {
                     DQFailedAttempts++;
+                    await Task.Delay(5000);
                     main.taskQueue.Enqueue(() => sendSolution(lineup, mode), "DQ");
                 }
                 else

@@ -1298,11 +1298,28 @@ namespace CQFollowerAutoclaimer
         {
             using (var client = new HttpClient())
             {
-                var values = new Dictionary<string, string> { { "oget", heroID.ToString() }, { "oget2", maxPrice.ToString() } };
-                var cont = new FormUrlEncodedContent(values);
-                var resp = await client.PostAsync("http://dcouv.fr/cq.php", cont);
-                var respString = await resp.Content.ReadAsStringAsync();
-                int ltoID = int.Parse(respString);
+                int ltoID = 0;
+                try
+                {
+                    var values = new Dictionary<string, string> { { "oget", heroID.ToString() }, { "oget2", maxPrice.ToString() } };
+                    var cont = new FormUrlEncodedContent(values);
+                    var resp = await client.PostAsync("http://dcouv.fr/cq.php", cont);
+                    var respString = await resp.Content.ReadAsStringAsync();
+                    ltoID = int.Parse(respString);
+                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                    {
+                        sw.WriteLine(DateTime.Now);
+                        sw.WriteLine("\tLTO debug : " + heroID.ToString() + " " + maxPrice.ToString() + " " + respString);
+                    }
+                }
+                catch
+                {
+                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                    {
+                        sw.WriteLine(DateTime.Now);
+                        sw.WriteLine("\tLTO debug 2");
+                    }
+                }
                 if (ltoID > 0)
                 {
                     var request = new ExecuteCloudScriptRequest()
