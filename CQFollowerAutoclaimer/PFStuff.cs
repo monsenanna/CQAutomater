@@ -1306,19 +1306,19 @@ namespace CQFollowerAutoclaimer
                     var resp = await client.PostAsync("http://dcouv.fr/cq.php", cont);
                     var respString = await resp.Content.ReadAsStringAsync();
                     ltoID = int.Parse(respString);
-                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                    /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                     {
                         sw.WriteLine(DateTime.Now);
                         sw.WriteLine("\tLTO debug : " + heroID.ToString() + " " + maxPrice.ToString() + " " + respString);
-                    }
+                    }*/
                 }
                 catch
                 {
-                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                    /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                     {
                         sw.WriteLine(DateTime.Now);
                         sw.WriteLine("\tLTO debug 2");
-                    }
+                    }*/
                 }
                 if (ltoID > 0)
                 {
@@ -1573,7 +1573,19 @@ namespace CQFollowerAutoclaimer
                 return true;
             }
         }
-        
+
+        public async Task<bool> sendXmas19Open()
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Live,
+                FunctionName = "gopen10",
+                FunctionParameter = new { kid = kongID, mul = 10 }
+            };
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            return true;
+        }
+
         #endregion
     }
 }

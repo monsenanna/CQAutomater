@@ -32,7 +32,7 @@ namespace CQFollowerAutoclaimer
         {
             int size = Math.Max(3, 2 * (int)Math.Max(main.playersAboveCount.Value, main.playersBelowCount.Value + 1));
             while (!await main.pf.getLeaderboard(size));
-            main.pvpRankingSummary.setText("Ranking evolution : " + (PFStuff.initialRanking - PFStuff.currentRanking).ToString() + " (" + PFStuff.initialRanking + " -> " + PFStuff.currentRanking + ")");
+            main.pvpRankingSummary.setText("Ranking evolution : " + (PFStuff.initialRanking - PFStuff.currentRanking).ToString() + " (" + (PFStuff.initialRanking + 1) + " -> " + (PFStuff.currentRanking + 1) + ")");
             Random r = new Random();
             int index;
             // try finding easiest opponent
@@ -78,7 +78,7 @@ namespace CQFollowerAutoclaimer
                         nextPVP = nextPVP.AddMilliseconds(3605000);
                     main.PvPTimeLabel.setText(nextPVP.ToString());
                     //PVPTimer.Interval = fightsToDo > 1 ? 30000 : Math.Max(8000, (nextPVP - DateTime.Now).TotalMilliseconds);
-                    PVPTimer.Interval = fightsToDo > 0 ? 30000 : Math.Max(8000, Math.Min(600000, (nextPVP - DateTime.Now).TotalMilliseconds));
+                    PVPTimer.Interval = fightsToDo > 0 ? 905000 : Math.Max(8000, Math.Min(905000, (nextPVP - DateTime.Now).TotalMilliseconds));
                     PVPTimer.Start();
                 }
             }
@@ -91,7 +91,7 @@ namespace CQFollowerAutoclaimer
             if (nextPVP < DateTime.Now)
                 nextPVP = nextPVP.AddMilliseconds(3605000);
             //PVPTimer.Interval = Math.Max(8000, (nextPVP - DateTime.Now).TotalMilliseconds);
-            PVPTimer.Interval = 60000;
+            PVPTimer.Interval = 905000;
             main.PvPLog.SynchronizedInvoke(() => main.PvPLog.AppendText(PFStuff.battleResult));
             main.PvPTimeLabel.setText(nextPVP.ToString());
             PVPTimer.Start();
