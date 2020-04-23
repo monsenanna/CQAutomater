@@ -907,13 +907,13 @@ namespace CQFollowerAutoclaimer
             if (statusTask.Error != null)
             {
                 battleResult = "";
-                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage + " vs player " + nearbyPlayersIDs[index]);
                 return false;
             }
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
                 battleResult = "";
-                logError("Cloud Script Error: PvP Fight", statusTask.Result.FunctionResult.ToString());
+                logError("Cloud Script Error: PvP Fight", statusTask.Result.FunctionResult.ToString() + " vs player " + nearbyPlayersIDs[index]);
                 return false;
             }
             else

@@ -78,7 +78,7 @@ namespace CQFollowerAutoclaimer
                         nextPVP = nextPVP.AddMilliseconds(3605000);
                     main.PvPTimeLabel.setText(nextPVP.ToString());
                     //PVPTimer.Interval = fightsToDo > 1 ? 30000 : Math.Max(8000, (nextPVP - DateTime.Now).TotalMilliseconds);
-                    PVPTimer.Interval = fightsToDo > 0 ? 905000 : Math.Max(8000, Math.Min(905000, (nextPVP - DateTime.Now).TotalMilliseconds));
+                    PVPTimer.Interval = fightsToDo > 0 ? 905000 : Math.Max(30000, Math.Min(905000, (nextPVP - DateTime.Now).TotalMilliseconds));
                     PVPTimer.Start();
                 }
             }
