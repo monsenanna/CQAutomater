@@ -465,7 +465,13 @@ namespace CQFollowerAutoclaimer
                     for (int i = 0; i < json.Count(); i++)
                     {
                         int tid = int.Parse(json[i]["tid"].ToString());
-                        res.Add(tid, json[i]["top10"].ToString());
+                        try
+                        {
+                            res.Add(tid, json[i]["top10"].ToString());
+                        }
+                        catch
+                        {
+                        }
                     }
                     using (var client = new HttpClient())
                     {
@@ -1574,17 +1580,6 @@ namespace CQFollowerAutoclaimer
             }
         }
 
-        public async Task<bool> sendXmas19Open()
-        {
-            var request = new ExecuteCloudScriptRequest()
-            {
-                RevisionSelection = CloudScriptRevisionOption.Live,
-                FunctionName = "gopen10",
-                FunctionParameter = new { kid = kongID, mul = 10 }
-            };
-            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
-            return true;
-        }
 
         #endregion
     }

@@ -324,7 +324,9 @@ namespace CQFollowerAutoclaimer
                 {
                     sw.WriteLine(s);
                 }
-                await Task.Delay(45000); // prevent spamming
+                await Task.Delay(25000); // prevent spamming
+                getWebsiteData();
+                await Task.Delay(25000);
                 return b;
             }
         }

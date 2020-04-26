@@ -59,19 +59,13 @@ namespace CQFollowerAutoclaimer
                 {
                     await main.login();
                 }
+                await Task.Delay(10000);
                 await main.getData();
                 int fightsToDo = Int32.Parse(PFStuff.PVPCharges);
                 if (fightsToDo > 0)
                 {
                     int index = await pickOpponent(true);
                     main.taskQueue.Enqueue(() => sendFight(index), "PVP");
-                    /*if (fightsToDo > 1)
-                    {
-                        await Task.Delay(10000);
-                        index = await pickOpponent(false);
-                        main.taskQueue.Enqueue(() => sendFight(index), "PVP");
-                    }*/
-
                 } else {
                     nextPVP = Form1.getTime(PFStuff.PVPTime);
                     if (nextPVP < DateTime.Now)
@@ -87,6 +81,15 @@ namespace CQFollowerAutoclaimer
         internal async Task<bool> sendFight(int index)
         {
             bool b = await main.pf.sendPVPFight(index);
+            if (!b)
+            { // remove from possible opponents
+                List<string> list = new List<string>(PFStuff.nearbyPlayersIDs);
+                list.RemoveAt(index);
+                PFStuff.nearbyPlayersIDs = list.ToArray();
+                list = new List<string>(PFStuff.nearbyPlayersNames);
+                list.RemoveAt(index);
+                PFStuff.nearbyPlayersNames = list.ToArray();
+            }
             nextPVP = Form1.getTime(PFStuff.PVPTime);
             if (nextPVP < DateTime.Now)
                 nextPVP = nextPVP.AddMilliseconds(3605000);
