@@ -89,6 +89,7 @@ namespace CQFollowerAutoclaimer
                 list = new List<string>(PFStuff.nearbyPlayersNames);
                 list.RemoveAt(index);
                 PFStuff.nearbyPlayersNames = list.ToArray();
+                return b;
             }
             nextPVP = Form1.getTime(PFStuff.PVPTime);
             if (nextPVP < DateTime.Now)

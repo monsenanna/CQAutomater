@@ -12,7 +12,7 @@ namespace CQFollowerAutoclaimer
         List<Tuple<Func<Task<bool>>, string>> _queue = new List<Tuple<Func<Task<bool>>, string>>();
         public TaskQueue()
         {
-            queueTimer.Interval = 4000;
+            queueTimer.Interval = 6000;
             queueTimer.Elapsed += queueTimer_Elapsed;
             queueTimer.Start();
         }
