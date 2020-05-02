@@ -246,7 +246,7 @@ namespace CQFollowerAutoclaimer
                         if (PFStuff.WBchanged)
                         {
                             notAskedYet = true;
-                            main.autoLevel.levelTimer.Interval = 4 * 60 * 1000;
+                            main.autoLevel.levelTimer.Interval = 2 * 60 * 1000;
                             main.autoLevel.nextLevelCheck = DateTime.Now.AddMilliseconds(main.autoLevel.levelTimer.Interval);
                             if (main.waitAutoLevelBox.Checked && PFStuff.wbMode == 1)
                             {
@@ -276,12 +276,13 @@ namespace CQFollowerAutoclaimer
                             {
                                 dr = DialogResult.Yes;
                             }
-                            if (dr == DialogResult.Yes && !main.taskQueue.Contains("WB")) //enqueue new attacks only if there are no attacks in queue already
+                            if (dr == DialogResult.Yes && !main.taskQueue.Contains("WB")) // enqueue new attacks only if there are no attacks in queue already
                             {
-                                //for (int i = 0; i < Math.Min(attacksToDo, attacksAvailable); i++)
-                                //{
+                                DateTime dt = Form1.getTime(PFStuff.GetDataTime);
+                                if (PFStuff.FlashStatus != 1 || dt.Hour > 16) // don't waste just before EAS day
+                                {
                                     main.taskQueue.Enqueue(() => fightWB(lineup), "WB");
-                                //}
+                                }
                             }
                         }
                     }

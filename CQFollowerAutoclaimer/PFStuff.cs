@@ -24,6 +24,7 @@ namespace CQFollowerAutoclaimer
         string token;
         static public string kongID;
         //static int requestsSent = 0;
+        static public string GetDataTime;
         static public string miracleTimes;
         static public string followers;
         static public string DQTime;
@@ -207,6 +208,7 @@ namespace CQFollowerAutoclaimer
                 heroProms = getArray(json["data"]["city"]["promo"].ToString());
                 miracleTimes = json["data"]["miracles"].ToString();
                 followers = json["data"]["followers"].ToString();
+                GetDataTime = json["data"]["now"].ToString();
                 DQTime = json["data"]["city"]["daily"]["timer2"].ToString();
                 DQLevel = json["data"]["city"]["daily"]["lvl"].ToString();
                 //PVPTime = json["data"]["city"]["nextfight"].ToString();
@@ -584,7 +586,7 @@ namespace CQFollowerAutoclaimer
                 {
                     FlashStatus = -1;
                 }
-                if (json["super"] != null && Int64.Parse(json["super"].ToString()) == 1 && !WBName.Contains("SUPER"))
+                if (json["super"] != null && Int64.Parse(json["super"].ToString()) == 1 && !WBName.Contains("SUPER")) // todo : improve
                 {
                     EASDay = 1;
                 }

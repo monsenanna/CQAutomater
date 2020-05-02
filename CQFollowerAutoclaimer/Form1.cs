@@ -259,7 +259,7 @@ namespace CQFollowerAutoclaimer
                 autoDQ.DQTimer.Interval = (autoDQ.nextDQTime < DateTime.Now && DQCalcBox.Checked) ? 8000 : Math.Max(8000, (autoDQ.nextDQTime - DateTime.Now).TotalMilliseconds);
                 autoDQ.DQTimer.Start();
             }
-            autopvp.nextPVP = getTime(PFStuff.PVPTime).AddMilliseconds(3600000);
+            autopvp.nextPVP = getTime(PFStuff.PVPTime).AddMilliseconds(3605000);
             PvPTimeLabel.setText(autopvp.nextPVP.ToString());
             autopvp.PVPTimer.Interval = Math.Max(5000, (autopvp.nextPVP - DateTime.Now).TotalMilliseconds);
             autopvp.PVPTimer.Start();

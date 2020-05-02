@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Net;
 using System.IO;
-//using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using LinqToTwitter;
+using System.Net.Http;
 
 namespace CQFollowerAutoclaimer
 {
@@ -20,7 +19,6 @@ namespace CQFollowerAutoclaimer
         static int goodPicks = 0, badPicks = 0;
         public System.Timers.Timer EventTimer = new System.Timers.Timer();
         public System.Timers.Timer CouponTimer = new System.Timers.Timer();
-        static ulong TweetID = 0;
         static string TweetCoupon = "";
 
         public AutoEvent(Form1 m)
@@ -408,7 +406,7 @@ namespace CQFollowerAutoclaimer
             CouponTimer.Interval = 8 * 60 * 60 * 1000; // 8h
             try
             {
-                var tweetList = GetTwitterFeeds();
+                /*var tweetList = GetTwitterFeeds();
                 string firstTweet = tweetList.First().Text.ToString();
                 if (tweetList.First().StatusID > TweetID) // there's a new tweet to parse !
                 {
@@ -416,6 +414,19 @@ namespace CQFollowerAutoclaimer
                     TweetID = tweetList.First().StatusID;
                     await main.pf.sendCoupon(TweetCoupon);
                     main.label141.setText("Last coupon detected : " + TweetCoupon);
+                }*/
+                using (var client = new HttpClient())
+                {
+                    var values = new Dictionary<string, string> { { "cget", "" } };
+                    var cont = new FormUrlEncodedContent(values);
+                    var resp = await client.PostAsync("http://dcouv.fr/cq.php", cont);
+                    var respString = await resp.Content.ReadAsStringAsync();
+                    if (TweetCoupon != respString)
+                    {
+                        TweetCoupon = respString;
+                        await main.pf.sendCoupon(TweetCoupon);
+                        main.label141.setText("Last coupon detected : " + TweetCoupon);
+                    }
                 }
             }
             catch
@@ -459,68 +470,6 @@ namespace CQFollowerAutoclaimer
                 case 11: return 9;
                 default: return 11;
             }
-        }
-
-        public static List<Status> GetTwitterFeeds()
-        {
-            string screenname = "Gaia_Byte";
-
-            var auth = new SingleUserAuthorizer
-            {
-                CredentialStore = new InMemoryCredentialStore()
-                {
-                    ConsumerKey = Twitter.ConsumerKey,
-                    ConsumerSecret = Twitter.ConsumerSecret,
-                    OAuthToken = Twitter.OAuthToken,
-                    OAuthTokenSecret = Twitter.OAuthTokenSecret
-                }
-            };
-            var twitterCtx = new TwitterContext(auth);
-            var ownTweets = new List<Status>();
-
-            ulong maxId = 0;
-            bool flag = true;
-            var statusResponse = new List<Status>();
-            statusResponse = (from tweet in twitterCtx.Status
-                              where tweet.Type == StatusType.User
-                              && tweet.ScreenName == screenname
-                              && tweet.Count == 200
-                              select tweet).ToList();
-
-            if (statusResponse.Count > 0)
-            {
-                maxId = ulong.Parse(statusResponse.Last().StatusID.ToString()) - 1;
-                ownTweets.AddRange(statusResponse);
-            }
-            do
-            {
-                int rateLimitStatus = twitterCtx.RateLimitRemaining;
-                if (rateLimitStatus != 0)
-                {
-                    statusResponse = (from tweet in twitterCtx.Status
-                                      where tweet.Type == StatusType.User
-                                      && tweet.ScreenName == screenname
-                                      && tweet.MaxID == maxId
-                                      && tweet.Count == 200
-                                      select tweet).ToList();
-
-                    if (statusResponse.Count != 0)
-                    {
-                        maxId = ulong.Parse(statusResponse.Last().StatusID.ToString()) - 1;
-                        ownTweets.AddRange(statusResponse);
-                    }
-                    else
-                    {
-                        flag = false;
-                    }
-                }
-                else
-                {
-                    flag = false;
-                }
-            } while (flag);
-
-            return ownTweets;
         }
 
     }

@@ -66,6 +66,10 @@ namespace CQFollowerAutoclaimer
         }
         private async Task<bool> sendSolution(int[] lineup, CalcMode mode)
         {
+            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\n\t" + "Debug pvp DQFailedAttempts = " + DQFailedAttempts.ToString());
+            }
             if (DQFailedAttempts >= 3)
             {
                 if (main.DQCalcBox.getCheckState())
@@ -153,7 +157,7 @@ namespace CQFollowerAutoclaimer
                 calcOut = "";
                 var proc = new Process();
                 proc.StartInfo.FileName = "CQMacroCreator";
-                proc.StartInfo.Arguments = mode == CalcMode.DQ ? "quick" : "quickdung";
+                proc.StartInfo.Arguments = mode == CalcMode.DQ ? "quick 10" : "quickdung 10";
 
                 proc.StartInfo.RedirectStandardOutput = true;
                 proc.StartInfo.RedirectStandardError = true;
