@@ -990,6 +990,10 @@ namespace CQFollowerAutoclaimer
 
         public async Task<bool> sendDQSolution(int[] DQLineup)
         {
+            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\n\t" + "sendDQSolution a : "+ DQLineup.ToString());
+            }
             var request = new ExecuteCloudScriptRequest()
             {
                 RevisionSelection = CloudScriptRevisionOption.Live,
@@ -997,6 +1001,10 @@ namespace CQFollowerAutoclaimer
                 FunctionParameter = new { setup = DQLineup, kid = kongID, max = true }
             };
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\n\t" + "sendDQSolution b : " + statusTask.ToString());
+            }
             if (statusTask.Error != null)
             {
                 logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);

@@ -68,7 +68,7 @@ namespace CQFollowerAutoclaimer
         {
             using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
-                sw.WriteLine(DateTime.Now + "\n\t" + "Debug pvp DQFailedAttempts = " + DQFailedAttempts.ToString());
+                sw.WriteLine(DateTime.Now + "\n\t" + "Debug DQFailedAttempts = " + DQFailedAttempts.ToString());
             }
             if (DQFailedAttempts >= 3)
             {
