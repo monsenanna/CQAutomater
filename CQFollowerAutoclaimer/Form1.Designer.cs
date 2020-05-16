@@ -372,6 +372,7 @@
             this.label109 = new System.Windows.Forms.Label();
             this.label73 = new System.Windows.Forms.Label();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.saveSettingsToFileButton = new System.Windows.Forms.Button();
             this.heroesToClipboardButton = new System.Windows.Forms.Button();
             this.macroCreatorGithubButton = new System.Windows.Forms.Button();
             this.automaterGithubButton = new System.Windows.Forms.Button();
@@ -2144,7 +2145,7 @@
             this.doPvPHistoryCheckbox.TabIndex = 91;
             this.doPvPHistoryCheckbox.Text = "Enable PvP history";
             this.doPvPHistoryCheckbox.UseVisualStyleBackColor = true;
-            this.doPvPHistoryCheckbox.CheckedChanged += new System.EventHandler(this.DoPvPHistoryCheckbox_CheckedChanged);
+            this.doPvPHistoryCheckbox.CheckedChanged += new System.EventHandler(this.savePvPSettingsButton_Click);
             // 
             // pvpRankingSummary
             // 
@@ -3328,7 +3329,6 @@
             this.instaBidCBox.TabIndex = 131;
             this.instaBidCBox.Text = "Bid immediately if last bid allowed by max price is possible";
             this.instaBidCBox.UseVisualStyleBackColor = true;
-            this.instaBidCBox.CheckedChanged += new System.EventHandler(this.InstaBidCBox_CheckedChanged);
             // 
             // ahCountdown3
             // 
@@ -4434,6 +4434,7 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.saveSettingsToFileButton);
             this.tabPage6.Controls.Add(this.heroesToClipboardButton);
             this.tabPage6.Controls.Add(this.macroCreatorGithubButton);
             this.tabPage6.Controls.Add(this.automaterGithubButton);
@@ -4446,6 +4447,16 @@
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Other";
             this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // saveSettingsToFileButton
+            // 
+            this.saveSettingsToFileButton.Location = new System.Drawing.Point(161, 218);
+            this.saveSettingsToFileButton.Name = "saveSettingsToFileButton";
+            this.saveSettingsToFileButton.Size = new System.Drawing.Size(121, 47);
+            this.saveSettingsToFileButton.TabIndex = 4;
+            this.saveSettingsToFileButton.Text = "Save all settings";
+            this.saveSettingsToFileButton.UseVisualStyleBackColor = true;
+            this.saveSettingsToFileButton.Click += new System.EventHandler(this.saveSettingsToFileButton_Click);
             // 
             // heroesToClipboardButton
             // 
@@ -4944,6 +4955,7 @@
         internal System.Windows.Forms.NumericUpDown spheresLevelCount;
         private System.Windows.Forms.Label label112;
         internal System.Windows.Forms.CheckBox waitAutoLevelBox;
+        private System.Windows.Forms.Button saveSettingsToFileButton;
         private System.Windows.Forms.Button heroesToClipboardButton;
         internal System.Windows.Forms.Label currentDungLevelLabel;
         private System.Windows.Forms.Label label75;

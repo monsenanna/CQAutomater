@@ -26,6 +26,7 @@ namespace CQFollowerAutoclaimer
         //static int requestsSent = 0;
         static public string GetDataTime;
         static public string miracleTimes;
+        static public bool hasLucy = false;
         static public string followers;
         static public string DQTime;
         static public string DQLevel;
@@ -207,6 +208,7 @@ namespace CQFollowerAutoclaimer
                 heroLevels = getArray(json["data"]["city"]["hero"].ToString());
                 heroProms = getArray(json["data"]["city"]["promo"].ToString());
                 miracleTimes = json["data"]["miracles"].ToString();
+                hasLucy = json["data"]["tm"].ToString() == "-1";
                 followers = json["data"]["followers"].ToString();
                 GetDataTime = json["data"]["now"].ToString();
                 DQTime = json["data"]["city"]["daily"]["timer2"].ToString();
@@ -904,6 +906,8 @@ namespace CQFollowerAutoclaimer
 
         public async Task<bool> sendPVPFight(int index)
         {
+            if (index == 0)
+                return false;
             battleResult = "";
             var request = new ExecuteCloudScriptRequest()
             {
@@ -992,7 +996,7 @@ namespace CQFollowerAutoclaimer
         {
             using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
-                sw.WriteLine(DateTime.Now + "\n\t" + "sendDQSolution a : "+ DQLineup.ToString());
+                sw.WriteLine(DateTime.Now + "\n\t" + "sendDQSolution a : "+ JsonConvert.SerializeObject(DQLineup));
             }
             var request = new ExecuteCloudScriptRequest()
             {
@@ -1003,7 +1007,7 @@ namespace CQFollowerAutoclaimer
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
             using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
-                sw.WriteLine(DateTime.Now + "\n\t" + "sendDQSolution b : " + statusTask.ToString());
+                sw.WriteLine(DateTime.Now + "\n\t" + "sendDQSolution b : " + JsonConvert.SerializeObject(statusTask));
             }
             if (statusTask.Error != null)
             {

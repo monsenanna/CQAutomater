@@ -40,7 +40,7 @@ namespace CQFollowerAutoclaimer
         Form1 main;
         List<Auction> auctionList = new List<Auction>();
         internal DateTime[] auctionDates = new DateTime[3];
-        static int secondsBeforeDeadline = 10;
+        static int secondsBeforeDeadline = 15;
 
         public AuctionHouse(Form1 m) { main = m; }
 
@@ -48,7 +48,10 @@ namespace CQFollowerAutoclaimer
         {
             if (getData)
             {
+                Task.Delay(2000);
                 PFStuff.getWebsiteData(main.appSettings.KongregateId);
+                main.taskQueue.Enqueue(() => main.pf.getCurrencies(), "curr");
+                Task.Delay(2000);
                 main.currentDungLevelLabel.Text = PFStuff.DungLevel;
             }
             auctionList = new List<Auction>();
@@ -169,7 +172,7 @@ namespace CQFollowerAutoclaimer
             }
             if (times.Count > 0)
                 return Math.Max(8000, Math.Min(times.Min(), 1 * 60 * 1000));
-            return 5 * 60 * 1000;
+            return 10 * 60 * 1000;
         }
 
         public void placeBid(int id, int price)

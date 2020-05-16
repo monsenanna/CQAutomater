@@ -297,7 +297,6 @@ namespace CQFollowerAutoclaimer
             autoEvent.CouponTimer.Start();
         }
 
-
         void countdownsTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             time.setText((DateTime.Now - start).ToString("dd\\.hh\\:mm\\:ss"));
@@ -388,8 +387,6 @@ namespace CQFollowerAutoclaimer
             autoChests.FreeChestTimer.Interval = PFStuff.freeChestAvailable == true ? 20000 : Math.Max(4000, PFStuff.freeChestRecharge * 1000);
             return b;
         }
-
-
 
         private string getSetting(string s)
         {
@@ -484,7 +481,6 @@ namespace CQFollowerAutoclaimer
         #endregion
 
         #region PVP
-
         private async void autoPvPCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             if (autoPvPCheckbox.Checked)
@@ -513,7 +509,6 @@ namespace CQFollowerAutoclaimer
         #endregion
 
         #region DQ
-
         private async void DQRefreshButton_Click(object sender, EventArgs e)
         {
             await getData();
@@ -560,7 +555,8 @@ namespace CQFollowerAutoclaimer
             {
                 await login();
             }
-            taskQueue.Enqueue(() => claimMiracles(), "miracle");
+            if(!PFStuff.hasLucy)
+                taskQueue.Enqueue(() => claimMiracles(), "miracle");
         }
         public async Task<bool> claimMiracles()
         {
@@ -587,7 +583,6 @@ namespace CQFollowerAutoclaimer
         #endregion
 
         #region UI
-
         private void Form1_Resize(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Minimized)
@@ -615,6 +610,7 @@ namespace CQFollowerAutoclaimer
         {
             Close();
         }
+
         private void openMSHButton_Click(object sender, EventArgs e)
         {
             MacroSettingsHelper msh = new MacroSettingsHelper(appSettings);
@@ -663,7 +659,6 @@ namespace CQFollowerAutoclaimer
         #endregion
 
         #region WB
-
         internal int[] getLineup(int ID, ulong followers)
         {
             int[] lineup = new int[6];
@@ -780,6 +775,7 @@ namespace CQFollowerAutoclaimer
                 safeModeWB.Enabled = false;
             }
         }
+
         private void saveWBDataButton_Click(object sender, EventArgs e)
         {
             var values = wbSettingsCounts.Select(x => (int)x.Value);
@@ -800,7 +796,6 @@ namespace CQFollowerAutoclaimer
             appSettings.waitAutoLevel = waitAutoLevelBox.Checked;
             appSettings.saveSettings();
         }
-
 
         private void WBLogButton_Click(object sender, EventArgs e)
         {
@@ -917,14 +912,19 @@ namespace CQFollowerAutoclaimer
             Clipboard.SetText(m);
         }
 
+        private void saveSettingsToFileButton_Click(object sender, EventArgs e)
+        {
+            saveDQSettingsButton_Click(sender, e);
+            saveChestSettingsButton_Click(sender, e);
+            savePvPSettingsButton_Click(sender, e);
+            saveWBDataButton_Click(sender, e);
+            auctionHouse.saveSettings();
+            autoLevel.saveALSettings();
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             autoDQ.fightWithPresetLineup(AutoDQ.CalcMode.DUNG);
-        }
-
-        private void InstaBidCBox_CheckedChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void AutoEvCheckbox_CheckedChanged(object sender, EventArgs e)
@@ -947,6 +947,7 @@ namespace CQFollowerAutoclaimer
         {
             autoLevel.updateHeroLevels();
         }
+
         private void DoAutoLFCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             appSettings = AppSettings.loadSettings();
@@ -959,13 +960,6 @@ namespace CQFollowerAutoclaimer
             appSettings.optAutoAD = adventurePriority.SelectedIndex;
             appSettings.doAutoLO = doAutoLOCheckbox.Checked;
             appSettings.optAutoLO = Convert.ToInt32(Math.Round(lotteryCount.Value, 0));
-            appSettings.saveSettings();
-        }
-
-        private void DoPvPHistoryCheckbox_CheckedChanged(object sender, EventArgs e)
-        {
-            appSettings = AppSettings.loadSettings();
-            appSettings.doPVPHistory = doPvPHistoryCheckbox.Checked;
             appSettings.saveSettings();
         }
     }

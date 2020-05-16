@@ -338,7 +338,7 @@ namespace CQFollowerAutoclaimer
             main.currentBossLabel.setText(shortBossName(PFStuff.WBName) + (PFStuff.wbMode == 0 ? " NH" : " HA") + ", Attacks left: " + PFStuff.attacksLeft);
             main.auctionHouse.loadAuctions(false);
             double x = await main.auctionHouse.getAuctionInterval();
-            WBTimer.Interval = Math.Min(Math.Max(PFStuff.attacksLeft * 2500, 5000), x);
+            WBTimer.Interval = Math.Min(Math.Max(PFStuff.attacksLeft * 2500, 20000), x);
             nextWBRefresh = DateTime.Now.AddMilliseconds(WBTimer.Interval);
             main.currentDungLevelLabel.Text = PFStuff.DungLevel;
         }
@@ -373,4 +373,3 @@ namespace CQFollowerAutoclaimer
         }
     }
 }
-
