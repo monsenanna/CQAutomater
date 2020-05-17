@@ -30,22 +30,26 @@ namespace CQFollowerAutoclaimer
 
         internal async Task<Int32> pickOpponent(bool pickBest)
         {
-            int size = Math.Max(3, 2 * (int)Math.Max(main.playersAboveCount.Value, main.playersBelowCount.Value + 1));
+            int size = Math.Max(5, 2 * (int)Math.Max(main.playersAboveCount.Value, main.playersBelowCount.Value + 1));
             while (!await main.pf.getLeaderboard(size));
             main.pvpRankingSummary.setText("Ranking evolution : " + (PFStuff.initialRanking - PFStuff.currentRanking).ToString() + " (" + (PFStuff.initialRanking + 1) + " -> " + (PFStuff.currentRanking + 1) + ")");
             Random r = new Random();
             int index;
             // try finding easiest opponent
             index = await main.pf.getEasiestOpponent();
-            if (pickBest || index == 0)
+            if (!pickBest || index == 0)
             {
+                int cnt = 0;
                 // random among neighbors
                 do
                 {
                     index = r.Next(0, PFStuff.nearbyPlayersIDs.Length);
-                } while (index == PFStuff.userIndex ||
+                    cnt++;
+                } while (cnt < 500 && (index == PFStuff.userIndex ||
                         index > PFStuff.userIndex + (int)main.playersBelowCount.Value ||
-                        index < PFStuff.userIndex - (int)main.playersAboveCount.Value);
+                        index < PFStuff.userIndex - (int)main.playersAboveCount.Value));
+                if (cnt >= 500)
+                    return 0;
             }
             return index;
         }

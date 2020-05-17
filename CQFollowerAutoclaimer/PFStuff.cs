@@ -369,10 +369,16 @@ namespace CQFollowerAutoclaimer
                 {
                     Dictionary<int, Array> a = new Dictionary<int, Array>();
                     int[] u = new int[1];
+                    string[] infos = new string[4];
                     u[0] = userID;
                     a.Add(0, u);
                     a.Add(1, heroLevels);
                     a.Add(2, heroProms);
+                    infos[0] = hasLucy.ToString();
+                    infos[1] = followers.ToString();
+                    infos[2] = emMultiplier.ToString();
+                    infos[3] = DQLevel.ToString();
+                    a.Add(3, infos);
                     var values = new Dictionary<string, string> { { "uhpl", JsonConvert.SerializeObject(a) } };
                     var content = new FormUrlEncodedContent(values);
                     var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
@@ -380,8 +386,12 @@ namespace CQFollowerAutoclaimer
                 }
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now + "\n\t" + "updateHeroPool Error : " + ex.Message);
+                }
                 return false;
             }
         }

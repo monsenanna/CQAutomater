@@ -311,6 +311,7 @@
             this.auctionHero2Box = new System.Windows.Forms.CheckBox();
             this.auctionHero1Box = new System.Windows.Forms.CheckBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.p6HeroCombo4 = new System.Windows.Forms.ComboBox();
             this.p6HeroCombo3 = new System.Windows.Forms.ComboBox();
             this.p6HeroCombo2 = new System.Windows.Forms.ComboBox();
             this.label22 = new System.Windows.Forms.Label();
@@ -384,7 +385,6 @@
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
-            this.p6HeroCombo4 = new System.Windows.Forms.ComboBox();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -2145,7 +2145,7 @@
             this.doPvPHistoryCheckbox.TabIndex = 91;
             this.doPvPHistoryCheckbox.Text = "Enable PvP history";
             this.doPvPHistoryCheckbox.UseVisualStyleBackColor = true;
-            this.doPvPHistoryCheckbox.CheckedChanged += new System.EventHandler(this.savePvPSettingsButton_Click);
+            //this.doPvPHistoryCheckbox.CheckedChanged += new System.EventHandler(this.savePvPSettingsButton_Click);
             // 
             // pvpRankingSummary
             // 
@@ -2216,35 +2216,25 @@
             // 
             this.playersBelowCount.Location = new System.Drawing.Point(39, 106);
             this.playersBelowCount.Maximum = new decimal(new int[] {
-            10,
+            50,
             0,
             0,
             0});
             this.playersBelowCount.Name = "playersBelowCount";
             this.playersBelowCount.Size = new System.Drawing.Size(66, 20);
             this.playersBelowCount.TabIndex = 9;
-            this.playersBelowCount.Value = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
             // 
             // playersAboveCount
             // 
             this.playersAboveCount.Location = new System.Drawing.Point(39, 82);
             this.playersAboveCount.Maximum = new decimal(new int[] {
-            10,
+            50,
             0,
             0,
             0});
             this.playersAboveCount.Name = "playersAboveCount";
             this.playersAboveCount.Size = new System.Drawing.Size(66, 20);
             this.playersAboveCount.TabIndex = 8;
-            this.playersAboveCount.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
             // 
             // PvPCountdownLabel
             // 
@@ -3784,6 +3774,17 @@
             this.tabPage8.Text = "Level";
             this.tabPage8.UseVisualStyleBackColor = true;
             // 
+            // p6HeroCombo4
+            // 
+            this.p6HeroCombo4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.p6HeroCombo4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.p6HeroCombo4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.p6HeroCombo4.FormattingEnabled = true;
+            this.p6HeroCombo4.Location = new System.Drawing.Point(194, 336);
+            this.p6HeroCombo4.Name = "p6HeroCombo4";
+            this.p6HeroCombo4.Size = new System.Drawing.Size(114, 21);
+            this.p6HeroCombo4.TabIndex = 146;
+            // 
             // p6HeroCombo3
             // 
             this.p6HeroCombo3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
@@ -4563,17 +4564,6 @@
             this.AEIndicator.Size = new System.Drawing.Size(13, 6);
             this.AEIndicator.TabIndex = 40;
             this.AEIndicator.Text = "          ";
-            // 
-            // p6HeroCombo4
-            // 
-            this.p6HeroCombo4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.p6HeroCombo4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.p6HeroCombo4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.p6HeroCombo4.FormattingEnabled = true;
-            this.p6HeroCombo4.Location = new System.Drawing.Point(194, 336);
-            this.p6HeroCombo4.Name = "p6HeroCombo4";
-            this.p6HeroCombo4.Size = new System.Drawing.Size(114, 21);
-            this.p6HeroCombo4.TabIndex = 146;
             // 
             // Form1
             // 

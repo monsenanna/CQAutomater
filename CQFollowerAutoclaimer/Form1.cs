@@ -643,8 +643,8 @@ namespace CQFollowerAutoclaimer
             appSettings = AppSettings.loadSettings();
             appSettings.autoPvPEnabled = autoPvPCheckbox.Checked;
             appSettings.doPVPHistory = doPvPHistoryCheckbox.Checked;
-            appSettings.pvpLowerLimit = (int)playersBelowCount.Value;
-            appSettings.pvpUpperLimit = (int)playersAboveCount.Value;
+            appSettings.pvpLowerLimit = Convert.ToInt32(Math.Round(playersBelowCount.Value, 0));
+            appSettings.pvpUpperLimit = Convert.ToInt32(Math.Round(playersAboveCount.Value, 0));
             appSettings.saveSettings();
         }
 
