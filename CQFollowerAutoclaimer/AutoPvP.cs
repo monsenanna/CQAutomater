@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace CQFollowerAutoclaimer
 {
@@ -84,26 +85,39 @@ namespace CQFollowerAutoclaimer
 
         internal async Task<bool> sendFight(int index)
         {
-            bool b = await main.pf.sendPVPFight(index);
-            if (!b)
-            { // remove from possible opponents
-                List<string> list = new List<string>(PFStuff.nearbyPlayersIDs);
-                list.RemoveAt(index);
-                PFStuff.nearbyPlayersIDs = list.ToArray();
-                list = new List<string>(PFStuff.nearbyPlayersNames);
-                list.RemoveAt(index);
-                PFStuff.nearbyPlayersNames = list.ToArray();
+            try
+            {
+                bool b = await main.pf.sendPVPFight(index);
+                if (!b)
+                { // remove from possible opponents
+                    List<string> list = new List<string>(PFStuff.nearbyPlayersIDs);
+                    list.RemoveAt(index);
+                    PFStuff.nearbyPlayersIDs = list.ToArray();
+                    list = new List<string>(PFStuff.nearbyPlayersNames);
+                    list.RemoveAt(index);
+                    PFStuff.nearbyPlayersNames = list.ToArray();
+                    return b;
+                }
+                nextPVP = Form1.getTime(PFStuff.PVPTime);
+                if (nextPVP < DateTime.Now)
+                    nextPVP = nextPVP.AddMilliseconds(3605000);
+                //PVPTimer.Interval = Math.Max(8000, (nextPVP - DateTime.Now).TotalMilliseconds);
+                PVPTimer.Interval = 905000;
+                main.PvPLog.SynchronizedInvoke(() => main.PvPLog.AppendText(PFStuff.battleResult));
+                main.PvPTimeLabel.setText(nextPVP.ToString());
+                PVPTimer.Start();
                 return b;
             }
-            nextPVP = Form1.getTime(PFStuff.PVPTime);
-            if (nextPVP < DateTime.Now)
-                nextPVP = nextPVP.AddMilliseconds(3605000);
-            //PVPTimer.Interval = Math.Max(8000, (nextPVP - DateTime.Now).TotalMilliseconds);
-            PVPTimer.Interval = 905000;
-            main.PvPLog.SynchronizedInvoke(() => main.PvPLog.AppendText(PFStuff.battleResult));
-            main.PvPTimeLabel.setText(nextPVP.ToString());
-            PVPTimer.Start();
-            return b;
+            catch (Exception ex)
+            {
+                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now + "\n\t" + "Error in AutoPvP" + "\n\t" + ex.Message);
+                    sw.WriteLine(DateTime.Now + "\n\t" + "PFStuff.nearbyPlayersIDs" + "\n\t" + JsonConvert.SerializeObject(PFStuff.nearbyPlayersIDs));
+                    sw.WriteLine(DateTime.Now + "\n\t" + "index" + "\n\t" + index.ToString());
+                }
+                return true;
+            }
         }
     }
 }

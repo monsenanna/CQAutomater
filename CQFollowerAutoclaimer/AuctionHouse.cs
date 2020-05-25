@@ -172,7 +172,7 @@ namespace CQFollowerAutoclaimer
             }
             if (times.Count > 0)
                 return Math.Max(8000, Math.Min(times.Min(), 1 * 60 * 1000));
-            return 10 * 60 * 1000;
+            return 5 * 60 * 1000;
         }
 
         public void placeBid(int id, int price)

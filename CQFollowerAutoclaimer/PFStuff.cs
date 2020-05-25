@@ -13,9 +13,6 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using System.IO;
 using System.Net.Http;
-using MySqlConnector;
-using MySql.Data.MySqlClient;
-using System.Globalization;
 
 namespace CQFollowerAutoclaimer
 {
@@ -60,6 +57,8 @@ namespace CQFollowerAutoclaimer
         static public int LotteryDay;
         static public int LotteryCurrent;
         static public int TrainingStatus;
+        static public int[] SpaceStatus = new int[6];
+        static public string NextRecycle;
 
         static public string[] nearbyPlayersIDs;
         static public string[] nearbyPlayersNames;
@@ -178,6 +177,7 @@ namespace CQFollowerAutoclaimer
             else if (apiResult != null)
             {
                 await getHof();
+                await getLeaderboard(11);
                 return true;
             }
             return false;
@@ -234,13 +234,12 @@ namespace CQFollowerAutoclaimer
                 }
                 try
                 {
-                    PGCards = json["data"]["city"]["pge"]["attempts"].ToString();
-                    if((bool)json["data"]["city"]["pge"]["done"] == true)
-                        PGCards = "done";
+                    if (PGCards != "no")
+                        PGCards = json["data"]["city"]["pge"]["attempts"].ToString();
                     PGDeck = getArray(json["data"]["city"]["pge"]["cards"].ToString());
                     PGPicked = getArray(json["data"]["city"]["pge"]["picks"].ToString());
                     PGWon = (int)json["data"]["city"]["pge"]["pg"];
-                    if ((int)json["data"]["city"]["pge"]["tid"] < (int)json["data"]["city"]["tour"][0]["tid"]) // don't consider last week
+                    if (PGCards != "no" && int.Parse(json["data"]["city"]["pge"]["tid"].ToString()) < int.Parse(json["data"]["city"]["tour"][0]["tid"].ToString())) // don't consider last week
                     {
                         PGCards = "8";
                         for (int i = 0; i < PGDeck.Length; i++)
@@ -249,6 +248,8 @@ namespace CQFollowerAutoclaimer
                             PGPicked[i] = -1;
                         }
                     }
+                    if (PGCards == "0" && json["data"]["city"]["pge"]["done"].ToString() == "True")
+                        PGCards = "done";
                 }
                 catch
                 {
@@ -268,6 +269,22 @@ namespace CQFollowerAutoclaimer
                 catch
                 {
                 }
+                try
+                {
+                    if (json["data"]["city"]["space"]["current"] != null)
+                    {
+                        SpaceStatus[0] = (int)json["data"]["city"]["space"]["current"]["mission"];
+                        SpaceStatus[1] = Int32.Parse(json["data"]["city"]["space"]["current"]["timer"].ToString().Substring(0, json["data"]["city"]["space"]["current"]["timer"].ToString().Length - 3));
+                    }
+                    SpaceStatus[2] = (int)json["data"]["city"]["space"]["upgrades"]["engine"];
+                    SpaceStatus[3] = (int)json["data"]["city"]["space"]["upgrades"]["collector"];
+                    SpaceStatus[4] = (int)json["data"]["city"]["space"]["upgrades"]["radar"];
+                    SpaceStatus[5] = (int)json["data"]["city"]["space"]["gears"];
+                }
+                catch
+                {
+                    SpaceStatus[0] = -2; // no SJ
+                }
                 TrainingStatus = -1;
                 try
                 {
@@ -279,7 +296,15 @@ namespace CQFollowerAutoclaimer
                 catch
                 {
                 }
-                if(doSometimes(5))
+                try
+                {
+                    NextRecycle = json["data"]["city"]["recycle"]["next"].ToString();
+                }
+                catch
+                {
+                    NextRecycle = "-1";
+                }
+                if (doSometimes(5))
                     await updateHeroPool();
                 return true;
             }
@@ -411,7 +436,28 @@ namespace CQFollowerAutoclaimer
 
         public async Task<bool> getLeaderboard(int size)
         {
-            await Task.Delay(500);
+            await Task.Delay(100);
+            try
+            {
+                var req = new GetLeaderboardRequest
+                {
+                    StatisticName = "Ranking",
+                    MaxResultsCount = 100
+                };
+                var lbTask = await PlayFabClientAPI.GetLeaderboardAsync(req);
+                lbTask.Result.ToString();
+                using (var client = new HttpClient())
+                {
+                    var values = new Dictionary<string, string> { { "ulbd", JsonConvert.SerializeObject(lbTask) } };
+                    var content = new FormUrlEncodedContent(values);
+                    var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                    var responseString = await response.Content.ReadAsStringAsync();
+                }
+            }
+            catch (Exception)
+            {
+            }
+            await Task.Delay(100);
             nearbyPlayersIDs = new string[size];
             nearbyPlayersNames = new string[size];
             var request = new GetLeaderboardAroundPlayerRequest
@@ -672,6 +718,8 @@ namespace CQFollowerAutoclaimer
                 {
                     KeysTower = null;
                 }
+                if (PGCards == "no")
+                    PGCards = "8";
                 if (json["pge"] == null || (bool)json["pge"] != true)
                 {
                     PGCards = "no";
@@ -680,12 +728,11 @@ namespace CQFollowerAutoclaimer
                     PGWon = 0;
                 }
             }
-            // MB fix to prevent crashes
-            catch (Exception webex)
+            catch (Exception ex)
             {
                 using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
-                    sw.WriteLine(DateTime.Now + "\n\t" + "Error in PFStuff" + "\n\t" + webex.Message);
+                    sw.WriteLine(DateTime.Now + "\n\t" + "Error in PFStuff" + "\n\t" + ex.Message);
                 }
             }
         }
@@ -696,91 +743,21 @@ namespace CQFollowerAutoclaimer
             {
                 var d = json["history"][json.Count() - 1]["date"].ToString();
                 d = d.Substring(0, d.Length - 3);
-                string id = "";
-                string action = "";
                 if (int.Parse(d) <= FlashLastUpdate)
                     return true;
-                using (var connection = new MySqlConnection("Server=db.dcouv.fr;Port=22306;User ID=" + MySQLAuth.user + "; Password=" + MySQLAuth.pass + "; Database=cqdata"))
+                using (var client = new HttpClient())
                 {
-                    connection.Open();
-                    for (int i = json["history"].Count() - 1; i >= 0; i--)
-                    {
-                        id = json["history"][i]["id"].ToString();
-                        d = json["history"][i]["date"].ToString();
-                        d = d.Substring(0, d.Length - 3);
-                        // write new data
-                        action = "";
-                        using (var command = new MySqlCommand("SELECT updated FROM flash WHERE id = '" + id + "'", connection))
-                        using (var reader = command.ExecuteReader())
-                        {
-                            if (reader.HasRows)
-                            {
-                                while (reader.Read())
-                                {
-                                    action = (Int32.Parse(reader.GetValue(0).ToString()) == 2 ? "upd" : "no");
-                                }
-                            }
-                            else
-                            {
-                                action = "ins";
-                            }
-                        }
-                        switch (action)
-                        {
-                            case "ins":
-                                using (var command2 = new MySqlCommand("INSERT INTO flash(id, date, pool, updated) VALUES ('" + id + "', '" + d + "', '[" + String.Join(",", getArray(json["history"][i]["hero"].ToString())) + "]', 0);", connection))
-                                {
-                                    command2.ExecuteNonQuery();
-                                }
-                                break;
-                            case "upd":
-                                using (var command2 = new MySqlCommand("UPDATE flash SET date = '" + d + "', pool = '[" + String.Join(",", getArray(json["history"][i]["hero"].ToString())) + "]', updated = 0 WHERE id = " + id + ";", connection))
-                                {
-                                    command2.ExecuteNonQuery();
-                                }
-                                break;
-                            default:
-                                continue;
-                        }
-                        for (int j = json["history"][i]["players"].Count() - 1; j >= 0; j--)
-                        {
-                            var wr = Decimal.Divide(decimal.Parse(json["history"][i]["players"][j]["wr"].ToString(), CultureInfo.InvariantCulture), 100).ToString().Replace(",", ".");
-                            var pn = json["history"][i]["players"][j]["name"].ToString();
-                            if (pn == "undefined")
-                                pn = "unknown" + (j + 1).ToString();
-                            using (var command = new MySqlCommand("INSERT INTO frank(flash, player, position, wr, grid) VALUES ('" + id + "', '" + pn + "', " + (j+1).ToString() + ", '" + wr + "', '[" + String.Join(",", getArray(json["history"][i]["players"][j]["setup"].ToString())) + "]');", connection))
-                                command.ExecuteNonQuery();
-                        }
-                        FlashLastUpdate = int.Parse(d) - 60*60*8; // 8h before
-                    }
-                    // current flash
-                    id = json["current"]["id"].ToString();
-                    bool doins = false;
-                    using (var command = new MySqlCommand("SELECT updated FROM flash WHERE id = '" + id + "'", connection))
-                    using (var reader = command.ExecuteReader())
-                    {
-                        if (!reader.HasRows)
-                        {
-                            doins = true;
-                        }
-                    }
-                    if(doins)
-                        using (var command2 = new MySqlCommand("INSERT INTO flash(id, date, pool, updated, followers) VALUES ('" + id + "', '" + d + "', '[" + String.Join(",", getArray(json["current"]["hero"].ToString())) + "]', 2, '" + json["current"]["followers"].ToString() + "');", connection))
-                        {
-                            command2.ExecuteNonQuery();
-                        }
-                    connection.Close();
+                    var values = new Dictionary<string, string> { { "ufla", json.ToString() } };
+                    var content = new FormUrlEncodedContent(values);
+                    _ = Task.Run(() => client.PostAsync("http://dcouv.fr/cq.php", content));
+                    FlashLastUpdate = int.Parse(d) - 60 * 60 * 8; // 8h before
                 }
             }
-            catch (MySqlException)
-            { // do nothing if sql is off
-                return false;
-            }
-            catch (Exception webex)
+            catch (Exception ex)
             {
                 using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
-                    sw.WriteLine(DateTime.Now + "\n\t" + webex.Message);
+                    sw.WriteLine(DateTime.Now + "\n\t" + ex.Message);
                 }
                 return false;
             }
@@ -847,6 +824,27 @@ namespace CQFollowerAutoclaimer
                 catch
                 {
                     return 0;
+                }
+            }
+        }
+
+        public async Task<bool> getCQAVersion(Form1 f)
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var values = new Dictionary<string, string> { { "cqav", Constants.version } };
+                    var content = new FormUrlEncodedContent(values);
+                    var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    if (responseString == "1")
+                        f.versionLabel.ForeColor = System.Drawing.Color.Red;
+                    return responseString == "0" ? true : false;
+                }
+                catch
+                {
+                    return true;
                 }
             }
         }
@@ -1279,6 +1277,93 @@ namespace CQFollowerAutoclaimer
             }
         }
 
+        public async Task<bool> sendSJClaim(int nextCost)
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Live,
+                FunctionName = "sjclaim"
+            };
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null)
+            {
+                return false;
+            }
+            else
+            {
+                try
+                {
+                    JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
+                    SpaceStatus[0] = (int)json["data"]["city"]["space"]["current"]["mission"];
+                    SpaceStatus[1] = Int32.Parse(json["data"]["city"]["space"]["current"]["timer"].ToString().Substring(0, json["data"]["city"]["space"]["current"]["timer"].ToString().Length - 3));
+                    SpaceStatus[5] = (int)json["data"]["city"]["space"]["gears"];
+                    Thread.Sleep(1);
+                }
+                catch
+                {
+                    await Task.Delay(1000);
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        public async Task<bool> sendSJStart(int mission)
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Live,
+                FunctionName = "sjmission",
+                FunctionParameter = new { mission = mission }
+            };
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null)
+            {
+                return false;
+            }
+            else
+            {
+                await GetGameData();
+                return true;
+            }
+        }
+
+        public async Task<bool> sendSJUpgrade(int upgrade)
+        {
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Live,
+                FunctionName = "sjupgrade",
+                FunctionParameter = new { upgrade = upgrade }
+            };
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null)
+            {
+                return false;
+            }
+            else
+            {
+                await GetGameData();
+                await Task.Delay(2000);
+                return true;
+            }
+        }
+
         public async Task<bool> sendBid(int bidHeroID, int bidPrice)
         {
             var request = new ExecuteCloudScriptRequest()
@@ -1342,7 +1427,7 @@ namespace CQFollowerAutoclaimer
                         sw.WriteLine("\tLTO debug : " + heroID.ToString() + " " + maxPrice.ToString() + " " + respString);
                     }*/
                 }
-                catch
+                catch(Exception)
                 {
                     /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                     {

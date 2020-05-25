@@ -92,7 +92,7 @@ namespace CQFollowerAutoclaimer
                         b = await main.pf.sendDungSolution(lineup);
                     using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                     {
-                        sw.WriteLine(DateTime.Now + "\n\tDebug DQ calc solution sent to CQ");
+                        //sw.WriteLine(DateTime.Now + "\n\tDebug DQ calc solution sent to CQ");
                     }
                 }
                 catch
@@ -120,7 +120,7 @@ namespace CQFollowerAutoclaimer
                         {
                             using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                             {
-                                sw.WriteLine(DateTime.Now + "\n\tDebug DQ RunCalc");
+                                //sw.WriteLine(DateTime.Now + "\n\tDebug DQ RunCalc");
                             }
                             RunCalc(mode);
                         }
@@ -129,7 +129,7 @@ namespace CQFollowerAutoclaimer
                     {
                         using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                         {
-                            sw.WriteLine(DateTime.Now + "\n\tDebug DQ new DQ, enqueue calc");
+                            //sw.WriteLine(DateTime.Now + "\n\tDebug DQ new DQ, enqueue calc");
                         }
                         DQFailedAttempts = 0;
                         currentDQ = int.Parse(PFStuff.DQLevel);
@@ -177,7 +177,8 @@ namespace CQFollowerAutoclaimer
                 calcOut = "";
                 var proc = new Process();
                 proc.StartInfo.FileName = "CQMacroCreator";
-                proc.StartInfo.Arguments = mode == CalcMode.DQ ? "quick 10" : "quickdung 10";
+                int lim = main.appSettings.calcTimeLimit ?? 30;
+                proc.StartInfo.Arguments = mode == CalcMode.DQ ? "quick "+ lim.ToString() : "quickdung " + lim.ToString();
 
                 proc.StartInfo.RedirectStandardOutput = true;
                 proc.StartInfo.RedirectStandardError = true;

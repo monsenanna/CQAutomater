@@ -158,17 +158,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AutoClaimer.ico" />
-    <EmbeddedResource Include="lib\Google.Apis.Auth.PlatformServices.dll" />
-    <EmbeddedResource Include="lib\Google.Apis.Core.dll" />
-    <EmbeddedResource Include="lib\Google.Apis.dll" />
-    <EmbeddedResource Include="lib\Google.Apis.Oauth2.v2.dll" />
-    <EmbeddedResource Include="lib\Google.Apis.PlatformServices.dll" />
-    <EmbeddedResource Include="lib\Google.Apis.Sheets.v4.dll" />
     <EmbeddedResource Include="lib\HtmlAgilityPack.dll" />
-    <EmbeddedResource Include="lib\Google.Apis.Auth.dll" />
     <EmbeddedResource Include="lib\Newtonsoft.Json.dll" />
-    <EmbeddedResource Include="lib\LinqToTwitter.netstandard.dll" />
-    <EmbeddedResource Include="lib\LinqToTwitter.AspNet.dll" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
@@ -188,9 +179,6 @@
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
       <Version>1.11.23</Version>
-    </PackageReference>
-    <PackageReference Include="MySqlConnector">
-      <Version>0.64.2</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>

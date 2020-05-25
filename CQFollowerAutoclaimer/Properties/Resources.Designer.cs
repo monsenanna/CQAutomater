@@ -73,26 +73,6 @@ namespace CQFollowerAutoclaimer.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Byte[].
         /// </summary>
-        internal static byte[] LinqToTwitter_AspNet {
-            get {
-                object obj = ResourceManager.GetObject("LinqToTwitter_AspNet", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Byte[].
-        /// </summary>
-        internal static byte[] LinqToTwitter_netstandard {
-            get {
-                object obj = ResourceManager.GetObject("LinqToTwitter_netstandard", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Byte[].
-        /// </summary>
         internal static byte[] Newtonsoft_Json {
             get {
                 object obj = ResourceManager.GetObject("Newtonsoft_Json", resourceCulture);

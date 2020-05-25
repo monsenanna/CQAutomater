@@ -108,11 +108,13 @@ namespace CQFollowerAutoclaimer
                 }
             }
             versionLabel.Text = Constants.version;
+            
 
             init();
 
             if (pf != null)
             {
+                taskQueue.Enqueue(() => pf.getCQAVersion(this), "cqav");
                 auctionHouse = new AuctionHouse(this);
                 autoLevel = new AutoLevel(this);
                 autoChests = new AutoChests(this);
@@ -291,9 +293,9 @@ namespace CQFollowerAutoclaimer
             autoLevel.loadALSettings();
             auctionHouse.loadSettings();
             autoEvent.loadSettings();
-            autoEvent.EventTimer.Interval = 10 * 1000;
+            autoEvent.EventTimer.Interval = 15 * 1000;
             autoEvent.EventTimer.Start();
-            autoEvent.CouponTimer.Interval = 10 * 1000; // 10sec on start, then 12h
+            autoEvent.CouponTimer.Interval = 30 * 1000; // 30sec on start, then 12h
             autoEvent.CouponTimer.Start();
         }
 
@@ -326,6 +328,15 @@ namespace CQFollowerAutoclaimer
             {
                 ALCountdownLabel.setText((autoLevel.nextLevelCheck < DateTime.Now ? "-" : "") + (autoLevel.nextLevelCheck - DateTime.Now).ToString("hh\\:mm\\:ss"));
             }
+            if (PFStuff.NextRecycle != "-1")
+            {
+                try
+                {
+                    DateTime nextRecTime = Form1.getTime(PFStuff.NextRecycle);
+                    RecycleCountdownLabel.setText((nextRecTime - DateTime.Now).ToString(@"d\:hh\:mm\:ss"));
+                }
+                catch (Exception) { }
+            }
             for (int i = 0; i < 3; i++)
             {
                 if (auctionHouse.auctionDates[i] != null)
@@ -355,7 +366,8 @@ namespace CQFollowerAutoclaimer
             {
                 await login();
             }
-            await pf.GetGameData();
+            if (Form1.getTime(PFStuff.GetDataTime) < DateTime.Now.AddSeconds(-5))
+                await pf.GetGameData();
             autoLevel.updateHeroLevels();
 
             autoDQ.nextDQTime = getTime(PFStuff.DQTime);

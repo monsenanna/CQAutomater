@@ -51,8 +51,8 @@ namespace CQFollowerAutoclaimer
                 {
                     await main.login();
                 }
-                await main.pf.GetGameData();
                 PFStuff.getWebsiteData(main.KongregateId);
+                await main.pf.GetGameData();
                 EventTimer.Interval = 60 * 1000; // 60sec
 
                 main.label73.setText("Flash : " + (PFStuff.FlashStatus == 1 ? "active today, sending history" : "not active today"));
@@ -245,7 +245,7 @@ namespace CQFollowerAutoclaimer
                     if (PFStuff.CCDone == 0)
                     {
                         Random rnd = new Random();
-                        int score = rnd.Next(60, 100) * 3;
+                        int score = rnd.Next(65, 105) * 3;
                         await main.pf.sendCCScore(score);
                         main.label124.setText("CC Catcher : sent score " + score);
                     }
@@ -336,6 +336,7 @@ namespace CQFollowerAutoclaimer
                 main.label145.setText("Adventure : not active today");
                 if (main.doAutoADCheckbox.Checked && PFStuff.AdventureDay == 1 && PFStuff.AdventureStatus == 1 && (main.pf.cosmicCoins > 100 || main.pf.pranaGems > 100 || main.pf.ascensionSpheres > 100))
                 {
+                    await main.pf.getCurrencies();
                     switch (main.adventurePriority.SelectedIndex)
                     {
                         case 2: // CC
@@ -395,6 +396,36 @@ namespace CQFollowerAutoclaimer
                     }
                 }
                 main.AEIndicator.BackColor = Color.Green;
+                if(PFStuff.SpaceStatus[0] != -2)
+                {
+                    var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+                    //int toUpg = PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[3] && PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[4] ? 0 : PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[4] ? 1 : 2;
+                    //int toUpg = PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[2] && PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[4] ? 1 : PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[4] ? 0 : 2;
+                    int toUpg = 1;
+                    int cost = (int)(250 * Math.Pow(2, PFStuff.SpaceStatus[toUpg + 2]));
+                    if (PFStuff.SpaceStatus[0] > -1 && PFStuff.SpaceStatus[1] != -1 && PFStuff.SpaceStatus[1] >= (int)Timestamp)
+                    {
+                        main.weeklyEventLabel.Text = "SJ running";
+                        if (PFStuff.SpaceStatus[1] < (int)Timestamp + 90)
+                        {
+                            EventTimer.Interval = (PFStuff.SpaceStatus[1] + 5 - (int)Timestamp) * 1000; // reduce timer
+                        }
+                    } else if (PFStuff.SpaceStatus[0] > -1 && PFStuff.SpaceStatus[1] != -1 && PFStuff.SpaceStatus[1] <= (int)Timestamp)
+                    {
+                        main.weeklyEventLabel.Text = "Let's go claim SJ";
+                        EventTimer.Interval = 10000;
+                        await main.pf.sendSJClaim(cost);
+                    }
+                    if (PFStuff.SpaceStatus[0] == -1 || PFStuff.SpaceStatus[1] == -1)
+                    {
+                        main.weeklyEventLabel.Text = "Ready to start SJ ; gears : " + PFStuff.SpaceStatus[5].ToString() + "/" + cost.ToString();
+                        if (PFStuff.SpaceStatus[5] >= cost)
+                            await main.pf.sendSJUpgrade(toUpg);
+                        EventTimer.Interval = 60 * 1000;
+                        await main.pf.sendSJStart(0);
+                        main.weeklyEventLabel.Text = "SJ started";
+                    }
+                }
             }
         }
         async void CouponTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -406,15 +437,6 @@ namespace CQFollowerAutoclaimer
             CouponTimer.Interval = 8 * 60 * 60 * 1000; // 8h
             try
             {
-                /*var tweetList = GetTwitterFeeds();
-                string firstTweet = tweetList.First().Text.ToString();
-                if (tweetList.First().StatusID > TweetID) // there's a new tweet to parse !
-                {
-                    TweetCoupon = firstTweet.Substring(firstTweet.Length - 10);
-                    TweetID = tweetList.First().StatusID;
-                    await main.pf.sendCoupon(TweetCoupon);
-                    main.label141.setText("Last coupon detected : " + TweetCoupon);
-                }*/
                 using (var client = new HttpClient())
                 {
                     var values = new Dictionary<string, string> { { "cget", "" } };

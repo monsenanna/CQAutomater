@@ -385,6 +385,9 @@
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
+            this.weeklyEventLabel = new System.Windows.Forms.Label();
+            this.RecycleCountdownLabel = new System.Windows.Forms.Label();
+            this.label147 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -2145,7 +2148,6 @@
             this.doPvPHistoryCheckbox.TabIndex = 91;
             this.doPvPHistoryCheckbox.Text = "Enable PvP history";
             this.doPvPHistoryCheckbox.UseVisualStyleBackColor = true;
-            //this.doPvPHistoryCheckbox.CheckedChanged += new System.EventHandler(this.savePvPSettingsButton_Click);
             // 
             // pvpRankingSummary
             // 
@@ -3726,6 +3728,8 @@
             // 
             // tabPage8
             // 
+            this.tabPage8.Controls.Add(this.RecycleCountdownLabel);
+            this.tabPage8.Controls.Add(this.label147);
             this.tabPage8.Controls.Add(this.p6HeroCombo4);
             this.tabPage8.Controls.Add(this.p6HeroCombo3);
             this.tabPage8.Controls.Add(this.p6HeroCombo2);
@@ -3964,7 +3968,7 @@
             // ALCountdownLabel
             // 
             this.ALCountdownLabel.AutoSize = true;
-            this.ALCountdownLabel.Location = new System.Drawing.Point(299, 10);
+            this.ALCountdownLabel.Location = new System.Drawing.Point(263, 10);
             this.ALCountdownLabel.Name = "ALCountdownLabel";
             this.ALCountdownLabel.Size = new System.Drawing.Size(18, 13);
             this.ALCountdownLabel.TabIndex = 123;
@@ -3973,7 +3977,7 @@
             // label97
             // 
             this.label97.AutoSize = true;
-            this.label97.Location = new System.Drawing.Point(227, 10);
+            this.label97.Location = new System.Drawing.Point(191, 10);
             this.label97.Name = "label97";
             this.label97.Size = new System.Drawing.Size(67, 13);
             this.label97.TabIndex = 122;
@@ -4195,6 +4199,7 @@
             // 
             // tabPage9
             // 
+            this.tabPage9.Controls.Add(this.weeklyEventLabel);
             this.tabPage9.Controls.Add(this.doAutoDGCheckbox);
             this.tabPage9.Controls.Add(this.adventurePriority);
             this.tabPage9.Controls.Add(this.lotteryCount);
@@ -4565,6 +4570,34 @@
             this.AEIndicator.TabIndex = 40;
             this.AEIndicator.Text = "          ";
             // 
+            // weeklyEventLabel
+            // 
+            this.weeklyEventLabel.AutoSize = true;
+            this.weeklyEventLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.weeklyEventLabel.Location = new System.Drawing.Point(31, 364);
+            this.weeklyEventLabel.Name = "weeklyEventLabel";
+            this.weeklyEventLabel.Size = new System.Drawing.Size(91, 16);
+            this.weeklyEventLabel.TabIndex = 109;
+            this.weeklyEventLabel.Text = "Weekly Event : nothing to display";
+            // 
+            // RecycleCountdownLabel
+            // 
+            this.RecycleCountdownLabel.AutoSize = true;
+            this.RecycleCountdownLabel.Location = new System.Drawing.Point(420, 10);
+            this.RecycleCountdownLabel.Name = "RecycleCountdownLabel";
+            this.RecycleCountdownLabel.Size = new System.Drawing.Size(18, 13);
+            this.RecycleCountdownLabel.TabIndex = 148;
+            this.RecycleCountdownLabel.Text = "-/-";
+            // 
+            // label147
+            // 
+            this.label147.AutoSize = true;
+            this.label147.Location = new System.Drawing.Point(347, 10);
+            this.label147.Name = "label147";
+            this.label147.Size = new System.Drawing.Size(69, 13);
+            this.label147.TabIndex = 147;
+            this.label147.Text = "Next recycle:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4671,7 +4704,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private System.Windows.Forms.Label versionLabel;
+        public System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.Label DQIndicator;
         private System.Windows.Forms.Label chestIndicator;
         private System.Windows.Forms.Label PVPIndicator;
@@ -5022,6 +5055,9 @@
         internal System.Windows.Forms.ComboBox p6HeroCombo3;
         internal System.Windows.Forms.ComboBox p6HeroCombo2;
         internal System.Windows.Forms.ComboBox p6HeroCombo4;
+        public System.Windows.Forms.Label weeklyEventLabel;
+        private System.Windows.Forms.Label label147;
+        public System.Windows.Forms.Label RecycleCountdownLabel;
     }
 }
 
