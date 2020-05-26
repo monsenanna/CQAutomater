@@ -396,7 +396,8 @@ namespace CQFollowerAutoclaimer
                     }
                 }
                 main.AEIndicator.BackColor = Color.Green;
-                if(PFStuff.SpaceStatus[0] != -2)
+                //main.pf.logError("Event", "debug " + PFStuff.SpaceStatus[0].ToString());
+                if (PFStuff.SpaceStatus[0] != -2)
                 {
                     var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
                     //int toUpg = PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[3] && PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[4] ? 0 : PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[4] ? 1 : 2;
@@ -451,9 +452,10 @@ namespace CQFollowerAutoclaimer
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                main.label141.setText("Unable to connect to Twitter");
+                main.pf.logError("Coupon", "Catched error " + ex.Message);
+                main.label141.setText("Unable to send coupon");
             }
         }
 

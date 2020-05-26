@@ -90,6 +90,9 @@ namespace CQFollowerAutoclaimer
                 bool b = await main.pf.sendPVPFight(index);
                 if (!b)
                 { // remove from possible opponents
+                    main.pf.logError("PvP", "Fight impossible vs index " + PFStuff.nearbyPlayersIDs[index]+ " (nearbyPlayersIDs = " + JsonConvert.SerializeObject(PFStuff.nearbyPlayersIDs) + ")");
+                    if (PFStuff.nearbyPlayersIDs.Length < 2)
+                        return false;
                     List<string> list = new List<string>(PFStuff.nearbyPlayersIDs);
                     list.RemoveAt(index);
                     PFStuff.nearbyPlayersIDs = list.ToArray();
@@ -110,12 +113,13 @@ namespace CQFollowerAutoclaimer
             }
             catch (Exception ex)
             {
-                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                main.pf.logError("PvP", "Catched error " + ex.Message + " vs index " + PFStuff.nearbyPlayersIDs[index] + " (nearbyPlayersIDs = " + JsonConvert.SerializeObject(PFStuff.nearbyPlayersIDs) + ")");
+                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now + "\n\t" + "Error in AutoPvP" + "\n\t" + ex.Message);
                     sw.WriteLine(DateTime.Now + "\n\t" + "PFStuff.nearbyPlayersIDs" + "\n\t" + JsonConvert.SerializeObject(PFStuff.nearbyPlayersIDs));
                     sw.WriteLine(DateTime.Now + "\n\t" + "index" + "\n\t" + index.ToString());
-                }
+                }*/
                 return true;
             }
         }

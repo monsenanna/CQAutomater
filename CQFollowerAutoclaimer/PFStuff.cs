@@ -113,6 +113,7 @@ namespace CQFollowerAutoclaimer
 
         public Task<bool> addErrorToQueue(string err, string msg, DateTime dt)
         {
+            logQueue.Enqueue(() => sendLog(err + " " + msg), "ierr");
             try
             {
                 using (StreamWriter sw = new StreamWriter(Constants.ErrorLog, true))
@@ -1689,7 +1690,26 @@ namespace CQFollowerAutoclaimer
             }
         }
 
-
+        public async Task<bool> sendLog(string e)
+        {
+            try
+            {
+                var d = new Dictionary<string, string>();
+                d["p"] = userID.ToString();
+                d["e"] = e;
+                using (var client = new HttpClient())
+                {
+                    var values = new Dictionary<string, string> { { "ierr", JsonConvert.SerializeObject(d) } };
+                    var content = new FormUrlEncodedContent(values);
+                    var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                    var responseString = await response.Content.ReadAsStringAsync();
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return true;
+        }
         #endregion
     }
 }
