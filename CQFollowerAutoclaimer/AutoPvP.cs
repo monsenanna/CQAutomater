@@ -92,7 +92,7 @@ namespace CQFollowerAutoclaimer
                 { // remove from possible opponents
                     main.pf.logError("PvP", "Fight impossible vs index " + PFStuff.nearbyPlayersIDs[index]+ " (nearbyPlayersIDs = " + JsonConvert.SerializeObject(PFStuff.nearbyPlayersIDs) + ")");
                     if (PFStuff.nearbyPlayersIDs.Length < 2)
-                        return false;
+                        return true;
                     List<string> list = new List<string>(PFStuff.nearbyPlayersIDs);
                     list.RemoveAt(index);
                     PFStuff.nearbyPlayersIDs = list.ToArray();

@@ -915,8 +915,6 @@ namespace CQFollowerAutoclaimer
 
         public async Task<bool> sendPVPFight(int index)
         {
-            if (index == 0)
-                return false;
             battleResult = "";
             var request = new ExecuteCloudScriptRequest()
             {
