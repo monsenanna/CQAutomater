@@ -400,6 +400,8 @@ namespace CQFollowerAutoclaimer
                 if (PFStuff.SpaceStatus[0] != -2)
                 {
                     var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+                    // temp debug
+                    main.pf.logError("SJ", "we shouldn't be running SJ, wtf ? " + JsonConvert.SerializeObject(PFStuff.SpaceStatus));
                     //int toUpg = PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[3] && PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[4] ? 0 : PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[4] ? 1 : 2;
                     //int toUpg = PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[2] && PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[4] ? 1 : PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[4] ? 0 : 2;
                     int toUpg = 1;

@@ -91,8 +91,15 @@ namespace CQFollowerAutoclaimer
                 if (!b)
                 { // remove from possible opponents
                     main.pf.logError("PvP", "Fight impossible vs index " + PFStuff.nearbyPlayersIDs[index]+ " (nearbyPlayersIDs = " + JsonConvert.SerializeObject(PFStuff.nearbyPlayersIDs) + ")");
-                    if (PFStuff.nearbyPlayersIDs.Length < 2)
+                    if (PFStuff.nearbyPlayersIDs.Length < 3)
+                    {
+                        // rebuild leaderboard
+                        await Task.Delay(5000);
+                        int size = Math.Max(5, 2 * (int)Math.Max(main.playersAboveCount.Value + 4, main.playersBelowCount.Value + 5));
+                        await main.pf.getLeaderboard(size);
+                        await Task.Delay(5000);
                         return true;
+                    }
                     List<string> list = new List<string>(PFStuff.nearbyPlayersIDs);
                     list.RemoveAt(index);
                     PFStuff.nearbyPlayersIDs = list.ToArray();

@@ -1375,25 +1375,25 @@ namespace CQFollowerAutoclaimer
             if (statusTask.Error != null)
             {
                 logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
-                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now);
                     sw.WriteLine("\tFAILED Bid on hero " + (Constants.heroNames.Length > bidHeroID + 2 ? Constants.heroNames[bidHeroID + 2] : ("Unknown, ID: " + bidHeroID))
                         + " for: " + bidPrice + "UM.");
                     sw.WriteLine(statusTask.Error.ErrorMessage);
-                }
+                }*/
                 return false;
             }
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
                 logError("Cloud Script Error: bid", statusTask);
-                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now);
                     sw.WriteLine("\tFAILED Bid on hero " + (Constants.heroNames.Length > bidHeroID + 2 ? Constants.heroNames[bidHeroID + 2] : ("Unknown, ID: " + bidHeroID))
                         + " for: " + bidPrice + "UM.");
                     sw.WriteLine(statusTask.Result.FunctionResult.ToString());
-                }
+                }*/
                 return true;
             }
             else

@@ -67,6 +67,7 @@ namespace CQFollowerAutoclaimer
         }
         private async Task<bool> sendSolution(int[] lineup, CalcMode mode)
         {
+            await Task.Delay(5000);
             using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
                 sw.WriteLine(DateTime.Now + "\n\t" + "Debug DQFailedAttempts = " + DQFailedAttempts.ToString());
