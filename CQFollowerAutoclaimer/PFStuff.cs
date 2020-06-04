@@ -608,11 +608,11 @@ namespace CQFollowerAutoclaimer
                     userID = int.Parse(respString);
                 }
             }
-            catch (Exception webex)
+            catch (Exception ex)
             {
                 using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
-                    sw.WriteLine(DateTime.Now + "\n\t" + "Username Error : " + webex.Message);
+                    sw.WriteLine(DateTime.Now + "\n\t" + "Username Error : " + ex.Message);
                 }
                 username = null;
             }
@@ -1023,7 +1023,7 @@ namespace CQFollowerAutoclaimer
             }
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
-                logError("Cloud Script Error: Send DQ", statusTask);
+                logError("Cloud Script Error: Send DQ", JsonConvert.SerializeObject(statusTask));
                 return false;
             }
             else
@@ -1276,39 +1276,39 @@ namespace CQFollowerAutoclaimer
             }
         }
 
-        public async Task<bool> sendSJClaim(int nextCost)
+        public async Task<bool> sendSJClaim()
         {
-            var request = new ExecuteCloudScriptRequest()
+            try
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
-                FunctionName = "sjclaim"
-            };
-            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
-            if (statusTask.Error != null)
-            {
-                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
-                return false;
-            }
-            if (statusTask == null || statusTask.Result.FunctionResult == null)
-            {
-                return false;
-            }
-            else
-            {
-                try
+                var request = new ExecuteCloudScriptRequest()
                 {
-                    JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
-                    SpaceStatus[0] = (int)json["data"]["city"]["space"]["current"]["mission"];
-                    SpaceStatus[1] = Int32.Parse(json["data"]["city"]["space"]["current"]["timer"].ToString().Substring(0, json["data"]["city"]["space"]["current"]["timer"].ToString().Length - 3));
-                    SpaceStatus[5] = (int)json["data"]["city"]["space"]["gears"];
-                    Thread.Sleep(1);
-                }
-                catch
+                    RevisionSelection = CloudScriptRevisionOption.Live,
+                    FunctionName = "sjclaim"
+                };
+                var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+                if (statusTask.Error != null)
                 {
-                    await Task.Delay(1000);
+                    logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
                     return false;
                 }
-                return true;
+                if (statusTask == null || statusTask.Result.FunctionResult == null)
+                {
+                    return false;
+                }
+                else
+                {
+                        JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
+                        SpaceStatus[0] = (int)json["data"]["city"]["space"]["current"]["mission"];
+                        SpaceStatus[1] = Int32.Parse(json["data"]["city"]["space"]["current"]["timer"].ToString().Substring(0, json["data"]["city"]["space"]["current"]["timer"].ToString().Length - 3));
+                        SpaceStatus[5] = (int)json["data"]["city"]["space"]["gears"];
+                        Thread.Sleep(1);
+                    return true;
+                }
+            }
+            catch
+            {
+                await Task.Delay(1000);
+                return false;
             }
         }
 
@@ -1386,7 +1386,7 @@ namespace CQFollowerAutoclaimer
             }
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
-                logError("Cloud Script Error: bid", statusTask);
+                logError("Cloud Script Error: bid", JsonConvert.SerializeObject(statusTask));
                 /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now);
@@ -1404,6 +1404,8 @@ namespace CQFollowerAutoclaimer
                     sw.WriteLine("\tBid on hero " + (Constants.heroNames.Length > bidHeroID + 2 ? Constants.heroNames[bidHeroID + 2] : ("Unknown, ID: " + bidHeroID))
                         + " for: " + bidPrice + "UM.");
                 }
+                await Task.Delay(2000);
+                await getCurrencies();
                 return true;
             }
         }

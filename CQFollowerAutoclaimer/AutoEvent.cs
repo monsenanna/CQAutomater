@@ -397,37 +397,45 @@ namespace CQFollowerAutoclaimer
                 }
                 main.AEIndicator.BackColor = Color.Green;
                 //main.pf.logError("Event", "debug " + PFStuff.SpaceStatus[0].ToString());
-                if (PFStuff.SpaceStatus[0] != -2)
+                try
                 {
-                    var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-                    // temp debug
-                    main.pf.logError("SJ", "we shouldn't be running SJ, wtf ? " + JsonConvert.SerializeObject(PFStuff.SpaceStatus));
-                    //int toUpg = PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[3] && PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[4] ? 0 : PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[4] ? 1 : 2;
-                    //int toUpg = PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[2] && PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[4] ? 1 : PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[4] ? 0 : 2;
-                    int toUpg = 1;
-                    int cost = (int)(250 * Math.Pow(2, PFStuff.SpaceStatus[toUpg + 2]));
-                    if (PFStuff.SpaceStatus[0] > -1 && PFStuff.SpaceStatus[1] != -1 && PFStuff.SpaceStatus[1] >= (int)Timestamp)
+                    if (PFStuff.SpaceStatus[0] != -2)
                     {
-                        main.weeklyEventLabel.Text = "SJ running";
-                        if (PFStuff.SpaceStatus[1] < (int)Timestamp + 90)
+                        var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+                        // temp debug
+                        main.pf.logError("SJ", "we shouldn't be running SJ, wtf ? " + JsonConvert.SerializeObject(PFStuff.SpaceStatus));
+                        //int toUpg = PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[3] && PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[4] ? 0 : PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[4] ? 1 : 2;
+                        //int toUpg = PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[2] && PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[4] ? 1 : PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[4] ? 0 : 2;
+                        int toUpg = 1;
+                        int cost = (int)(250 * Math.Pow(2, PFStuff.SpaceStatus[toUpg + 2]));
+                        if (PFStuff.SpaceStatus[0] > -1 && PFStuff.SpaceStatus[1] != -1 && PFStuff.SpaceStatus[1] >= (int)Timestamp)
                         {
-                            EventTimer.Interval = (PFStuff.SpaceStatus[1] + 5 - (int)Timestamp) * 1000; // reduce timer
+                            main.weeklyEventLabel.Text = "SJ running";
+                            if (PFStuff.SpaceStatus[1] < (int)Timestamp + 90)
+                            {
+                                EventTimer.Interval = (PFStuff.SpaceStatus[1] + 5 - (int)Timestamp) * 1000; // reduce timer
+                            }
                         }
-                    } else if (PFStuff.SpaceStatus[0] > -1 && PFStuff.SpaceStatus[1] != -1 && PFStuff.SpaceStatus[1] <= (int)Timestamp)
-                    {
-                        main.weeklyEventLabel.Text = "Let's go claim SJ";
-                        EventTimer.Interval = 10000;
-                        await main.pf.sendSJClaim(cost);
+                        else if (PFStuff.SpaceStatus[0] > -1 && PFStuff.SpaceStatus[1] != -1 && PFStuff.SpaceStatus[1] <= (int)Timestamp)
+                        {
+                            main.weeklyEventLabel.Text = "Let's go claim SJ";
+                            EventTimer.Interval = 10000;
+                            await main.pf.sendSJClaim();
+                        }
+                        if (PFStuff.SpaceStatus[0] == -1 || PFStuff.SpaceStatus[1] == -1)
+                        {
+                            main.weeklyEventLabel.Text = "Ready to start SJ ; gears : " + PFStuff.SpaceStatus[5].ToString() + "/" + cost.ToString();
+                            if (PFStuff.SpaceStatus[5] >= cost)
+                                await main.pf.sendSJUpgrade(toUpg);
+                            EventTimer.Interval = 60 * 1000;
+                            await main.pf.sendSJStart(0);
+                            main.weeklyEventLabel.Text = "SJ started";
+                        }
                     }
-                    if (PFStuff.SpaceStatus[0] == -1 || PFStuff.SpaceStatus[1] == -1)
-                    {
-                        main.weeklyEventLabel.Text = "Ready to start SJ ; gears : " + PFStuff.SpaceStatus[5].ToString() + "/" + cost.ToString();
-                        if (PFStuff.SpaceStatus[5] >= cost)
-                            await main.pf.sendSJUpgrade(toUpg);
-                        EventTimer.Interval = 60 * 1000;
-                        await main.pf.sendSJStart(0);
-                        main.weeklyEventLabel.Text = "SJ started";
-                    }
+                }
+                catch (Exception ex)
+                {
+                    main.pf.logError("SJ exception", ex.Message);
                 }
             }
         }
