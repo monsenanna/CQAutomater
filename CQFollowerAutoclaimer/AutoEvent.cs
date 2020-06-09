@@ -32,6 +32,7 @@ namespace CQFollowerAutoclaimer
         {
             AppSettings ap = AppSettings.loadSettings();
             main.autoEvCheckbox.Checked = ap.autoEvEnabled ?? false;
+            main.doAutoFTCheckbox.Checked = ap.doAutoFT ?? false;
             main.doAutoDGCheckbox.Checked = ap.doAutoDG ?? false;
             main.doAutoLFCheckbox.Checked = ap.doAutoLF ?? false;
             main.doAutoKTCheckbox.Checked = ap.doAutoKT ?? false;
@@ -53,9 +54,26 @@ namespace CQFollowerAutoclaimer
                 }
                 PFStuff.getWebsiteData(main.KongregateId);
                 await main.pf.GetGameData();
-                EventTimer.Interval = 60 * 1000; // 60sec
+                EventTimer.Interval = 120 * 1000;
 
                 main.label73.setText("Flash : " + (PFStuff.FlashStatus == 1 ? "active today, sending history" : "not active today"));
+                if (PFStuff.FlashStatus == 1 && main.doAutoFTCheckbox.Checked)
+                {
+                    // autojoin flashes (feature under development)
+                    try
+                    {
+                        int fid = int.Parse(PFStuff.FlashCurrent["id"].ToString());
+                        if (PFStuff.FlashCurrent["joined"].ToString() != "True")
+                        {
+                            if(await main.pf.sendFlashRegister(fid))
+                                PFStuff.getWebsiteData(main.KongregateId);
+                        }
+                    }
+                    catch
+                    {
+                        main.pf.logError("flash", "error before sendFlashRegister " + JsonConvert.SerializeObject(PFStuff.FlashCurrent));
+                    }
+                }
                 main.label109.setText("EAS : " + (PFStuff.EASDay == 1 ? "active" : "not active") + " today");
                 if (PFStuff.DungStatus == -1)
                 {
@@ -396,10 +414,9 @@ namespace CQFollowerAutoclaimer
                     }
                 }
                 main.AEIndicator.BackColor = Color.Green;
-                //main.pf.logError("Event", "debug " + PFStuff.SpaceStatus[0].ToString());
                 try
                 {
-                    if (PFStuff.SpaceStatus[0] != -2)
+                    if (PFStuff.SpaceStatus[0] != -2) // todo : calc current Weekly Event
                     {
                         var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
                         // temp debug

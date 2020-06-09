@@ -52,6 +52,7 @@ namespace CQFollowerAutoclaimer
         public bool? warnManyHeroes { get; set; }
         public bool? usernameActivated { get; set; }
         public bool? doPVPHistory { get; set; }
+        public bool? doAutoFT { get; set; }
         public bool? doAutoDG { get; set; }
         public bool? doAutoLF { get; set; }
         public bool? doAutoKT { get; set; }

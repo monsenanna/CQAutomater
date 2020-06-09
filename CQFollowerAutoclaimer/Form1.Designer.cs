@@ -311,6 +311,8 @@
             this.auctionHero2Box = new System.Windows.Forms.CheckBox();
             this.auctionHero1Box = new System.Windows.Forms.CheckBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.RecycleCountdownLabel = new System.Windows.Forms.Label();
+            this.label147 = new System.Windows.Forms.Label();
             this.p6HeroCombo4 = new System.Windows.Forms.ComboBox();
             this.p6HeroCombo3 = new System.Windows.Forms.ComboBox();
             this.p6HeroCombo2 = new System.Windows.Forms.ComboBox();
@@ -352,6 +354,7 @@
             this.label80 = new System.Windows.Forms.Label();
             this.label76 = new System.Windows.Forms.Label();
             this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.weeklyEventLabel = new System.Windows.Forms.Label();
             this.doAutoDGCheckbox = new System.Windows.Forms.CheckBox();
             this.adventurePriority = new System.Windows.Forms.ComboBox();
             this.lotteryCount = new System.Windows.Forms.NumericUpDown();
@@ -385,9 +388,7 @@
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
             this.AEIndicator = new System.Windows.Forms.Label();
-            this.weeklyEventLabel = new System.Windows.Forms.Label();
-            this.RecycleCountdownLabel = new System.Windows.Forms.Label();
-            this.label147 = new System.Windows.Forms.Label();
+            this.doAutoFTCheckbox = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -3778,6 +3779,24 @@
             this.tabPage8.Text = "Level";
             this.tabPage8.UseVisualStyleBackColor = true;
             // 
+            // RecycleCountdownLabel
+            // 
+            this.RecycleCountdownLabel.AutoSize = true;
+            this.RecycleCountdownLabel.Location = new System.Drawing.Point(420, 10);
+            this.RecycleCountdownLabel.Name = "RecycleCountdownLabel";
+            this.RecycleCountdownLabel.Size = new System.Drawing.Size(18, 13);
+            this.RecycleCountdownLabel.TabIndex = 148;
+            this.RecycleCountdownLabel.Text = "-/-";
+            // 
+            // label147
+            // 
+            this.label147.AutoSize = true;
+            this.label147.Location = new System.Drawing.Point(347, 10);
+            this.label147.Name = "label147";
+            this.label147.Size = new System.Drawing.Size(69, 13);
+            this.label147.TabIndex = 147;
+            this.label147.Text = "Next recycle:";
+            // 
             // p6HeroCombo4
             // 
             this.p6HeroCombo4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
@@ -4199,6 +4218,7 @@
             // 
             // tabPage9
             // 
+            this.tabPage9.Controls.Add(this.doAutoFTCheckbox);
             this.tabPage9.Controls.Add(this.weeklyEventLabel);
             this.tabPage9.Controls.Add(this.doAutoDGCheckbox);
             this.tabPage9.Controls.Add(this.adventurePriority);
@@ -4227,6 +4247,16 @@
             this.tabPage9.TabIndex = 8;
             this.tabPage9.Text = "Events";
             this.tabPage9.UseVisualStyleBackColor = true;
+            // 
+            // weeklyEventLabel
+            // 
+            this.weeklyEventLabel.AutoSize = true;
+            this.weeklyEventLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.weeklyEventLabel.Location = new System.Drawing.Point(31, 364);
+            this.weeklyEventLabel.Name = "weeklyEventLabel";
+            this.weeklyEventLabel.Size = new System.Drawing.Size(204, 16);
+            this.weeklyEventLabel.TabIndex = 109;
+            this.weeklyEventLabel.Text = "Weekly Event : nothing to display";
             // 
             // doAutoDGCheckbox
             // 
@@ -4570,33 +4600,15 @@
             this.AEIndicator.TabIndex = 40;
             this.AEIndicator.Text = "          ";
             // 
-            // weeklyEventLabel
+            // doAutoFTCheckbox
             // 
-            this.weeklyEventLabel.AutoSize = true;
-            this.weeklyEventLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.weeklyEventLabel.Location = new System.Drawing.Point(31, 364);
-            this.weeklyEventLabel.Name = "weeklyEventLabel";
-            this.weeklyEventLabel.Size = new System.Drawing.Size(91, 16);
-            this.weeklyEventLabel.TabIndex = 109;
-            this.weeklyEventLabel.Text = "Weekly Event : nothing to display";
-            // 
-            // RecycleCountdownLabel
-            // 
-            this.RecycleCountdownLabel.AutoSize = true;
-            this.RecycleCountdownLabel.Location = new System.Drawing.Point(420, 10);
-            this.RecycleCountdownLabel.Name = "RecycleCountdownLabel";
-            this.RecycleCountdownLabel.Size = new System.Drawing.Size(18, 13);
-            this.RecycleCountdownLabel.TabIndex = 148;
-            this.RecycleCountdownLabel.Text = "-/-";
-            // 
-            // label147
-            // 
-            this.label147.AutoSize = true;
-            this.label147.Location = new System.Drawing.Point(347, 10);
-            this.label147.Name = "label147";
-            this.label147.Size = new System.Drawing.Size(69, 13);
-            this.label147.TabIndex = 147;
-            this.label147.Text = "Next recycle:";
+            this.doAutoFTCheckbox.AutoSize = true;
+            this.doAutoFTCheckbox.Location = new System.Drawing.Point(10, 16);
+            this.doAutoFTCheckbox.Name = "doAutoFTCheckbox";
+            this.doAutoFTCheckbox.Size = new System.Drawing.Size(15, 14);
+            this.doAutoFTCheckbox.TabIndex = 110;
+            this.doAutoFTCheckbox.UseVisualStyleBackColor = true;
+            this.doAutoFTCheckbox.CheckedChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
             // 
             // Form1
             // 
@@ -5058,6 +5070,7 @@
         public System.Windows.Forms.Label weeklyEventLabel;
         private System.Windows.Forms.Label label147;
         public System.Windows.Forms.Label RecycleCountdownLabel;
+        internal System.Windows.Forms.CheckBox doAutoFTCheckbox;
     }
 }
 

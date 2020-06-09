@@ -963,6 +963,7 @@ namespace CQFollowerAutoclaimer
         private void DoAutoLFCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             appSettings = AppSettings.loadSettings();
+            appSettings.doAutoFT = doAutoFTCheckbox.Checked;
             appSettings.doAutoDG = doAutoDGCheckbox.Checked;
             appSettings.doAutoLF = doAutoLFCheckbox.Checked;
             appSettings.doAutoKT = doAutoKTCheckbox.Checked;

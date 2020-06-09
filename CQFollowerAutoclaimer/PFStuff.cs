@@ -36,6 +36,7 @@ namespace CQFollowerAutoclaimer
         static public int[] heroProms;
         static public int emMultiplier;
         static public int FlashStatus;
+        static public JToken FlashCurrent;
         static public int FlashLastUpdate = 0;
         static public int EASDay;
         static public int DungStatus = 0;
@@ -46,9 +47,9 @@ namespace CQFollowerAutoclaimer
         static public int[] LuckyFollowersLocal = new int[13];
         static public List<string> LuckyFollowersSent = new List<string>();
         static public JArray KeysTower;
-        static public int CCDay;
+        static public int CCDay = -1;
         static public int CCDone;
-        static public string PGCards;
+        static public string PGCards = "no";
         static public int[] PGDeck;
         static public int[] PGPicked;
         static public int PGWon;
@@ -638,7 +639,8 @@ namespace CQFollowerAutoclaimer
                 if (json["flash"] != null)
                 {
                     FlashStatus = 1;
-                    if(doSometimes(20))
+                    FlashCurrent = json["flash"]["current"];
+                    if (doSometimes(20))
                         updateFlashHistory(json["flash"]);
                 }
                 else
@@ -733,7 +735,7 @@ namespace CQFollowerAutoclaimer
             {
                 using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
-                    sw.WriteLine(DateTime.Now + "\n\t" + "Error in PFStuff" + "\n\t" + ex.Message);
+                    sw.WriteLine(DateTime.Now + "\n\t" + "Error in PFStuff" + "\n\t" + ex.Message + " --- " + ex.StackTrace + " --- " + ex.Source);
                 }
             }
         }
@@ -1001,6 +1003,7 @@ namespace CQFollowerAutoclaimer
 
         public async Task<bool> sendDQSolution(int[] DQLineup)
         {
+            await Task.Delay(1000);
             using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
                 sw.WriteLine(DateTime.Now + "\n\t" + "sendDQSolution a : "+ JsonConvert.SerializeObject(DQLineup));
@@ -1031,12 +1034,14 @@ namespace CQFollowerAutoclaimer
                 JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
                 DQLevel = json["data"]["city"]["daily"]["lvl"].ToString();
                 DQResult = true;
+                await Task.Delay(1000);
                 return true;
             }
         }
 
         public async Task<bool> sendDungSolution(int[] DungLineup)
         {
+            await Task.Delay(1000);
             var request = new ExecuteCloudScriptRequest()
             {
                 RevisionSelection = CloudScriptRevisionOption.Live,
@@ -1059,6 +1064,49 @@ namespace CQFollowerAutoclaimer
                 //JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
                 //DQLevel = json["data"]["city"]["daily"]["lvl"].ToString();
                 //DQResult = true;
+                return true;
+            }
+        }
+
+        public async Task<bool> sendFlashRegister(int tid)
+        {
+            await Task.Delay(1000);
+            var responseString = "";
+            using (var client = new HttpClient())
+            {
+                Dictionary<int, int> a = new Dictionary<int, int>
+                {
+                    { 0, userID },
+                    { 1, tid },
+                    { 2, int.Parse(PFStuff.FlashCurrent["players"].ToString()) }
+                };
+                var values = new Dictionary<string, string> { { "gfla", JsonConvert.SerializeObject(a) } };
+                var content = new FormUrlEncodedContent(values);
+                var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                responseString = await response.Content.ReadAsStringAsync();
+                if (responseString.Length < 5)
+                    return false;
+            }
+            logError("Sending Flash lineup", JsonConvert.SerializeObject(getArray(responseString)) + "---" + JsonConvert.SerializeObject(FlashCurrent));
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Live,
+                FunctionName = "fregister",
+                FunctionParameter = new { setup = getArray(responseString), kid = kongID, tid }
+            };
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null)
+            {
+                return false;
+            }
+            else
+            {
+                await Task.Delay(4000);
                 return true;
             }
         }

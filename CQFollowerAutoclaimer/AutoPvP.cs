@@ -120,7 +120,7 @@ namespace CQFollowerAutoclaimer
             }
             catch (Exception ex)
             {
-                main.pf.logError("PvP", "Catched error " + ex.Message + " vs index " + PFStuff.nearbyPlayersIDs[index] + " (nearbyPlayersIDs = " + JsonConvert.SerializeObject(PFStuff.nearbyPlayersIDs) + ")");
+                main.pf.logError("PvP", "Catched error " + ex.Message + " vs index " + index.ToString() + " (" + PFStuff.nearbyPlayersIDs[index] + ") (nearbyPlayersIDs = " + JsonConvert.SerializeObject(PFStuff.nearbyPlayersIDs) + ")");
                 /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now + "\n\t" + "Error in AutoPvP" + "\n\t" + ex.Message);
