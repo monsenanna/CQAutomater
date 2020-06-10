@@ -1006,7 +1006,7 @@ namespace CQFollowerAutoclaimer
             await Task.Delay(1000);
             using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
-                sw.WriteLine(DateTime.Now + "\n\t" + "sendDQSolution a : "+ JsonConvert.SerializeObject(DQLineup));
+                //sw.WriteLine(DateTime.Now + "\n\t" + "sendDQSolution a : "+ JsonConvert.SerializeObject(DQLineup));
             }
             var request = new ExecuteCloudScriptRequest()
             {
@@ -1017,14 +1017,14 @@ namespace CQFollowerAutoclaimer
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
             using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
-                sw.WriteLine(DateTime.Now + "\n\t" + "sendDQSolution b : " + JsonConvert.SerializeObject(statusTask));
+                //sw.WriteLine(DateTime.Now + "\n\t" + "sendDQSolution b : " + JsonConvert.SerializeObject(statusTask));
             }
             if (statusTask.Error != null)
             {
                 logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
                 return false;
             }
-            if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
+            if (statusTask.Result == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
                 logError("Cloud Script Error: Send DQ", JsonConvert.SerializeObject(statusTask));
                 return false;
@@ -1422,7 +1422,7 @@ namespace CQFollowerAutoclaimer
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
             if (statusTask.Error != null)
             {
-                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                logError("sendBid --- " + statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
                 /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now);
@@ -1434,7 +1434,7 @@ namespace CQFollowerAutoclaimer
             }
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
-                logError("Cloud Script Error: bid", JsonConvert.SerializeObject(statusTask));
+                //logError("Cloud Script Error: bid", JsonConvert.SerializeObject(statusTask));
                 /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now);
@@ -1448,9 +1448,7 @@ namespace CQFollowerAutoclaimer
             {
                 using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
-                    sw.WriteLine(DateTime.Now);
-                    sw.WriteLine("\tBid on hero " + (Constants.heroNames.Length > bidHeroID + 2 ? Constants.heroNames[bidHeroID + 2] : ("Unknown, ID: " + bidHeroID))
-                        + " for: " + bidPrice + "UM.");
+                    sw.WriteLine(DateTime.Now + "\tBid on hero " + (Constants.heroNames.Length > bidHeroID + 2 ? Constants.heroNames[bidHeroID + 2] : ("Unknown, ID: " + bidHeroID)) + " for: " + bidPrice + "UM.");
                 }
                 await Task.Delay(2000);
                 await getCurrencies();
@@ -1745,6 +1743,7 @@ namespace CQFollowerAutoclaimer
                 var d = new Dictionary<string, string>();
                 d["p"] = userID.ToString();
                 d["e"] = e;
+                d["v"] = Constants.version;
                 using (var client = new HttpClient())
                 {
                     var values = new Dictionary<string, string> { { "ierr", JsonConvert.SerializeObject(d) } };

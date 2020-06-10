@@ -6,6 +6,9 @@ CQAutomater is a tool that runs in the background and automatically claims your 
 Since v4.5, CQA has been collecting data to help players browse history and do some statistics.
 It's all here : http://dcouv.fr/cq.php
 
+# v 4.7.5
+Archers and Eternals.
+
 # v 4.7.4b
 Flash autojoin (betatest) : if you check Event/Flash, CQA will try sending a random grid to spend your daily charges. You will only be allowed to join if player count is between 20 and 50, and some flashes (different for each player) won't let you in, so that all autojoiners don't gather in the first 8 flashes.
 

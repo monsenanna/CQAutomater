@@ -161,14 +161,16 @@ namespace CQFollowerAutoclaimer
             if (temp.ToList().Count > 0)
             {
                 await main.getData();
+                PFStuff.getWebsiteData(main.KongregateId);
                 foreach (Auction au in temp.ToList())
                 {
                     if (au.bidderName != PFStuff.username && (int)Math.Ceiling(au.currentPrice * 1.1) <= au.maxPrice && (au.maxLevel - 1) >= PFStuff.heroLevels[au.heroID] && main.pf.universeMarbles > (int)Math.Ceiling(au.currentPrice * 1.1))
                     { 
                         placeBid(au.heroID, (int)Math.Ceiling(au.currentPrice * 1.1));
-                        loadAuctions(true);
                     }
                 }
+                await Task.Delay(5000);
+                loadAuctions(true);
             }
             if (times.Count > 0)
                 return Math.Max(8000, Math.Min(times.Min(), 1 * 60 * 1000));

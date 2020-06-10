@@ -8,7 +8,7 @@ namespace CQFollowerAutoclaimer
 {
     static class Constants
     {
-        public static string version = "v4.7.4b";
+        public static string version = "v4.7.5";
         public static string ErrorLog = "ErrorLog.txt";
         public static DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         public enum prices
@@ -27,6 +27,7 @@ namespace CQFollowerAutoclaimer
         };
 
         public static string[] names = {
+            "arathon","sylnir","raelan","jalrok","sagittaria","will","merida","sully",
             "john","valentina","alan","yuri","ignis","caeli","silex","pluvia","hetfield","lars","kirklee","rob","kingpyros","youngpyros","babypyros","egg","kilkenny","annie",
             "mechamary","hans","yetithepostman","galla","yisus","adam","emily","adrian","casper","higgs","boson","electra","newt","retia","myrmillo","scinda","thrace","bornag",
             "lili","achocoknight","chocoknight","sharkjellyn","mrcotton","smith","acrei","crei","catzar","cathos","tetra","awanderer","minerva","helga","ophelia","agatha",
@@ -68,7 +69,8 @@ namespace CQFollowerAutoclaimer
             "Amahatma", "Ajade", "Aedana", "Adybbuk", "Willow", "Gizmo", "Daisy", "Thumper", "Bortles", "Murphy", "Nerissa", "Mother", "Anerissa", "Agatha", "Ophelia",
             "Helga", "Minerva", "Awanderer", "Tetra", "Cathos", "Catzar", "Crei", "Acrei", "Smith", "Mrcotton", "Sharkjellyn", "Chocoknight", "Achocoknight", "Lili", "Bornag",
             "Thrace","Scinda","Myrmillo","Retia","Newt","Electra","Boson","Higgs","Casper","Adrian","Emily","Adam","Yisus","Galla","Yetithepostman","Hans","Mechamary","Annie","Kilkenny",
-            "Mysteriousegg","Babypyros","Youngpyros","Kingpyros","Rob","Kirklee","Lars","Hetfield","Pluvia","Silex","Caeli","Ignis","Yuri","Alan","Valentina","John"
+            "Mysteriousegg","Babypyros","Youngpyros","Kingpyros","Rob","Kirklee","Lars","Hetfield","Pluvia","Silex","Caeli","Ignis","Yuri","Alan","Valentina","John",
+            "Sully","Merida","Will","Sagittaria","Jalrok","Raelan","Sylnir","Arathon"
         };
 
         public static prices[] heroPrices = new prices[] {
@@ -114,6 +116,8 @@ namespace CQFollowerAutoclaimer
             prices.LEG, prices.LEG, prices.LEG, prices.ASCEND, // Rockers (S10)
             prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // St Georges dragons
             prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Astronauts
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Archers
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Eternals
         };
 
         public static string[] pranaHeroes = new string[] {
