@@ -115,6 +115,7 @@ namespace CQFollowerAutoclaimer
             if (pf != null)
             {
                 taskQueue.Enqueue(() => pf.getCQAVersion(this), "cqav");
+                pf.getUsername(KongregateId);
                 auctionHouse = new AuctionHouse(this);
                 autoLevel = new AutoLevel(this);
                 autoChests = new AutoChests(this);
@@ -122,7 +123,6 @@ namespace CQFollowerAutoclaimer
                 autopvp = new AutoPvP(this);
                 autoWB = new AutoWB(this);
                 autoEvent = new AutoEvent(this);
-                pf.getUsername(KongregateId);
                 startTimers();
                 countdownsTimer.Interval = 1000;
                 countdownsTimer.Elapsed += countdownsTimer_Elapsed;
@@ -420,6 +420,12 @@ namespace CQFollowerAutoclaimer
         {
             DateTime time = epoch.AddMilliseconds(Convert.ToInt64(t)).ToLocalTime();
             return time;
+        }
+
+        static public double getTimestamp(DateTime dt)
+        {
+            Int32 unixTimestamp = (Int32)(dt.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            return (double)unixTimestamp;
         }
 
         public DateTime[] getTimes(string t)

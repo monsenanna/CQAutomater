@@ -48,7 +48,6 @@ namespace CQFollowerAutoclaimer
 
         async void DQTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            await main.pf.getCQAVersion(main);
             if (main.DQSoundBox.Checked)
             {
                 using (var soundPlayer = new SoundPlayer(@"c:\Windows\Media\Windows Notify.wav"))

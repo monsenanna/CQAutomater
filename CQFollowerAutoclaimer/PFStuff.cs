@@ -273,15 +273,23 @@ namespace CQFollowerAutoclaimer
                 }
                 try
                 {
-                    if (json["data"]["city"]["space"]["current"] != null)
+                    switch (getWeeklyEvent())
                     {
-                        SpaceStatus[0] = (int)json["data"]["city"]["space"]["current"]["mission"];
-                        SpaceStatus[1] = Int32.Parse(json["data"]["city"]["space"]["current"]["timer"].ToString().Substring(0, json["data"]["city"]["space"]["current"]["timer"].ToString().Length - 3));
+                        case "Space Journey":
+                            if (json["data"]["city"]["space"]["current"] != null)
+                            {
+                                SpaceStatus[0] = (int)json["data"]["city"]["space"]["current"]["mission"];
+                                SpaceStatus[1] = Int32.Parse(json["data"]["city"]["space"]["current"]["timer"].ToString().Substring(0, json["data"]["city"]["space"]["current"]["timer"].ToString().Length - 3));
+                            }
+                            SpaceStatus[2] = (int)json["data"]["city"]["space"]["upgrades"]["engine"];
+                            SpaceStatus[3] = (int)json["data"]["city"]["space"]["upgrades"]["collector"];
+                            SpaceStatus[4] = (int)json["data"]["city"]["space"]["upgrades"]["radar"];
+                            SpaceStatus[5] = (int)json["data"]["city"]["space"]["gears"];
+                            break;
+                        default:
+                            SpaceStatus[0] = -2;
+                            break;
                     }
-                    SpaceStatus[2] = (int)json["data"]["city"]["space"]["upgrades"]["engine"];
-                    SpaceStatus[3] = (int)json["data"]["city"]["space"]["upgrades"]["collector"];
-                    SpaceStatus[4] = (int)json["data"]["city"]["space"]["upgrades"]["radar"];
-                    SpaceStatus[5] = (int)json["data"]["city"]["space"]["gears"];
                 }
                 catch
                 {
@@ -319,6 +327,21 @@ namespace CQFollowerAutoclaimer
             if (doit < pct)
                 return true;
             return false;
+        }
+
+        public static string getWeeklyEvent()
+        {
+            double day = Math.Floor(Form1.getTimestamp(DateTime.UtcNow) / 86400);
+            Dictionary<int, string> eventLoop = new Dictionary<int, string>
+                {
+                    { 0, "No event" },
+                    { 1, "No event" },
+                    { 2, "No event" },
+                    { 3, "Space Journey" },
+                    { 4, "No event" },
+                    { 5, "G.A.M.E.S" }
+                };
+            return eventLoop[(int)((Math.Ceiling((day - 18379 + 1) / 7) - 1) % eventLoop.Count)];
         }
 
         public async Task<bool> updatePVPHistory(JToken json)
@@ -1740,6 +1763,8 @@ namespace CQFollowerAutoclaimer
         {
             try
             {
+                if(userID == 0)
+                    return true;
                 var d = new Dictionary<string, string>();
                 d["p"] = userID.ToString();
                 d["e"] = e;
