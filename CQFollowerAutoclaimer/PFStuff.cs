@@ -783,7 +783,7 @@ namespace CQFollowerAutoclaimer
             {
                 using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
-                    sw.WriteLine(DateTime.Now + "\n\t" + ex.Message);
+                    sw.WriteLine(DateTime.Now + "\n\t" + ex.Message + " --- " + ex.StackTrace);
                 }
                 return false;
             }
