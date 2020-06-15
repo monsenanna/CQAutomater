@@ -664,7 +664,7 @@ namespace CQFollowerAutoclaimer
                 {
                     FlashStatus = 1;
                     FlashCurrent = json["flash"]["current"];
-                    if (doSometimes(20))
+                    if (doSometimes(90))
                         updateFlashHistory(json["flash"]);
                 }
                 else
@@ -771,23 +771,24 @@ namespace CQFollowerAutoclaimer
             {
                 var d = json["history"][json.Count() - 1]["date"].ToString();
                 d = d.Substring(0, d.Length - 3);
-                if (int.Parse(d) <= FlashLastUpdate)
-                    return true;
+                //if (int.Parse(d) <= FlashLastUpdate)
+                    //return true;
                 using (var client = new HttpClient())
                 {
-                    var values = new Dictionary<string, string> { { "ufla", json.ToString() } };
-                    var content = new FormUrlEncodedContent(values);
-                    _ = Task.Run(() => client.PostAsync("http://dcouv.fr/cq.php", content));
+                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                    {
+                        string jc = LZString.compressToEncodedURIComponent(json.ToString());
+                        var values = new Dictionary<string, string> { { "uflc", jc } };
+                        var content = new FormUrlEncodedContent(values);
+                        var r = Task.Run(() => client.PostAsync("http://dcouv.fr/cq.php", content));
+                        sw.WriteLine(DateTime.Now + "\n\t" + r.Result);
+                    }
                     FlashLastUpdate = int.Parse(d) - 60 * 60 * 8; // 8h before
                 }
             }
             catch (Exception ex)
             {
                 logError("updateFlashHistory ", ex.Message + " --- " + ex.StackTrace);
-                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                {
-                    sw.WriteLine(DateTime.Now + "\n\t" + ex.Message + " --- " + ex.StackTrace);
-                }*/
                 return false;
             }
             return true;
