@@ -866,7 +866,9 @@ namespace CQFollowerAutoclaimer
                     var responseString = await response.Content.ReadAsStringAsync();
                     if (responseString == "1")
                         f.versionLabel.ForeColor = System.Drawing.Color.Red;
-                    return responseString == "0" ? true : false;
+                    else
+                        f.versionLabel.ForeColor = System.Drawing.Color.DarkGreen;
+                    return responseString == "0";
                 }
                 catch
                 {
@@ -1110,7 +1112,7 @@ namespace CQFollowerAutoclaimer
                 if (responseString.Length < 5)
                     return false;
             }
-            logError("Sending Flash lineup", JsonConvert.SerializeObject(getArray(responseString)) + "---" + JsonConvert.SerializeObject(FlashCurrent));
+            logError("Sending Flash lineup", responseString + " --- " + JsonConvert.SerializeObject(FlashCurrent));
             var request = new ExecuteCloudScriptRequest()
             {
                 RevisionSelection = CloudScriptRevisionOption.Live,

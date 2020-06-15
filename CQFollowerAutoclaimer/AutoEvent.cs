@@ -69,9 +69,9 @@ namespace CQFollowerAutoclaimer
                                 PFStuff.getWebsiteData(main.KongregateId);
                         }
                     }
-                    catch
+                    catch(Exception ex)
                     {
-                        main.pf.logError("flash", "error before sendFlashRegister " + JsonConvert.SerializeObject(PFStuff.FlashCurrent));
+                        main.pf.logError("flash", "error before sendFlashRegister " + ex.Message + " --- " + JsonConvert.SerializeObject(PFStuff.FlashCurrent));
                     }
                 }
                 main.label109.setText("EAS : " + (PFStuff.EASDay == 1 ? "active" : "not active") + " today");
