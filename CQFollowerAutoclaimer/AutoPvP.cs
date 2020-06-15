@@ -90,7 +90,7 @@ namespace CQFollowerAutoclaimer
                 bool b = await main.pf.sendPVPFight(index);
                 if (!b)
                 { // remove from possible opponents
-                    main.pf.logError("PvP", "Fight impossible vs index " + PFStuff.nearbyPlayersIDs[index]+ " (nearbyPlayersIDs = " + JsonConvert.SerializeObject(PFStuff.nearbyPlayersIDs) + ")");
+                    PFStuff.logError("PvP", "Fight impossible vs index " + PFStuff.nearbyPlayersIDs[index]+ " (nearbyPlayersIDs = " + JsonConvert.SerializeObject(PFStuff.nearbyPlayersIDs) + ")");
                     if (PFStuff.nearbyPlayersIDs.Length < 3)
                     {
                         // rebuild leaderboard
@@ -120,7 +120,7 @@ namespace CQFollowerAutoclaimer
             }
             catch (Exception ex)
             {
-                main.pf.logError("PvP", "Catched error " + ex.Message + " vs index " + index.ToString() + " (" + PFStuff.nearbyPlayersIDs[index] + ") (nearbyPlayersIDs = " + JsonConvert.SerializeObject(PFStuff.nearbyPlayersIDs) + ")");
+                PFStuff.logError("PvP", "Catched error " + ex.Message + " vs index " + index.ToString() + " (" + PFStuff.nearbyPlayersIDs[index] + ") (nearbyPlayersIDs = " + JsonConvert.SerializeObject(PFStuff.nearbyPlayersIDs) + ")");
                 /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now + "\n\t" + "Error in AutoPvP" + "\n\t" + ex.Message);

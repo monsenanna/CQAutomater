@@ -93,7 +93,7 @@ namespace CQFollowerAutoclaimer
         static public bool WBchanged = false;
         static public JArray auctionData;
 
-        TaskQueue logQueue = new TaskQueue();
+        static public TaskQueue logQueue = new TaskQueue();
         static public AppSettings ap = AppSettings.loadSettings();
 
         public PFStuff(string t, string kid)
@@ -112,9 +112,9 @@ namespace CQFollowerAutoclaimer
             return result;
         }
 
-        public Task<bool> addErrorToQueue(string err, string msg, DateTime dt)
+        public static Task<bool> addErrorToQueue(string err, string msg, DateTime dt)
         {
-            logQueue.Enqueue(() => sendLog(err + " " + msg), "ierr");
+            logQueue.Enqueue(() => PFStuff.sendLog(err + " " + msg), "ierr");
             try
             {
                 using (StreamWriter sw = new StreamWriter(Constants.ErrorLog, true))
@@ -130,7 +130,7 @@ namespace CQFollowerAutoclaimer
             }
         }
 
-        public void logError(string err, string msg)
+        public static void logError(string err, string msg)
         {
             logQueue.Enqueue(() => addErrorToQueue(err, msg, DateTime.Now), "log");
         }
@@ -438,10 +438,11 @@ namespace CQFollowerAutoclaimer
             }
             catch (Exception ex)
             {
-                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                logError("updateHeroPool ", ex.Message + " --- " + ex.StackTrace);
+                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now + "\n\t" + "updateHeroPool Error : " + ex.Message);
-                }
+                }*/
                 return false;
             }
         }
@@ -756,10 +757,11 @@ namespace CQFollowerAutoclaimer
             }
             catch (Exception ex)
             {
-                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                logError("getWebsiteData ", ex.Message + " --- " + ex.StackTrace);
+                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now + "\n\t" + "Error in PFStuff" + "\n\t" + ex.Message + " --- " + ex.StackTrace + " --- " + ex.Source);
-                }
+                }*/
             }
         }
 
@@ -781,10 +783,11 @@ namespace CQFollowerAutoclaimer
             }
             catch (Exception ex)
             {
-                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                logError("updateFlashHistory ", ex.Message + " --- " + ex.StackTrace);
+                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now + "\n\t" + ex.Message + " --- " + ex.StackTrace);
-                }
+                }*/
                 return false;
             }
             return true;
@@ -1761,7 +1764,7 @@ namespace CQFollowerAutoclaimer
             }
         }
 
-        public async Task<bool> sendLog(string e)
+        public static async Task<bool> sendLog(string e)
         {
             try
             {

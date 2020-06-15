@@ -71,7 +71,7 @@ namespace CQFollowerAutoclaimer
                     }
                     catch(Exception ex)
                     {
-                        main.pf.logError("flash", "error before sendFlashRegister " + ex.Message + " --- " + JsonConvert.SerializeObject(PFStuff.FlashCurrent));
+                        PFStuff.logError("flash", "error before sendFlashRegister " + ex.Message + " --- " + JsonConvert.SerializeObject(PFStuff.FlashCurrent));
                     }
                 }
                 main.label109.setText("EAS : " + (PFStuff.EASDay == 1 ? "active" : "not active") + " today");
@@ -450,7 +450,7 @@ namespace CQFollowerAutoclaimer
                 }
                 catch (Exception ex)
                 {
-                    main.pf.logError("SJ exception", ex.Message);
+                    PFStuff.logError("SJ exception", ex.Message);
                 }
             }
         }
@@ -480,7 +480,7 @@ namespace CQFollowerAutoclaimer
             }
             catch(Exception ex)
             {
-                main.pf.logError("Coupon", "Catched error " + ex.Message);
+                PFStuff.logError("Coupon", "Catched error " + ex.Message);
                 main.label141.setText("Unable to send coupon");
             }
         }
