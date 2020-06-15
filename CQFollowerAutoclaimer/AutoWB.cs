@@ -281,8 +281,8 @@ namespace CQFollowerAutoclaimer
                                 if (dr == DialogResult.Yes && !main.taskQueue.Contains("WB")) // enqueue new attacks only if there are no attacks in queue already
                                 {
                                     DateTime dt = TimeZoneInfo.ConvertTimeToUtc(Form1.getTime(PFStuff.GetDataTime));
-                                    //main.pf.logError("wb", "utc : " + dt.ToString());
-                                    if (PFStuff.FlashStatus != 1 || dt.Hour < 16) // don't waste just before EAS day
+                                    //PFStuff.logError("wb", "pfs : " + PFStuff.FlashStatus.ToString() + " - utc : " + dt.Hour.ToString());
+                                    if (PFStuff.FlashStatus != 1 || dt.Hour < 12) // don't waste just before EAS day
                                     {
                                         main.taskQueue.Enqueue(() => fightWB(lineup), "WB");
                                     }

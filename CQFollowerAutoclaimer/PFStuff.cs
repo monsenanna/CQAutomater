@@ -664,7 +664,7 @@ namespace CQFollowerAutoclaimer
                 {
                     FlashStatus = 1;
                     FlashCurrent = json["flash"]["current"];
-                    if (doSometimes(90))
+                    if (doSometimes(30))
                         updateFlashHistory(json["flash"]);
                 }
                 else
@@ -758,10 +758,6 @@ namespace CQFollowerAutoclaimer
             catch (Exception ex)
             {
                 logError("getWebsiteData ", ex.Message + " --- " + ex.StackTrace);
-                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                {
-                    sw.WriteLine(DateTime.Now + "\n\t" + "Error in PFStuff" + "\n\t" + ex.Message + " --- " + ex.StackTrace + " --- " + ex.Source);
-                }*/
             }
         }
 
