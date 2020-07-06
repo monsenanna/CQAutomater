@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
 using System.Timers;
 using System.Media;
 using System.IO;
@@ -64,9 +62,10 @@ namespace CQFollowerAutoclaimer
                 await main.getData();
             }
         }
+
         private async Task<bool> sendSolution(int[] lineup, CalcMode mode)
         {
-            await Task.Delay(5000);
+            await Task.Delay(2000);
             using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
                 sw.WriteLine(DateTime.Now + "\n\t" + "Debug DQFailedAttempts = " + DQFailedAttempts.ToString());
@@ -139,6 +138,7 @@ namespace CQFollowerAutoclaimer
                     }
                 }
             }
+            await Task.Delay(2000);
             return true;
         }
 
@@ -225,7 +225,7 @@ namespace CQFollowerAutoclaimer
             await main.pf.getWBData(main.KongregateId);
             main.calcStatus.SynchronizedInvoke(() => main.calcStatus.Text = "Calc finished");
             nextDQTime = Form1.getTime(PFStuff.DQTime);
-            DQTimer.Interval = int.Parse(PFStuff.DQLevel) < 2 ? 300000 : (nextDQTime < DateTime.Now && main.DQCalcBox.Checked) ? 4000 : Math.Max(4000, (nextDQTime - DateTime.Now).TotalMilliseconds);
+            DQTimer.Interval = int.Parse(PFStuff.DQLevel) < 2 ? 300000 : (nextDQTime < DateTime.Now && main.DQCalcBox.Checked) ? 4000 : Math.Max(4000, (nextDQTime - DateTime.Now).TotalMilliseconds + 20000);
             main.DQLevelLabel.SynchronizedInvoke(() => main.DQLevelLabel.Text = PFStuff.DQLevel);
             main.DQTimeLabel.SynchronizedInvoke(() => main.DQTimeLabel.Text = nextDQTime.ToString());
 

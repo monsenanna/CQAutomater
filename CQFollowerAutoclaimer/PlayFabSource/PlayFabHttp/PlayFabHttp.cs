@@ -113,7 +113,13 @@ namespace PlayFab.Internal
         {
             if (PlayFabSettings.TitleId == null)
                 throw new Exception("You must set your titleId before making an api call");
-            return await _http.DoPost(urlPath, request, authType, authKey, extraHeaders);
+            var r = await _http.DoPost(urlPath, request, authType, authKey, extraHeaders);
+            if(r.GetType() == typeof(PlayFabError))
+            {
+                await Task.Delay(2000);
+                r = await _http.DoPost(urlPath, request, authType, authKey, extraHeaders);
+            }
+            return r;
         }
     }
 }

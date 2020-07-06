@@ -64,6 +64,9 @@ namespace CQFollowerAutoclaimer
         public int? optAutoLO { get; set; }
         public string[] heroesToProm6 { get; set; }
         public int? calcTimeLimit { get; set; }
+        public bool? autoWEvEnabled { get; set; }
+        public int? sjUpgrade { get; set; }
+        public string adminPassword { get; set; }
 
         public static AppSettings loadSettings()
         {

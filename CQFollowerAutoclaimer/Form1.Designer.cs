@@ -354,7 +354,7 @@
             this.label80 = new System.Windows.Forms.Label();
             this.label76 = new System.Windows.Forms.Label();
             this.tabPage9 = new System.Windows.Forms.TabPage();
-            this.weeklyEventLabel = new System.Windows.Forms.Label();
+            this.doAutoFTCheckbox = new System.Windows.Forms.CheckBox();
             this.doAutoDGCheckbox = new System.Windows.Forms.CheckBox();
             this.adventurePriority = new System.Windows.Forms.ComboBox();
             this.lotteryCount = new System.Windows.Forms.NumericUpDown();
@@ -366,7 +366,7 @@
             this.doAutoLFCheckbox = new System.Windows.Forms.CheckBox();
             this.label145 = new System.Windows.Forms.Label();
             this.label141 = new System.Windows.Forms.Label();
-            this.autoEvCheckbox = new System.Windows.Forms.CheckBox();
+            this.autoDEvCheckbox = new System.Windows.Forms.CheckBox();
             this.label133 = new System.Windows.Forms.Label();
             this.label126 = new System.Windows.Forms.Label();
             this.label125 = new System.Windows.Forms.Label();
@@ -375,6 +375,11 @@
             this.label122 = new System.Windows.Forms.Label();
             this.label109 = new System.Windows.Forms.Label();
             this.label73 = new System.Windows.Forms.Label();
+            this.tabPage10 = new System.Windows.Forms.TabPage();
+            this.autoWEvCheckbox = new System.Windows.Forms.CheckBox();
+            this.label146 = new System.Windows.Forms.Label();
+            this.sjUpgrade = new System.Windows.Forms.NumericUpDown();
+            this.weeklyEventLabel = new System.Windows.Forms.Label();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.saveSettingsToFileButton = new System.Windows.Forms.Button();
             this.heroesToClipboardButton = new System.Windows.Forms.Button();
@@ -387,8 +392,8 @@
             this.ah2Indicator = new System.Windows.Forms.Label();
             this.ah3Indicator = new System.Windows.Forms.Label();
             this.ALIndicator = new System.Windows.Forms.Label();
-            this.AEIndicator = new System.Windows.Forms.Label();
-            this.doAutoFTCheckbox = new System.Windows.Forms.CheckBox();
+            this.ADEIndicator = new System.Windows.Forms.Label();
+            this.AWEIndicator = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -453,6 +458,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pranaBankCount)).BeginInit();
             this.tabPage9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lotteryCount)).BeginInit();
+            this.tabPage10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sjUpgrade)).BeginInit();
             this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -488,7 +495,7 @@
             // versionLabel
             // 
             this.versionLabel.AutoSize = true;
-            this.versionLabel.Location = new System.Drawing.Point(465, 9);
+            this.versionLabel.Location = new System.Drawing.Point(525, 9);
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(22, 13);
             this.versionLabel.TabIndex = 32;
@@ -654,7 +661,7 @@
             this.tabPage5.Controls.Add(this.DOYHA1);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(502, 438);
+            this.tabPage5.Size = new System.Drawing.Size(562, 438);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "WB";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -2135,7 +2142,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(502, 438);
+            this.tabPage4.Size = new System.Drawing.Size(562, 438);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "PvP";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -2161,7 +2168,7 @@
             // 
             // savePvPSettingsButton
             // 
-            this.savePvPSettingsButton.Location = new System.Drawing.Point(163, 232);
+            this.savePvPSettingsButton.Location = new System.Drawing.Point(224, 232);
             this.savePvPSettingsButton.Name = "savePvPSettingsButton";
             this.savePvPSettingsButton.Size = new System.Drawing.Size(117, 25);
             this.savePvPSettingsButton.TabIndex = 89;
@@ -2193,7 +2200,7 @@
             // 
             this.PvPLog.Location = new System.Drawing.Point(3, 263);
             this.PvPLog.Name = "PvPLog";
-            this.PvPLog.Size = new System.Drawing.Size(433, 168);
+            this.PvPLog.Size = new System.Drawing.Size(556, 168);
             this.PvPLog.TabIndex = 18;
             this.PvPLog.Text = "";
             // 
@@ -2295,14 +2302,14 @@
             this.tabPage3.Controls.Add(this.label23);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(502, 438);
+            this.tabPage3.Size = new System.Drawing.Size(562, 438);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Chests";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // saveChestSettingsButton
             // 
-            this.saveChestSettingsButton.Location = new System.Drawing.Point(166, 232);
+            this.saveChestSettingsButton.Location = new System.Drawing.Point(227, 232);
             this.saveChestSettingsButton.Name = "saveChestSettingsButton";
             this.saveChestSettingsButton.Size = new System.Drawing.Size(110, 25);
             this.saveChestSettingsButton.TabIndex = 89;
@@ -2431,7 +2438,7 @@
             // 
             this.ChestLog.Location = new System.Drawing.Point(3, 263);
             this.ChestLog.Name = "ChestLog";
-            this.ChestLog.Size = new System.Drawing.Size(434, 169);
+            this.ChestLog.Size = new System.Drawing.Size(556, 169);
             this.ChestLog.TabIndex = 19;
             this.ChestLog.Text = "";
             // 
@@ -2526,7 +2533,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(502, 438);
+            this.tabPage2.Size = new System.Drawing.Size(562, 438);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "DQ";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -2587,7 +2594,7 @@
             // 
             // saveDQSettingsButton
             // 
-            this.saveDQSettingsButton.Location = new System.Drawing.Point(149, 366);
+            this.saveDQSettingsButton.Location = new System.Drawing.Point(218, 366);
             this.saveDQSettingsButton.Name = "saveDQSettingsButton";
             this.saveDQSettingsButton.Size = new System.Drawing.Size(110, 25);
             this.saveDQSettingsButton.TabIndex = 90;
@@ -2723,7 +2730,7 @@
             // 
             this.label17.AutoSize = true;
             this.label17.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label17.Location = new System.Drawing.Point(28, 394);
+            this.label17.Location = new System.Drawing.Point(97, 394);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(363, 39);
             this.label17.TabIndex = 11;
@@ -2885,7 +2892,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(502, 438);
+            this.tabPage1.Size = new System.Drawing.Size(562, 438);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Foll";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -3210,12 +3217,13 @@
             this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Controls.Add(this.tabPage8);
             this.tabControl1.Controls.Add(this.tabPage9);
+            this.tabControl1.Controls.Add(this.tabPage10);
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.ItemSize = new System.Drawing.Size(48, 18);
             this.tabControl1.Location = new System.Drawing.Point(6, 9);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(510, 464);
+            this.tabControl1.Size = new System.Drawing.Size(570, 464);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 31;
             // 
@@ -3270,7 +3278,7 @@
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(502, 438);
+            this.tabPage7.Size = new System.Drawing.Size(562, 438);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "AH";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -3278,7 +3286,7 @@
             // label137
             // 
             this.label137.AutoSize = true;
-            this.label137.Location = new System.Drawing.Point(357, 10);
+            this.label137.Location = new System.Drawing.Point(397, 10);
             this.label137.Name = "label137";
             this.label137.Size = new System.Drawing.Size(67, 13);
             this.label137.TabIndex = 135;
@@ -3287,7 +3295,7 @@
             // label136
             // 
             this.label136.AutoSize = true;
-            this.label136.Location = new System.Drawing.Point(405, 170);
+            this.label136.Location = new System.Drawing.Point(445, 170);
             this.label136.Name = "label136";
             this.label136.Size = new System.Drawing.Size(43, 13);
             this.label136.TabIndex = 134;
@@ -3296,7 +3304,7 @@
             // label135
             // 
             this.label135.AutoSize = true;
-            this.label135.Location = new System.Drawing.Point(405, 104);
+            this.label135.Location = new System.Drawing.Point(445, 104);
             this.label135.Name = "label135";
             this.label135.Size = new System.Drawing.Size(43, 13);
             this.label135.TabIndex = 133;
@@ -3305,7 +3313,7 @@
             // label134
             // 
             this.label134.AutoSize = true;
-            this.label134.Location = new System.Drawing.Point(405, 39);
+            this.label134.Location = new System.Drawing.Point(445, 39);
             this.label134.Name = "label134";
             this.label134.Size = new System.Drawing.Size(43, 13);
             this.label134.TabIndex = 132;
@@ -3326,7 +3334,7 @@
             // ahCountdown3
             // 
             this.ahCountdown3.AutoSize = true;
-            this.ahCountdown3.Location = new System.Drawing.Point(327, 190);
+            this.ahCountdown3.Location = new System.Drawing.Point(367, 190);
             this.ahCountdown3.Name = "ahCountdown3";
             this.ahCountdown3.Size = new System.Drawing.Size(18, 13);
             this.ahCountdown3.TabIndex = 122;
@@ -3335,7 +3343,7 @@
             // label83
             // 
             this.label83.AutoSize = true;
-            this.label83.Location = new System.Drawing.Point(277, 190);
+            this.label83.Location = new System.Drawing.Point(317, 190);
             this.label83.Name = "label83";
             this.label83.Size = new System.Drawing.Size(44, 13);
             this.label83.TabIndex = 121;
@@ -3344,7 +3352,7 @@
             // ahCountdown2
             // 
             this.ahCountdown2.AutoSize = true;
-            this.ahCountdown2.Location = new System.Drawing.Point(327, 124);
+            this.ahCountdown2.Location = new System.Drawing.Point(367, 124);
             this.ahCountdown2.Name = "ahCountdown2";
             this.ahCountdown2.Size = new System.Drawing.Size(18, 13);
             this.ahCountdown2.TabIndex = 120;
@@ -3353,7 +3361,7 @@
             // label79
             // 
             this.label79.AutoSize = true;
-            this.label79.Location = new System.Drawing.Point(277, 124);
+            this.label79.Location = new System.Drawing.Point(317, 124);
             this.label79.Name = "label79";
             this.label79.Size = new System.Drawing.Size(44, 13);
             this.label79.TabIndex = 119;
@@ -3362,7 +3370,7 @@
             // ahCountdown1
             // 
             this.ahCountdown1.AutoSize = true;
-            this.ahCountdown1.Location = new System.Drawing.Point(327, 60);
+            this.ahCountdown1.Location = new System.Drawing.Point(367, 60);
             this.ahCountdown1.Name = "ahCountdown1";
             this.ahCountdown1.Size = new System.Drawing.Size(18, 13);
             this.ahCountdown1.TabIndex = 118;
@@ -3371,7 +3379,7 @@
             // label74
             // 
             this.label74.AutoSize = true;
-            this.label74.Location = new System.Drawing.Point(277, 60);
+            this.label74.Location = new System.Drawing.Point(317, 60);
             this.label74.Name = "label74";
             this.label74.Size = new System.Drawing.Size(44, 13);
             this.label74.TabIndex = 117;
@@ -3390,7 +3398,7 @@
             // AHCountdownLabel
             // 
             this.AHCountdownLabel.AutoSize = true;
-            this.AHCountdownLabel.Location = new System.Drawing.Point(299, 10);
+            this.AHCountdownLabel.Location = new System.Drawing.Point(319, 10);
             this.AHCountdownLabel.Name = "AHCountdownLabel";
             this.AHCountdownLabel.Size = new System.Drawing.Size(18, 13);
             this.AHCountdownLabel.TabIndex = 114;
@@ -3399,7 +3407,7 @@
             // label84
             // 
             this.label84.AutoSize = true;
-            this.label84.Location = new System.Drawing.Point(227, 10);
+            this.label84.Location = new System.Drawing.Point(247, 10);
             this.label84.Name = "label84";
             this.label84.Size = new System.Drawing.Size(67, 13);
             this.label84.TabIndex = 113;
@@ -3408,7 +3416,7 @@
             // auctionHero3BidderLabel
             // 
             this.auctionHero3BidderLabel.AutoSize = true;
-            this.auctionHero3BidderLabel.Location = new System.Drawing.Point(180, 190);
+            this.auctionHero3BidderLabel.Location = new System.Drawing.Point(200, 190);
             this.auctionHero3BidderLabel.Name = "auctionHero3BidderLabel";
             this.auctionHero3BidderLabel.Size = new System.Drawing.Size(18, 13);
             this.auctionHero3BidderLabel.TabIndex = 112;
@@ -3426,7 +3434,7 @@
             // label81
             // 
             this.label81.AutoSize = true;
-            this.label81.Location = new System.Drawing.Point(140, 190);
+            this.label81.Location = new System.Drawing.Point(160, 190);
             this.label81.Name = "label81";
             this.label81.Size = new System.Drawing.Size(39, 13);
             this.label81.TabIndex = 110;
@@ -3444,7 +3452,7 @@
             // auctionHero2BidderLabel
             // 
             this.auctionHero2BidderLabel.AutoSize = true;
-            this.auctionHero2BidderLabel.Location = new System.Drawing.Point(180, 124);
+            this.auctionHero2BidderLabel.Location = new System.Drawing.Point(200, 124);
             this.auctionHero2BidderLabel.Name = "auctionHero2BidderLabel";
             this.auctionHero2BidderLabel.Size = new System.Drawing.Size(18, 13);
             this.auctionHero2BidderLabel.TabIndex = 108;
@@ -3462,7 +3470,7 @@
             // label77
             // 
             this.label77.AutoSize = true;
-            this.label77.Location = new System.Drawing.Point(140, 124);
+            this.label77.Location = new System.Drawing.Point(160, 124);
             this.label77.Name = "label77";
             this.label77.Size = new System.Drawing.Size(39, 13);
             this.label77.TabIndex = 106;
@@ -3480,7 +3488,7 @@
             // auctionHero1BidderLabel
             // 
             this.auctionHero1BidderLabel.AutoSize = true;
-            this.auctionHero1BidderLabel.Location = new System.Drawing.Point(180, 60);
+            this.auctionHero1BidderLabel.Location = new System.Drawing.Point(200, 60);
             this.auctionHero1BidderLabel.Name = "auctionHero1BidderLabel";
             this.auctionHero1BidderLabel.Size = new System.Drawing.Size(18, 13);
             this.auctionHero1BidderLabel.TabIndex = 104;
@@ -3498,7 +3506,7 @@
             // label72
             // 
             this.label72.AutoSize = true;
-            this.label72.Location = new System.Drawing.Point(140, 60);
+            this.label72.Location = new System.Drawing.Point(160, 60);
             this.label72.Name = "label72";
             this.label72.Size = new System.Drawing.Size(39, 13);
             this.label72.TabIndex = 102;
@@ -3531,7 +3539,7 @@
             // 
             // auctionHero3PriceCount
             // 
-            this.auctionHero3PriceCount.Location = new System.Drawing.Point(336, 167);
+            this.auctionHero3PriceCount.Location = new System.Drawing.Point(376, 167);
             this.auctionHero3PriceCount.Maximum = new decimal(new int[] {
             99999,
             0,
@@ -3544,7 +3552,7 @@
             // label68
             // 
             this.label68.AutoSize = true;
-            this.label68.Location = new System.Drawing.Point(271, 170);
+            this.label68.Location = new System.Drawing.Point(311, 170);
             this.label68.Name = "label68";
             this.label68.Size = new System.Drawing.Size(55, 13);
             this.label68.TabIndex = 96;
@@ -3552,7 +3560,7 @@
             // 
             // auctionHero2PriceCount
             // 
-            this.auctionHero2PriceCount.Location = new System.Drawing.Point(336, 101);
+            this.auctionHero2PriceCount.Location = new System.Drawing.Point(376, 101);
             this.auctionHero2PriceCount.Maximum = new decimal(new int[] {
             99999,
             0,
@@ -3565,7 +3573,7 @@
             // label67
             // 
             this.label67.AutoSize = true;
-            this.label67.Location = new System.Drawing.Point(271, 104);
+            this.label67.Location = new System.Drawing.Point(311, 104);
             this.label67.Name = "label67";
             this.label67.Size = new System.Drawing.Size(55, 13);
             this.label67.TabIndex = 94;
@@ -3573,7 +3581,7 @@
             // 
             // auctionHero1PriceCount
             // 
-            this.auctionHero1PriceCount.Location = new System.Drawing.Point(334, 36);
+            this.auctionHero1PriceCount.Location = new System.Drawing.Point(374, 36);
             this.auctionHero1PriceCount.Maximum = new decimal(new int[] {
             99999,
             0,
@@ -3586,7 +3594,7 @@
             // label66
             // 
             this.label66.AutoSize = true;
-            this.label66.Location = new System.Drawing.Point(271, 39);
+            this.label66.Location = new System.Drawing.Point(311, 39);
             this.label66.Name = "label66";
             this.label66.Size = new System.Drawing.Size(55, 13);
             this.label66.TabIndex = 92;
@@ -3594,7 +3602,7 @@
             // 
             // auctionHero3LevelCount
             // 
-            this.auctionHero3LevelCount.Location = new System.Drawing.Point(211, 167);
+            this.auctionHero3LevelCount.Location = new System.Drawing.Point(231, 167);
             this.auctionHero3LevelCount.Maximum = new decimal(new int[] {
             99,
             0,
@@ -3606,7 +3614,7 @@
             // 
             // auctionHero2LevelCount
             // 
-            this.auctionHero2LevelCount.Location = new System.Drawing.Point(211, 101);
+            this.auctionHero2LevelCount.Location = new System.Drawing.Point(231, 101);
             this.auctionHero2LevelCount.Maximum = new decimal(new int[] {
             99,
             0,
@@ -3618,7 +3626,7 @@
             // 
             // auctionHero1LevelCount
             // 
-            this.auctionHero1LevelCount.Location = new System.Drawing.Point(213, 36);
+            this.auctionHero1LevelCount.Location = new System.Drawing.Point(233, 36);
             this.auctionHero1LevelCount.Maximum = new decimal(new int[] {
             99,
             0,
@@ -3631,7 +3639,7 @@
             // label65
             // 
             this.label65.AutoSize = true;
-            this.label65.Location = new System.Drawing.Point(146, 169);
+            this.label65.Location = new System.Drawing.Point(166, 169);
             this.label65.Name = "label65";
             this.label65.Size = new System.Drawing.Size(59, 13);
             this.label65.TabIndex = 88;
@@ -3640,7 +3648,7 @@
             // label64
             // 
             this.label64.AutoSize = true;
-            this.label64.Location = new System.Drawing.Point(146, 103);
+            this.label64.Location = new System.Drawing.Point(166, 103);
             this.label64.Name = "label64";
             this.label64.Size = new System.Drawing.Size(59, 13);
             this.label64.TabIndex = 87;
@@ -3649,7 +3657,7 @@
             // label63
             // 
             this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(147, 39);
+            this.label63.Location = new System.Drawing.Point(167, 39);
             this.label63.Name = "label63";
             this.label63.Size = new System.Drawing.Size(59, 13);
             this.label63.TabIndex = 86;
@@ -3774,7 +3782,7 @@
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(502, 438);
+            this.tabPage8.Size = new System.Drawing.Size(562, 438);
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "Level";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -3782,7 +3790,7 @@
             // RecycleCountdownLabel
             // 
             this.RecycleCountdownLabel.AutoSize = true;
-            this.RecycleCountdownLabel.Location = new System.Drawing.Point(420, 10);
+            this.RecycleCountdownLabel.Location = new System.Drawing.Point(440, 10);
             this.RecycleCountdownLabel.Name = "RecycleCountdownLabel";
             this.RecycleCountdownLabel.Size = new System.Drawing.Size(18, 13);
             this.RecycleCountdownLabel.TabIndex = 148;
@@ -3791,7 +3799,7 @@
             // label147
             // 
             this.label147.AutoSize = true;
-            this.label147.Location = new System.Drawing.Point(347, 10);
+            this.label147.Location = new System.Drawing.Point(367, 10);
             this.label147.Name = "label147";
             this.label147.Size = new System.Drawing.Size(69, 13);
             this.label147.TabIndex = 147;
@@ -3855,7 +3863,7 @@
             // label144
             // 
             this.label144.AutoSize = true;
-            this.label144.Location = new System.Drawing.Point(434, 174);
+            this.label144.Location = new System.Drawing.Point(454, 174);
             this.label144.Name = "label144";
             this.label144.Size = new System.Drawing.Size(43, 13);
             this.label144.TabIndex = 141;
@@ -3864,7 +3872,7 @@
             // label143
             // 
             this.label143.AutoSize = true;
-            this.label143.Location = new System.Drawing.Point(434, 111);
+            this.label143.Location = new System.Drawing.Point(454, 111);
             this.label143.Name = "label143";
             this.label143.Size = new System.Drawing.Size(43, 13);
             this.label143.TabIndex = 140;
@@ -3873,7 +3881,7 @@
             // label142
             // 
             this.label142.AutoSize = true;
-            this.label142.Location = new System.Drawing.Point(434, 50);
+            this.label142.Location = new System.Drawing.Point(454, 50);
             this.label142.Name = "label142";
             this.label142.Size = new System.Drawing.Size(43, 13);
             this.label142.TabIndex = 139;
@@ -3882,7 +3890,7 @@
             // label140
             // 
             this.label140.AutoSize = true;
-            this.label140.Location = new System.Drawing.Point(331, 194);
+            this.label140.Location = new System.Drawing.Point(351, 194);
             this.label140.Name = "label140";
             this.label140.Size = new System.Drawing.Size(65, 13);
             this.label140.TabIndex = 138;
@@ -3891,7 +3899,7 @@
             // label139
             // 
             this.label139.AutoSize = true;
-            this.label139.Location = new System.Drawing.Point(303, 132);
+            this.label139.Location = new System.Drawing.Point(323, 132);
             this.label139.Name = "label139";
             this.label139.Size = new System.Drawing.Size(65, 13);
             this.label139.TabIndex = 137;
@@ -3900,7 +3908,7 @@
             // label138
             // 
             this.label138.AutoSize = true;
-            this.label138.Location = new System.Drawing.Point(268, 71);
+            this.label138.Location = new System.Drawing.Point(288, 71);
             this.label138.Name = "label138";
             this.label138.Size = new System.Drawing.Size(65, 13);
             this.label138.TabIndex = 136;
@@ -3908,7 +3916,7 @@
             // 
             // spheresLevelCount
             // 
-            this.spheresLevelCount.Location = new System.Drawing.Point(376, 172);
+            this.spheresLevelCount.Location = new System.Drawing.Point(396, 172);
             this.spheresLevelCount.Maximum = new decimal(new int[] {
             99,
             0,
@@ -3926,7 +3934,7 @@
             // label112
             // 
             this.label112.AutoSize = true;
-            this.label112.Location = new System.Drawing.Point(314, 174);
+            this.label112.Location = new System.Drawing.Point(334, 174);
             this.label112.Name = "label112";
             this.label112.Size = new System.Drawing.Size(59, 13);
             this.label112.TabIndex = 128;
@@ -3934,7 +3942,7 @@
             // 
             // pranaLevelCount
             // 
-            this.pranaLevelCount.Location = new System.Drawing.Point(376, 48);
+            this.pranaLevelCount.Location = new System.Drawing.Point(396, 48);
             this.pranaLevelCount.Maximum = new decimal(new int[] {
             99,
             0,
@@ -3952,7 +3960,7 @@
             // label111
             // 
             this.label111.AutoSize = true;
-            this.label111.Location = new System.Drawing.Point(314, 50);
+            this.label111.Location = new System.Drawing.Point(334, 50);
             this.label111.Name = "label111";
             this.label111.Size = new System.Drawing.Size(59, 13);
             this.label111.TabIndex = 126;
@@ -3960,7 +3968,7 @@
             // 
             // coinsLevelCount
             // 
-            this.coinsLevelCount.Location = new System.Drawing.Point(376, 109);
+            this.coinsLevelCount.Location = new System.Drawing.Point(396, 109);
             this.coinsLevelCount.Maximum = new decimal(new int[] {
             99,
             0,
@@ -3978,7 +3986,7 @@
             // label110
             // 
             this.label110.AutoSize = true;
-            this.label110.Location = new System.Drawing.Point(314, 111);
+            this.label110.Location = new System.Drawing.Point(334, 111);
             this.label110.Name = "label110";
             this.label110.Size = new System.Drawing.Size(59, 13);
             this.label110.TabIndex = 124;
@@ -3987,7 +3995,7 @@
             // ALCountdownLabel
             // 
             this.ALCountdownLabel.AutoSize = true;
-            this.ALCountdownLabel.Location = new System.Drawing.Point(263, 10);
+            this.ALCountdownLabel.Location = new System.Drawing.Point(273, 10);
             this.ALCountdownLabel.Name = "ALCountdownLabel";
             this.ALCountdownLabel.Size = new System.Drawing.Size(18, 13);
             this.ALCountdownLabel.TabIndex = 123;
@@ -3996,7 +4004,7 @@
             // label97
             // 
             this.label97.AutoSize = true;
-            this.label97.Location = new System.Drawing.Point(191, 10);
+            this.label97.Location = new System.Drawing.Point(201, 10);
             this.label97.Name = "label97";
             this.label97.Size = new System.Drawing.Size(67, 13);
             this.label97.TabIndex = 122;
@@ -4005,7 +4013,7 @@
             // label95
             // 
             this.label95.AutoSize = true;
-            this.label95.Location = new System.Drawing.Point(80, 376);
+            this.label95.Location = new System.Drawing.Point(122, 376);
             this.label95.Name = "label95";
             this.label95.Size = new System.Drawing.Size(259, 26);
             this.label95.TabIndex = 121;
@@ -4014,7 +4022,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(149, 405);
+            this.button1.Location = new System.Drawing.Point(191, 405);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(117, 25);
             this.button1.TabIndex = 120;
@@ -4036,7 +4044,7 @@
             // label91
             // 
             this.label91.AutoSize = true;
-            this.label91.Location = new System.Drawing.Point(157, 194);
+            this.label91.Location = new System.Drawing.Point(167, 194);
             this.label91.Name = "label91";
             this.label91.Size = new System.Drawing.Size(168, 13);
             this.label91.TabIndex = 118;
@@ -4069,7 +4077,7 @@
             this.spheresHeroCombo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.spheresHeroCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.spheresHeroCombo.FormattingEnabled = true;
-            this.spheresHeroCombo.Location = new System.Drawing.Point(194, 171);
+            this.spheresHeroCombo.Location = new System.Drawing.Point(204, 171);
             this.spheresHeroCombo.Name = "spheresHeroCombo";
             this.spheresHeroCombo.Size = new System.Drawing.Size(114, 21);
             this.spheresHeroCombo.TabIndex = 115;
@@ -4097,7 +4105,7 @@
             // label87
             // 
             this.label87.AutoSize = true;
-            this.label87.Location = new System.Drawing.Point(157, 132);
+            this.label87.Location = new System.Drawing.Point(167, 132);
             this.label87.Name = "label87";
             this.label87.Size = new System.Drawing.Size(140, 13);
             this.label87.TabIndex = 112;
@@ -4130,7 +4138,7 @@
             this.coinsHeroCombo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.coinsHeroCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.coinsHeroCombo.FormattingEnabled = true;
-            this.coinsHeroCombo.Location = new System.Drawing.Point(194, 108);
+            this.coinsHeroCombo.Location = new System.Drawing.Point(204, 108);
             this.coinsHeroCombo.Name = "coinsHeroCombo";
             this.coinsHeroCombo.Size = new System.Drawing.Size(114, 21);
             this.coinsHeroCombo.TabIndex = 109;
@@ -4158,7 +4166,7 @@
             // label86
             // 
             this.label86.AutoSize = true;
-            this.label86.Location = new System.Drawing.Point(157, 71);
+            this.label86.Location = new System.Drawing.Point(167, 71);
             this.label86.Name = "label86";
             this.label86.Size = new System.Drawing.Size(105, 13);
             this.label86.TabIndex = 106;
@@ -4191,7 +4199,7 @@
             this.pranaHeroCombo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.pranaHeroCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.pranaHeroCombo.FormattingEnabled = true;
-            this.pranaHeroCombo.Location = new System.Drawing.Point(194, 47);
+            this.pranaHeroCombo.Location = new System.Drawing.Point(204, 47);
             this.pranaHeroCombo.Name = "pranaHeroCombo";
             this.pranaHeroCombo.Size = new System.Drawing.Size(114, 21);
             this.pranaHeroCombo.TabIndex = 103;
@@ -4219,7 +4227,6 @@
             // tabPage9
             // 
             this.tabPage9.Controls.Add(this.doAutoFTCheckbox);
-            this.tabPage9.Controls.Add(this.weeklyEventLabel);
             this.tabPage9.Controls.Add(this.doAutoDGCheckbox);
             this.tabPage9.Controls.Add(this.adventurePriority);
             this.tabPage9.Controls.Add(this.lotteryCount);
@@ -4231,7 +4238,7 @@
             this.tabPage9.Controls.Add(this.doAutoLFCheckbox);
             this.tabPage9.Controls.Add(this.label145);
             this.tabPage9.Controls.Add(this.label141);
-            this.tabPage9.Controls.Add(this.autoEvCheckbox);
+            this.tabPage9.Controls.Add(this.autoDEvCheckbox);
             this.tabPage9.Controls.Add(this.label133);
             this.tabPage9.Controls.Add(this.label126);
             this.tabPage9.Controls.Add(this.label125);
@@ -4243,20 +4250,20 @@
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(502, 438);
+            this.tabPage9.Size = new System.Drawing.Size(562, 438);
             this.tabPage9.TabIndex = 8;
-            this.tabPage9.Text = "Events";
+            this.tabPage9.Text = "DayEv";
             this.tabPage9.UseVisualStyleBackColor = true;
             // 
-            // weeklyEventLabel
+            // doAutoFTCheckbox
             // 
-            this.weeklyEventLabel.AutoSize = true;
-            this.weeklyEventLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.weeklyEventLabel.Location = new System.Drawing.Point(31, 364);
-            this.weeklyEventLabel.Name = "weeklyEventLabel";
-            this.weeklyEventLabel.Size = new System.Drawing.Size(204, 16);
-            this.weeklyEventLabel.TabIndex = 109;
-            this.weeklyEventLabel.Text = "Weekly Event : nothing to display";
+            this.doAutoFTCheckbox.AutoSize = true;
+            this.doAutoFTCheckbox.Location = new System.Drawing.Point(10, 16);
+            this.doAutoFTCheckbox.Name = "doAutoFTCheckbox";
+            this.doAutoFTCheckbox.Size = new System.Drawing.Size(15, 14);
+            this.doAutoFTCheckbox.TabIndex = 110;
+            this.doAutoFTCheckbox.UseVisualStyleBackColor = true;
+            this.doAutoFTCheckbox.CheckedChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
             // 
             // doAutoDGCheckbox
             // 
@@ -4377,16 +4384,16 @@
             this.label141.TabIndex = 49;
             this.label141.Text = "Coupon";
             // 
-            // autoEvCheckbox
+            // autoDEvCheckbox
             // 
-            this.autoEvCheckbox.AutoSize = true;
-            this.autoEvCheckbox.Location = new System.Drawing.Point(381, 13);
-            this.autoEvCheckbox.Name = "autoEvCheckbox";
-            this.autoEvCheckbox.Size = new System.Drawing.Size(120, 17);
-            this.autoEvCheckbox.TabIndex = 48;
-            this.autoEvCheckbox.Text = "Enable Auto-Events";
-            this.autoEvCheckbox.UseVisualStyleBackColor = true;
-            this.autoEvCheckbox.CheckedChanged += new System.EventHandler(this.AutoEvCheckbox_CheckedChanged);
+            this.autoDEvCheckbox.AutoSize = true;
+            this.autoDEvCheckbox.Location = new System.Drawing.Point(381, 13);
+            this.autoDEvCheckbox.Name = "autoDEvCheckbox";
+            this.autoDEvCheckbox.Size = new System.Drawing.Size(120, 17);
+            this.autoDEvCheckbox.TabIndex = 48;
+            this.autoDEvCheckbox.Text = "Enable Auto-Events";
+            this.autoDEvCheckbox.UseVisualStyleBackColor = true;
+            this.autoDEvCheckbox.CheckedChanged += new System.EventHandler(this.AutoDEvCheckbox_CheckedChanged);
             // 
             // label133
             // 
@@ -4468,6 +4475,64 @@
             this.label73.TabIndex = 1;
             this.label73.Text = "Flash";
             // 
+            // tabPage10
+            // 
+            this.tabPage10.Controls.Add(this.autoWEvCheckbox);
+            this.tabPage10.Controls.Add(this.label146);
+            this.tabPage10.Controls.Add(this.sjUpgrade);
+            this.tabPage10.Controls.Add(this.weeklyEventLabel);
+            this.tabPage10.Location = new System.Drawing.Point(4, 22);
+            this.tabPage10.Name = "tabPage10";
+            this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage10.Size = new System.Drawing.Size(562, 438);
+            this.tabPage10.TabIndex = 9;
+            this.tabPage10.Text = "WeekEv";
+            this.tabPage10.UseVisualStyleBackColor = true;
+            // 
+            // autoWEvCheckbox
+            // 
+            this.autoWEvCheckbox.AutoSize = true;
+            this.autoWEvCheckbox.Location = new System.Drawing.Point(381, 13);
+            this.autoWEvCheckbox.Name = "autoWEvCheckbox";
+            this.autoWEvCheckbox.Size = new System.Drawing.Size(120, 17);
+            this.autoWEvCheckbox.TabIndex = 113;
+            this.autoWEvCheckbox.Text = "Enable Auto-Events";
+            this.autoWEvCheckbox.UseVisualStyleBackColor = true;
+            this.autoWEvCheckbox.CheckedChanged += new System.EventHandler(this.AutoWEvCheckbox_CheckedChanged);
+            // 
+            // label146
+            // 
+            this.label146.AutoSize = true;
+            this.label146.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.label146.Location = new System.Drawing.Point(31, 62);
+            this.label146.Name = "label146";
+            this.label146.Size = new System.Drawing.Size(180, 16);
+            this.label146.TabIndex = 112;
+            this.label146.Text = "Space Journey next upgrade";
+            // 
+            // sjUpgrade
+            // 
+            this.sjUpgrade.Location = new System.Drawing.Point(243, 62);
+            this.sjUpgrade.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.sjUpgrade.Name = "sjUpgrade";
+            this.sjUpgrade.Size = new System.Drawing.Size(59, 20);
+            this.sjUpgrade.TabIndex = 111;
+            this.sjUpgrade.ValueChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
+            // 
+            // weeklyEventLabel
+            // 
+            this.weeklyEventLabel.AutoSize = true;
+            this.weeklyEventLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.weeklyEventLabel.Location = new System.Drawing.Point(31, 14);
+            this.weeklyEventLabel.Name = "weeklyEventLabel";
+            this.weeklyEventLabel.Size = new System.Drawing.Size(204, 16);
+            this.weeklyEventLabel.TabIndex = 110;
+            this.weeklyEventLabel.Text = "Weekly Event : nothing to display";
+            // 
             // tabPage6
             // 
             this.tabPage6.Controls.Add(this.saveSettingsToFileButton);
@@ -4479,14 +4544,14 @@
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage6.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.tabPage6.Size = new System.Drawing.Size(502, 438);
+            this.tabPage6.Size = new System.Drawing.Size(562, 438);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Other";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
             // saveSettingsToFileButton
             // 
-            this.saveSettingsToFileButton.Location = new System.Drawing.Point(161, 218);
+            this.saveSettingsToFileButton.Location = new System.Drawing.Point(214, 245);
             this.saveSettingsToFileButton.Name = "saveSettingsToFileButton";
             this.saveSettingsToFileButton.Size = new System.Drawing.Size(121, 47);
             this.saveSettingsToFileButton.TabIndex = 4;
@@ -4496,7 +4561,7 @@
             // 
             // heroesToClipboardButton
             // 
-            this.heroesToClipboardButton.Location = new System.Drawing.Point(161, 165);
+            this.heroesToClipboardButton.Location = new System.Drawing.Point(214, 192);
             this.heroesToClipboardButton.Name = "heroesToClipboardButton";
             this.heroesToClipboardButton.Size = new System.Drawing.Size(121, 47);
             this.heroesToClipboardButton.TabIndex = 3;
@@ -4506,7 +4571,7 @@
             // 
             // macroCreatorGithubButton
             // 
-            this.macroCreatorGithubButton.Location = new System.Drawing.Point(161, 112);
+            this.macroCreatorGithubButton.Location = new System.Drawing.Point(214, 139);
             this.macroCreatorGithubButton.Name = "macroCreatorGithubButton";
             this.macroCreatorGithubButton.Size = new System.Drawing.Size(121, 47);
             this.macroCreatorGithubButton.TabIndex = 2;
@@ -4516,7 +4581,7 @@
             // 
             // automaterGithubButton
             // 
-            this.automaterGithubButton.Location = new System.Drawing.Point(161, 59);
+            this.automaterGithubButton.Location = new System.Drawing.Point(214, 86);
             this.automaterGithubButton.Name = "automaterGithubButton";
             this.automaterGithubButton.Size = new System.Drawing.Size(121, 47);
             this.automaterGithubButton.TabIndex = 1;
@@ -4526,7 +4591,7 @@
             // 
             // openMSHButton
             // 
-            this.openMSHButton.Location = new System.Drawing.Point(161, 6);
+            this.openMSHButton.Location = new System.Drawing.Point(214, 33);
             this.openMSHButton.Name = "openMSHButton";
             this.openMSHButton.Size = new System.Drawing.Size(121, 47);
             this.openMSHButton.TabIndex = 0;
@@ -4589,33 +4654,35 @@
             this.ALIndicator.TabIndex = 39;
             this.ALIndicator.Text = "          ";
             // 
-            // AEIndicator
+            // ADEIndicator
             // 
-            this.AEIndicator.AutoSize = true;
-            this.AEIndicator.BackColor = System.Drawing.Color.Red;
-            this.AEIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 3.25F);
-            this.AEIndicator.Location = new System.Drawing.Point(360, 2);
-            this.AEIndicator.Name = "AEIndicator";
-            this.AEIndicator.Size = new System.Drawing.Size(13, 6);
-            this.AEIndicator.TabIndex = 40;
-            this.AEIndicator.Text = "          ";
+            this.ADEIndicator.AutoSize = true;
+            this.ADEIndicator.BackColor = System.Drawing.Color.Red;
+            this.ADEIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 3.25F);
+            this.ADEIndicator.Location = new System.Drawing.Point(360, 2);
+            this.ADEIndicator.Name = "ADEIndicator";
+            this.ADEIndicator.Size = new System.Drawing.Size(13, 6);
+            this.ADEIndicator.TabIndex = 40;
+            this.ADEIndicator.Text = "          ";
             // 
-            // doAutoFTCheckbox
+            // AWEIndicator
             // 
-            this.doAutoFTCheckbox.AutoSize = true;
-            this.doAutoFTCheckbox.Location = new System.Drawing.Point(10, 16);
-            this.doAutoFTCheckbox.Name = "doAutoFTCheckbox";
-            this.doAutoFTCheckbox.Size = new System.Drawing.Size(15, 14);
-            this.doAutoFTCheckbox.TabIndex = 110;
-            this.doAutoFTCheckbox.UseVisualStyleBackColor = true;
-            this.doAutoFTCheckbox.CheckedChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
+            this.AWEIndicator.AutoSize = true;
+            this.AWEIndicator.BackColor = System.Drawing.Color.Red;
+            this.AWEIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 3.25F);
+            this.AWEIndicator.Location = new System.Drawing.Point(409, 2);
+            this.AWEIndicator.Name = "AWEIndicator";
+            this.AWEIndicator.Size = new System.Drawing.Size(13, 6);
+            this.AWEIndicator.TabIndex = 41;
+            this.AWEIndicator.Text = "          ";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(519, 477);
-            this.Controls.Add(this.AEIndicator);
+            this.ClientSize = new System.Drawing.Size(579, 477);
+            this.Controls.Add(this.AWEIndicator);
+            this.Controls.Add(this.ADEIndicator);
             this.Controls.Add(this.ALIndicator);
             this.Controls.Add(this.ah3Indicator);
             this.Controls.Add(this.ah2Indicator);
@@ -4704,6 +4771,9 @@
             this.tabPage9.ResumeLayout(false);
             this.tabPage9.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lotteryCount)).EndInit();
+            this.tabPage10.ResumeLayout(false);
+            this.tabPage10.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sjUpgrade)).EndInit();
             this.tabPage6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -5011,7 +5081,7 @@
         internal System.Windows.Forms.NumericUpDown DoyHAReqCount;
         internal System.Windows.Forms.Label pvpRankingSummary;
         private System.Windows.Forms.TabPage tabPage9;
-        public System.Windows.Forms.Label AEIndicator;
+        public System.Windows.Forms.Label ADEIndicator;
         public System.Windows.Forms.Label label122;
         public System.Windows.Forms.Label label123;
         public System.Windows.Forms.Label label126;
@@ -5039,7 +5109,7 @@
         internal System.Windows.Forms.ComboBox BORHA2;
         internal System.Windows.Forms.ComboBox BORHA1;
         public System.Windows.Forms.Label label133;
-        internal System.Windows.Forms.CheckBox autoEvCheckbox;
+        internal System.Windows.Forms.CheckBox autoDEvCheckbox;
         public System.Windows.Forms.Label label136;
         public System.Windows.Forms.Label label135;
         public System.Windows.Forms.Label label134;
@@ -5067,10 +5137,15 @@
         internal System.Windows.Forms.ComboBox p6HeroCombo3;
         internal System.Windows.Forms.ComboBox p6HeroCombo2;
         internal System.Windows.Forms.ComboBox p6HeroCombo4;
-        public System.Windows.Forms.Label weeklyEventLabel;
         private System.Windows.Forms.Label label147;
         public System.Windows.Forms.Label RecycleCountdownLabel;
         internal System.Windows.Forms.CheckBox doAutoFTCheckbox;
+        private System.Windows.Forms.TabPage tabPage10;
+        public System.Windows.Forms.Label weeklyEventLabel;
+        public System.Windows.Forms.Label label146;
+        internal System.Windows.Forms.NumericUpDown sjUpgrade;
+        public System.Windows.Forms.Label AWEIndicator;
+        internal System.Windows.Forms.CheckBox autoWEvCheckbox;
     }
 }
 

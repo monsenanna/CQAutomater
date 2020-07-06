@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using PlayFab;
 using PlayFab.ClientModels;
@@ -20,6 +19,8 @@ namespace CQFollowerAutoclaimer
     {
         string token;
         static public string kongID;
+        static public bool isAdmin = false; // don't edit that without an admin password or it'll crash
+        static public string adminPassword;
         //static int requestsSent = 0;
         static public string GetDataTime;
         static public string miracleTimes;
@@ -58,8 +59,20 @@ namespace CQFollowerAutoclaimer
         static public int LotteryDay;
         static public int LotteryCurrent;
         static public int TrainingStatus;
-        static public int[] SpaceStatus = new int[6];
+        static public int currentWeeklyEvent;
+        static public int[] SpaceStatus = new int[8];
         static public string NextRecycle;
+        static public string LastCaptcha;
+        static public JToken GamesData;
+        static public Dictionary<int, string> eventLoop = new Dictionary<int, string>
+            {
+                { 0, "No event" },
+                { 1, "G.A.M.E.S" },
+                { 2, "No event" },
+                { 3, "Space Journey" },
+                { 4, "No event" },
+                { 5, "No event" }
+            };
 
         static public string[] nearbyPlayersIDs;
         static public string[] nearbyPlayersNames;
@@ -100,6 +113,7 @@ namespace CQFollowerAutoclaimer
         {
             token = t;
             kongID = kid;
+            logQueue.queueTimer.Interval = 1000;
         }
 
         private static int[] getArray(string s)
@@ -189,14 +203,14 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "status",
                 FunctionParameter = new { token = token, kid = kongID }
             };
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
             if (statusTask.Error != null)
             {
-                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                logError("GetGameData error ", statusTask.Error.ErrorMessage + "-- - " + statusTask.Error.ErrorDetails);
                 return false;
             }
             if (statusTask.Result == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
@@ -273,26 +287,37 @@ namespace CQFollowerAutoclaimer
                 }
                 try
                 {
-                    switch (getWeeklyEvent())
+                    currentWeeklyEvent = getWeeklyEvent();
+                    GamesData = json["data"]["city"]["games"];
+                    LastCaptcha = json["data"]["city"]["captchats"].ToString();
+                    switch (currentWeeklyEvent)
                     {
-                        case "Space Journey":
-                            if (json["data"]["city"]["space"]["current"] != null)
+                        case 3: // Space Journey
+                            if (json["data"]["city"]["space"]["current"] != null && json["data"]["city"]["space"]["start"] != null && ((double)json["data"]["city"]["space"]["start"] / 1000) > Form1.getTimestamp(DateTime.UtcNow) - 432000)
                             {
                                 SpaceStatus[0] = (int)json["data"]["city"]["space"]["current"]["mission"];
-                                SpaceStatus[1] = Int32.Parse(json["data"]["city"]["space"]["current"]["timer"].ToString().Substring(0, json["data"]["city"]["space"]["current"]["timer"].ToString().Length - 3));
+                                SpaceStatus[1] = (int)((double)json["data"]["city"]["space"]["current"]["timer"] / 1000);
                             }
-                            SpaceStatus[2] = (int)json["data"]["city"]["space"]["upgrades"]["engine"];
-                            SpaceStatus[3] = (int)json["data"]["city"]["space"]["upgrades"]["collector"];
-                            SpaceStatus[4] = (int)json["data"]["city"]["space"]["upgrades"]["radar"];
-                            SpaceStatus[5] = (int)json["data"]["city"]["space"]["gears"];
+                            else
+                            {
+                                SpaceStatus[0] = -2;
+                            }
+                            SpaceStatus[2] = (int)json["data"]["city"]["space"]["upgrades"][0];
+                            SpaceStatus[3] = (int)json["data"]["city"]["space"]["upgrades"][1];
+                            SpaceStatus[4] = (int)json["data"]["city"]["space"]["upgrades"][2];
+                            SpaceStatus[5] = (int)json["data"]["city"]["space"]["upgrades"][3];
+                            SpaceStatus[6] = (int)json["data"]["city"]["space"]["upgrades"][4];
+                            SpaceStatus[7] = (int)json["data"]["city"]["space"]["gears"];
+                            break;
+                        case 5: // G.A.M.E.S
                             break;
                         default:
-                            SpaceStatus[0] = -2;
                             break;
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    logError("sjerr", ex.Message);
                     SpaceStatus[0] = -2; // no SJ
                 }
                 TrainingStatus = -1;
@@ -329,19 +354,13 @@ namespace CQFollowerAutoclaimer
             return false;
         }
 
-        public static string getWeeklyEvent()
+        public static int getWeeklyEvent()
         {
             double day = Math.Floor(Form1.getTimestamp(DateTime.UtcNow) / 86400);
-            Dictionary<int, string> eventLoop = new Dictionary<int, string>
-                {
-                    { 0, "No event" },
-                    { 1, "No event" },
-                    { 2, "No event" },
-                    { 3, "Space Journey" },
-                    { 4, "No event" },
-                    { 5, "G.A.M.E.S" }
-                };
-            return eventLoop[(int)((Math.Ceiling((day - 18379 + 1) / 7) - 1) % eventLoop.Count)];
+            //logError("getWeeklyEvent day ", day.ToString());
+            if ((day - 3) % 7 == 1) // nothing on monday
+                return 0;
+            return (int)((Math.Ceiling((day - 18379 + 1) / 7) - 1) % PFStuff.eventLoop.Count);
         }
 
         public async Task<bool> updatePVPHistory(JToken json)
@@ -369,7 +388,7 @@ namespace CQFollowerAutoclaimer
                     }
                     // find player id
                     int enemyid = 0;
-                    using (var client = new HttpClient())
+                    using (var client = new HttpClient()) // todo : optimize
                     {
                         var values = new Dictionary<string, string> { { "uget", json[i]["enemy"].ToString() } };
                         var cont = new FormUrlEncodedContent(values);
@@ -471,7 +490,7 @@ namespace CQFollowerAutoclaimer
                     MaxResultsCount = 100
                 };
                 var lbTask = await PlayFabClientAPI.GetLeaderboardAsync(req);
-                lbTask.Result.ToString();
+                //lbTask.Result.ToString();
                 using (var client = new HttpClient())
                 {
                     var values = new Dictionary<string, string> { { "ulbd", JsonConvert.SerializeObject(lbTask) } };
@@ -767,8 +786,8 @@ namespace CQFollowerAutoclaimer
             {
                 var d = json["history"][json.Count() - 1]["date"].ToString();
                 d = d.Substring(0, d.Length - 3);
-                //if (int.Parse(d) <= FlashLastUpdate)
-                    //return true;
+                if (int.Parse(d) <= FlashLastUpdate)
+                    return true;
                 using (var client = new HttpClient())
                 {
                     using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
@@ -884,7 +903,7 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "buywc",
                 FunctionParameter = new { wc = 0 }
             };
@@ -907,7 +926,7 @@ namespace CQFollowerAutoclaimer
                     }
                     _running = false;
                 }
-                Thread.Sleep(1);
+                Thread.Sleep(500);
             }
             return;
         }
@@ -916,7 +935,7 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "claimall",
                 FunctionParameter = new { kid = kongID }
             };
@@ -928,7 +947,7 @@ namespace CQFollowerAutoclaimer
             }
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
-                //logError("Cloud Script Error: Claim All", statusTask);
+                logError("Cloud Script Error: Claim All", statusTask);
                 return false;
             }
             else
@@ -945,7 +964,7 @@ namespace CQFollowerAutoclaimer
             battleResult = "";
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "fight",
                 FunctionParameter = new { token = token, kid = kongID, id = nearbyPlayersIDs[index] }
             };
@@ -999,7 +1018,7 @@ namespace CQFollowerAutoclaimer
             }
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "open",
                 FunctionParameter = new { kid = kongID, mode = chestMode }
             };
@@ -1028,22 +1047,15 @@ namespace CQFollowerAutoclaimer
 
         public async Task<bool> sendDQSolution(int[] DQLineup)
         {
-            await Task.Delay(1000);
-            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-            {
-                //sw.WriteLine(DateTime.Now + "\n\t" + "sendDQSolution a : "+ JsonConvert.SerializeObject(DQLineup));
-            }
+            await Task.Delay(500);
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "pved",
                 FunctionParameter = new { setup = DQLineup, kid = kongID, max = true }
             };
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
-            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-            {
-                //sw.WriteLine(DateTime.Now + "\n\t" + "sendDQSolution b : " + JsonConvert.SerializeObject(statusTask));
-            }
+            await Task.Delay(2000);
             if (statusTask.Error != null)
             {
                 logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
@@ -1059,7 +1071,6 @@ namespace CQFollowerAutoclaimer
                 JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
                 DQLevel = json["data"]["city"]["daily"]["lvl"].ToString();
                 DQResult = true;
-                await Task.Delay(1000);
                 return true;
             }
         }
@@ -1069,7 +1080,7 @@ namespace CQFollowerAutoclaimer
             await Task.Delay(1000);
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "dungeon",
                 FunctionParameter = new { setup = DungLineup, max = true }
             };
@@ -1115,7 +1126,7 @@ namespace CQFollowerAutoclaimer
             logError("Sending Flash lineup", responseString + " --- " + JsonConvert.SerializeObject(FlashCurrent));
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "fregister",
                 FunctionParameter = new { setup = getArray(responseString), kid = kongID, tid }
             };
@@ -1140,9 +1151,9 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "sfcell",
-                FunctionParameter = new { cell = cell }
+                FunctionParameter = new { cell }
             };
             using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
@@ -1175,7 +1186,7 @@ namespace CQFollowerAutoclaimer
             int pick = 0; // todo : random ?
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "keyevent",
                 FunctionParameter = new { pick = pick }
             };
@@ -1201,7 +1212,7 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "cc3v3nt",
                 FunctionParameter = new { coins = score, kid = kongID }
             };
@@ -1230,7 +1241,7 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "pge",
                 FunctionParameter = new { card = cell, kid = kongID }
             };
@@ -1262,7 +1273,7 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "adventure",
                 FunctionParameter = new { kind = kind, percentage = pct }
             };
@@ -1291,7 +1302,7 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "buylot",
                 FunctionParameter = new { }
             };
@@ -1319,7 +1330,7 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "coupon",
                 FunctionParameter = new { code = coupon }
             };
@@ -1349,98 +1360,11 @@ namespace CQFollowerAutoclaimer
             }
         }
 
-        public async Task<bool> sendSJClaim()
-        {
-            try
-            {
-                var request = new ExecuteCloudScriptRequest()
-                {
-                    RevisionSelection = CloudScriptRevisionOption.Live,
-                    FunctionName = "sjclaim"
-                };
-                var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
-                if (statusTask.Error != null)
-                {
-                    logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
-                    return false;
-                }
-                if (statusTask == null || statusTask.Result.FunctionResult == null)
-                {
-                    return false;
-                }
-                else
-                {
-                        JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
-                        SpaceStatus[0] = (int)json["data"]["city"]["space"]["current"]["mission"];
-                        SpaceStatus[1] = Int32.Parse(json["data"]["city"]["space"]["current"]["timer"].ToString().Substring(0, json["data"]["city"]["space"]["current"]["timer"].ToString().Length - 3));
-                        SpaceStatus[5] = (int)json["data"]["city"]["space"]["gears"];
-                        Thread.Sleep(1);
-                    return true;
-                }
-            }
-            catch
-            {
-                await Task.Delay(1000);
-                return false;
-            }
-        }
-
-        public async Task<bool> sendSJStart(int mission)
-        {
-            var request = new ExecuteCloudScriptRequest()
-            {
-                RevisionSelection = CloudScriptRevisionOption.Live,
-                FunctionName = "sjmission",
-                FunctionParameter = new { mission = mission }
-            };
-            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
-            if (statusTask.Error != null)
-            {
-                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
-                return false;
-            }
-            if (statusTask == null || statusTask.Result.FunctionResult == null)
-            {
-                return false;
-            }
-            else
-            {
-                await GetGameData();
-                return true;
-            }
-        }
-
-        public async Task<bool> sendSJUpgrade(int upgrade)
-        {
-            var request = new ExecuteCloudScriptRequest()
-            {
-                RevisionSelection = CloudScriptRevisionOption.Live,
-                FunctionName = "sjupgrade",
-                FunctionParameter = new { upgrade = upgrade }
-            };
-            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
-            if (statusTask.Error != null)
-            {
-                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
-                return false;
-            }
-            if (statusTask == null || statusTask.Result.FunctionResult == null)
-            {
-                return false;
-            }
-            else
-            {
-                await GetGameData();
-                await Task.Delay(2000);
-                return true;
-            }
-        }
-
         public async Task<bool> sendBid(int bidHeroID, int bidPrice)
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "auction",
                 FunctionParameter = new { hid = bidHeroID, kid = kongID, name = username, bid = bidPrice }
             };
@@ -1511,7 +1435,7 @@ namespace CQFollowerAutoclaimer
                 {
                     var request = new ExecuteCloudScriptRequest()
                     {
-                        RevisionSelection = CloudScriptRevisionOption.Live,
+                        RevisionSelection = CloudScriptRevisionOption.Latest,
                         FunctionName = "lto",
                         FunctionParameter = new { offer = ltoID }
                     };
@@ -1556,7 +1480,7 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "fightWB",
                 FunctionParameter = new { setup = WBLineup, kid = kongID }
             };
@@ -1581,7 +1505,7 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "levelUp",
                 FunctionParameter = new { id = heroID, mode = mode }
             };
@@ -1612,7 +1536,7 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "levelUp10",
                 FunctionParameter = new { id = heroID, mode = mode }
             };
@@ -1643,7 +1567,7 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "levelSuper",
                 FunctionParameter = new { id = heroID, mode = mode }
             };
@@ -1674,7 +1598,7 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "ascendHero",
                 FunctionParameter = new { id = heroID }
             };
@@ -1704,7 +1628,7 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "training",
                 FunctionParameter = new { hid = heroID, um = false }
             };
@@ -1734,7 +1658,7 @@ namespace CQFollowerAutoclaimer
         {
             var request = new ExecuteCloudScriptRequest()
             {
-                RevisionSelection = CloudScriptRevisionOption.Live,
+                RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "toPG",
                 FunctionParameter = new { multiple = mult10 }
             };
@@ -1765,7 +1689,7 @@ namespace CQFollowerAutoclaimer
         {
             try
             {
-                if(userID == 0)
+                if (userID == 0)
                     return true;
                 var d = new Dictionary<string, string>();
                 d["p"] = userID.ToString();
@@ -1783,6 +1707,389 @@ namespace CQFollowerAutoclaimer
             {
             }
             return true;
+        }
+        #endregion
+
+        #region Weekly Events
+        public async Task<bool> sendSJClaim()
+        {
+            if (!isAdmin)
+                return true;
+            try
+            {
+                if (!await checkCaptcha())
+                    return false;
+                var request = new ExecuteCloudScriptRequest()
+                {
+                    RevisionSelection = CloudScriptRevisionOption.Latest,
+                    FunctionName = "sjclaim"
+                };
+                var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+                if (statusTask.Error != null)
+                {
+                    logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                    return false;
+                }
+                if (statusTask == null || statusTask.Result.FunctionResult == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
+                    if (json["err"].ToString() != "")
+                    {
+                        LastCaptcha = "0";
+                        await sendSJClaim();
+                        return true;
+                    }
+                    SpaceStatus[0] = (int)json["data"]["city"]["space"]["current"]["mission"];
+                    SpaceStatus[1] = (int)((double)json["data"]["city"]["space"]["current"]["timer"] / 1000);
+                    SpaceStatus[7] = (int)json["data"]["city"]["space"]["gears"];
+                    Thread.Sleep(500);
+                    return true;
+                }
+            }
+            catch
+            {
+                await Task.Delay(1000);
+                return false;
+            }
+        }
+
+        public async Task<bool> sendSJStart(int mission)
+        {
+            if (!isAdmin)
+                return true;
+            if (!await checkCaptcha())
+                return false;
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Latest,
+                FunctionName = "sjmission",
+                FunctionParameter = new { mission = mission }
+            };
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null)
+            {
+                return false;
+            }
+            else
+            {
+                await GetGameData();
+                return true;
+            }
+        }
+
+        public async Task<bool> sendSJUpgrade(int upgrade)
+        {
+            if (!isAdmin)
+                return true;
+            if (!await checkCaptcha())
+                return false;
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Latest,
+                FunctionName = "sjupgrade",
+                FunctionParameter = new { upgrade = upgrade }
+            };
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null)
+            {
+                return false;
+            }
+            else
+            {
+                await GetGameData();
+                await Task.Delay(2000);
+                return true;
+            }
+        }
+
+        public async Task<bool> sendSJLeaderboard()
+        {
+            if (!isAdmin)
+                return true;
+            await Task.Delay(100);
+            try
+            {
+                string[] res = await getWELeaderboard("spacejourney", 5);
+                using (var client = new HttpClient())
+                {
+                    var values = new Dictionary<string, string> { { "ulsj", LZString.compressToEncodedURIComponent(JsonConvert.SerializeObject(res)) } };
+                    var content = new FormUrlEncodedContent(values);
+                    var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                    var responseString = await response.Content.ReadAsStringAsync();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<string[]> getWELeaderboard(string ev, int size)
+        {
+            string[] res = new string[size];
+            try
+            {
+                for (int i = 0; i < size; i++)
+                {
+                    var req = new GetLeaderboardRequest
+                    {
+                        StatisticName = ev,
+                        StartPosition = 100*i,
+                        MaxResultsCount = 100
+                    };
+                    var lbTask = await PlayFabClientAPI.GetLeaderboardAsync(req);
+                    res[i] = JsonConvert.SerializeObject(lbTask);
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return res;
+        }
+
+        public async Task<bool> sendGGAutoActivity()
+        {
+            try
+            {
+                var request = new ExecuteCloudScriptRequest()
+                {
+                    RevisionSelection = CloudScriptRevisionOption.Latest,
+                    FunctionName = "ggautoclaim"
+                };
+                var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+                if (statusTask.Error != null)
+                {
+                    logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                    return false;
+                }
+                if (statusTask == null || statusTask.Result.FunctionResult == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
+                    GamesData = json["data"]["city"]["games"];
+                    //logError("sendGGAutoActivity", "ok");
+                    Thread.Sleep(500);
+                    return true;
+                }
+            }
+            catch
+            {
+                await Task.Delay(500);
+                return false;
+            }
+        }
+
+        public async Task<bool> sendGGClaimActivity()
+        {
+            try
+            {
+                if (!await checkCaptcha())
+                    return false;
+                var request = new ExecuteCloudScriptRequest()
+                {
+                    RevisionSelection = CloudScriptRevisionOption.Latest,
+                    FunctionName = "ggclaim"
+                };
+                var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+                if (statusTask.Error != null)
+                {
+                    logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                    return false;
+                }
+                if (statusTask == null || statusTask.Result.FunctionResult == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
+                    GamesData = json["data"]["city"]["games"];
+                    //logError("sendGGClaimActivity", "ok");
+                    Thread.Sleep(1000);
+                    return true;
+                }
+            }
+            catch
+            {
+                await Task.Delay(1000);
+                return false;
+            }
+        }
+
+        public async Task<bool> sendGGStartActivity(int activity)
+        {
+            try
+            {
+                if(!await checkCaptcha())
+                    return false;
+                var request = new ExecuteCloudScriptRequest()
+                {
+                    RevisionSelection = CloudScriptRevisionOption.Latest,
+                    FunctionName = "ggactivity",
+                    FunctionParameter = new { activity }
+                };
+                var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+                if (statusTask.Error != null)
+                {
+                    logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                    return false;
+                }
+                if (statusTask == null || statusTask.Result.FunctionResult == null)
+                {
+                    logError("ggactivity null", activity.ToString());
+                    return false;
+                }
+                else
+                {
+                    JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
+                    GamesData = json["data"]["city"]["games"];
+                    //logError("sendGGStartActivity", "ok");
+                    Thread.Sleep(2000);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                logError("ggactivity error ", ex.Message + " --- " + ex.StackTrace);
+                await Task.Delay(5000);
+                return false;
+            }
+        }
+
+        public async Task<bool> sendGGLeaderboard()
+        {
+            if (!isAdmin)
+                return true;
+            await Task.Delay(100);
+            try
+            {
+                string[] res = await getWELeaderboard("games", 5);
+                using (var client = new HttpClient())
+                {
+                    var values = new Dictionary<string, string> { { "ulgg", LZString.compressToEncodedURIComponent(JsonConvert.SerializeObject(res)) } };
+                    var content = new FormUrlEncodedContent(values);
+                    var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                    var responseString = await response.Content.ReadAsStringAsync();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> checkCaptcha()
+        {
+            if (!isAdmin)
+                return false;
+            long TimestampMilli = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
+            if (TimestampMilli >= (long)Int64.Parse(LastCaptcha))
+            {
+                int[] captchaRes = getArray(await createCaptcha());
+                return await validateCaptcha(captchaRes);
+            }
+            return true;
+        }
+
+        public async Task<string> createCaptcha()
+        {
+            if (!isAdmin)
+                return "";
+            try
+            {
+                var request = new ExecuteCloudScriptRequest()
+                {
+                    RevisionSelection = CloudScriptRevisionOption.Latest,
+                    FunctionName = "createCaptcha"
+                };
+                var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+                if (statusTask.Error != null)
+                {
+                    logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                    return "";
+                }
+                if (statusTask == null || statusTask.Result.FunctionResult == null)
+                {
+                    return "";
+                }
+                else
+                {
+                    JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
+                    int captcha = (int)json["id"];
+                    var responseString = "";
+                    using (var client = new HttpClient())
+                    {
+                        var values = new Dictionary<string, string> { { "scap", captcha.ToString() }, { "scap2", adminPassword } };
+                        var content = new FormUrlEncodedContent(values);
+                        HttpResponseMessage httpResponseMessage = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                        responseString = await httpResponseMessage.Content.ReadAsStringAsync();
+                        Random rnd = new Random();
+                        await Task.Delay(700 + rnd.Next(100, 2000));
+                        return responseString;
+                    }
+                }
+            }
+            catch
+            {
+                await Task.Delay(5000);
+                return "";
+            }
+        }
+
+        public async Task<bool> validateCaptcha(int[] solution)
+        {
+            if (!isAdmin)
+                return true;
+            try
+            {
+                var request = new ExecuteCloudScriptRequest()
+                {
+                    RevisionSelection = CloudScriptRevisionOption.Latest,
+                    FunctionName = "validateCaptcha",
+                    FunctionParameter = new { solution }
+                };
+                var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+                if (statusTask.Error != null)
+                {
+                    logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                    return false;
+                }
+                if (statusTask == null || statusTask.Result.FunctionResult == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    logError("validateCaptcha ok ", "");
+                    Random rnd = new Random();
+                    await Task.Delay(100 + rnd.Next(50, 400));
+                    return true;
+                }
+            }
+            catch
+            {
+                await Task.Delay(5000);
+                return false;
+            }
         }
         #endregion
     }

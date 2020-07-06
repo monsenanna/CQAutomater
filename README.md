@@ -6,6 +6,9 @@ CQAutomater is a tool that runs in the background and automatically claims your 
 Since v4.5, CQA has been collecting data to help players browse history and do some statistics.
 It's all here : http://dcouv.fr/cq.php
 
+# v 4.8.1
+G.A.M.E.S and Space Journey basic features (in a new tab). No public captcha solver, sorry.
+
 # v 4.7.5
 Archers and Eternals.
 
@@ -17,10 +20,14 @@ Random grids are valid, use 10 heroes and 8 monsters, but don't expect top10 (un
 The goal is to help alts and busy people fill flashes, benefiting everyone. I'll improve the feature if needed.
 
 # v 4.7.4
-Space journey heroes (event code is there too, it may happen again).
+Space journey heroes.
+
 Version number will go red when you need to update CQA.
+
 Added recycle counter (no auto-action, it's just a notice).
+
 Cleaned SQL stuff so you don't need a Secret.cs anymore ; this also reduces exe size.
+
 Several tweaks and bugfixes to improve performance and prevent crashes.
 
 # v 4.7.2

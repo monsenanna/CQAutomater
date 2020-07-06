@@ -152,6 +152,7 @@ namespace CQFollowerAutoclaimer
                 appSettings = AppSettings.loadSettings();
                 token = appSettings.token;
                 KongregateId = appSettings.KongregateId;
+                PFStuff.adminPassword = appSettings.adminPassword;
             }
             else if (File.Exists("MacroSettings.txt"))
             {
@@ -945,19 +946,19 @@ namespace CQFollowerAutoclaimer
             autoDQ.fightWithPresetLineup(AutoDQ.CalcMode.DUNG);
         }
 
-        private void AutoEvCheckbox_CheckedChanged(object sender, EventArgs e)
+        private void AutoDEvCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            if (autoEvCheckbox.Checked)
+            if (autoDEvCheckbox.Checked)
             {
-                AEIndicator.BackColor = System.Drawing.Color.Green;
+                ADEIndicator.BackColor = System.Drawing.Color.Green;
                 autoEvent.EventTimer.Interval = 30 * 1000;
             }
             else
             {
-                AEIndicator.BackColor = System.Drawing.Color.Red;
+                ADEIndicator.BackColor = System.Drawing.Color.Red;
             }
             appSettings = AppSettings.loadSettings();
-            appSettings.autoEvEnabled = autoEvCheckbox.Checked;
+            appSettings.autoEvEnabled = autoDEvCheckbox.Checked;
             appSettings.saveSettings();
         }
 
@@ -979,6 +980,23 @@ namespace CQFollowerAutoclaimer
             appSettings.optAutoAD = adventurePriority.SelectedIndex;
             appSettings.doAutoLO = doAutoLOCheckbox.Checked;
             appSettings.optAutoLO = Convert.ToInt32(Math.Round(lotteryCount.Value, 0));
+            appSettings.sjUpgrade = Convert.ToInt32(Math.Round(sjUpgrade.Value, 0));
+            appSettings.saveSettings();
+        }
+
+        private void AutoWEvCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (autoWEvCheckbox.Checked)
+            {
+                AWEIndicator.BackColor = System.Drawing.Color.Green;
+                autoEvent.EventTimer.Interval = 30 * 1000;
+            }
+            else
+            {
+                AWEIndicator.BackColor = System.Drawing.Color.Red;
+            }
+            appSettings = AppSettings.loadSettings();
+            appSettings.autoWEvEnabled = autoWEvCheckbox.Checked;
             appSettings.saveSettings();
         }
     }

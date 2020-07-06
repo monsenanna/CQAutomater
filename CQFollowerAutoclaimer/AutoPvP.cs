@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-using System.IO;
 using Newtonsoft.Json;
 
 namespace CQFollowerAutoclaimer
@@ -76,7 +73,6 @@ namespace CQFollowerAutoclaimer
                     if (nextPVP < DateTime.Now)
                         nextPVP = nextPVP.AddMilliseconds(3605000);
                     main.PvPTimeLabel.setText(nextPVP.ToString());
-                    //PVPTimer.Interval = fightsToDo > 1 ? 30000 : Math.Max(8000, (nextPVP - DateTime.Now).TotalMilliseconds);
                     PVPTimer.Interval = fightsToDo > 0 ? 905000 : Math.Max(30000, Math.Min(905000, (nextPVP - DateTime.Now).TotalMilliseconds));
                     PVPTimer.Start();
                 }

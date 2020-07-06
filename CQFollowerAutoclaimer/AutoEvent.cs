@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -17,8 +15,8 @@ namespace CQFollowerAutoclaimer
     {
         Form1 main;
         static int goodPicks = 0, badPicks = 0;
-        public System.Timers.Timer EventTimer = new System.Timers.Timer();
-        public System.Timers.Timer CouponTimer = new System.Timers.Timer();
+        public Timer EventTimer = new Timer();
+        public Timer CouponTimer = new Timer();
         static string TweetCoupon = "";
 
         public AutoEvent(Form1 m)
@@ -31,7 +29,7 @@ namespace CQFollowerAutoclaimer
         public void loadSettings()
         {
             AppSettings ap = AppSettings.loadSettings();
-            main.autoEvCheckbox.Checked = ap.autoEvEnabled ?? false;
+            main.autoDEvCheckbox.Checked = ap.autoEvEnabled ?? false;
             main.doAutoFTCheckbox.Checked = ap.doAutoFT ?? false;
             main.doAutoDGCheckbox.Checked = ap.doAutoDG ?? false;
             main.doAutoLFCheckbox.Checked = ap.doAutoLF ?? false;
@@ -42,11 +40,13 @@ namespace CQFollowerAutoclaimer
             main.adventurePriority.SelectedIndex = ap.optAutoAD ?? 0;
             main.doAutoLOCheckbox.Checked = ap.doAutoLO ?? false;
             main.lotteryCount.Value = ap.optAutoLO ?? 0;
+            main.autoWEvCheckbox.Checked = ap.autoWEvEnabled ?? false;
+            main.sjUpgrade.Value = ap.sjUpgrade ?? 0;
         }
 
         async void EventTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (main.autoEvCheckbox.Checked)
+            if (main.autoDEvCheckbox.Checked)
             {
                 if (!PlayFab.PlayFabClientAPI.IsClientLoggedIn())
                 {
@@ -413,47 +413,21 @@ namespace CQFollowerAutoclaimer
                         await main.pf.sendLottery();
                     }
                 }
-                main.AEIndicator.BackColor = Color.Green;
+                main.ADEIndicator.BackColor = Color.Green;
+            }
+            if (main.autoWEvCheckbox.Checked)
+            {
                 try
                 {
-                    if (PFStuff.SpaceStatus[0] != -2) // todo : calc current Weekly Event
-                    {
-                        var Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-                        //int toUpg = PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[3] && PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[4] ? 0 : PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[4] ? 1 : 2;
-                        //int toUpg = PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[2] && PFStuff.SpaceStatus[3] <= PFStuff.SpaceStatus[4] ? 1 : PFStuff.SpaceStatus[2] <= PFStuff.SpaceStatus[4] ? 0 : 2;
-                        int toUpg = 1;
-                        int cost = (int)(250 * Math.Pow(2, PFStuff.SpaceStatus[toUpg + 2]));
-                        if (PFStuff.SpaceStatus[0] > -1 && PFStuff.SpaceStatus[1] != -1 && PFStuff.SpaceStatus[1] >= (int)Timestamp)
-                        {
-                            main.weeklyEventLabel.Text = "SJ running";
-                            if (PFStuff.SpaceStatus[1] < (int)Timestamp + 90)
-                            {
-                                EventTimer.Interval = (PFStuff.SpaceStatus[1] + 5 - (int)Timestamp) * 1000; // reduce timer
-                            }
-                        }
-                        else if (PFStuff.SpaceStatus[0] > -1 && PFStuff.SpaceStatus[1] != -1 && PFStuff.SpaceStatus[1] <= (int)Timestamp)
-                        {
-                            main.weeklyEventLabel.Text = "Let's go claim SJ";
-                            EventTimer.Interval = 10000;
-                            await main.pf.sendSJClaim();
-                        }
-                        if (PFStuff.SpaceStatus[0] == -1 || PFStuff.SpaceStatus[1] == -1)
-                        {
-                            main.weeklyEventLabel.Text = "Ready to start SJ ; gears : " + PFStuff.SpaceStatus[5].ToString() + "/" + cost.ToString();
-                            if (PFStuff.SpaceStatus[5] >= cost)
-                                await main.pf.sendSJUpgrade(toUpg);
-                            EventTimer.Interval = 60 * 1000;
-                            await main.pf.sendSJStart(0);
-                            main.weeklyEventLabel.Text = "SJ started";
-                        }
-                    }
+                    weeklyEvents();
                 }
                 catch (Exception ex)
                 {
-                    PFStuff.logError("SJ exception", ex.Message);
+                    PFStuff.logError("WE exception", ex.Message + " --- " + ex.StackTrace);
                 }
             }
         }
+
         async void CouponTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (!PlayFab.PlayFabClientAPI.IsClientLoggedIn())
@@ -482,6 +456,103 @@ namespace CQFollowerAutoclaimer
             {
                 PFStuff.logError("Coupon", "Catched error " + ex.Message);
                 main.label141.setText("Unable to send coupon");
+            }
+        }
+
+        async void weeklyEvents()
+        {
+            main.weeklyEventLabel.Text = "Current event : " + PFStuff.eventLoop[PFStuff.currentWeeklyEvent];
+            switch (PFStuff.currentWeeklyEvent)
+            {
+                case 3: // Space Journey
+                    //main.weeklyEventLabel.Text = JsonConvert.SerializeObject(PFStuff.SpaceStatus);
+                    if(PFStuff.SpaceStatus[0] == -2)
+                    {
+                        main.weeklyEventLabel.Text = "Space Journey hasn't started yet, or has ended.";
+                        await main.pf.sendSJLeaderboard();
+                        break;
+                    }
+                    long Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+                    int toUpg = (int)main.sjUpgrade.Value;
+                    int cost = (int)(10000 + 10000 * PFStuff.SpaceStatus[toUpg + 2]);
+                    if (PFStuff.SpaceStatus[0] > -1 && PFStuff.SpaceStatus[1] != -1 && PFStuff.SpaceStatus[1] >= Timestamp)
+                    {
+                        main.weeklyEventLabel.Text = "SJ mission running";
+                        if (PFStuff.SpaceStatus[1] < (int)Timestamp + 90)
+                        {
+                            EventTimer.Interval = (PFStuff.SpaceStatus[1] + 4 - (int)Timestamp) * 1000; // reduce timer
+                            main.weeklyEventLabel.Text = "SJ mission soon over";
+                        }
+                        await main.pf.sendSJLeaderboard();
+                    }
+                    else if (PFStuff.SpaceStatus[0] > -1 && PFStuff.SpaceStatus[1] != -1 && PFStuff.SpaceStatus[1] <= Timestamp)
+                    {
+                        main.weeklyEventLabel.Text = "Let's go claim SJ";
+                        await main.pf.sendSJClaim();
+                        EventTimer.Interval = 4000;
+                    }
+                    if (PFStuff.SpaceStatus[0] == -1 || PFStuff.SpaceStatus[1] == -1)
+                    {
+                        main.weeklyEventLabel.Text = "Ready to start SJ ; gears : " + PFStuff.SpaceStatus[7].ToString() + "/" + cost.ToString();
+                        if (PFStuff.SpaceStatus[7] >= cost)
+                            await main.pf.sendSJUpgrade(toUpg);
+                        EventTimer.Interval = 60 * 1000;
+                        await main.pf.sendSJStart(0);
+                        main.weeklyEventLabel.Text = "SJ started";
+                    }
+                    break;
+                case 1: // G.A.M.E.S
+                    //main.weeklyEventLabel.Text = "games "+ PFStuff.currentWeeklyEvent.ToString();
+                    EventTimer.Interval = 60 * 1000;
+                    long TimestampMilli = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
+                    long currentTickRate = (long)(144e4 - 72e3 * int.Parse(PFStuff.GamesData["upgrades"][1].ToString()));
+                    if ((int)PFStuff.GamesData["activities"]["activity"] >= 0 && (long)PFStuff.GamesData["activities"]["timer"] < TimestampMilli)
+                        await main.pf.sendGGClaimActivity();
+                    if ((int)PFStuff.GamesData["activities"]["activity"] == -1 && (int)PFStuff.GamesData["activities"]["points"] > 0)
+                    { // start an activity
+                        int act = 1;
+                        if ((int)PFStuff.GamesData["stamina"] >= 110)
+                            act = 2;
+                        if (act == 1 && (int)PFStuff.GamesData["activities"]["points"] == 1) // last hunt
+                            act = 0;
+                        bool r = await main.pf.sendGGStartActivity(act);
+                        if (!r)
+                        {
+                            await Task.Delay(4000);
+                            await main.pf.sendGGStartActivity(act);
+                        }
+                        EventTimer.Interval = 15000;
+                        break;
+                    }
+                    await main.pf.sendGGLeaderboard();
+                    long lastClaim = (long)PFStuff.GamesData["automatic"]["lastClaim"];
+                    int tickValue = (int)PFStuff.GamesData["automatic"]["tickValue"];
+                    if (tickValue > 5000 && ((int)PFStuff.GamesData["activities"]["activity"] != -1 || (int)PFStuff.GamesData["activities"]["points"] > 0))
+                    { // don't autoclaim while doing daily activities
+                        break;
+                    }
+                    if (TimestampMilli - lastClaim > currentTickRate)
+                    { // claim favour
+                        PFStuff.logError("claim", "now is " + TimestampMilli.ToString() + " expected is " + (currentTickRate + lastClaim).ToString());
+                        bool r = await main.pf.sendGGAutoActivity();
+                        int tries = 0;
+                        while (!r && tries < 10)
+                        {
+                            await Task.Delay(2000);
+                            r = await main.pf.sendGGAutoActivity();
+                            tries++;
+                        }
+                        break;
+                    }
+                    if (TimestampMilli + 90000 - lastClaim > currentTickRate)
+                    { // reduce timer
+                        EventTimer.Interval = currentTickRate + lastClaim + 500 - TimestampMilli;
+                        break;
+                    }
+                    EventTimer.Interval = 60 * 1000;
+                    break;
+                default:
+                    break;
             }
         }
 
