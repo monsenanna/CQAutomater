@@ -205,12 +205,12 @@ namespace CQFollowerAutoclaimer
             {
                 RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "status",
-                FunctionParameter = new { token = token, kid = kongID }
+                FunctionParameter = new { token, kid = kongID }
             };
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
             if (statusTask.Error != null)
             {
-                logError("GetGameData error ", statusTask.Error.ErrorMessage + "-- - " + statusTask.Error.ErrorDetails);
+                logError("GetGameData error ", statusTask.Error.ErrorMessage + " --- " + statusTask.Error.ErrorDetails);
                 return false;
             }
             if (statusTask.Result == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
@@ -667,9 +667,20 @@ namespace CQFollowerAutoclaimer
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"https://cosmosquest.net/public.php?kid=" + id);
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-                string content = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                string content = "";
+                try
+                {
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                    content = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                }
+                catch (Exception ex) // try again
+                {
+                    logError("getWebsiteData ","http failed, retrying --- " + ex.Message);
+                    Thread.Sleep(1000);
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                    content = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                    logError("getWebsiteData ", "http retry succeeded");
+                }
 
                 JObject json = JObject.Parse(content);
                 var WBData = json["WB"];

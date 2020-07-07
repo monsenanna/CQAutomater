@@ -72,7 +72,7 @@ namespace CQFollowerAutoclaimer
         {
             if (File.Exists(Form1.SettingsFilename))
             {
-                System.IO.StreamReader sr = new System.IO.StreamReader(Form1.SettingsFilename);
+                StreamReader sr = new StreamReader(Form1.SettingsFilename);
                 AppSettings a = JsonConvert.DeserializeObject<AppSettings>(sr.ReadToEnd());
                 sr.Close();
                 return a;
@@ -85,10 +85,15 @@ namespace CQFollowerAutoclaimer
 
         public void saveSettings()
         {
-            string json = JsonConvert.SerializeObject(this, Formatting.Indented);
-            System.IO.StreamWriter sw = new System.IO.StreamWriter(Form1.SettingsFilename);
-            sw.Write(json);
-            sw.Close();
+            try
+            {
+                string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+                StreamWriter sw = new StreamWriter(Form1.SettingsFilename);
+                sw.Write(json);
+                sw.Close();
+            }
+            catch (Exception)
+            { }
         }
     }
 }

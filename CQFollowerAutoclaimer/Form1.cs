@@ -1,26 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PlayFab;
-using PlayFab.ClientModels;
-using System.Threading;
 using System.IO;
-using System.Windows.Threading;
 using System.Text.RegularExpressions;
 using System.Timers;
-using System.Diagnostics;
 using System.Media;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Runtime.InteropServices;
-using System.Net;
-using System.Reflection;
 
 namespace CQFollowerAutoclaimer
 {
@@ -153,10 +141,12 @@ namespace CQFollowerAutoclaimer
                 token = appSettings.token;
                 KongregateId = appSettings.KongregateId;
                 PFStuff.adminPassword = appSettings.adminPassword;
+                if (PFStuff.adminPassword != "")
+                    PFStuff.isAdmin = true;
             }
             else if (File.Exists("MacroSettings.txt"))
             {
-                System.IO.StreamReader sr = new System.IO.StreamReader("MacroSettings.txt");
+                StreamReader sr = new StreamReader("MacroSettings.txt");
                 appSettings.actionOnStart = int.Parse(getSetting(sr.ReadLine()));
                 token = appSettings.token = getSetting(sr.ReadLine());
                 KongregateId = appSettings.KongregateId = getSetting(sr.ReadLine());
@@ -363,7 +353,7 @@ namespace CQFollowerAutoclaimer
 
         internal async Task getData()
         {
-            if (!PlayFab.PlayFabClientAPI.IsClientLoggedIn())
+            if (!PlayFabClientAPI.IsClientLoggedIn())
             {
                 await login();
             }
@@ -570,7 +560,7 @@ namespace CQFollowerAutoclaimer
         #region MIRACLES
         async private void OnTmrElapsed(Object source, System.Timers.ElapsedEventArgs e)
         {
-            if (!PlayFab.PlayFabClientAPI.IsClientLoggedIn())
+            if (!PlayFabClientAPI.IsClientLoggedIn())
             {
                 await login();
             }
@@ -579,7 +569,7 @@ namespace CQFollowerAutoclaimer
         }
         public async Task<bool> claimMiracles()
         {
-            if (!PlayFab.PlayFabClientAPI.IsClientLoggedIn())
+            if (!PlayFabClientAPI.IsClientLoggedIn())
             {
                 await login();
             }
