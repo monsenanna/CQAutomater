@@ -66,6 +66,7 @@ namespace CQFollowerAutoclaimer
         public int? calcTimeLimit { get; set; }
         public bool? autoWEvEnabled { get; set; }
         public int? sjUpgrade { get; set; }
+        public int? ggUpgrade { get; set; }
         public string adminPassword { get; set; }
 
         public static AppSettings loadSettings()

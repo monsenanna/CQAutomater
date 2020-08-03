@@ -280,7 +280,7 @@ namespace CQFollowerAutoclaimer
                                 {
                                     DateTime dt = TimeZoneInfo.ConvertTimeToUtc(Form1.getTime(PFStuff.GetDataTime));
                                     //PFStuff.logError("wb", "pfs : " + PFStuff.FlashStatus.ToString() + " - utc : " + dt.Hour.ToString());
-                                    if (PFStuff.FlashStatus != 1 || dt.Hour < 12) // don't waste just before EAS day
+                                    if (attacksAvailable >= 7 || PFStuff.FlashStatus != 1 || dt.Hour < 12) // don't waste just before EAS day
                                     {
                                         main.taskQueue.Enqueue(() => fightWB(lineup), "WB");
                                     }

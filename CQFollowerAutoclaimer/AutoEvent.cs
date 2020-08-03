@@ -42,6 +42,7 @@ namespace CQFollowerAutoclaimer
             main.lotteryCount.Value = ap.optAutoLO ?? 0;
             main.autoWEvCheckbox.Checked = ap.autoWEvEnabled ?? false;
             main.sjUpgrade.Value = ap.sjUpgrade ?? 0;
+            main.ggUpgrade.Value = ap.ggUpgrade ?? 0;
         }
 
         async void EventTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -462,6 +463,7 @@ namespace CQFollowerAutoclaimer
         async void weeklyEvents()
         {
             main.weeklyEventLabel.Text = "Current event : " + PFStuff.eventLoop[PFStuff.currentWeeklyEvent];
+            int toUpg, cost;
             switch (PFStuff.currentWeeklyEvent)
             {
                 case 3: // Space Journey
@@ -473,8 +475,8 @@ namespace CQFollowerAutoclaimer
                         break;
                     }
                     long Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-                    int toUpg = (int)main.sjUpgrade.Value;
-                    int cost = (int)(10000 + 10000 * PFStuff.SpaceStatus[toUpg + 2]);
+                    toUpg = (int)main.sjUpgrade.Value;
+                    cost = (int)(5000 + 5000 * PFStuff.SpaceStatus[toUpg + 2]);
                     if (PFStuff.SpaceStatus[0] > -1 && PFStuff.SpaceStatus[1] != -1 && PFStuff.SpaceStatus[1] >= Timestamp)
                     {
                         main.weeklyEventLabel.Text = "SJ mission running";
@@ -502,54 +504,96 @@ namespace CQFollowerAutoclaimer
                     }
                     break;
                 case 1: // G.A.M.E.S
-                    //main.weeklyEventLabel.Text = "games "+ PFStuff.currentWeeklyEvent.ToString();
-                    EventTimer.Interval = 60 * 1000;
-                    long TimestampMilli = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
-                    long currentTickRate = (long)(144e4 - 72e3 * int.Parse(PFStuff.GamesData["upgrades"][1].ToString()));
-                    if ((int)PFStuff.GamesData["activities"]["activity"] >= 0 && (long)PFStuff.GamesData["activities"]["timer"] < TimestampMilli)
-                        await main.pf.sendGGClaimActivity();
-                    if ((int)PFStuff.GamesData["activities"]["activity"] == -1 && (int)PFStuff.GamesData["activities"]["points"] > 0)
-                    { // start an activity
-                        int act = 1;
-                        if ((int)PFStuff.GamesData["stamina"] >= 110)
-                            act = 2;
-                        if (act == 1 && (int)PFStuff.GamesData["activities"]["points"] == 1) // last hunt
-                            act = 0;
-                        bool r = await main.pf.sendGGStartActivity(act);
-                        if (!r)
+                    try
+                    {
+                        EventTimer.Interval = 60 * 1000;
+                        long TimestampMilli = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
+                        long currentTickRate = (long)(144e4 - 72e3 * int.Parse(PFStuff.GamesData["upgrades"][1].ToString()));
+                        toUpg = (int)main.ggUpgrade.Value;
+                        if(toUpg > 2) // night mode : max appease, then super, while teamup is useless (todo : don't do that during first night ; also, feel free to suggest a better algorithm)
                         {
-                            await Task.Delay(4000);
-                            await main.pf.sendGGStartActivity(act);
+                            if ((int)PFStuff.GamesData["upgrades"][1] < 10)
+                                toUpg = 1;
+                            else if((int)PFStuff.GamesData["upgrades"][2] <= (int)PFStuff.GamesData["upgrades"][0])
+                                toUpg = 2;
+                            else
+                                toUpg = 0;
                         }
-                        EventTimer.Interval = 15000;
-                        break;
-                    }
-                    await main.pf.sendGGLeaderboard();
-                    long lastClaim = (long)PFStuff.GamesData["automatic"]["lastClaim"];
-                    int tickValue = (int)PFStuff.GamesData["automatic"]["tickValue"];
-                    if (tickValue > 5000 && ((int)PFStuff.GamesData["activities"]["activity"] != -1 || (int)PFStuff.GamesData["activities"]["points"] > 0))
-                    { // don't autoclaim while doing daily activities
-                        break;
-                    }
-                    if (TimestampMilli - lastClaim > currentTickRate)
-                    { // claim favour
-                        PFStuff.logError("claim", "now is " + TimestampMilli.ToString() + " expected is " + (currentTickRate + lastClaim).ToString());
-                        bool r = await main.pf.sendGGAutoActivity();
-                        int tries = 0;
-                        while (!r && tries < 10)
+                        cost = (int)(15000 + 15000 * (int)PFStuff.GamesData["upgrades"][toUpg]);
+                        if ((int)PFStuff.GamesData["upgrades"][toUpg] >= 10)
+                            cost = 99999999;
+                        if ((int)PFStuff.GamesData["currentFavour"] >= cost)
                         {
+                            await main.pf.sendGGUpgrade(toUpg);
+                            main.weeklyEventLabel.Text = "Games upgrade done";
+                        }
+                        if ((int)PFStuff.GamesData["activities"]["activity"] >= 0 && (long)PFStuff.GamesData["activities"]["timer"] < TimestampMilli)
+                        {
+                            EventTimer.Interval = 5 * 1000;
+                            bool r = await main.pf.sendGGClaimActivity();
+                            main.weeklyEventLabel.Text = "Games activity claimed";
+                            await Task.Delay(200);
+                        }
+                        if ((int)PFStuff.GamesData["activities"]["activity"] == -1 && (int)PFStuff.GamesData["activities"]["points"] > 0)
+                        { // start an activity
+                            main.weeklyEventLabel.Text = "Games activity starting soon";
+                            int act = 1;
+                            if ((int)PFStuff.GamesData["stamina"] >= 110)
+                                act = 2;
+                            if (act == 1 && (int)PFStuff.GamesData["activities"]["points"] == 1) // last hunt
+                                act = 0;
+                            bool r = await main.pf.sendGGStartActivity(act);
+                            if (!r)
+                            {
+                                await Task.Delay(3000);
+                                await main.pf.sendGGStartActivity(act);
+                            }
+                            main.weeklyEventLabel.Text = "Games activity started";
                             await Task.Delay(2000);
-                            r = await main.pf.sendGGAutoActivity();
-                            tries++;
+                            EventTimer.Interval = 15 * 1000;
+                            break;
                         }
-                        break;
+                        await main.pf.sendGGLeaderboard();
+                        long lastClaim = (long)PFStuff.GamesData["automatic"]["lastClaim"];
+                        int tickValue = (int)PFStuff.GamesData["automatic"]["tickValue"];
+                        TimestampMilli = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
+                        if ((long)PFStuff.GamesData["activities"]["timer"] > 0 && TimestampMilli + 90000 > (long)PFStuff.GamesData["activities"]["timer"])
+                        { // reduce timer
+                            EventTimer.Interval = (long)PFStuff.GamesData["activities"]["timer"] + 500 - TimestampMilli;
+                            main.weeklyEventLabel.Text = "Games timer adjusted, checking in " + (EventTimer.Interval / 1000).ToString() + " seconds";
+                            break;
+                        }
+                        if (tickValue > 5000 && ((int)PFStuff.GamesData["activities"]["activity"] != -1 || (int)PFStuff.GamesData["activities"]["points"] > 0))
+                        { // don't autoclaim while doing daily activities
+                            main.weeklyEventLabel.Text = "Games activity running, prevent claiming";
+                            break;
+                        }
+                        if (TimestampMilli - lastClaim > currentTickRate)
+                        { // claim favour
+                            main.weeklyEventLabel.Text = "Games autoclaiming";
+                            bool r = await main.pf.sendGGAutoActivity();
+                            int tries = 0;
+                            while (!r && tries < 2)
+                            {
+                                await Task.Delay(4000);
+                                r = await main.pf.sendGGAutoActivity();
+                                tries++;
+                            }
+                            main.weeklyEventLabel.Text = "Games favour claimed";
+                            break;
+                        }
+                        if (TimestampMilli + 90000 - lastClaim > currentTickRate)
+                        { // reduce timer
+                            EventTimer.Interval = currentTickRate + lastClaim + 500 - TimestampMilli;
+                            main.weeklyEventLabel.Text = "Games timer adjusted";
+                            break;
+                        }
+                        EventTimer.Interval = 60 * 1000;
                     }
-                    if (TimestampMilli + 90000 - lastClaim > currentTickRate)
-                    { // reduce timer
-                        EventTimer.Interval = currentTickRate + lastClaim + 500 - TimestampMilli;
-                        break;
+                    catch (Exception ex)
+                    {
+                        PFStuff.logError("gg error ", ex.Message + " --- " + ex.StackTrace + " --- " + ex.Data);
                     }
-                    EventTimer.Interval = 60 * 1000;
                     break;
                 default:
                     break;

@@ -376,6 +376,8 @@
             this.label109 = new System.Windows.Forms.Label();
             this.label73 = new System.Windows.Forms.Label();
             this.tabPage10 = new System.Windows.Forms.TabPage();
+            this.label148 = new System.Windows.Forms.Label();
+            this.ggUpgrade = new System.Windows.Forms.NumericUpDown();
             this.autoWEvCheckbox = new System.Windows.Forms.CheckBox();
             this.label146 = new System.Windows.Forms.Label();
             this.sjUpgrade = new System.Windows.Forms.NumericUpDown();
@@ -459,6 +461,7 @@
             this.tabPage9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lotteryCount)).BeginInit();
             this.tabPage10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ggUpgrade)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sjUpgrade)).BeginInit();
             this.tabPage6.SuspendLayout();
             this.SuspendLayout();
@@ -4477,6 +4480,8 @@
             // 
             // tabPage10
             // 
+            this.tabPage10.Controls.Add(this.label148);
+            this.tabPage10.Controls.Add(this.ggUpgrade);
             this.tabPage10.Controls.Add(this.autoWEvCheckbox);
             this.tabPage10.Controls.Add(this.label146);
             this.tabPage10.Controls.Add(this.sjUpgrade);
@@ -4488,6 +4493,29 @@
             this.tabPage10.TabIndex = 9;
             this.tabPage10.Text = "WeekEv";
             this.tabPage10.UseVisualStyleBackColor = true;
+            // 
+            // label148
+            // 
+            this.label148.AutoSize = true;
+            this.label148.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.label148.Location = new System.Drawing.Point(31, 94);
+            this.label148.Name = "label148";
+            this.label148.Size = new System.Drawing.Size(133, 16);
+            this.label148.TabIndex = 115;
+            this.label148.Text = "Games next upgrade";
+            // 
+            // ggUpgrade
+            // 
+            this.ggUpgrade.Location = new System.Drawing.Point(243, 94);
+            this.ggUpgrade.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.ggUpgrade.Name = "ggUpgrade";
+            this.ggUpgrade.Size = new System.Drawing.Size(59, 20);
+            this.ggUpgrade.TabIndex = 114;
+            this.ggUpgrade.ValueChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
             // 
             // autoWEvCheckbox
             // 
@@ -4773,6 +4801,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.lotteryCount)).EndInit();
             this.tabPage10.ResumeLayout(false);
             this.tabPage10.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ggUpgrade)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sjUpgrade)).EndInit();
             this.tabPage6.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -5146,6 +5175,8 @@
         internal System.Windows.Forms.NumericUpDown sjUpgrade;
         public System.Windows.Forms.Label AWEIndicator;
         internal System.Windows.Forms.CheckBox autoWEvCheckbox;
+        public System.Windows.Forms.Label label148;
+        internal System.Windows.Forms.NumericUpDown ggUpgrade;
     }
 }
 

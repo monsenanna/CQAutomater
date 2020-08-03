@@ -33,7 +33,7 @@ namespace CQFollowerAutoclaimer
     }
     class AuctionHouse
     {
-        System.Timers.Timer AHTimer = new System.Timers.Timer();
+        //System.Timers.Timer AHTimer = new System.Timers.Timer();
         Form1 main;
         List<Auction> auctionList = new List<Auction>();
         internal DateTime[] auctionDates = new DateTime[3];
@@ -158,6 +158,7 @@ namespace CQFollowerAutoclaimer
             if (temp.ToList().Count > 0)
             {
                 await main.getData();
+                await main.getCurr();
                 PFStuff.getWebsiteData(main.KongregateId);
                 foreach (Auction au in temp.ToList())
                 {

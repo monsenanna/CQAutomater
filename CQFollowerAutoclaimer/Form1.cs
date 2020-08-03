@@ -971,6 +971,7 @@ namespace CQFollowerAutoclaimer
             appSettings.doAutoLO = doAutoLOCheckbox.Checked;
             appSettings.optAutoLO = Convert.ToInt32(Math.Round(lotteryCount.Value, 0));
             appSettings.sjUpgrade = Convert.ToInt32(Math.Round(sjUpgrade.Value, 0));
+            appSettings.ggUpgrade = Convert.ToInt32(Math.Round(ggUpgrade.Value, 0));
             appSettings.saveSettings();
         }
 

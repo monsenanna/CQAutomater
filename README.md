@@ -6,6 +6,9 @@ CQAutomater is a tool that runs in the background and automatically claims your 
 Since v4.5, CQA has been collecting data to help players browse history and do some statistics.
 It's all here : http://dcouv.fr/cq.php
 
+# v 4.8.2
+Bugfixes and G.A.M.E.S improvements.
+
 # v 4.8.1
 G.A.M.E.S and Space Journey basic features (in a new tab). No public captcha solver, sorry.
 

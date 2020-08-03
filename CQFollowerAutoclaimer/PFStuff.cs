@@ -1807,7 +1807,7 @@ namespace CQFollowerAutoclaimer
             {
                 RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "sjupgrade",
-                FunctionParameter = new { upgrade = upgrade }
+                FunctionParameter = new { upgrade }
             };
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
             if (statusTask.Error != null)
@@ -1822,7 +1822,7 @@ namespace CQFollowerAutoclaimer
             else
             {
                 await GetGameData();
-                await Task.Delay(2000);
+                await Task.Delay(1000);
                 return true;
             }
         }
@@ -1896,7 +1896,7 @@ namespace CQFollowerAutoclaimer
                 {
                     JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
                     GamesData = json["data"]["city"]["games"];
-                    //logError("sendGGAutoActivity", "ok");
+                    //logError("sendGGAutoActivity", JsonConvert.SerializeObject(GamesData));
                     Thread.Sleep(500);
                     return true;
                 }
@@ -1927,14 +1927,13 @@ namespace CQFollowerAutoclaimer
                 }
                 if (statusTask == null || statusTask.Result.FunctionResult == null)
                 {
-                    return false;
+                    return true;
                 }
                 else
                 {
                     JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
                     GamesData = json["data"]["city"]["games"];
-                    //logError("sendGGClaimActivity", "ok");
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
                     return true;
                 }
             }
@@ -1942,6 +1941,36 @@ namespace CQFollowerAutoclaimer
             {
                 await Task.Delay(1000);
                 return false;
+            }
+        }
+
+        public async Task<bool> sendGGUpgrade(int upgrade)
+        {
+            if (!isAdmin)
+                return true;
+            if (!await checkCaptcha())
+                return false;
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Latest,
+                FunctionName = "ggupgrade",
+                FunctionParameter = new { upgrade }
+            };
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null)
+            {
+                return false;
+            }
+            else
+            {
+                await GetGameData();
+                await Task.Delay(1000);
+                return true;
             }
         }
 
@@ -1973,13 +2002,13 @@ namespace CQFollowerAutoclaimer
                     JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
                     GamesData = json["data"]["city"]["games"];
                     //logError("sendGGStartActivity", "ok");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
                     return true;
                 }
             }
             catch (Exception ex)
             {
-                logError("ggactivity error ", ex.Message + " --- " + ex.StackTrace);
+                logError("gg start activity error ", ex.Message + " --- " + ex.StackTrace + " --- " + ex.Data);
                 await Task.Delay(5000);
                 return false;
             }
@@ -2010,15 +2039,22 @@ namespace CQFollowerAutoclaimer
 
         public async Task<bool> checkCaptcha()
         {
-            if (!isAdmin)
-                return false;
-            long TimestampMilli = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
-            if (TimestampMilli >= (long)Int64.Parse(LastCaptcha))
+            try
             {
-                int[] captchaRes = getArray(await createCaptcha());
-                return await validateCaptcha(captchaRes);
+                if (!isAdmin)
+                    return false;
+                long TimestampMilli = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
+                if (TimestampMilli >= (long)Int64.Parse(LastCaptcha))
+                {
+                    int[] captchaRes = getArray(await createCaptcha());
+                    return await validateCaptcha(captchaRes);
+                }
+                return true;
             }
-            return true;
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public async Task<string> createCaptcha()
