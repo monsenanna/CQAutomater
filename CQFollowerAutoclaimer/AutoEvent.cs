@@ -31,6 +31,7 @@ namespace CQFollowerAutoclaimer
             AppSettings ap = AppSettings.loadSettings();
             main.autoDEvCheckbox.Checked = ap.autoEvEnabled ?? false;
             main.doAutoFTCheckbox.Checked = ap.doAutoFT ?? false;
+            main.doAutoEACheckbox.Checked = ap.doAutoEA ?? false;
             main.doAutoDGCheckbox.Checked = ap.doAutoDG ?? false;
             main.doAutoLFCheckbox.Checked = ap.doAutoLF ?? false;
             main.doAutoKTCheckbox.Checked = ap.doAutoKT ?? false;
@@ -480,9 +481,16 @@ namespace CQFollowerAutoclaimer
                     if (PFStuff.SpaceStatus[0] > -1 && PFStuff.SpaceStatus[1] != -1 && PFStuff.SpaceStatus[1] >= Timestamp)
                     {
                         main.weeklyEventLabel.Text = "SJ mission running";
-                        if (PFStuff.SpaceStatus[1] < (int)Timestamp + 90)
+                        if (PFStuff.SpaceStatus[8] > 0 && PFStuff.SpaceStatus[1] > (int)Timestamp + 1300)
                         {
-                            EventTimer.Interval = (PFStuff.SpaceStatus[1] + 4 - (int)Timestamp) * 1000; // reduce timer
+                            await main.pf.sendSJHloop();
+                            EventTimer.Interval = 30 * 1000; // reduce timer
+                            main.weeklyEventLabel.Text = "SJ used hyperloop";
+                            break;
+                        }
+                        if (PFStuff.SpaceStatus[1] < (int)Timestamp + 110)
+                        {
+                            EventTimer.Interval = (PFStuff.SpaceStatus[1] + 3 - (int)Timestamp) * 1000; // reduce timer
                             main.weeklyEventLabel.Text = "SJ mission soon over";
                         }
                         await main.pf.sendSJLeaderboard();
@@ -491,7 +499,7 @@ namespace CQFollowerAutoclaimer
                     {
                         main.weeklyEventLabel.Text = "Let's go claim SJ";
                         await main.pf.sendSJClaim();
-                        EventTimer.Interval = 4000;
+                        EventTimer.Interval = 3000;
                     }
                     if (PFStuff.SpaceStatus[0] == -1 || PFStuff.SpaceStatus[1] == -1)
                     {

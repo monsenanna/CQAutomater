@@ -6,6 +6,10 @@ CQAutomater is a tool that runs in the background and automatically claims your 
 Since v4.5, CQA has been collecting data to help players browse history and do some statistics.
 It's all here : http://dcouv.fr/cq.php
 
+# v 4.8.2a
+Auto T1 and T2. It's in PvP tab, and if checked, it will build a decent-but-not-winning grid (my aim is 50-60% wr). Hopefully all alts use that and tourneys get more crowded.
+Next feature to come : YX templates.
+
 # v 4.8.2
 Bugfixes and G.A.M.E.S improvements.
 

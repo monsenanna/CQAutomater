@@ -256,6 +256,8 @@ namespace CQFollowerAutoclaimer
             PvPTimeLabel.setText(autopvp.nextPVP.ToString());
             autopvp.PVPTimer.Interval = Math.Max(5000, (autopvp.nextPVP - DateTime.Now).TotalMilliseconds);
             autopvp.PVPTimer.Start();
+            autopvp.TourTimer.Interval = 30 * 1000;
+            autopvp.TourTimer.Start();
             await getCurr();
             autoChests.nextFreeChest = DateTime.Now.AddSeconds(PFStuff.freeChestRecharge);
             FreeChestTimeLabel.setText(autoChests.nextFreeChest.ToString());
@@ -310,6 +312,8 @@ namespace CQFollowerAutoclaimer
             {
                 PvPCountdownLabel.setText((autopvp.nextPVP < DateTime.Now ? "-" : "") + (autopvp.nextPVP - DateTime.Now).ToString("hh\\:mm\\:ss"));
             }
+            isT1Joined.setText(PFStuff.T1joined ? "joined" : "not joined yet");
+            isT2Joined.setText(PFStuff.T2joined ? "joined" : "not joined yet");
             if (autoWB.nextWBRefresh != null)
             {
                 WBCountdownLabel.setText((autoWB.nextWBRefresh < DateTime.Now ? "-" : "") + (autoWB.nextWBRefresh - DateTime.Now).ToString("hh\\:mm\\:ss"));
@@ -652,6 +656,8 @@ namespace CQFollowerAutoclaimer
             appSettings = AppSettings.loadSettings();
             appSettings.autoPvPEnabled = autoPvPCheckbox.Checked;
             appSettings.doPVPHistory = doPvPHistoryCheckbox.Checked;
+            appSettings.autoT1Enabled = autoT1Checkbox.Checked;
+            appSettings.autoT2Enabled = autoT2Checkbox.Checked;
             appSettings.pvpLowerLimit = Convert.ToInt32(Math.Round(playersBelowCount.Value, 0));
             appSettings.pvpUpperLimit = Convert.ToInt32(Math.Round(playersAboveCount.Value, 0));
             appSettings.saveSettings();
@@ -961,6 +967,7 @@ namespace CQFollowerAutoclaimer
         {
             appSettings = AppSettings.loadSettings();
             appSettings.doAutoFT = doAutoFTCheckbox.Checked;
+            appSettings.doAutoEA = doAutoEACheckbox.Checked;
             appSettings.doAutoDG = doAutoDGCheckbox.Checked;
             appSettings.doAutoLF = doAutoLFCheckbox.Checked;
             appSettings.doAutoKT = doAutoKTCheckbox.Checked;

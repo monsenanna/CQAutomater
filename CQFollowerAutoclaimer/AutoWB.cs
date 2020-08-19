@@ -279,8 +279,7 @@ namespace CQFollowerAutoclaimer
                                 if (dr == DialogResult.Yes && !main.taskQueue.Contains("WB")) // enqueue new attacks only if there are no attacks in queue already
                                 {
                                     DateTime dt = TimeZoneInfo.ConvertTimeToUtc(Form1.getTime(PFStuff.GetDataTime));
-                                    //PFStuff.logError("wb", "pfs : " + PFStuff.FlashStatus.ToString() + " - utc : " + dt.Hour.ToString());
-                                    if (attacksAvailable >= 7 || PFStuff.FlashStatus != 1 || dt.Hour < 12) // don't waste just before EAS day
+                                    if (attacksAvailable >= 7 || PFStuff.FlashStatus != 1 || dt.Hour < 12 || !main.doAutoEACheckbox.Checked) // don't waste just before EAS day if autoEAS is on
                                     {
                                         main.taskQueue.Enqueue(() => fightWB(lineup), "WB");
                                     }
@@ -301,10 +300,6 @@ namespace CQFollowerAutoclaimer
 
             async Task<bool> fightWB(int[] lineup)
             {
-                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                {
-                    sw.WriteLine(DateTime.Now + "\n\t Debug fightWB");
-                }*/
                 await Task.Delay(5000); // prevent spamming
                 bool b = await main.pf.sendWBFight(lineup);
                 string s = "";

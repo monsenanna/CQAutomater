@@ -162,6 +162,10 @@
             this.DOYHA2 = new System.Windows.Forms.ComboBox();
             this.DOYHA1 = new System.Windows.Forms.ComboBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.isT2Joined = new System.Windows.Forms.Label();
+            this.isT1Joined = new System.Windows.Forms.Label();
+            this.autoT2Checkbox = new System.Windows.Forms.CheckBox();
+            this.autoT1Checkbox = new System.Windows.Forms.CheckBox();
             this.doPvPHistoryCheckbox = new System.Windows.Forms.CheckBox();
             this.pvpRankingSummary = new System.Windows.Forms.Label();
             this.savePvPSettingsButton = new System.Windows.Forms.Button();
@@ -396,6 +400,8 @@
             this.ALIndicator = new System.Windows.Forms.Label();
             this.ADEIndicator = new System.Windows.Forms.Label();
             this.AWEIndicator = new System.Windows.Forms.Label();
+            this.label149 = new System.Windows.Forms.Label();
+            this.doAutoEACheckbox = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -2128,6 +2134,10 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.isT2Joined);
+            this.tabPage4.Controls.Add(this.isT1Joined);
+            this.tabPage4.Controls.Add(this.autoT2Checkbox);
+            this.tabPage4.Controls.Add(this.autoT1Checkbox);
             this.tabPage4.Controls.Add(this.doPvPHistoryCheckbox);
             this.tabPage4.Controls.Add(this.pvpRankingSummary);
             this.tabPage4.Controls.Add(this.savePvPSettingsButton);
@@ -2150,6 +2160,46 @@
             this.tabPage4.Text = "PvP";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // isT2Joined
+            // 
+            this.isT2Joined.AutoSize = true;
+            this.isT2Joined.Location = new System.Drawing.Point(439, 196);
+            this.isT2Joined.Name = "isT2Joined";
+            this.isT2Joined.Size = new System.Drawing.Size(81, 13);
+            this.isT2Joined.TabIndex = 95;
+            this.isT2Joined.Text = "loading status...";
+            // 
+            // isT1Joined
+            // 
+            this.isT1Joined.AutoSize = true;
+            this.isT1Joined.Location = new System.Drawing.Point(121, 196);
+            this.isT1Joined.Name = "isT1Joined";
+            this.isT1Joined.Size = new System.Drawing.Size(81, 13);
+            this.isT1Joined.TabIndex = 94;
+            this.isT1Joined.Text = "loading status...";
+            // 
+            // autoT2Checkbox
+            // 
+            this.autoT2Checkbox.AutoSize = true;
+            this.autoT2Checkbox.Location = new System.Drawing.Point(321, 195);
+            this.autoT2Checkbox.Name = "autoT2Checkbox";
+            this.autoT2Checkbox.Size = new System.Drawing.Size(100, 17);
+            this.autoT2Checkbox.TabIndex = 93;
+            this.autoT2Checkbox.Text = "Enable Auto-T2";
+            this.autoT2Checkbox.UseVisualStyleBackColor = true;
+            this.autoT2Checkbox.CheckedChanged += new System.EventHandler(this.autoPvPCheckbox_CheckedChanged);
+            // 
+            // autoT1Checkbox
+            // 
+            this.autoT1Checkbox.AutoSize = true;
+            this.autoT1Checkbox.Location = new System.Drawing.Point(9, 195);
+            this.autoT1Checkbox.Name = "autoT1Checkbox";
+            this.autoT1Checkbox.Size = new System.Drawing.Size(100, 17);
+            this.autoT1Checkbox.TabIndex = 92;
+            this.autoT1Checkbox.Text = "Enable Auto-T1";
+            this.autoT1Checkbox.UseVisualStyleBackColor = true;
+            this.autoT1Checkbox.CheckedChanged += new System.EventHandler(this.autoPvPCheckbox_CheckedChanged);
+            // 
             // doPvPHistoryCheckbox
             // 
             this.doPvPHistoryCheckbox.AutoSize = true;
@@ -2163,7 +2213,7 @@
             // pvpRankingSummary
             // 
             this.pvpRankingSummary.AutoSize = true;
-            this.pvpRankingSummary.Location = new System.Drawing.Point(9, 169);
+            this.pvpRankingSummary.Location = new System.Drawing.Point(6, 153);
             this.pvpRankingSummary.Name = "pvpRankingSummary";
             this.pvpRankingSummary.Size = new System.Drawing.Size(99, 13);
             this.pvpRankingSummary.TabIndex = 90;
@@ -4229,6 +4279,7 @@
             // 
             // tabPage9
             // 
+            this.tabPage9.Controls.Add(this.doAutoEACheckbox);
             this.tabPage9.Controls.Add(this.doAutoFTCheckbox);
             this.tabPage9.Controls.Add(this.doAutoDGCheckbox);
             this.tabPage9.Controls.Add(this.adventurePriority);
@@ -4480,6 +4531,7 @@
             // 
             // tabPage10
             // 
+            this.tabPage10.Controls.Add(this.label149);
             this.tabPage10.Controls.Add(this.label148);
             this.tabPage10.Controls.Add(this.ggUpgrade);
             this.tabPage10.Controls.Add(this.autoWEvCheckbox);
@@ -4703,6 +4755,27 @@
             this.AWEIndicator.Size = new System.Drawing.Size(13, 6);
             this.AWEIndicator.TabIndex = 41;
             this.AWEIndicator.Text = "          ";
+            // 
+            // label149
+            // 
+            this.label149.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.label149.Location = new System.Drawing.Point(31, 167);
+            this.label149.Name = "label149";
+            this.label149.Size = new System.Drawing.Size(470, 58);
+            this.label149.TabIndex = 116;
+            this.label149.Text = "CQA will run weekly events until it meets captchas (sorry, can\'t make captcha sol" +
+    "ver public). It\'ll do missions, claims, hyperloops... and the selected upgrade (" +
+    "0 = engine/teamup, etc) when possible.";
+            // 
+            // doAutoEACheckbox
+            // 
+            this.doAutoEACheckbox.AutoSize = true;
+            this.doAutoEACheckbox.Location = new System.Drawing.Point(10, 46);
+            this.doAutoEACheckbox.Name = "doAutoEACheckbox";
+            this.doAutoEACheckbox.Size = new System.Drawing.Size(15, 14);
+            this.doAutoEACheckbox.TabIndex = 111;
+            this.doAutoEACheckbox.UseVisualStyleBackColor = true;
+            this.doAutoEACheckbox.CheckedChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
             // 
             // Form1
             // 
@@ -5177,6 +5250,12 @@
         internal System.Windows.Forms.CheckBox autoWEvCheckbox;
         public System.Windows.Forms.Label label148;
         internal System.Windows.Forms.NumericUpDown ggUpgrade;
+        internal System.Windows.Forms.CheckBox autoT1Checkbox;
+        internal System.Windows.Forms.CheckBox autoT2Checkbox;
+        public System.Windows.Forms.Label isT1Joined;
+        public System.Windows.Forms.Label isT2Joined;
+        internal System.Windows.Forms.CheckBox doAutoEACheckbox;
+        public System.Windows.Forms.Label label149;
     }
 }
 

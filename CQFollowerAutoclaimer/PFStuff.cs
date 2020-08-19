@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 
 namespace CQFollowerAutoclaimer
 {
@@ -60,7 +61,7 @@ namespace CQFollowerAutoclaimer
         static public int LotteryCurrent;
         static public int TrainingStatus;
         static public int currentWeeklyEvent;
-        static public int[] SpaceStatus = new int[8];
+        static public int[] SpaceStatus = new int[9];
         static public string NextRecycle;
         static public string LastCaptcha;
         static public JToken GamesData;
@@ -105,6 +106,8 @@ namespace CQFollowerAutoclaimer
 
         static public bool WBchanged = false;
         static public JArray auctionData;
+        static public bool T1joined = false;
+        static public bool T2joined = false;
 
         static public TaskQueue logQueue = new TaskQueue();
         static public AppSettings ap = AppSettings.loadSettings();
@@ -308,6 +311,7 @@ namespace CQFollowerAutoclaimer
                             SpaceStatus[5] = (int)json["data"]["city"]["space"]["upgrades"][3];
                             SpaceStatus[6] = (int)json["data"]["city"]["space"]["upgrades"][4];
                             SpaceStatus[7] = (int)json["data"]["city"]["space"]["gears"];
+                            SpaceStatus[8] = (int)json["data"]["city"]["space"]["hyperloop"];
                             break;
                         case 5: // G.A.M.E.S
                             break;
@@ -317,7 +321,7 @@ namespace CQFollowerAutoclaimer
                 }
                 catch(Exception ex)
                 {
-                    logError("sjerr", ex.Message);
+                    logError("sjerr", ex.Message + " --- " + ex.StackTrace);
                     SpaceStatus[0] = -2; // no SJ
                 }
                 TrainingStatus = -1;
@@ -338,6 +342,20 @@ namespace CQFollowerAutoclaimer
                 catch
                 {
                     NextRecycle = "-1";
+                }
+                T1joined = false;
+                long Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+                int tid = (int)Math.Floor(Timestamp / 864e2);
+                for (int i = json["data"]["city"]["tour"].Count() - 1; i >= 0; i--)
+                {
+                    try
+                    {
+                        if ((int)json["data"]["city"]["tour"][i]["tid"] == tid)
+                            T1joined = true;
+                    }
+                    catch
+                    {
+                    }
                 }
                 if (doSometimes(5))
                     await updateHeroPool();
@@ -490,7 +508,6 @@ namespace CQFollowerAutoclaimer
                     MaxResultsCount = 100
                 };
                 var lbTask = await PlayFabClientAPI.GetLeaderboardAsync(req);
-                //lbTask.Result.ToString();
                 using (var client = new HttpClient())
                 {
                     var values = new Dictionary<string, string> { { "ulbd", JsonConvert.SerializeObject(lbTask) } };
@@ -728,7 +745,7 @@ namespace CQFollowerAutoclaimer
                 {
                     CCDay = -1;
                 }
-                if (json["adventure"] == null || (bool)json["adventure"] != true)
+                if (json["adventure"] == null || json["adventure"].ToString() != "True")
                 {
                     AdventureDay = -1;
                 }
@@ -777,13 +794,16 @@ namespace CQFollowerAutoclaimer
                 }
                 if (PGCards == "no")
                     PGCards = "8";
-                if (json["pge"] == null || (bool)json["pge"] != true)
+                if (json["pge"] == null || json["pge"].ToString() != "True")
                 {
                     PGCards = "no";
                     PGDeck = null;
                     PGPicked = null;
                     PGWon = 0;
                 }
+                T2joined = false;
+                if (json["tour"]["current"]["joined"].ToString() == "True")
+                    T2joined = true;
             }
             catch (Exception ex)
             {
@@ -1111,6 +1131,91 @@ namespace CQFollowerAutoclaimer
                 //JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
                 //DQLevel = json["data"]["city"]["daily"]["lvl"].ToString();
                 //DQResult = true;
+                return true;
+            }
+        }
+
+        public async Task<bool> sendT1Register()
+        {
+            await Task.Delay(1000);
+            long Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+            int tid = (int)Math.Floor(Timestamp / 864e2);
+            var responseString = "";
+            using (var client = new HttpClient())
+            {
+                Dictionary<int, int> a = new Dictionary<int, int>
+                {
+                    { 0, userID },
+                    { 1, tid }
+                };
+                var values = new Dictionary<string, string> { { "gtn1", JsonConvert.SerializeObject(a) } };
+                var content = new FormUrlEncodedContent(values);
+                var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                responseString = await response.Content.ReadAsStringAsync();
+                if (responseString.Length < 5)
+                    return false;
+            }
+            logError("sendT1Register for user "+ userID.ToString(), responseString);
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Latest,
+                FunctionName = "register",
+                FunctionParameter = new { setup = getArray(responseString), kid = kongID, tid }
+            };
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null)
+            {
+                return false;
+            }
+            else
+            {
+                await Task.Delay(3000);
+                return true;
+            }
+        }
+
+        public async Task<bool> sendT2Register()
+        {
+            await Task.Delay(1000);
+            var responseString = "";
+            using (var client = new HttpClient())
+            {
+                Dictionary<int, int> a = new Dictionary<int, int>
+                {
+                    { 0, userID }
+                };
+                var values = new Dictionary<string, string> { { "gtn2", JsonConvert.SerializeObject(a) } };
+                var content = new FormUrlEncodedContent(values);
+                var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                responseString = await response.Content.ReadAsStringAsync();
+                if (responseString.Length < 5)
+                    return false;
+            }
+            logError("sendT2Register for user " + userID.ToString(), responseString);
+            var request = new ExecuteCloudScriptRequest()
+            {
+                RevisionSelection = CloudScriptRevisionOption.Latest,
+                FunctionName = "etregister",
+                FunctionParameter = new { setup = getArray(responseString), kid = kongID }
+            };
+            var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+            if (statusTask.Error != null)
+            {
+                logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                return false;
+            }
+            if (statusTask == null || statusTask.Result.FunctionResult == null)
+            {
+                return false;
+            }
+            else
+            {
+                await Task.Delay(3000);
                 return true;
             }
         }
@@ -1827,6 +1932,39 @@ namespace CQFollowerAutoclaimer
             }
         }
 
+        public async Task<bool> sendSJHloop()
+        {
+            if (!isAdmin)
+                return true;
+            try
+            {
+                var request = new ExecuteCloudScriptRequest()
+                {
+                    RevisionSelection = CloudScriptRevisionOption.Latest,
+                    FunctionName = "sjHyperloop"
+                };
+                var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+                if (statusTask.Error != null)
+                {
+                    logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                    return false;
+                }
+                if (statusTask == null || statusTask.Result.FunctionResult == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                logError("sendSJHloop ", ex.Message + " --- " + ex.StackTrace);
+                return false;
+            }
+        }
+
         public async Task<bool> sendSJLeaderboard()
         {
             if (!isAdmin)
@@ -2097,7 +2235,7 @@ namespace CQFollowerAutoclaimer
             }
             catch
             {
-                await Task.Delay(5000);
+                await Task.Delay(3000);
                 return "";
             }
         }
@@ -2126,7 +2264,7 @@ namespace CQFollowerAutoclaimer
                 }
                 else
                 {
-                    logError("validateCaptcha ok ", "");
+                    //logError("validateCaptcha ok ", "");
                     Random rnd = new Random();
                     await Task.Delay(100 + rnd.Next(50, 400));
                     return true;
@@ -2134,7 +2272,7 @@ namespace CQFollowerAutoclaimer
             }
             catch
             {
-                await Task.Delay(5000);
+                await Task.Delay(3000);
                 return false;
             }
         }
