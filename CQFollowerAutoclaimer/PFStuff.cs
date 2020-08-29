@@ -12,7 +12,6 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using System.IO;
 using System.Net.Http;
-using System.Runtime.InteropServices;
 
 namespace CQFollowerAutoclaimer
 {
@@ -476,10 +475,6 @@ namespace CQFollowerAutoclaimer
             catch (Exception ex)
             {
                 logError("updateHeroPool ", ex.Message + " --- " + ex.StackTrace);
-                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                {
-                    sw.WriteLine(DateTime.Now + "\n\t" + "updateHeroPool Error : " + ex.Message);
-                }*/
                 return false;
             }
         }
@@ -671,10 +666,10 @@ namespace CQFollowerAutoclaimer
             }
             catch (Exception ex)
             {
-                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                 {
                     sw.WriteLine(DateTime.Now + "\n\t" + "Username Error : " + ex.Message);
-                }
+                }*/
                 username = null;
             }
         }
@@ -820,15 +815,11 @@ namespace CQFollowerAutoclaimer
                 if (int.Parse(d) <= FlashLastUpdate)
                     return true;
                 using (var client = new HttpClient())
-                {
-                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                    {
-                        string jc = LZString.compressToEncodedURIComponent(json.ToString());
-                        var values = new Dictionary<string, string> { { "uflc", jc } };
-                        var content = new FormUrlEncodedContent(values);
-                        var r = Task.Run(() => client.PostAsync("http://dcouv.fr/cq.php", content));
-                        sw.WriteLine(DateTime.Now + "\n\t" + r.Result);
-                    }
+            {
+                    string jc = LZString.compressToEncodedURIComponent(json.ToString());
+                    var values = new Dictionary<string, string> { { "uflc", jc } };
+                    var content = new FormUrlEncodedContent(values);
+                    var r = Task.Run(() => client.PostAsync("http://dcouv.fr/cq.php", content));
                     FlashLastUpdate = int.Parse(d) - 60 * 60 * 8; // 8h before
                 }
             }

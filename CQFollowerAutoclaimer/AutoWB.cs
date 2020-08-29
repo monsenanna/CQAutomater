@@ -237,8 +237,8 @@ namespace CQFollowerAutoclaimer
                                 main.autoWBCheckbox.Checked = false;
                                 return;
                             }
-                            if (PFStuff.WBName.Contains("SUPER")) // hard block on 2
-                                attacksToDo = Math.Min(2, attacksToDo);
+                            if (PFStuff.WBName.Contains("SUPER")) // hard block on 5
+                                attacksToDo = Math.Min(5, attacksToDo);
                             attacksToDo -= r;
                             if (attacksToDo <= 0)
                                 return;
@@ -290,10 +290,7 @@ namespace CQFollowerAutoclaimer
                 }
                 catch (Exception ex)
                 {
-                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                    {
-                        sw.WriteLine(DateTime.Now + "\n\t" + "Error in AutoWB" + "\n\t" + ex.Message);
-                    }
+                    PFStuff.logError("AutoWB", "Catched error " + ex.Message);
                 }
             }
 
@@ -329,9 +326,9 @@ namespace CQFollowerAutoclaimer
                 {
                     sw.WriteLine(s);
                 }
-                await Task.Delay(25000); // prevent spamming
+                await Task.Delay(10000); // prevent spamming
                 getWebsiteData();
-                await Task.Delay(25000);
+                await Task.Delay(10000);
                 return b;
             }
         }

@@ -225,7 +225,7 @@ namespace CQFollowerAutoclaimer
             await main.pf.getWBData(main.KongregateId);
             main.calcStatus.SynchronizedInvoke(() => main.calcStatus.Text = "Calc finished");
             nextDQTime = Form1.getTime(PFStuff.DQTime);
-            DQTimer.Interval = int.Parse(PFStuff.DQLevel) < 2 ? 300000 : (nextDQTime < DateTime.Now && main.DQCalcBox.Checked) ? 4000 : Math.Max(4000, (nextDQTime - DateTime.Now).TotalMilliseconds + 20000);
+            DQTimer.Interval = int.Parse(PFStuff.DQLevel) < 2 ? 300000 : (nextDQTime < DateTime.Now && main.DQCalcBox.Checked) ? 8000 : Math.Max(8000, (nextDQTime - DateTime.Now).TotalMilliseconds + 20000);
             main.DQLevelLabel.SynchronizedInvoke(() => main.DQLevelLabel.Text = PFStuff.DQLevel);
             main.DQTimeLabel.SynchronizedInvoke(() => main.DQTimeLabel.Text = nextDQTime.ToString());
 

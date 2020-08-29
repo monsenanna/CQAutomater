@@ -249,6 +249,7 @@ namespace CQFollowerAutoclaimer
             else
             {
                 DateTime DQRunTime = getTime(PFStuff.DQTime);
+                autoDQ.nextDQTime = DQRunTime;
                 autoDQ.DQTimer.Interval = (autoDQ.nextDQTime < DateTime.Now && DQCalcBox.Checked) ? 8000 : Math.Max(8000, (autoDQ.nextDQTime - DateTime.Now).TotalMilliseconds);
                 autoDQ.DQTimer.Start();
             }
@@ -366,7 +367,7 @@ namespace CQFollowerAutoclaimer
             autoLevel.updateHeroLevels();
 
             autoDQ.nextDQTime = getTime(PFStuff.DQTime);
-            autoDQ.DQTimer.Interval = (autoDQ.nextDQTime < DateTime.Now && DQCalcBox.Checked) ? 4000 : Math.Max(4000, (autoDQ.nextDQTime - DateTime.Now).TotalMilliseconds);
+            autoDQ.DQTimer.Interval = (autoDQ.nextDQTime < DateTime.Now && DQCalcBox.Checked) ? 8000 : Math.Max(8000, (autoDQ.nextDQTime - DateTime.Now).TotalMilliseconds);
             DQLevelLabel.SynchronizedInvoke(() => DQLevelLabel.Text = PFStuff.DQLevel);
             DQTimeLabel.SynchronizedInvoke(() => DQTimeLabel.Text = autoDQ.nextDQTime.ToString());
         }
