@@ -55,10 +55,10 @@ namespace CQFollowerAutoclaimer
         async void levelTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             levelTimer.Stop();
-            await main.getCurr();
             if (main.autoLevelCheckbox.getCheckState())
             {
                 await main.getData();
+                await main.getCurr();
                 int toSpend = (int)(main.pf.ascensionSpheres - main.spheresBankCount.getValue());
                 string onWhat = main.spheresHeroCombo.getText();
                 if (toSpend > 0 && !string.IsNullOrEmpty(onWhat))

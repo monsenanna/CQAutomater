@@ -358,6 +358,7 @@
             this.label80 = new System.Windows.Forms.Label();
             this.label76 = new System.Windows.Forms.Label();
             this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.doAutoEACheckbox = new System.Windows.Forms.CheckBox();
             this.doAutoFTCheckbox = new System.Windows.Forms.CheckBox();
             this.doAutoDGCheckbox = new System.Windows.Forms.CheckBox();
             this.adventurePriority = new System.Windows.Forms.ComboBox();
@@ -380,6 +381,7 @@
             this.label109 = new System.Windows.Forms.Label();
             this.label73 = new System.Windows.Forms.Label();
             this.tabPage10 = new System.Windows.Forms.TabPage();
+            this.label149 = new System.Windows.Forms.Label();
             this.label148 = new System.Windows.Forms.Label();
             this.ggUpgrade = new System.Windows.Forms.NumericUpDown();
             this.autoWEvCheckbox = new System.Windows.Forms.CheckBox();
@@ -400,8 +402,6 @@
             this.ALIndicator = new System.Windows.Forms.Label();
             this.ADEIndicator = new System.Windows.Forms.Label();
             this.AWEIndicator = new System.Windows.Forms.Label();
-            this.label149 = new System.Windows.Forms.Label();
-            this.doAutoEACheckbox = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BorHAAttacksCount)).BeginInit();
@@ -1476,7 +1476,7 @@
             // WBCountdownLabel
             // 
             this.WBCountdownLabel.AutoSize = true;
-            this.WBCountdownLabel.Location = new System.Drawing.Point(349, 10);
+            this.WBCountdownLabel.Location = new System.Drawing.Point(307, 10);
             this.WBCountdownLabel.Name = "WBCountdownLabel";
             this.WBCountdownLabel.Size = new System.Drawing.Size(18, 13);
             this.WBCountdownLabel.TabIndex = 51;
@@ -1485,7 +1485,7 @@
             // label45
             // 
             this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(281, 10);
+            this.label45.Location = new System.Drawing.Point(239, 10);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(67, 13);
             this.label45.TabIndex = 50;
@@ -1493,7 +1493,7 @@
             // 
             // WBLogButton
             // 
-            this.WBLogButton.Location = new System.Drawing.Point(302, 826);
+            this.WBLogButton.Location = new System.Drawing.Point(424, 44);
             this.WBLogButton.Name = "WBLogButton";
             this.WBLogButton.Size = new System.Drawing.Size(113, 28);
             this.WBLogButton.TabIndex = 49;
@@ -1503,11 +1503,11 @@
             // 
             // saveWBDataButton
             // 
-            this.saveWBDataButton.Location = new System.Drawing.Point(125, 826);
+            this.saveWBDataButton.Location = new System.Drawing.Point(424, 10);
             this.saveWBDataButton.Name = "saveWBDataButton";
-            this.saveWBDataButton.Size = new System.Drawing.Size(170, 28);
+            this.saveWBDataButton.Size = new System.Drawing.Size(113, 28);
             this.saveWBDataButton.TabIndex = 48;
-            this.saveWBDataButton.Text = "Save lineups and WB settings";
+            this.saveWBDataButton.Text = "Save WB settings";
             this.saveWBDataButton.UseVisualStyleBackColor = true;
             this.saveWBDataButton.Click += new System.EventHandler(this.saveWBDataButton_Click);
             // 
@@ -4309,6 +4309,16 @@
             this.tabPage9.Text = "DayEv";
             this.tabPage9.UseVisualStyleBackColor = true;
             // 
+            // doAutoEACheckbox
+            // 
+            this.doAutoEACheckbox.AutoSize = true;
+            this.doAutoEACheckbox.Location = new System.Drawing.Point(10, 46);
+            this.doAutoEACheckbox.Name = "doAutoEACheckbox";
+            this.doAutoEACheckbox.Size = new System.Drawing.Size(15, 14);
+            this.doAutoEACheckbox.TabIndex = 111;
+            this.doAutoEACheckbox.UseVisualStyleBackColor = true;
+            this.doAutoEACheckbox.CheckedChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
+            // 
             // doAutoFTCheckbox
             // 
             this.doAutoFTCheckbox.AutoSize = true;
@@ -4546,6 +4556,17 @@
             this.tabPage10.Text = "WeekEv";
             this.tabPage10.UseVisualStyleBackColor = true;
             // 
+            // label149
+            // 
+            this.label149.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
+            this.label149.Location = new System.Drawing.Point(31, 167);
+            this.label149.Name = "label149";
+            this.label149.Size = new System.Drawing.Size(470, 58);
+            this.label149.TabIndex = 116;
+            this.label149.Text = "CQA will run weekly events until it meets captchas (sorry, can\'t make captcha sol" +
+    "ver public). It\'ll do missions, claims, hyperloops... and the selected upgrade (" +
+    "0 = engine/teamup, etc) when possible.";
+            // 
             // label148
             // 
             this.label148.AutoSize = true;
@@ -4755,27 +4776,6 @@
             this.AWEIndicator.Size = new System.Drawing.Size(13, 6);
             this.AWEIndicator.TabIndex = 41;
             this.AWEIndicator.Text = "          ";
-            // 
-            // label149
-            // 
-            this.label149.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-            this.label149.Location = new System.Drawing.Point(31, 167);
-            this.label149.Name = "label149";
-            this.label149.Size = new System.Drawing.Size(470, 58);
-            this.label149.TabIndex = 116;
-            this.label149.Text = "CQA will run weekly events until it meets captchas (sorry, can\'t make captcha sol" +
-    "ver public). It\'ll do missions, claims, hyperloops... and the selected upgrade (" +
-    "0 = engine/teamup, etc) when possible.";
-            // 
-            // doAutoEACheckbox
-            // 
-            this.doAutoEACheckbox.AutoSize = true;
-            this.doAutoEACheckbox.Location = new System.Drawing.Point(10, 46);
-            this.doAutoEACheckbox.Name = "doAutoEACheckbox";
-            this.doAutoEACheckbox.Size = new System.Drawing.Size(15, 14);
-            this.doAutoEACheckbox.TabIndex = 111;
-            this.doAutoEACheckbox.UseVisualStyleBackColor = true;
-            this.doAutoEACheckbox.CheckedChanged += new System.EventHandler(this.DoAutoLFCheckbox_CheckedChanged);
             // 
             // Form1
             // 

@@ -130,6 +130,8 @@ namespace CQFollowerAutoclaimer
 
         public static Task<bool> addErrorToQueue(string err, string msg, DateTime dt)
         {
+            if(err.Length < 2)
+                return Task.FromResult(true);
             logQueue.Enqueue(() => PFStuff.sendLog(err + " " + msg), "ierr");
             try
             {
@@ -969,7 +971,7 @@ namespace CQFollowerAutoclaimer
             }
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
-                logError("Cloud Script Error: Claim All", statusTask);
+                //logError("Cloud Script Error: Claim All", statusTask);
                 return false;
             }
             else
@@ -1589,7 +1591,7 @@ namespace CQFollowerAutoclaimer
             {
                 RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "fightWB",
-                FunctionParameter = new { setup = WBLineup, kid = kongID }
+                FunctionParameter = new { setup = WBLineup, kid = kongID, wbid = WB_ID }
             };
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
             if (statusTask.Error != null)
@@ -1614,7 +1616,7 @@ namespace CQFollowerAutoclaimer
             {
                 RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "levelUp",
-                FunctionParameter = new { id = heroID, mode = mode }
+                FunctionParameter = new { id = heroID, mode }
             };
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
             if (statusTask.Error != null)
@@ -1625,7 +1627,7 @@ namespace CQFollowerAutoclaimer
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
                 logError("Cloud Script Error: level up", statusTask);
-                return true;
+                return false;
             }
             else
             {
@@ -1645,7 +1647,7 @@ namespace CQFollowerAutoclaimer
             {
                 RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "levelUp10",
-                FunctionParameter = new { id = heroID, mode = mode }
+                FunctionParameter = new { id = heroID, mode }
             };
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
             if (statusTask.Error != null)
@@ -1656,7 +1658,7 @@ namespace CQFollowerAutoclaimer
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
                 logError("Cloud Script Error: level up10", statusTask);
-                return true;
+                return false;
             }
             else
             {
@@ -1676,7 +1678,7 @@ namespace CQFollowerAutoclaimer
             {
                 RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "levelSuper",
-                FunctionParameter = new { id = heroID, mode = mode }
+                FunctionParameter = new { id = heroID, mode }
             };
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
             if (statusTask.Error != null)
@@ -1687,7 +1689,7 @@ namespace CQFollowerAutoclaimer
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
                 logError("Cloud Script Error: level super", statusTask);
-                return true;
+                return false;
             }
             else
             {

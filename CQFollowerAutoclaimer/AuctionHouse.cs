@@ -94,6 +94,7 @@ namespace CQFollowerAutoclaimer
             {
                 loadAuctions(true);
             }
+            main.label137.setText("Current UM: " + main.pf.universeMarbles.ToString());
             if (main.auctionHero1Combo.getText() != "")
             {
                 int index = Array.IndexOf(Constants.heroNames, main.auctionHero1Combo.getText());

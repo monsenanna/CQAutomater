@@ -66,10 +66,10 @@ namespace CQFollowerAutoclaimer
         private async Task<bool> sendSolution(int[] lineup, CalcMode mode)
         {
             await Task.Delay(2000);
-            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
                 sw.WriteLine(DateTime.Now + "\n\t" + "Debug DQFailedAttempts = " + DQFailedAttempts.ToString());
-            }
+            }*/
             if (DQFailedAttempts >= 3)
             {
                 if (main.DQCalcBox.getCheckState())
@@ -90,10 +90,10 @@ namespace CQFollowerAutoclaimer
                         b = await main.pf.sendDQSolution(lineup);
                     if (mode == CalcMode.DUNG)
                         b = await main.pf.sendDungSolution(lineup);
-                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                    /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                     {
-                        //sw.WriteLine(DateTime.Now + "\n\tDebug DQ calc solution sent to CQ");
-                    }
+                        sw.WriteLine(DateTime.Now + "\n\tDebug DQ calc solution sent to CQ");
+                    }*/
                 }
                 catch
                 {
@@ -118,19 +118,19 @@ namespace CQFollowerAutoclaimer
                     {
                         if (main.DQCalcBox.getCheckState())
                         {
-                            using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                            /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                             {
-                                //sw.WriteLine(DateTime.Now + "\n\tDebug DQ RunCalc");
-                            }
+                                sw.WriteLine(DateTime.Now + "\n\tDebug DQ RunCalc");
+                            }*/
                             RunCalc(mode);
                         }
                     }
                     else
                     {
-                        using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                        /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
                         {
-                            //sw.WriteLine(DateTime.Now + "\n\tDebug DQ new DQ, enqueue calc");
-                        }
+                            sw.WriteLine(DateTime.Now + "\n\tDebug DQ new DQ, enqueue calc");
+                        }*/
                         DQFailedAttempts = 0;
                         currentDQ = int.Parse(PFStuff.DQLevel);
                         main.taskQueue.Enqueue(() => sendSolution(lineup, mode), "DQ");
