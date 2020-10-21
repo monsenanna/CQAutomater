@@ -437,7 +437,7 @@ namespace CQFollowerAutoclaimer
                 await main.login();
             }
             CouponTimer.Interval = 8 * 60 * 60 * 1000; // 8h
-            await main.pf.getCQAVersion(main);
+            await main.pf.getCQAVersion(main, false);
             try
             {
                 using (var client = new HttpClient())

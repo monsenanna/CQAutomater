@@ -399,7 +399,7 @@ namespace CQFollowerAutoclaimer
                     int ownLane = 0;
                     for (int j = 0; j < 6; j++)
                     {
-                        if (PVPGrid[j * 6].ToString() == json[i]["setup"][0].ToString())
+                        if (PVPGrid[j * 6].ToString() == json[i]["setup"][0].ToString() && PVPGrid[1 + j * 6].ToString() == json[i]["setup"][1].ToString())
                         {
                             ownLane = j + 1;
                             break;
@@ -897,27 +897,30 @@ namespace CQFollowerAutoclaimer
             }
         }
 
-        public async Task<bool> getCQAVersion(Form1 f)
+        public async Task<bool> getCQAVersion(Form1 f, bool force)
         {
-            using (var client = new HttpClient())
-            {
-                try
+
+            if (force || doSometimes(20))
+                using (var client = new HttpClient())
                 {
-                    var values = new Dictionary<string, string> { { "cqav", Constants.version } };
-                    var content = new FormUrlEncodedContent(values);
-                    var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
-                    var responseString = await response.Content.ReadAsStringAsync();
-                    if (responseString == "1")
-                        f.versionLabel.ForeColor = System.Drawing.Color.Red;
-                    else
-                        f.versionLabel.ForeColor = System.Drawing.Color.DarkGreen;
-                    return responseString == "0";
+                    try
+                    {
+                        var values = new Dictionary<string, string> { { "cqav", Constants.version } };
+                        var content = new FormUrlEncodedContent(values);
+                        var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                        var responseString = await response.Content.ReadAsStringAsync();
+                        if (responseString == "1")
+                            f.versionLabel.ForeColor = System.Drawing.Color.Red;
+                        else
+                            f.versionLabel.ForeColor = System.Drawing.Color.DarkGreen;
+                        return responseString == "0";
+                    }
+                    catch
+                    {
+                        return true;
+                    }
                 }
-                catch
-                {
-                    return true;
-                }
-            }
+            return true;
         }
 
         #endregion
@@ -2147,7 +2150,7 @@ namespace CQFollowerAutoclaimer
 
         public async Task<bool> sendGGLeaderboard()
         {
-            if (!isAdmin)
+            if (!isAdmin || doSometimes(80))
                 return true;
             await Task.Delay(100);
             try

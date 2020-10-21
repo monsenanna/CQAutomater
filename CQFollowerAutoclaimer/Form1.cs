@@ -102,7 +102,7 @@ namespace CQFollowerAutoclaimer
 
             if (pf != null)
             {
-                taskQueue.Enqueue(() => pf.getCQAVersion(this), "cqav");
+                taskQueue.Enqueue(() => pf.getCQAVersion(this, true), "cqav");
                 pf.getUsername(KongregateId);
                 auctionHouse = new AuctionHouse(this);
                 autoLevel = new AutoLevel(this);
