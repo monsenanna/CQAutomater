@@ -2150,7 +2150,7 @@ namespace CQFollowerAutoclaimer
 
         public async Task<bool> sendGGLeaderboard()
         {
-            if (!isAdmin || doSometimes(80))
+            if (!isAdmin || doSometimes(90))
                 return true;
             await Task.Delay(100);
             try
@@ -2158,7 +2158,7 @@ namespace CQFollowerAutoclaimer
                 string[] res = await getWELeaderboard("games", 5);
                 using (var client = new HttpClient())
                 {
-                    var values = new Dictionary<string, string> { { "ulgg", LZString.compressToEncodedURIComponent(JsonConvert.SerializeObject(res)) } };
+                    var values = new Dictionary<string, string> { { "ulgg", LZString.compressToEncodedURIComponent(JsonConvert.SerializeObject(res)) }, { "ulgg2", adminPassword } };
                     var content = new FormUrlEncodedContent(values);
                     var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
                     var responseString = await response.Content.ReadAsStringAsync();
