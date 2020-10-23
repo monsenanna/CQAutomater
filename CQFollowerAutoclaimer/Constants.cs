@@ -5,7 +5,7 @@ namespace CQFollowerAutoclaimer
 {
     static class Constants
     {
-        public static string version = "v4.9.0";
+        public static string version = "v4.9.0b";
         public static string ErrorLog = "ErrorLog.txt";
         public static DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         public enum prices
@@ -24,7 +24,7 @@ namespace CQFollowerAutoclaimer
         };
 
         public static string[] names = {
-            "reaper","vermin","rumble","stench","arathon","sylnir","raelan","jalrok","sagittaria","will","merida","sully",
+            "ladymaligryn","antoinette","marionette","esmeralda","reaper","vermin","rumble","stench","arathon","sylnir","raelan","jalrok","sagittaria","will","merida","sully",
             "john","valentina","alan","yuri","ignis","caeli","silex","pluvia","hetfield","lars","kirklee","rob","kingpyros","youngpyros","babypyros","egg","kilkenny","annie",
             "mechamary","hans","yetithepostman","galla","yisus","adam","emily","adrian","casper","higgs","boson","electra","newt","retia","myrmillo","scinda","thrace","bornag",
             "lili","achocoknight","chocoknight","sharkjellyn","mrcotton","smith","acrei","crei","catzar","cathos","tetra","awanderer","minerva","helga","ophelia","agatha",
@@ -67,7 +67,7 @@ namespace CQFollowerAutoclaimer
             "Helga", "Minerva", "Awanderer", "Tetra", "Cathos", "Catzar", "Crei", "Acrei", "Smith", "Mrcotton", "Sharkjellyn", "Chocoknight", "Achocoknight", "Lili", "Bornag",
             "Thrace","Scinda","Myrmillo","Retia","Newt","Electra","Boson","Higgs","Casper","Adrian","Emily","Adam","Yisus","Galla","Yetithepostman","Hans","Mechamary","Annie","Kilkenny",
             "Mysteriousegg","Babypyros","Youngpyros","Kingpyros","Rob","Kirklee","Lars","Hetfield","Pluvia","Silex","Caeli","Ignis","Yuri","Alan","Valentina","John",
-            "Sully","Merida","Will","Sagittaria","Jalrok","Raelan","Sylnir","Arathon","Stench","Rumble","Vermin","Reaper",
+            "Sully","Merida","Will","Sagittaria","Jalrok","Raelan","Sylnir","Arathon","Stench","Rumble","Vermin","Reaper","Esmeralda","Marionette","Antoinette","Ladymaligryn",
         };
 
         public static prices[] heroPrices = new prices[] {
@@ -116,6 +116,7 @@ namespace CQFollowerAutoclaimer
             prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Archers
             prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Eternals
             prices.LEG, prices.LEG, prices.LEG, prices.ASCEND, // Horsemen (S11)
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Halloween2020
         };
 
         public static string[] pranaHeroes = new string[] {

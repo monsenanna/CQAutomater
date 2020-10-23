@@ -483,13 +483,19 @@ namespace CQFollowerAutoclaimer
 
         public static int getHeroLevel(string heroName)
         {
-            if (!string.IsNullOrEmpty(heroName))
+            try
             {
-                int heroIndex = Array.IndexOf(Constants.heroNames, heroName) - 2;
-                if (heroIndex != -1)
+                if (!string.IsNullOrEmpty(heroName))
                 {
-                    return heroLevels[heroIndex];
+                    int heroIndex = Array.IndexOf(Constants.heroNames, heroName) - 2;
+                    if (heroIndex != -1)
+                    {
+                        return heroLevels[heroIndex];
+                    }
                 }
+            }
+            catch
+            {
             }
             return 0;
         }
@@ -505,53 +511,54 @@ namespace CQFollowerAutoclaimer
                     MaxResultsCount = 100
                 };
                 var lbTask = await PlayFabClientAPI.GetLeaderboardAsync(req);
+                await Task.Delay(200);
+                nearbyPlayersIDs = new string[size];
+                nearbyPlayersNames = new string[size];
+                var request = new GetLeaderboardAroundPlayerRequest
+                {
+                    StatisticName = "Ranking",
+                    MaxResultsCount = size
+                };
+                var leaderboardTask = await PlayFabClientAPI.GetLeaderboardAroundPlayerAsync(request);
                 using (var client = new HttpClient())
                 {
-                    var values = new Dictionary<string, string> { { "ulbd", JsonConvert.SerializeObject(lbTask) } };
+                    var values = new Dictionary<string, string> { { "ulbd", JsonConvert.SerializeObject(lbTask) }, { "ulbd2", JsonConvert.SerializeObject(leaderboardTask) } };
                     var content = new FormUrlEncodedContent(values);
                     var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
                     var responseString = await response.Content.ReadAsStringAsync();
                 }
+                if (leaderboardTask.Error != null)
+                {
+                    logError(leaderboardTask.Error.Error.ToString(), leaderboardTask.Error.ErrorMessage);
+                    await Task.Delay(1500);
+                    return false;
+                }
+                if (leaderboardTask == null || leaderboardTask.Result == null)
+                {
+                    logError("Leaderboard Error", leaderboardTask.Result.ToString());
+                    await Task.Delay(1500);
+                    return false;
+                }
+                else
+                {
+                    for (int i = 0; i < size; i++)
+                    {
+                        nearbyPlayersIDs[i] = leaderboardTask.Result.Leaderboard[i].PlayFabId;
+                        nearbyPlayersNames[i] = leaderboardTask.Result.Leaderboard[i].DisplayName;
+                        if (leaderboardTask.Result.Leaderboard[i].DisplayName == username)
+                        {
+                            userIndex = i;
+                            currentRanking = leaderboardTask.Result.Leaderboard[i].Position;
+                            if (initialRanking == 0)
+                                initialRanking = currentRanking;
+                        }
+                    }
+                    return true;
+                }
             }
             catch (Exception)
             {
-            }
-            await Task.Delay(100);
-            nearbyPlayersIDs = new string[size];
-            nearbyPlayersNames = new string[size];
-            var request = new GetLeaderboardAroundPlayerRequest
-            {
-                StatisticName = "Ranking",
-                MaxResultsCount = size
-            };
-            var leaderboardTask = await PlayFabClientAPI.GetLeaderboardAroundPlayerAsync(request);
-            if (leaderboardTask.Error != null)
-            {
-                logError(leaderboardTask.Error.Error.ToString(), leaderboardTask.Error.ErrorMessage);
-                await Task.Delay(1500);
                 return false;
-            }
-            if (leaderboardTask == null || leaderboardTask.Result == null)
-            {
-                logError("Leaderboard Error", leaderboardTask.Result.ToString());
-                await Task.Delay(1500);
-                return false;
-            }
-            else
-            {
-                for (int i = 0; i < size; i++)
-                {
-                    nearbyPlayersIDs[i] = leaderboardTask.Result.Leaderboard[i].PlayFabId;
-                    nearbyPlayersNames[i] = leaderboardTask.Result.Leaderboard[i].DisplayName;
-                    if (leaderboardTask.Result.Leaderboard[i].DisplayName == username)
-                    {
-                        userIndex = i;
-                        currentRanking = leaderboardTask.Result.Leaderboard[i].Position;
-                        if (initialRanking == 0)
-                            initialRanking = currentRanking;
-                    }
-                }
-                return true;
             }
         }
 
@@ -666,12 +673,8 @@ namespace CQFollowerAutoclaimer
                     userID = int.Parse(respString);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                {
-                    sw.WriteLine(DateTime.Now + "\n\t" + "Username Error : " + ex.Message);
-                }*/
                 username = null;
             }
         }
