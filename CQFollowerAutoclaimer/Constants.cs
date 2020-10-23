@@ -129,7 +129,7 @@ namespace CQFollowerAutoclaimer
             "Willow", "Gizmo", "Daisy", "Bortles", "Murphy", "Nerissa", "Mother", "Agatha", "Ophelia", "Helga",
             "Tetra", "Cathos", "Catzar", "Crei", "Smith", "Mrcotton", "Sharkjellyn", "Chocoknight",
             "Thrace","Scinda","Myrmillo","Newt","Electra","Boson","Casper","Adrian","Emily","Yisus","Annie","Kilkenny","Rob","Kirklee","Lars","Pluvia","Silex","Caeli",
-            "Stench","Rumble","Vermin",
+            "Stench","Rumble","Vermin","Esmeralda","Marionette","Antoinette",
         };
 
         public static string[] cosmicCoinHeroes = new string[] {
@@ -143,7 +143,7 @@ namespace CQFollowerAutoclaimer
         public static string[] ascensionHeroes = new string[] {
             "Aalpha", "Aathos", "Arei", "Aauri", "Atr0n1x", "Ageum", "Ageror", "Bubbles", "Apontus", "Aatzar", "Arigr", "Adagda", "Abavah", "MasterLee",
             "Ashygu", "Athert", "Alordkirk", "Aneptunius", "Ahosokawa", "Atakeda", "Ahirate", "Ahattori", "Guy", "Adefile", "Raiderrose", "Aseethe", "Aurora",
-            "Thumper", "Anerissa", "Minerva", "Awanderer", "Acrei", "Achocoknight", "Lili", "Retia", "Higgs", "Adam", "Hetfield","Ignis","Reaper", "Convert to Prana",
+            "Thumper", "Anerissa", "Minerva", "Awanderer", "Acrei", "Achocoknight", "Lili", "Retia", "Higgs", "Adam", "Hetfield","Ignis","Reaper","Ladymaligryn", "Convert to Prana",
         };
 
         public static Dictionary<int, string> ERROR = new Dictionary<int, string>()
