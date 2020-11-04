@@ -477,7 +477,7 @@ namespace CQFollowerAutoclaimer
                     }
                     long Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
                     toUpg = (int)main.sjUpgrade.Value;
-                    cost = (int)(5000 + 5000 * PFStuff.SpaceStatus[toUpg + 2]);
+                    cost = (int)(2500 + 2500 * PFStuff.SpaceStatus[toUpg + 2]);
                     if (PFStuff.SpaceStatus[0] > -1 && PFStuff.SpaceStatus[1] != -1 && PFStuff.SpaceStatus[1] >= Timestamp)
                     {
                         main.weeklyEventLabel.Text = "SJ mission running";
