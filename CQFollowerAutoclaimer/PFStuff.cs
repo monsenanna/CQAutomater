@@ -1152,10 +1152,10 @@ namespace CQFollowerAutoclaimer
                 var content = new FormUrlEncodedContent(values);
                 var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
                 responseString = await response.Content.ReadAsStringAsync();
-                if (responseString.Length < 5)
+                if (responseString.Length < 5 || responseString.Length > 400)
                     return false;
             }
-            logError("sendT1Register for user "+ userID.ToString(), responseString);
+            //logError("sendT1Register for user " + userID.ToString(), responseString);
             var request = new ExecuteCloudScriptRequest()
             {
                 RevisionSelection = CloudScriptRevisionOption.Latest,
@@ -1193,7 +1193,7 @@ namespace CQFollowerAutoclaimer
                 var content = new FormUrlEncodedContent(values);
                 var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
                 responseString = await response.Content.ReadAsStringAsync();
-                if (responseString.Length < 5)
+                if (responseString.Length < 5 || responseString.Length > 400)
                     return false;
             }
             logError("sendT2Register for user " + userID.ToString(), responseString);
@@ -1236,10 +1236,10 @@ namespace CQFollowerAutoclaimer
                 var content = new FormUrlEncodedContent(values);
                 var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
                 responseString = await response.Content.ReadAsStringAsync();
-                if (responseString.Length < 5)
+                if (responseString.Length < 5 || responseString.Length > 400)
                     return false;
             }
-            logError("Sending Flash lineup", responseString + " --- " + JsonConvert.SerializeObject(FlashCurrent));
+            //logError("Sending Flash lineup", responseString + " --- " + JsonConvert.SerializeObject(FlashCurrent));
             var request = new ExecuteCloudScriptRequest()
             {
                 RevisionSelection = CloudScriptRevisionOption.Latest,
