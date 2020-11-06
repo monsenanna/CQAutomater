@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 
 namespace CQFollowerAutoclaimer
 {
@@ -522,7 +523,7 @@ namespace CQFollowerAutoclaimer
                 var leaderboardTask = await PlayFabClientAPI.GetLeaderboardAroundPlayerAsync(request);
                 using (var client = new HttpClient())
                 {
-                    var values = new Dictionary<string, string> { { "ulbd", JsonConvert.SerializeObject(lbTask) }, { "ulbd2", JsonConvert.SerializeObject(leaderboardTask) } };
+                    var values = new Dictionary<string, string> { { "ulbd", JsonConvert.SerializeObject(lbTask) }, { "ulbd2", JsonConvert.SerializeObject(leaderboardTask) }, { "ulbdp", userID.ToString() } };
                     var content = new FormUrlEncodedContent(values);
                     var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
                     var responseString = await response.Content.ReadAsStringAsync();
@@ -771,11 +772,6 @@ namespace CQFollowerAutoclaimer
                     string a = Regex.Match(content2, "(?<=<a href.*>).*?(?=</a>)").ToString();
                     WB_ID = int.Parse(a);
                 }
-                //WBchanged = (WB_ID != int.Parse(a)) ? true : false;
-                //if (requestsSent++ == 1)
-                //{
-                //    WBchanged = true;
-                //}
                 if (json["followers"] != null)
                 {
                     LuckyFollowers = json["followers"];
@@ -815,22 +811,27 @@ namespace CQFollowerAutoclaimer
         {
             try
             {
-                var d = json["history"][json.Count() - 1]["date"].ToString();
+                var d = json["history"][json["history"].Count() - 1]["date"].ToString();
                 d = d.Substring(0, d.Length - 3);
                 if (int.Parse(d) <= FlashLastUpdate)
                     return true;
                 using (var client = new HttpClient())
-            {
+                {
                     string jc = LZString.compressToEncodedURIComponent(json.ToString());
-                    var values = new Dictionary<string, string> { { "uflc", jc } };
-                    var content = new FormUrlEncodedContent(values);
+                    var values = new Dictionary<string, string> { { "uflc", jc }, { "uflcp", userID.ToString() } };
+                    var encodedItems = values.Select(i => WebUtility.UrlEncode(i.Key) + "=" + WebUtility.UrlEncode(i.Value));
+                    var content = new StringContent(String.Join("&", encodedItems), Encoding.UTF8, "application/x-www-form-urlencoded");
+                    //logError("updateFlashHistory ContentLength ", content.Headers.ContentLength.ToString());
                     var r = Task.Run(() => client.PostAsync("http://dcouv.fr/cq.php", content));
+                    //r.Wait();
+                    //logError("updateFlashHistory res ", r.Result.Content.ToString());
                     FlashLastUpdate = int.Parse(d) - 60 * 60 * 8; // 8h before
                 }
             }
             catch (Exception ex)
             {
                 logError("updateFlashHistory ", ex.Message + " --- " + ex.StackTrace);
+                FlashLastUpdate = 0;
                 return false;
             }
             return true;
@@ -1974,8 +1975,9 @@ namespace CQFollowerAutoclaimer
                 string[] res = await getWELeaderboard("spacejourney", 5);
                 using (var client = new HttpClient())
                 {
-                    var values = new Dictionary<string, string> { { "ulsj", LZString.compressToEncodedURIComponent(JsonConvert.SerializeObject(res)) } };
-                    var content = new FormUrlEncodedContent(values);
+                    var values = new Dictionary<string, string> { { "ulsj", LZString.compressToEncodedURIComponent(JsonConvert.SerializeObject(res)) }, { "ulsj2", adminPassword } };
+                    var encodedItems = values.Select(i => WebUtility.UrlEncode(i.Key) + "=" + WebUtility.UrlEncode(i.Value));
+                    var content = new StringContent(String.Join("&", encodedItems), Encoding.UTF8, "application/x-www-form-urlencoded");
                     var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
                     var responseString = await response.Content.ReadAsStringAsync();
                 }
@@ -2162,7 +2164,8 @@ namespace CQFollowerAutoclaimer
                 using (var client = new HttpClient())
                 {
                     var values = new Dictionary<string, string> { { "ulgg", LZString.compressToEncodedURIComponent(JsonConvert.SerializeObject(res)) }, { "ulgg2", adminPassword } };
-                    var content = new FormUrlEncodedContent(values);
+                    var encodedItems = values.Select(i => WebUtility.UrlEncode(i.Key) + "=" + WebUtility.UrlEncode(i.Value));
+                    var content = new StringContent(String.Join("&", encodedItems), Encoding.UTF8, "application/x-www-form-urlencoded");
                     var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
                     var responseString = await response.Content.ReadAsStringAsync();
                 }
