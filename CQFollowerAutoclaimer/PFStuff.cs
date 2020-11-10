@@ -821,10 +821,7 @@ namespace CQFollowerAutoclaimer
                     var values = new Dictionary<string, string> { { "uflc", jc }, { "uflcp", userID.ToString() } };
                     var encodedItems = values.Select(i => WebUtility.UrlEncode(i.Key) + "=" + WebUtility.UrlEncode(i.Value));
                     var content = new StringContent(String.Join("&", encodedItems), Encoding.UTF8, "application/x-www-form-urlencoded");
-                    //logError("updateFlashHistory ContentLength ", content.Headers.ContentLength.ToString());
                     var r = Task.Run(() => client.PostAsync("http://dcouv.fr/cq.php", content));
-                    //r.Wait();
-                    //logError("updateFlashHistory res ", r.Result.Content.ToString());
                     FlashLastUpdate = int.Parse(d) - 60 * 60 * 8; // 8h before
                 }
             }
@@ -1196,7 +1193,7 @@ namespace CQFollowerAutoclaimer
                 if (responseString.Length < 5 || responseString.Length > 400)
                     return false;
             }
-            logError("sendT2Register for user " + userID.ToString(), responseString);
+            //logError("sendT2Register for user " + userID.ToString(), responseString);
             var request = new ExecuteCloudScriptRequest()
             {
                 RevisionSelection = CloudScriptRevisionOption.Latest,

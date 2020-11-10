@@ -110,12 +110,26 @@ namespace CQFollowerAutoclaimer
                         await Task.Delay(3000);
                         return true;
                     }
-                    List<string> list = new List<string>(PFStuff.nearbyPlayersIDs);
-                    list.RemoveAt(index);
-                    PFStuff.nearbyPlayersIDs = list.ToArray();
-                    list = new List<string>(PFStuff.nearbyPlayersNames);
-                    list.RemoveAt(index);
-                    PFStuff.nearbyPlayersNames = list.ToArray();
+                    try
+                    {
+                        List<string> list = new List<string>(PFStuff.nearbyPlayersIDs);
+                        list.RemoveAt(index);
+                        PFStuff.nearbyPlayersIDs = list.ToArray();
+                    }
+                    catch (Exception ex)
+                    {
+                        PFStuff.logError("PvP", "Catched error " + ex.Message + " vs index " + index.ToString() + " (" + PFStuff.nearbyPlayersIDs[index] + ") (nearbyPlayersIDs = " + JsonConvert.SerializeObject(PFStuff.nearbyPlayersIDs) + ")");
+                    }
+                    try
+                    {
+                        List<string> list2 = new List<string>(PFStuff.nearbyPlayersNames);
+                        list2.RemoveAt(index);
+                        PFStuff.nearbyPlayersNames = list2.ToArray();
+                    }
+                    catch (Exception ex)
+                    {
+                        PFStuff.logError("PvP", "Catched error " + ex.Message + " vs index " + index.ToString() + " (" + PFStuff.nearbyPlayersNames[index] + ") (nearbyPlayersNames = " + JsonConvert.SerializeObject(PFStuff.nearbyPlayersNames) + ")");
+                    }
                     return b;
                 }
                 nextPVP = Form1.getTime(PFStuff.PVPTime);
@@ -129,7 +143,7 @@ namespace CQFollowerAutoclaimer
             }
             catch (Exception ex)
             {
-                PFStuff.logError("PvP", "Catched error " + ex.Message + " vs index " + index.ToString() + " (" + PFStuff.nearbyPlayersIDs[index] + ") (nearbyPlayersIDs = " + JsonConvert.SerializeObject(PFStuff.nearbyPlayersIDs) + ")");
+                PFStuff.logError("PvP", "Catched error " + ex.Message);
                 return true;
             }
         }
