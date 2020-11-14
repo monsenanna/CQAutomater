@@ -340,7 +340,7 @@ namespace CQFollowerAutoclaimer
                                     {
                                         sw.WriteLine(DateTime.Now + "\n\t" + "Debug in PGCards, case 2c");
                                     }*/
-                                    stop = true;
+                                    //stop = true;
                                     break;
                                 }
                             }
@@ -412,7 +412,8 @@ namespace CQFollowerAutoclaimer
                 {
                     if (PFStuff.LotteryCurrent < main.lotteryCount.Value)
                     {
-                        await main.pf.sendLottery();
+                        int qty = (int)(main.lotteryCount.Value - PFStuff.LotteryCurrent);
+                        await main.pf.sendLottery(qty);
                     }
                 }
                 main.ADEIndicator.BackColor = Color.Green;

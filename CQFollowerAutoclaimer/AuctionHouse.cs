@@ -172,7 +172,7 @@ namespace CQFollowerAutoclaimer
                 loadAuctions(true);
             }
             if (times.Count > 0)
-                return Math.Max(8000, Math.Min(times.Min(), 1 * 60 * 1000));
+                return Math.Max(8000, Math.Min(times.Min(), 3 * 60 * 1000));
             return 5 * 60 * 1000;
         }
 

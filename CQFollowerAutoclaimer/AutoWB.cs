@@ -254,7 +254,7 @@ namespace CQFollowerAutoclaimer
                                     return;
                                 }
                             }
-                            int attacksAvailable = PFStuff.wbAttacksAvailable + ((PFStuff.wbAttacksAvailable == 7 && PFStuff.wbAttackNext < DateTime.Now) ? 1 : 0);
+                            int attacksAvailable = PFStuff.wbAttacksAvailable + ((PFStuff.wbAttacksAvailable == 6 && PFStuff.wbAttackNext < DateTime.Now) ? 1 : 0);
                             if ((attacksAvailable >= requirement - r && attacksToDo < (PFStuff.attacksLeft - 5)) && !(r == 0 && PFStuff.wbDamageDealt != 0) && !(r != 0 && PFStuff.wbDamageDealt == 0))
                             {
                                 DialogResult dr = DialogResult.No;

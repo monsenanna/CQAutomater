@@ -1388,7 +1388,7 @@ namespace CQFollowerAutoclaimer
             {
                 RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "adventure",
-                FunctionParameter = new { kind = kind, percentage = pct }
+                FunctionParameter = new { kind, percentage = pct }
             };
             using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
@@ -1411,17 +1411,17 @@ namespace CQFollowerAutoclaimer
             }
         }
 
-        public async Task<bool> sendLottery()
+        public async Task<bool> sendLottery(int qty)
         {
             var request = new ExecuteCloudScriptRequest()
             {
                 RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "buylot",
-                FunctionParameter = new { }
+                FunctionParameter = new { qty }
             };
             using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
             {
-                sw.WriteLine(DateTime.Now + "\n\t Buying Lottery Ticket");
+                sw.WriteLine(DateTime.Now + "\n\t Buying Lottery Ticket, qty = " + qty.ToString());
             }
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
             if (statusTask.Error != null)
@@ -1606,6 +1606,9 @@ namespace CQFollowerAutoclaimer
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
                 logError("Cloud Script Error: send WB", statusTask);
+                JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
+                if (json["err"].ToString() == "No attacks left")
+                    PFStuff.wbAttacksAvailable = 0;
                 return true;
             }
             else
