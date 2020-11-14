@@ -6,9 +6,11 @@ CQAutomater is a tool that runs in the background and automatically claims your 
 Since v4.5, CQA has been collecting data to help players browse history and do some statistics.
 It's all here : http://dcouv.fr/cq.php
 
+# v 4.9
+New heroes (season & halloween), and some bugfixes / performance improvements.
+
 # v 4.8.2a
 Auto T1 and T2. It's in PvP tab, and if checked, it will build a decent-but-not-winning grid (my aim is 50-60% wr). Hopefully all alts use that and tourneys get more crowded.
-Next feature to come : YX templates.
 
 # v 4.8.2
 Bugfixes and G.A.M.E.S improvements.
@@ -102,7 +104,7 @@ Added Doyenne
 
 # WARNING:
 Auto-WB will work correctly only if you've enabled your username on website: https://cosmosquest.net/enable.php
-I really don't recommend using auto-WB feature without username enabled as this will probably cause you attack way too many times.
+I really don't recommend using auto-WB feature without username enabled as this will probably cause you to attack way too many times.
 
 # How to get Authentication Ticket and Kong ID:
 
@@ -116,4 +118,4 @@ Now make sure that currently selected tab in your browser is Kongregate with Cos
 
 #### Don't share Authentication Ticket with anyone!
 
-Now when you start a program for the first time and you don't have valid MacroSettings file, the program will ask if you need help with creating one. Just provide it with necessary info(for CQAutomater you only need KongID and AuthTicket, other settings are used only in CQMacroCreator), save them to file and restart the program.
+Now when you start a program for the first time and you don't have valid MacroSettings file, the program will ask if you need help with creating one. Just provide it with necessary info (for CQAutomater you only need KongID and AuthTicket, other settings are used only in CQMacroCreator), save them to file and restart the program.
