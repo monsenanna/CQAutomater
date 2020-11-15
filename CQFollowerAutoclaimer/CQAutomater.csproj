@@ -152,6 +152,9 @@
     <EmbeddedResource Include="WBLog.resx">
       <DependentUpon>WBLog.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="CQAutomater_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

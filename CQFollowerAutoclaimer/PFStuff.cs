@@ -18,7 +18,7 @@ namespace CQFollowerAutoclaimer
 {
     class PFStuff
     {
-        string token;
+        readonly string token;
         static public string kongID;
         static public bool isAdmin = false; // don't edit that without an admin password or it'll crash
         static public string adminPassword;
@@ -129,19 +129,17 @@ namespace CQFollowerAutoclaimer
             return result;
         }
 
-        public static Task<bool> addErrorToQueue(string err, string msg, DateTime dt)
+        public static Task<bool> addErrorToQueue(string err, string msg, DateTime _dt)
         {
             if(err.Length < 2)
                 return Task.FromResult(true);
             logQueue.Enqueue(() => PFStuff.sendLog(err + " " + msg), "ierr");
             try
             {
-                using (StreamWriter sw = new StreamWriter(Constants.ErrorLog, true))
-                {
-                    sw.WriteLine(DateTime.Now);
-                    sw.WriteLine("\tError " + err + " " + msg);
-                    return Task.FromResult(true);
-                }
+                using StreamWriter sw = new StreamWriter(Constants.ErrorLog, true);
+                sw.WriteLine(DateTime.Now);
+                sw.WriteLine("\tError " + err + " " + msg);
+                return Task.FromResult(true);
             }
             catch
             {
@@ -156,24 +154,22 @@ namespace CQFollowerAutoclaimer
 
         private void logError(string err, PlayFabResult<ExecuteCloudScriptResult> result)
         {
-            using (StreamWriter sw = new StreamWriter(Constants.ErrorLog, true))
+            using StreamWriter sw = new StreamWriter(Constants.ErrorLog, true);
+            sw.WriteLine(DateTime.Now);
+            string msg = "";
+            if (result == null)
             {
-                sw.WriteLine(DateTime.Now);
-                string msg = "";
-                if (result == null)
-                {
-                    msg = "Unknown error";
-                }
-                else if (result.Result != null)
-                {
-                    msg = result.Result.ToString();
-                    if (result.Result.FunctionResult != null)
-                    {
-                        msg = result.Result.FunctionResult.ToString();
-                    }
-                }
-                logQueue.Enqueue(() => addErrorToQueue(err, msg, DateTime.Now), "log");
+                msg = "Unknown error";
             }
+            else if (result.Result != null)
+            {
+                msg = result.Result.ToString();
+                if (result.Result.FunctionResult != null)
+                {
+                    msg = result.Result.FunctionResult.ToString();
+                }
+            }
+            logQueue.Enqueue(() => addErrorToQueue(err, msg, DateTime.Now), "log");
         }
 
         #region Getting Data
@@ -600,19 +596,17 @@ namespace CQFollowerAutoclaimer
                         {
                         }
                     }
-                    using (var client = new HttpClient())
+                    using var client = new HttpClient();
+                    try
                     {
-                        try
-                        {
-                            var values = new Dictionary<string, string> { { "uupd", JsonConvert.SerializeObject(res) } };
-                            var content = new FormUrlEncodedContent(values);
-                            var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
-                            var responseString = await response.Content.ReadAsStringAsync();
-                        }
-                        catch
-                        {
-                            return true;
-                        }
+                        var values = new Dictionary<string, string> { { "uupd", JsonConvert.SerializeObject(res) } };
+                        var content = new FormUrlEncodedContent(values);
+                        var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                        var responseString = await response.Content.ReadAsStringAsync();
+                    }
+                    catch
+                    {
+                        return true;
                     }
                 }
                 return true;
@@ -639,7 +633,7 @@ namespace CQFollowerAutoclaimer
                 ascensionSpheres = int.Parse(currenciesTask.Result.VirtualCurrency["AS"].ToString());
                 universeMarbles = int.Parse(currenciesTask.Result.VirtualCurrency["UM"].ToString());
                 heroChests = int.Parse(currenciesTask.Result.VirtualCurrency["KU"].ToString()) / 10;
-                freeChestAvailable = currenciesTask.Result.VirtualCurrency["BK"].ToString() == "1" ? true : false;
+                freeChestAvailable = currenciesTask.Result.VirtualCurrency["BK"].ToString() == "1";
                 emMultiplier = 1;
                 for (int i = 0; i < currenciesTask.Result.Inventory.Count; i++)
                 {
@@ -665,14 +659,12 @@ namespace CQFollowerAutoclaimer
                 JObject json = JObject.Parse(content);
                 username = json["username"].ToString();
 
-                using (var client = new HttpClient())
-                {
-                    var values = new Dictionary<string, string> { { "uget", username } };
-                    var cont = new FormUrlEncodedContent(values);
-                    var resp = await client.PostAsync("http://dcouv.fr/cq.php", cont);
-                    var respString = await resp.Content.ReadAsStringAsync();
-                    userID = int.Parse(respString);
-                }
+                using var client = new HttpClient();
+                var values = new Dictionary<string, string> { { "uget", username } };
+                var cont = new FormUrlEncodedContent(values);
+                var resp = await client.PostAsync("http://dcouv.fr/cq.php", cont);
+                var respString = await resp.Content.ReadAsStringAsync();
+                userID = int.Parse(respString);
             }
             catch
             {
@@ -813,17 +805,17 @@ namespace CQFollowerAutoclaimer
             {
                 var d = json["history"][json["history"].Count() - 1]["date"].ToString();
                 d = d.Substring(0, d.Length - 3);
-                if (int.Parse(d) <= FlashLastUpdate)
+                if (long.Parse(d) <= FlashLastUpdate)
                     return true;
-                using (var client = new HttpClient())
-                {
-                    string jc = LZString.compressToEncodedURIComponent(json.ToString());
-                    var values = new Dictionary<string, string> { { "uflc", jc }, { "uflcp", userID.ToString() } };
-                    var encodedItems = values.Select(i => WebUtility.UrlEncode(i.Key) + "=" + WebUtility.UrlEncode(i.Value));
-                    var content = new StringContent(String.Join("&", encodedItems), Encoding.UTF8, "application/x-www-form-urlencoded");
-                    var r = Task.Run(() => client.PostAsync("http://dcouv.fr/cq.php", content));
+                using var client = new HttpClient();
+                string jc = LZString.compressToEncodedURIComponent(json.ToString());
+                var values = new Dictionary<string, string> { { "uflc", jc }, { "uflcp", userID.ToString() } };
+                var encodedItems = values.Select(i => WebUtility.UrlEncode(i.Key) + "=" + WebUtility.UrlEncode(i.Value));
+                var content = new StringContent(String.Join("&", encodedItems), Encoding.UTF8, "application/x-www-form-urlencoded");
+                var r = Task.Run(() => client.PostAsync("http://dcouv.fr/cq.php", content));
+                r.Wait();
+                if(r.IsCompleted)
                     FlashLastUpdate = int.Parse(d) - 60 * 60 * 8; // 8h before
-                }
             }
             catch (Exception ex)
             {
@@ -872,29 +864,26 @@ namespace CQFollowerAutoclaimer
 
         public async Task<int> getEasiestOpponent()
         {
-            using (var client = new HttpClient())
+            using var client = new HttpClient();
+            try
             {
-                try
+                var values = new Dictionary<string, string> { { "eopp", userID.ToString() } };
+                var content = new FormUrlEncodedContent(values);
+                var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                var responseString = await response.Content.ReadAsStringAsync();
+                string[] result = responseString.Split(',').ToArray();
+                for (int i = 0; i < result.Length; i++)
                 {
-                    var values = new Dictionary<string, string> { { "eopp", userID.ToString() } };
-                    var content = new FormUrlEncodedContent(values);
-                    var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
-                    var responseString = await response.Content.ReadAsStringAsync();
-                    //logError("debug - ", responseString);
-                    string[] result = responseString.Split(',').ToArray();
-                    for (int i = 0; i < result.Length; i++)
+                    if (nearbyPlayersNames.Contains(result[i]))
                     {
-                        if (nearbyPlayersNames.Contains(result[i]))
-                        {
-                            return int.Parse(nearbyPlayersIDs[Array.IndexOf(nearbyPlayersNames, result[i])]);
-                        }
+                        return int.Parse(nearbyPlayersIDs[Array.IndexOf(nearbyPlayersNames, result[i])]);
                     }
-                    return 0;
                 }
-                catch
-                {
-                    return 0;
-                }
+                return 0;
+            }
+            catch
+            {
+                return 0;
             }
         }
 
@@ -994,7 +983,7 @@ namespace CQFollowerAutoclaimer
             {
                 RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "fight",
-                FunctionParameter = new { token = token, kid = kongID, id = nearbyPlayersIDs[index] }
+                FunctionParameter = new { token, kid = kongID, id = nearbyPlayersIDs[index] }
             };
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
             if (statusTask.Error != null)
@@ -1060,7 +1049,7 @@ namespace CQFollowerAutoclaimer
             if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
             {
                 logError("Cloud Script Error: Open chest", statusTask);
-                JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
+                _ = JObject.Parse(statusTask.Result.FunctionResult.ToString());
                 chestResult = 800;
                 return true;
             }
@@ -1296,12 +1285,12 @@ namespace CQFollowerAutoclaimer
 
         public async Task<bool> sendKeysTowerPick()
         {
-            int pick = 0; // todo : random ?
+            int pick = 0;
             var request = new ExecuteCloudScriptRequest()
             {
                 RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "keyevent",
-                FunctionParameter = new { pick = pick }
+                FunctionParameter = new { pick }
             };
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
             if (statusTask.Error != null)
@@ -1316,7 +1305,6 @@ namespace CQFollowerAutoclaimer
             }
             else
             {
-                //JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
                 return true;
             }
         }
@@ -1520,73 +1508,61 @@ namespace CQFollowerAutoclaimer
 
         public async Task<bool> sendBuyLTO(int heroID, int maxPrice)
         {
-            using (var client = new HttpClient())
+            using var client = new HttpClient();
+            int ltoID = 0;
+            try
             {
-                int ltoID = 0;
-                try
-                {
-                    var values = new Dictionary<string, string> { { "oget", heroID.ToString() }, { "oget2", maxPrice.ToString() } };
-                    var cont = new FormUrlEncodedContent(values);
-                    var resp = await client.PostAsync("http://dcouv.fr/cq.php", cont);
-                    var respString = await resp.Content.ReadAsStringAsync();
-                    ltoID = int.Parse(respString);
-                    /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                    {
-                        sw.WriteLine(DateTime.Now);
-                        sw.WriteLine("\tLTO debug : " + heroID.ToString() + " " + maxPrice.ToString() + " " + respString);
-                    }*/
-                }
-                catch(Exception)
-                {
-                    /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                    {
-                        sw.WriteLine(DateTime.Now);
-                        sw.WriteLine("\tLTO debug 2");
-                    }*/
-                }
-                if (ltoID > 0)
-                {
-                    var request = new ExecuteCloudScriptRequest()
-                    {
-                        RevisionSelection = CloudScriptRevisionOption.Latest,
-                        FunctionName = "lto",
-                        FunctionParameter = new { offer = ltoID }
-                    };
-                    var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
-                    if (statusTask.Error != null)
-                    {
-                        logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
-                        using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                        {
-                            sw.WriteLine(DateTime.Now);
-                            sw.WriteLine("\tFAILED LTO purchase");
-                            sw.WriteLine(statusTask.Error.ErrorMessage);
-                        }
-                        return false;
-                    }
-                    if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
-                    {
-                        logError("Cloud Script Error: LTO purchase", statusTask);
-                        using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                        {
-                            sw.WriteLine(DateTime.Now);
-                            sw.WriteLine("\tFAILED LTO purchase");
-                            sw.WriteLine(statusTask.Result.FunctionResult.ToString());
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
-                        {
-                            sw.WriteLine(DateTime.Now);
-                            sw.WriteLine("\tLTO purchase OK");
-                        }
-                        return true;
-                    }
-                }
-                return false;
+                var values = new Dictionary<string, string> { { "oget", heroID.ToString() }, { "oget2", maxPrice.ToString() } };
+                var cont = new FormUrlEncodedContent(values);
+                var resp = await client.PostAsync("http://dcouv.fr/cq.php", cont);
+                var respString = await resp.Content.ReadAsStringAsync();
+                ltoID = int.Parse(respString);
             }
+            catch
+            {
+            }
+            if (ltoID > 0)
+            {
+                var request = new ExecuteCloudScriptRequest()
+                {
+                    RevisionSelection = CloudScriptRevisionOption.Latest,
+                    FunctionName = "lto",
+                    FunctionParameter = new { offer = ltoID }
+                };
+                var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
+                if (statusTask.Error != null)
+                {
+                    logError(statusTask.Error.Error.ToString(), statusTask.Error.ErrorMessage);
+                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                    {
+                        sw.WriteLine(DateTime.Now);
+                        sw.WriteLine("\tFAILED LTO purchase");
+                        sw.WriteLine(statusTask.Error.ErrorMessage);
+                    }
+                    return false;
+                }
+                if (statusTask == null || statusTask.Result.FunctionResult == null || !statusTask.Result.FunctionResult.ToString().Contains("true"))
+                {
+                    logError("Cloud Script Error: LTO purchase", statusTask);
+                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                    {
+                        sw.WriteLine(DateTime.Now);
+                        sw.WriteLine("\tFAILED LTO purchase");
+                        sw.WriteLine(statusTask.Result.FunctionResult.ToString());
+                    }
+                    return true;
+                }
+                else
+                {
+                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                    {
+                        sw.WriteLine(DateTime.Now);
+                        sw.WriteLine("\tLTO purchase OK");
+                    }
+                    return true;
+                }
+            }
+            return false;
         }
 
         public async Task<bool> sendWBFight(int[] WBLineup)
@@ -1807,17 +1783,17 @@ namespace CQFollowerAutoclaimer
             {
                 if (userID == 0)
                     return true;
-                var d = new Dictionary<string, string>();
-                d["p"] = userID.ToString();
-                d["e"] = e;
-                d["v"] = Constants.version;
-                using (var client = new HttpClient())
+                var d = new Dictionary<string, string>
                 {
-                    var values = new Dictionary<string, string> { { "ierr", JsonConvert.SerializeObject(d) } };
-                    var content = new FormUrlEncodedContent(values);
-                    var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
-                    var responseString = await response.Content.ReadAsStringAsync();
-                }
+                    { "p", userID.ToString() },
+                    { "e", e },
+                    { "v", Constants.version }
+                };
+                using var client = new HttpClient();
+                var values = new Dictionary<string, string> { { "ierr", JsonConvert.SerializeObject(d) } };
+                var content = new FormUrlEncodedContent(values);
+                var response = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                var responseString = await response.Content.ReadAsStringAsync();
             }
             catch (Exception)
             {
@@ -1883,7 +1859,7 @@ namespace CQFollowerAutoclaimer
             {
                 RevisionSelection = CloudScriptRevisionOption.Latest,
                 FunctionName = "sjmission",
-                FunctionParameter = new { mission = mission }
+                FunctionParameter = new { mission }
             };
             var statusTask = await PlayFabClientAPI.ExecuteCloudScriptAsync(request);
             if (statusTask.Error != null)
@@ -2223,16 +2199,14 @@ namespace CQFollowerAutoclaimer
                     JObject json = JObject.Parse(statusTask.Result.FunctionResult.ToString());
                     int captcha = (int)json["id"];
                     var responseString = "";
-                    using (var client = new HttpClient())
-                    {
-                        var values = new Dictionary<string, string> { { "scap", captcha.ToString() }, { "scap2", adminPassword } };
-                        var content = new FormUrlEncodedContent(values);
-                        HttpResponseMessage httpResponseMessage = await client.PostAsync("http://dcouv.fr/cq.php", content);
-                        responseString = await httpResponseMessage.Content.ReadAsStringAsync();
-                        Random rnd = new Random();
-                        await Task.Delay(700 + rnd.Next(100, 2000));
-                        return responseString;
-                    }
+                    using var client = new HttpClient();
+                    var values = new Dictionary<string, string> { { "scap", captcha.ToString() }, { "scap2", adminPassword } };
+                    var content = new FormUrlEncodedContent(values);
+                    HttpResponseMessage httpResponseMessage = await client.PostAsync("http://dcouv.fr/cq.php", content);
+                    responseString = await httpResponseMessage.Content.ReadAsStringAsync();
+                    Random rnd = new Random();
+                    await Task.Delay(700 + rnd.Next(100, 2000));
+                    return responseString;
                 }
             }
             catch
