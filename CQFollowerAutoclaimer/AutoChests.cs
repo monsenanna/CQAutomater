@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.IO;
 
 namespace CQFollowerAutoclaimer
 {
@@ -37,30 +38,45 @@ namespace CQFollowerAutoclaimer
 
         internal async Task<bool> openChest(string mode)
         {
-            var b = await main.pf.sendOpen(mode);
-            if (Constants.ERROR.ContainsKey(PFStuff.chestResult))
+            try
             {
-                main.ChestLog.SynchronizedInvoke(() => main.ChestLog.AppendText(Constants.ERROR[PFStuff.chestResult] + "\n"));
-            }
-            else
-            {
-                string rew = "Got ";
-                if (-PFStuff.chestResult >= Constants.heroNames.Length)
+                var b = await main.pf.sendOpen(mode);
+                if (Constants.ERROR.ContainsKey(PFStuff.chestResult))
                 {
-                    rew += "Unknown Hero(ID: " + PFStuff.chestResult + ")";
+                    main.ChestLog.SynchronizedInvoke(() => main.ChestLog.AppendText(Constants.ERROR[PFStuff.chestResult] + "\n"));
                 }
                 else
                 {
-                    rew += PFStuff.chestResult < 0 ? Constants.heroNames[-PFStuff.chestResult] : Constants.rewardNames[PFStuff.chestResult];
+                    string rew = "Got ";
+                    if (-PFStuff.chestResult >= Constants.heroNames.Length)
+                    {
+                        rew += "Unknown Hero(ID: " + PFStuff.chestResult + ")";
+                    }
+                    else
+                    {
+                        rew += (PFStuff.chestResult < 0 ? Constants.heroNames[-PFStuff.chestResult] : Constants.rewardNames[PFStuff.chestResult]) + " from " + mode + " chest";
+                    }
+                    main.ChestLog.SynchronizedInvoke(() => main.ChestLog.AppendText(rew + "\n"));
+                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                    {
+                        sw.WriteLine(DateTime.Now + "\t" + rew + "\n");
+                    }
                 }
-                main.ChestLog.SynchronizedInvoke(() => main.ChestLog.AppendText(rew + "\n"));
+                if (!main.taskQueue.Contains("chest"))
+                {
+                    main.openNormalButton.SynchronizedInvoke(() => main.openNormalButton.Enabled = true);
+                    main.openHeroButton.SynchronizedInvoke(() => main.openHeroButton.Enabled = true);
+                }
+                return b;
             }
-            if (!main.taskQueue.Contains("chest"))
+            catch (Exception webex)
             {
-                main.openNormalButton.SynchronizedInvoke(() => main.openNormalButton.Enabled = true);
-                main.openHeroButton.SynchronizedInvoke(() => main.openHeroButton.Enabled = true);
+                using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now + "\n\t" + webex.Message);
+                }
+                return false;
             }
-            return b;
         }       
     }
 }

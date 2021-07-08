@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
 using System.Timers;
 using System.Media;
 using System.IO;
@@ -30,7 +28,7 @@ namespace CQFollowerAutoclaimer
             loadDQSettings();
         }
 
-        public enum CalcMode { DQ, DUNG};
+        public enum CalcMode { DQ, DUNG };
 
         void loadDQSettings()
         {
@@ -64,25 +62,54 @@ namespace CQFollowerAutoclaimer
                 await main.getData();
             }
         }
+
         private async Task<bool> sendSolution(int[] lineup, CalcMode mode)
         {
+            await Task.Delay(2000);
+            /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+            {
+                sw.WriteLine(DateTime.Now + "\n\t" + "Debug DQFailedAttempts = " + DQFailedAttempts.ToString());
+            }*/
             if (DQFailedAttempts >= 3)
             {
                 if (main.DQCalcBox.getCheckState())
                 {
+                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                    {
+                        sw.WriteLine(DateTime.Now + "\n\tDebug DQ RunCalc last try");
+                    }
                     RunCalc(mode);
                 }
             }
             else
             {
                 bool b = false;
-                if(mode == CalcMode.DQ)
-                     b = await main.pf.sendDQSolution(lineup);
-                if(mode == CalcMode.DUNG)
-                    b = await main.pf.sendDungSolution(lineup);
+                try
+                {
+                    if (mode == CalcMode.DQ)
+                        b = await main.pf.sendDQSolution(lineup);
+                    if (mode == CalcMode.DUNG)
+                        b = await main.pf.sendDungSolution(lineup);
+                    /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                    {
+                        sw.WriteLine(DateTime.Now + "\n\tDebug DQ calc solution sent to CQ");
+                    }*/
+                }
+                catch
+                {
+                    using (StreamWriter sw = new StreamWriter("ActionLog.txt"))
+                    {
+                        sw.WriteLine(DateTime.Now + " Couldn't send calc solution " + JsonConvert.SerializeObject(lineup));
+                    }
+                }
                 if (!b)
                 {
+                    using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                    {
+                        sw.WriteLine(DateTime.Now + "\n\tDebug DQ failed, retrying in 5s");
+                    }
                     DQFailedAttempts++;
+                    await Task.Delay(5000);
                     main.taskQueue.Enqueue(() => sendSolution(lineup, mode), "DQ");
                 }
                 else
@@ -91,11 +118,19 @@ namespace CQFollowerAutoclaimer
                     {
                         if (main.DQCalcBox.getCheckState())
                         {
+                            /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                            {
+                                sw.WriteLine(DateTime.Now + "\n\tDebug DQ RunCalc");
+                            }*/
                             RunCalc(mode);
                         }
                     }
                     else
                     {
+                        /*using (StreamWriter sw = new StreamWriter("ActionLog.txt", true))
+                        {
+                            sw.WriteLine(DateTime.Now + "\n\tDebug DQ new DQ, enqueue calc");
+                        }*/
                         DQFailedAttempts = 0;
                         currentDQ = int.Parse(PFStuff.DQLevel);
                         main.taskQueue.Enqueue(() => sendSolution(lineup, mode), "DQ");
@@ -103,6 +138,7 @@ namespace CQFollowerAutoclaimer
                     }
                 }
             }
+            await Task.Delay(2000);
             return true;
         }
 
@@ -142,7 +178,8 @@ namespace CQFollowerAutoclaimer
                 calcOut = "";
                 var proc = new Process();
                 proc.StartInfo.FileName = "CQMacroCreator";
-                proc.StartInfo.Arguments = mode == CalcMode.DQ ? "quick" : "quickdung";
+                int lim = main.appSettings.calcTimeLimit ?? 30;
+                proc.StartInfo.Arguments = mode == CalcMode.DQ ? "quick "+ lim.ToString() : "quickdung " + lim.ToString();
 
                 proc.StartInfo.RedirectStandardOutput = true;
                 proc.StartInfo.RedirectStandardError = true;
@@ -171,7 +208,7 @@ namespace CQFollowerAutoclaimer
         {
             if (e.Data != null)
             {
-                calcErrorOut += e.Data + "\n";
+                calcErrorOut += "AutoDQ error received from calc\n" + e.Data + "\n";
             }
         }
         void proc_DataReceived(object sender, DataReceivedEventArgs e)
@@ -185,14 +222,25 @@ namespace CQFollowerAutoclaimer
        async void proc_Exited(object sender, EventArgs e)
         {
             await main.getData();
-            await PFStuff.getWBData(main.KongregateId);
+            await main.pf.getWBData(main.KongregateId);
             main.calcStatus.SynchronizedInvoke(() => main.calcStatus.Text = "Calc finished");
             nextDQTime = Form1.getTime(PFStuff.DQTime);
-            DQTimer.Interval = (nextDQTime < DateTime.Now && main.DQCalcBox.Checked) ? 4000 : Math.Max(4000, (nextDQTime - DateTime.Now).TotalMilliseconds);
+            DQTimer.Interval = int.Parse(PFStuff.DQLevel) < 2 ? 300000 : (nextDQTime < DateTime.Now && main.DQCalcBox.Checked) ? 8000 : Math.Max(8000, (nextDQTime - DateTime.Now).TotalMilliseconds + 20000);
             main.DQLevelLabel.SynchronizedInvoke(() => main.DQLevelLabel.Text = PFStuff.DQLevel);
             main.DQTimeLabel.SynchronizedInvoke(() => main.DQTimeLabel.Text = nextDQTime.ToString());
 
             main.currentDungLevelLabel.setText(PFStuff.DungLevel);
+            PFStuff.getWebsiteData(main.KongregateId);
+            if (PFStuff.lastDungLevel == PFStuff.DungLevel) // stop autoDG if stalled
+            {
+                PFStuff.DungStatus = 1;
+                main.label133.setText("Dungeon : done, reached " + PFStuff.DungLevel);
+            }
+            else
+            {
+                main.label133.setText("Dungeon : partially solved, from " + PFStuff.lastDungLevel + " to " + PFStuff.DungLevel);
+            }
+            PFStuff.DungRunning = 0;
             main.autoLevel.levelTimer.Interval = 1.5 * 60 * 1000;
             DQTimer.Start();
             if (!string.IsNullOrEmpty(calcErrorOut))

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Threading;
 
 namespace CQFollowerAutoclaimer
 {
@@ -36,10 +33,11 @@ namespace CQFollowerAutoclaimer
     }
     class AuctionHouse
     {
-        System.Timers.Timer AHTimer = new System.Timers.Timer();
+        //System.Timers.Timer AHTimer = new System.Timers.Timer();
         Form1 main;
         List<Auction> auctionList = new List<Auction>();
         internal DateTime[] auctionDates = new DateTime[3];
+        static int secondsBeforeDeadline = 15;
 
         public AuctionHouse(Form1 m) { main = m; }
 
@@ -47,17 +45,27 @@ namespace CQFollowerAutoclaimer
         {
             if (getData)
             {
+                Task.Delay(2000);
                 PFStuff.getWebsiteData(main.appSettings.KongregateId);
+                main.taskQueue.Enqueue(() => main.pf.getCurrencies(), "curr");
+                Task.Delay(2000);
                 main.currentDungLevelLabel.Text = PFStuff.DungLevel;
             }
             auctionList = new List<Auction>();
-            foreach (JObject jo in PFStuff.auctionData)
+            try
             {
-                int id = Int32.Parse(jo["hero"].ToString());
-                string bidName = jo["bidname"].ToString();
-                int price = Int32.Parse(jo["bid"].ToString());
-                DateTime dt = DateTime.Now.AddMilliseconds(double.Parse(jo["timer"].ToString()));
-                auctionList.Add(new Auction(id, bidName, dt, price));
+                foreach (JObject jo in PFStuff.auctionData)
+                {
+                    int id = Int32.Parse(jo["hero"].ToString());
+                    string bidName = jo["bidname"].ToString();
+                    int price = Int32.Parse(jo["bid"].ToString());
+                    DateTime dt = DateTime.Now.AddMilliseconds(double.Parse(jo["timer"].ToString()));
+                    auctionList.Add(new Auction(id, bidName, dt, price));
+                }
+            }
+            catch (Exception)
+            {
+                // we're probably just missing data because the server is offline
             }
         }
 
@@ -78,24 +86,32 @@ namespace CQFollowerAutoclaimer
             return n.ToArray();
         }
 
-        public async Task<double> getAuctionInterval()
+        public async Task<double> getAuctionInterval(bool forceUpdate = false)
         {
             List<Auction> b = new List<Auction>();
             List<double> times = new List<double>();
+            if(forceUpdate)
+            {
+                loadAuctions(true);
+            }
+            main.label137.setText("Current UM: " + main.pf.universeMarbles.ToString());
             if (main.auctionHero1Combo.getText() != "")
             {
                 int index = Array.IndexOf(Constants.heroNames, main.auctionHero1Combo.getText());
                 Auction a = auctionList.Find(x => x.heroID == index - 2);
-                main.auctionHero1CostLabel.setText(a.currentPrice.ToString());
-                main.auctionHero1BidderLabel.setText(a.bidderName);
-                auctionDates[0] = a.endTime;
-                if (main.auctionHero1Box.getCheckState())
+                if (PFStuff.heroLevels[a.heroID] > 1 || !await main.pf.sendBuyLTO(index - 2, a.currentPrice))
                 {
-                    a.setRequirements(main.auctionHero1PriceCount.Value, main.auctionHero1LevelCount.Value);
-                    times.Add((a.endTime - DateTime.Now).TotalMilliseconds - 15000);
-                    b.Add(a);
+                    main.auctionHero1CostLabel.setText(a.currentPrice.ToString());
+                    main.auctionHero1BidderLabel.setText(a.bidderName);
+                    auctionDates[0] = a.endTime;
+                    if (main.auctionHero1Box.getCheckState())
+                    {
+                        a.setRequirements(main.auctionHero1PriceCount.Value, main.auctionHero1LevelCount.Value);
+                        times.Add((a.endTime - DateTime.Now).TotalMilliseconds - secondsBeforeDeadline * 1000);
+                        b.Add(a);
+                    }
                 }
-                
+                main.label134.setText("current: " + PFStuff.heroLevels[a.heroID]);
             }
             if (main.auctionHero2Combo.getText() != "")
             {
@@ -107,9 +123,10 @@ namespace CQFollowerAutoclaimer
                 if (main.auctionHero2Box.getCheckState())
                 {
                     a.setRequirements(main.auctionHero2PriceCount.Value, main.auctionHero2LevelCount.Value);
-                    times.Add((a.endTime - DateTime.Now).TotalMilliseconds - 15000);
+                    times.Add((a.endTime - DateTime.Now).TotalMilliseconds - secondsBeforeDeadline * 1000);
                     b.Add(a);
-                }                
+                }
+                main.label135.setText("current: " + PFStuff.heroLevels[a.heroID]);
             }
             if (main.auctionHero3Combo.getText() != "")
             {
@@ -121,9 +138,10 @@ namespace CQFollowerAutoclaimer
                 if (main.auctionHero3Box.getCheckState())
                 {
                     a.setRequirements(main.auctionHero3PriceCount.Value, main.auctionHero3LevelCount.Value);
-                    times.Add((a.endTime - DateTime.Now).TotalMilliseconds - 15000);
+                    times.Add((a.endTime - DateTime.Now).TotalMilliseconds - secondsBeforeDeadline * 1000);
                     b.Add(a);
-                }                
+                }
+                main.label136.setText("current: " + PFStuff.heroLevels[a.heroID]);
             }
             IEnumerable<Auction> temp;
             if (main.instaBidCBox.Checked)
@@ -141,16 +159,20 @@ namespace CQFollowerAutoclaimer
             if (temp.ToList().Count > 0)
             {
                 await main.getData();
+                await main.getCurr();
+                PFStuff.getWebsiteData(main.KongregateId);
                 foreach (Auction au in temp.ToList())
                 {
-                    if (au.bidderName != PFStuff.username && (int)Math.Ceiling(au.currentPrice * 1.1) <= au.maxPrice && (au.maxLevel - 1) >= PFStuff.heroLevels[au.heroID])
+                    if (au.bidderName != PFStuff.username && (int)Math.Ceiling(au.currentPrice * 1.1) <= au.maxPrice && (au.maxLevel - 1) >= PFStuff.heroLevels[au.heroID] && main.pf.universeMarbles > (int)Math.Ceiling(au.currentPrice * 1.1))
                     { 
                         placeBid(au.heroID, (int)Math.Ceiling(au.currentPrice * 1.1));
                     }
                 }
+                await Task.Delay(5000);
+                loadAuctions(true);
             }
             if (times.Count > 0)
-                return Math.Max(8000, Math.Min(times.Min(), 5 * 60 * 1000));
+                return Math.Max(8000, Math.Min(times.Min(), 3 * 60 * 1000));
             return 5 * 60 * 1000;
         }
 

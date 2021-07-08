@@ -25,13 +25,27 @@ namespace CQFollowerAutoclaimer
             m.pranaHeroCombo.Items.Add("");
             m.coinsHeroCombo.Items.Add("");
             m.spheresHeroCombo.Items.Add("");
-            m.pranaHeroCombo.Items.AddRange(Constants.pranaHeroes);
+            foreach (string n in Constants.pranaHeroes.OrderBy(s => s))
+            {
+                m.pranaHeroCombo.Items.Add(n);
+            }
+            foreach (string n in Constants.cosmicCoinHeroes.OrderBy(s => s))
+            {
+                m.coinsHeroCombo.Items.Add(n);
+            }
+            foreach (string n in Constants.ascensionHeroes.OrderBy(s => s))
+            {
+                m.spheresHeroCombo.Items.Add(n);
+            }
+            // before sort :
+            /*m.pranaHeroCombo.Items.AddRange(Constants.pranaHeroes);
             m.coinsHeroCombo.Items.AddRange(Constants.cosmicCoinHeroes);
-            m.spheresHeroCombo.Items.AddRange(Constants.ascensionHeroes);
+            m.spheresHeroCombo.Items.AddRange(Constants.ascensionHeroes);*/
 
             bank = new List<NumericUpDown>() { m.pranaBankCount, m.coinsBankCount, m.spheresBankCount };
             heroToLevel = new List<ComboBox>() { m.pranaHeroCombo, m.coinsHeroCombo, m.spheresHeroCombo };
             levels = new List<NumericUpDown>() { m.pranaLevelCount, m.coinsLevelCount, m.spheresLevelCount };
+            updateHeroLevels();
             nextLevelCheck = DateTime.Now.AddMinutes(10);
             levelTimer.Interval = 10 * 60 * 1000;
             levelTimer.Elapsed += levelTimer_Elapsed;
@@ -40,11 +54,11 @@ namespace CQFollowerAutoclaimer
 
         async void levelTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            levelTimer.Stop();            
+            levelTimer.Stop();
             if (main.autoLevelCheckbox.getCheckState())
             {
-                await main.getCurr();
                 await main.getData();
+                await main.getCurr();
                 int toSpend = (int)(main.pf.ascensionSpheres - main.spheresBankCount.getValue());
                 string onWhat = main.spheresHeroCombo.getText();
                 if (toSpend > 0 && !string.IsNullOrEmpty(onWhat))
@@ -186,8 +200,32 @@ namespace CQFollowerAutoclaimer
                         }
                     }
                 }
+                // P6
+                if (PFStuff.TrainingStatus >= 0)
+                { // some hero is currently training
+                    main.p6HeroCombo1.Text = Constants.heroNames[PFStuff.TrainingStatus + 2];
+                    main.p6HeroCombo1.Enabled = false;
+                }
+                else
+                {
+                    main.p6HeroCombo1.Enabled = true;
+                    if (main.p6HeroCombo1.getText() != "" && PFStuff.heroProms[Array.IndexOf(Constants.heroNames, main.p6HeroCombo1.getText()) - 2] != 5)
+                    { // move picks up
+                        main.p6HeroCombo1.Text = main.p6HeroCombo2.getText();
+                        main.p6HeroCombo2.Text = main.p6HeroCombo3.getText();
+                        main.p6HeroCombo3.Text = main.p6HeroCombo4.getText();
+                        main.p6HeroCombo4.Text = "";
+                    }
+                    if (main.p6HeroCombo1.getText() != "" && PFStuff.heroProms[Array.IndexOf(Constants.heroNames, main.p6HeroCombo1.getText()) - 2] == 5)
+                    { // do next
+                        // run ajax training request
+                        await main.pf.sendTrainHero(Array.IndexOf(Constants.heroNames, main.p6HeroCombo1.getText()) - 2);
+                        await main.getData();
+                        main.p6HeroCombo1.Enabled = false;
+                    }
+                }
             }
-            levelTimer.Interval = 4 * 60 * 60 * 1000;
+            levelTimer.Interval = 2 * 60 * 1000;
             nextLevelCheck = DateTime.Now.AddMilliseconds(levelTimer.Interval);
             levelTimer.Start();
         }
@@ -222,6 +260,22 @@ namespace CQFollowerAutoclaimer
                     levels[i++].Value = x;
                 }
             }
+
+            if (main.appSettings.heroesToProm6 != null && main.appSettings.heroesToProm6.Length == 4)
+            {
+                if (PFStuff.TrainingStatus >= 0)
+                { // some hero is currently training
+                    main.p6HeroCombo1.Text = Constants.heroNames[PFStuff.TrainingStatus + 2];
+                    main.p6HeroCombo1.Enabled = false;
+                }
+                int i = 0;
+                foreach (ComboBox c in main.p6HeroComboBoxes)
+                {
+                    c.SelectedIndex = c.FindStringExact(main.appSettings.heroesToProm6[i]);
+                    i++;
+                }
+            }
+            updateHeroLevels();
         }
 
         public void saveALSettings()
@@ -231,11 +285,28 @@ namespace CQFollowerAutoclaimer
             apps.herosToLevel = heroToLevel.Select(x => x.Text).ToArray();
             apps.bankedCurrencies = bank.Select(x => (int)x.Value).ToArray();
             apps.levelLimits = levels.Select(x => (int)x.Value).ToArray();
+            apps.heroesToProm6 = main.p6HeroComboBoxes.Select(x => x.Text).ToArray();
             apps.saveSettings();
         }
 
+        public void updateHeroLevels()
+        {
+            main.label142.setText("current: " + PFStuff.getHeroLevel(main.pranaHeroCombo.getText()));
+            main.label143.setText("current: " + PFStuff.getHeroLevel(main.coinsHeroCombo.getText()));
+            main.label144.setText("current: " + PFStuff.getHeroLevel(main.spheresHeroCombo.getText()));
+        }
 
-        public static class InternetTime
+        public void updateCurr()
+        {
+            main.label137.setText("Current UM: " + main.pf.universeMarbles.ToString());
+            main.label138.setText("(currently: " + main.pf.pranaGems.ToString() + ")");
+            main.label139.setText("(currently: " + main.pf.cosmicCoins.ToString() + ")");
+            main.label140.setText("(currently: " + main.pf.ascensionSpheres.ToString() + ")");
+
+        }
+
+
+    public static class InternetTime
         {
             public static DateTimeOffset? GetCurrentTime()
             {

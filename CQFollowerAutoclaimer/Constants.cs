@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CQFollowerAutoclaimer
 {
     static class Constants
     {
+        public static string version = "v4.9.0f";
         public static string ErrorLog = "ErrorLog.txt";
         public static DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         public enum prices
@@ -26,6 +24,11 @@ namespace CQFollowerAutoclaimer
         };
 
         public static string[] names = {
+            "ladymaligryn","antoinette","marionette","esmeralda","reaper","vermin","rumble","stench","arathon","sylnir","raelan","jalrok","sagittaria","will","merida","sully",
+            "john","valentina","alan","yuri","ignis","caeli","silex","pluvia","hetfield","lars","kirklee","rob","kingpyros","youngpyros","babypyros","egg","kilkenny","annie",
+            "mechamary","hans","yetithepostman","galla","yisus","adam","emily","adrian","casper","higgs","boson","electra","newt","retia","myrmillo","scinda","thrace","bornag",
+            "lili","achocoknight","chocoknight","sharkjellyn","mrcotton","smith","acrei","crei","catzar","cathos","tetra","awanderer","minerva","helga","ophelia","agatha",
+            "anerissa","mother","nerissa","murphy","bortles", "thumper", "daisy", "gizmo", "willow", "adybbuk", "aedana", "ajade", "amahatma",
             "spike", "riptide", "ember", "cloud", "b-day", "thewanderer", "maunder", "transient", "cupid", "aurora", "orin", "flint", "blossom",
             "aseethe", "seethe", "ruin", "raze", "kedari", "5-12-6", "fir", "frosty", "maraudermagnus", "corsaircharles", "buccaneerbeatrice", "raiderrose",
             "adefile", "guy", "cliodhna", "sanqueen", "billy", "doyenne", "ahattori", "ahirate", "atakeda", "ahosokawa",
@@ -43,6 +46,9 @@ namespace CQFollowerAutoclaimer
             "A13", "E13", "F13", "W13", "A14", "E14", "F14", "W14", "A15", "E15", "F15", "W15", "A16", "E16", "F16", "W16", "A17", "E17", "F17", "W17", "A18", "E18", "F18", "W18",
             "A19", "E19", "F19", "W19", "A20", "E20", "F20", "W20", "A21", "E21", "F21", "W21", "A22", "E22", "F22", "W22", "A23", "E23", "F23", "W23", "A24", "E24", "F24", "W24",
             "A25" ,"E25", "F25", "W25", "A26", "E26", "F26", "W26", "A27", "E27", "F27", "W27", "A28", "E28", "F28", "W28", "A29", "E29", "F29", "W29", "A30", "E30", "F30", "W30",
+            "A31", "E31", "F31", "W31", "A32", "E32", "F32", "W32", "A33", "E33", "F33", "W33", "A34", "E34", "F34", "W34", "A35", "E35", "F35", "W35", "A36", "E36", "F36", "W36",
+            "A37", "E37", "F37", "W37", "A38", "E38", "F38", "W38", "A39", "E39", "F39", "W39", "A40", "E40", "F40", "W40", "A41", "E41", "F41", "W41", "A42", "E42", "F42", "W42",
+            "A43", "E43", "F43", "W43", "A44", "E44", "F44", "W44", "A45", "E45", "F45", "W45",
         };
 
         public static int heroesInGame = Array.IndexOf(names, "ladyoftwilight") + 2;
@@ -57,6 +63,11 @@ namespace CQFollowerAutoclaimer
             "Mahatma", "Jade", "Edana", "Dybbuk", "Ashygu", "Athert", "Alordkirk", "Aneptunius", "Ahosokawa", "Atakeda", "Ahirate", "Ahattori", "Doyenne",
             "Billy", "Sanqueen", "Cliodhna", "Guy", "Adefile", "Raiderrose", "Buccaneerbeatrice", "Corsaircharles","Maraudermagnus", "Frosty", "Fir", "5-12-6", "Kedari",
             "Raze", "Ruin", "Seethe", "Aseethe", "Blossom", "Flint", "Orin", "Aurora", "Cupid", "Transient", "Maunder", "Thewanderer", "B-day", "Cloud", "Ember", "Riptide", "Spike", 
+            "Amahatma", "Ajade", "Aedana", "Adybbuk", "Willow", "Gizmo", "Daisy", "Thumper", "Bortles", "Murphy", "Nerissa", "Mother", "Anerissa", "Agatha", "Ophelia",
+            "Helga", "Minerva", "Awanderer", "Tetra", "Cathos", "Catzar", "Crei", "Acrei", "Smith", "Mrcotton", "Sharkjellyn", "Chocoknight", "Achocoknight", "Lili", "Bornag",
+            "Thrace","Scinda","Myrmillo","Retia","Newt","Electra","Boson","Higgs","Casper","Adrian","Emily","Adam","Yisus","Galla","Yetithepostman","Hans","Mechamary","Annie","Kilkenny",
+            "Mysteriousegg","Babypyros","Youngpyros","Kingpyros","Rob","Kirklee","Lars","Hetfield","Pluvia","Silex","Caeli","Ignis","Yuri","Alan","Valentina","John",
+            "Sully","Merida","Will","Sagittaria","Jalrok","Raelan","Sylnir","Arathon","Stench","Rumble","Vermin","Reaper","Esmeralda","Marionette","Antoinette","Ladymaligryn",
         };
 
         public static prices[] heroPrices = new prices[] {
@@ -80,7 +91,32 @@ namespace CQFollowerAutoclaimer
             prices.LEG, prices.LEG, prices.LEG, prices.ASCEND, prices.LEG, //Season 7 Heroes + Valentines LTO
             prices.COMMON, prices.RARE, prices.LEG, // Drifter Heroes
             prices.LEG, prices.NONLEVELABLE, prices.NONLEVELABLE, prices.NONLEVELABLE, prices.NONLEVELABLE, //Anniversary + Dragon Heroes
-
+            prices.ASCEND, prices.ASCEND, prices.ASCEND, prices.ASCEND, //AQuest Djinn Heroes
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Easter2019 Heroes
+            prices.COMMON, prices.RARE, prices.LEG, // Aquatic Heroes
+            prices.LEG, // Mother
+            prices.ASCEND, // Anerissa
+            prices.LEG, prices.LEG, prices.LEG, prices.ASCEND, // Witches (S8)
+            prices.ASCEND, // Awanderer
+            prices.LEG, // Tetra
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Cube Heroes
+            prices.LEG, // Smith
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Candy Heroes
+            prices.ASCEND, // Lili
+            prices.NONLEVELABLE, // Bornag
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Gladiators (S9)
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Subatomic Heroes
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Halloween2019
+            prices.RARE, prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Xmas2019
+            prices.LEG, prices.LEG, // Annie & KK
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Easter2020 Heroes
+            prices.LEG, prices.LEG, prices.LEG, prices.ASCEND, // Rockers (S10)
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // St Georges dragons
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Astronauts
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Archers
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Eternals
+            prices.LEG, prices.LEG, prices.LEG, prices.ASCEND, // Horsemen (S11)
+            prices.COMMON, prices.RARE, prices.LEG, prices.ASCEND, // Halloween2020
         };
 
         public static string[] pranaHeroes = new string[] {
@@ -89,19 +125,25 @@ namespace CQFollowerAutoclaimer
             "Oymos", "Xarth", "Atzar", "Zeth", "Koth", "Gurth", "Sigrun", "Koldis", "Alvitr", "Hama", "Hallinskidi", "Rigr", "Sexysanta", "Toth", "Ganah", "Dagda",
             "Arshen", "Rua", "Dorth", "Bylar", "Boor", "Bavah", "Hawking", "Kumu-San", "LiuCheng", "Hidoka", "Spyke", "Aoyuki", "Gaiabyte",
             "Dicemaster", "Luxurious", "Pokerface", "Taint", "Putrid", "Defile", "Mahatma", "Jade", "Edana", "Dybbuk", "Billy", "Sanqueen", "Cliodhna",
-            "Buccaneerbeatrice", "Corsaircharles", "Maraudermagnus", "Frosty", "Raze", "Ruin", "Seethe", "Blossom", "Flint", "Orin", "Cupid", "Transient", "Maunder", "Thewanderer", "B-Day",
+            "Buccaneerbeatrice", "Corsaircharles", "Maraudermagnus", "Frosty", "Raze", "Ruin", "Seethe", "Blossom", "Flint", "Orin", "Cupid", "Transient", "Maunder", "Thewanderer", "B-day",
+            "Willow", "Gizmo", "Daisy", "Bortles", "Murphy", "Nerissa", "Mother", "Agatha", "Ophelia", "Helga",
+            "Tetra", "Cathos", "Catzar", "Crei", "Smith", "Mrcotton", "Sharkjellyn", "Chocoknight",
+            "Thrace","Scinda","Myrmillo","Newt","Electra","Boson","Casper","Adrian","Emily","Yisus","Annie","Kilkenny","Rob","Kirklee","Lars","Pluvia","Silex","Caeli",
+            "Stench","Rumble","Vermin","Esmeralda","Marionette","Antoinette",
         };
 
         public static string[] cosmicCoinHeroes = new string[] {
             "Valor", "Rokka", "Pyromancer", "Bewat", "Nicte", "Forestdruid", "Ignitor", "Undine", "Chroma", "Petry", "Zaytus", "Ladyodelith",
             "Shygu", "Thert", "Lordkirk", "Neptunius", "Werewolf", "Jackoknight", "Dullahan", "Leprechaun", "Hosokawa", "Takeda", "Hirate", "Hattori",
             "Neil", "Mahatma", "Jade", "Edana", "Dybbuk", "Ashygu", "Athert", "Alordkirk", "Aneptunius", "Ahosokawa", "Atakeda", "Ahirate", "Ahattori",
-            "Billy", "Sanqueen", "Cliodhna", "Cupid", "B-Day", 
+            "Billy", "Sanqueen", "Cliodhna", "Cupid", "B-day", "Amahatma", "Ajade", "Aedana", "Adybbuk",
+            "Willow", "Gizmo", "Daisy", "Thumper", "Mother","Annie","Kilkenny",
         };
 
         public static string[] ascensionHeroes = new string[] {
             "Aalpha", "Aathos", "Arei", "Aauri", "Atr0n1x", "Ageum", "Ageror", "Bubbles", "Apontus", "Aatzar", "Arigr", "Adagda", "Abavah", "MasterLee",
-            "Ashygu", "Athert", "Alordkirk", "Aneptunius", "Ahosokawa", "Atakeda", "Ahirate", "Ahattori", "Guy", "Adefile", "Raiderrose", "Aseethe", "Aurora", "Convert to Prana", 
+            "Ashygu", "Athert", "Alordkirk", "Aneptunius", "Ahosokawa", "Atakeda", "Ahirate", "Ahattori", "Guy", "Adefile", "Raiderrose", "Aseethe", "Aurora",
+            "Thumper", "Anerissa", "Minerva", "Awanderer", "Acrei", "Achocoknight", "Lili", "Retia", "Higgs", "Adam", "Hetfield","Ignis","Reaper","Ladymaligryn", "Convert to Prana",
         };
 
         public static Dictionary<int, string> ERROR = new Dictionary<int, string>()

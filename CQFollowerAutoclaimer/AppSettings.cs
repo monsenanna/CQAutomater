@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
+
 namespace CQFollowerAutoclaimer
 {
     public struct AuctionBids
@@ -26,6 +27,7 @@ namespace CQFollowerAutoclaimer
         public List<string> MOAKLineup { get; set; }
         public List<string> KrytonLineup { get; set; }
         public List<string> DoyLineup { get; set; }
+        public List<string> BorLineup { get; set; }
         public List<string> defaultDQLineup { get; set; }
         public List<string> calcEnabledHeroes { get; set; }
         public bool? DQSoundEnabled { get; set; }
@@ -46,12 +48,35 @@ namespace CQFollowerAutoclaimer
         public int[] levelLimits { get; set; }
         public bool? waitAutoLevel { get; set; }
         public bool? instantMaxPriceBid { get; set; }
+        public bool? autoEvEnabled { get; set; }
+        public bool? warnManyHeroes { get; set; }
+        public bool? usernameActivated { get; set; }
+        public bool? doPVPHistory { get; set; }
+        public bool? autoT1Enabled { get; set; }
+        public bool? autoT2Enabled { get; set; }
+        public bool? doAutoFT { get; set; }
+        public bool? doAutoEA { get; set; }
+        public bool? doAutoDG { get; set; }
+        public bool? doAutoLF { get; set; }
+        public bool? doAutoKT { get; set; }
+        public bool? doAutoCC { get; set; }
+        public bool? doAutoPG { get; set; }
+        public bool? doAutoAD { get; set; }
+        public int? optAutoAD { get; set; }
+        public bool? doAutoLO { get; set; }
+        public int? optAutoLO { get; set; }
+        public string[] heroesToProm6 { get; set; }
+        public int? calcTimeLimit { get; set; }
+        public bool? autoWEvEnabled { get; set; }
+        public int? sjUpgrade { get; set; }
+        public int? ggUpgrade { get; set; }
+        public string adminPassword { get; set; }
 
         public static AppSettings loadSettings()
         {
             if (File.Exists(Form1.SettingsFilename))
             {
-                System.IO.StreamReader sr = new System.IO.StreamReader(Form1.SettingsFilename);
+                StreamReader sr = new StreamReader(Form1.SettingsFilename);
                 AppSettings a = JsonConvert.DeserializeObject<AppSettings>(sr.ReadToEnd());
                 sr.Close();
                 return a;
@@ -64,10 +89,15 @@ namespace CQFollowerAutoclaimer
 
         public void saveSettings()
         {
-            string json = JsonConvert.SerializeObject(this, Formatting.Indented);
-            System.IO.StreamWriter sw = new System.IO.StreamWriter(Form1.SettingsFilename);
-            sw.Write(json);
-            sw.Close();
+            try
+            {
+                string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+                StreamWriter sw = new StreamWriter(Form1.SettingsFilename);
+                sw.Write(json);
+                sw.Close();
+            }
+            catch (Exception)
+            { }
         }
     }
 }

@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CQFollowerAutoclaimer
 {
     class TaskQueue
     {
-        System.Timers.Timer queueTimer = new System.Timers.Timer();
+        public System.Timers.Timer queueTimer = new System.Timers.Timer();
         List<Tuple<Func<Task<bool>>, string>> _queue = new List<Tuple<Func<Task<bool>>, string>>();
         public TaskQueue()
         {

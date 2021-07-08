@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
+using System.Text;
 
 namespace PlayFab.Internal
 {
@@ -45,14 +48,62 @@ namespace PlayFab.Internal
 
         static PlayFabHttp()
         {
-            var httpInterfaceType = typeof(IPlayFabHttp);
-            var types = typeof(PlayFabHttp).GetAssembly().GetTypes();
-            foreach (var eachType in types)
+            try
             {
-                if (httpInterfaceType.IsAssignableFrom(eachType) && !eachType.IsAbstract)
+                var httpInterfaceType = typeof(IPlayFabHttp);
+                /*using (StreamWriter sw = new StreamWriter("ErrorLog.txt", true))
                 {
-                    _http = (IPlayFabHttp)Activator.CreateInstance(eachType.AsType());
-                    return;
+                    sw.WriteLine(DateTime.Now + "\n\t" + "httpInterfaceType" + "\n\t" + httpInterfaceType.ToString());
+                }*/
+                try
+                {
+                    var types = typeof(PlayFabHttp).GetAssembly().GetTypes();
+                    foreach (var eachType in types)
+                    {
+                        /*using (StreamWriter sw = new StreamWriter("ErrorLog.txt", true))
+                        {
+                            sw.WriteLine(DateTime.Now + "\n\t" + "eachType" + "\n\t" + eachType.ToString());
+                        }*/
+                        if (httpInterfaceType.IsAssignableFrom(eachType) && !eachType.IsAbstract)
+                        {
+                            _http = (IPlayFabHttp)Activator.CreateInstance(eachType.AsType());
+                            /*using (StreamWriter sw = new StreamWriter("ErrorLog.txt", true))
+                            {
+                                sw.WriteLine(DateTime.Now + "\n\t" + "eachType CreateInstance done");
+                            }*/
+                            return;
+                        }
+                    }
+                }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    foreach (Exception exSub in ex.LoaderExceptions)
+                    {
+                        sb.AppendLine(exSub.Message);
+                        FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                        if (exFileNotFound != null)
+                        {
+                            if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                            {
+                                sb.AppendLine("Fusion Log:");
+                                sb.AppendLine(exFileNotFound.FusionLog);
+                            }
+                        }
+                        sb.AppendLine();
+                    }
+                    string errorMessage = sb.ToString();
+                    using (StreamWriter sw = new StreamWriter("ErrorLog.txt", true))
+                    {
+                        sw.WriteLine(DateTime.Now + "\n\t" + "error detail : " + "\n\t" + errorMessage);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                using (StreamWriter sw = new StreamWriter("ErrorLog.txt", true))
+                {
+                    sw.WriteLine(DateTime.Now + "\n\t" + "Error in PlayFabHttp" + "\n\t" + ex.Message);
                 }
             }
             throw new Exception("Cannot find a valid IPlayFabHttp type");
@@ -62,7 +113,13 @@ namespace PlayFab.Internal
         {
             if (PlayFabSettings.TitleId == null)
                 throw new Exception("You must set your titleId before making an api call");
-            return await _http.DoPost(urlPath, request, authType, authKey, extraHeaders);
+            var r = await _http.DoPost(urlPath, request, authType, authKey, extraHeaders);
+            if(r.GetType() == typeof(PlayFabError))
+            {
+                await Task.Delay(2000);
+                r = await _http.DoPost(urlPath, request, authType, authKey, extraHeaders);
+            }
+            return r;
         }
     }
 }
